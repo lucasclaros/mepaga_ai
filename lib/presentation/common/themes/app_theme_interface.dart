@@ -6,9 +6,13 @@ import 'package:provider/provider.dart';
 
 abstract class IAppColors {
   Gradient get scaffoldGradient;
+
+  Gradient get mpgButtonGradient;
 }
 
-abstract class IAppTextStyles {}
+abstract class IAppTextStyles {
+  TextStyle get mpgButton;
+}
 
 abstract class IAppAssetsPaths {}
 
