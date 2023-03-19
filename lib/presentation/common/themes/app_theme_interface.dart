@@ -4,7 +4,9 @@ import 'package:mepaga_ai/presentation/common/themes/colors/mpg_colors.dart';
 import 'package:mepaga_ai/presentation/common/themes/text_styles/mpg_text_styles.dart';
 import 'package:provider/provider.dart';
 
-abstract class IAppColors {}
+abstract class IAppColors {
+  Gradient get scaffoldGradient;
+}
 
 abstract class IAppTextStyles {}
 

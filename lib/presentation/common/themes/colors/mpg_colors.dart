@@ -10,4 +10,15 @@ class MPGColors implements IAppColors {
         context,
         listen: listen,
       ).colors;
+
+  @override
+  Gradient get scaffoldGradient => const LinearGradient(
+        stops: [0.3, 1],
+        colors: [
+          Color(0xff010203),
+          Color(0xff22004b),
+        ],
+        begin: Alignment.bottomCenter,
+        end: Alignment.topCenter,
+      );
 }
