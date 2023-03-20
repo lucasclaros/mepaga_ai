@@ -3,6 +3,8 @@ import 'package:mepaga_ai/common/general_provider.dart';
 import 'package:mepaga_ai/common/routing.dart';
 
 void main() {
+  WidgetsFlutterBinding.ensureInitialized();
+
   runApp(
     const GeneralProvider(
       child: MyApp(),

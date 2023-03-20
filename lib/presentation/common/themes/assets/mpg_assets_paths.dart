@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:mepaga_ai/presentation/common/themes/app_theme_interface.dart';
 
 class MPGAssetsPaths implements IAppAssetsPaths {
-  final _assetsFolderPath = 'assets';
+  final _assetsFolderPath = 'assets/';
 
   static MPGAssetsPaths of(
     BuildContext context, {
@@ -12,4 +12,7 @@ class MPGAssetsPaths implements IAppAssetsPaths {
         context,
         listen: listen,
       ).assets;
+
+  @override
+  String get onboardinBackground => '${_assetsFolderPath}party.jpg';
 }

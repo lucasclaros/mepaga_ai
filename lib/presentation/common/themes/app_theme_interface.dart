@@ -4,11 +4,23 @@ import 'package:mepaga_ai/presentation/common/themes/colors/mpg_colors.dart';
 import 'package:mepaga_ai/presentation/common/themes/text_styles/mpg_text_styles.dart';
 import 'package:provider/provider.dart';
 
-abstract class IAppColors {}
+abstract class IAppColors {
+  Gradient get scaffoldGradient;
 
-abstract class IAppTextStyles {}
+  Gradient get mpgButtonGradient;
+}
 
-abstract class IAppAssetsPaths {}
+abstract class IAppTextStyles {
+  TextStyle get mpgColoredButton;
+
+  TextStyle get onboardingTitle;
+
+  TextStyle get onboardingSubtitle;
+}
+
+abstract class IAppAssetsPaths {
+  String get onboardinBackground;
+}
 
 abstract class AppThemeInterface {
   static AppThemeInterface of(
