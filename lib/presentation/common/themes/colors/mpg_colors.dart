@@ -24,13 +24,10 @@ class MPGColors implements IAppColors {
       );
 
   @override
-  Gradient get mpgButtonGradient => const RadialGradient(
-        stops: [0.5, 1],
+  Gradient get mpgButtonGradient => const LinearGradient(
         colors: [
           razzmatazz,
           amber,
         ],
-        center: Alignment.centerLeft,
-        radius: 4,
       );
 }

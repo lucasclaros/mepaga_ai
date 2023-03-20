@@ -13,9 +13,23 @@ class MPGTextStyles implements IAppTextStyles {
       ).textStyles;
 
   @override
-  TextStyle get mpgButton => GoogleFonts.barlow(
+  TextStyle get mpgColoredButton => GoogleFonts.barlow(
         color: Colors.white,
         fontSize: 21,
         fontWeight: FontWeight.w700,
+      );
+
+  @override
+  TextStyle get onboardingSubtitle => GoogleFonts.barlow(
+        color: Colors.white,
+        fontWeight: FontWeight.w500,
+        fontSize: 16,
+      );
+
+  @override
+  TextStyle get onboardingTitle => GoogleFonts.barlow(
+        color: Colors.white,
+        fontWeight: FontWeight.w800,
+        fontSize: 40,
       );
 }

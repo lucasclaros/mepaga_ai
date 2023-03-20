@@ -11,10 +11,16 @@ abstract class IAppColors {
 }
 
 abstract class IAppTextStyles {
-  TextStyle get mpgButton;
+  TextStyle get mpgColoredButton;
+
+  TextStyle get onboardingTitle;
+
+  TextStyle get onboardingSubtitle;
 }
 
-abstract class IAppAssetsPaths {}
+abstract class IAppAssetsPaths {
+  String get onboardinBackground;
+}
 
 abstract class AppThemeInterface {
   static AppThemeInterface of(
