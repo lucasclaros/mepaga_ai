@@ -1,19 +1,17 @@
-import 'dart:async';
-
 import 'package:flutter/material.dart';
 import 'package:mepaga_ai/presentation/common/mpg_button.dart';
 import 'package:mepaga_ai/presentation/common/responsivity.dart';
 import 'package:mepaga_ai/presentation/common/themes/assets/mpg_assets_paths.dart';
 import 'package:mepaga_ai/presentation/common/themes/text_styles/mpg_text_styles.dart';
 
-class OnboardingPage extends StatefulWidget {
-  const OnboardingPage({super.key});
+class WelcomePage extends StatefulWidget {
+  const WelcomePage({super.key});
 
   @override
-  State<OnboardingPage> createState() => _OnboardingPageState();
+  State<WelcomePage> createState() => _WelcomePageState();
 }
 
-class _OnboardingPageState extends State<OnboardingPage> {
+class _WelcomePageState extends State<WelcomePage> {
   bool isLoading = true;
 
   @override
