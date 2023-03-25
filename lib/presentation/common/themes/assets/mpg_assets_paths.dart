@@ -4,6 +4,8 @@ import 'package:mepaga_ai/presentation/common/themes/app_theme_interface.dart';
 class MPGAssetsPaths implements IAppAssetsPaths {
   final _assetsFolderPath = 'assets/';
 
+  String getAssetPath(String asset) => '$_assetsFolderPath$asset';
+
   static MPGAssetsPaths of(
     BuildContext context, {
     bool listen = false,
@@ -14,5 +16,17 @@ class MPGAssetsPaths implements IAppAssetsPaths {
       ).assets;
 
   @override
-  String get onboardinBackground => '${_assetsFolderPath}party.jpg';
+  String get welcomeBackground => getAssetPath('party.jpg');
+
+  @override
+  String get flexibilityLogo => getAssetPath('flexibility.svg');
+
+  @override
+  String get securityLogo => getAssetPath('security.svg');
+
+  @override
+  String get simplicityLogo => getAssetPath('simplicity.svg');
+
+  @override
+  String get mpgScaffold => getAssetPath('background.jpg');
 }
