@@ -58,12 +58,12 @@ class _WelcomePageState extends State<WelcomePage> {
                     children: [
                       Text(
                         'ME PAGA AÍ',
-                        style: MPGTextStyles.of(context).onboardingTitle,
+                        style: MPGTextStyles.of(context).welcomeTitle,
                         textAlign: TextAlign.center,
                       ),
                       Text(
                         'Transfira seus ingressos com segurança',
-                        style: MPGTextStyles.of(context).onboardingSubtitle,
+                        style: MPGTextStyles.of(context).welcomeSubtitle,
                         textAlign: TextAlign.center,
                       ),
                     ],
