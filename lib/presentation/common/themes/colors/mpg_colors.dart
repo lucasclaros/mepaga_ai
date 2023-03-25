@@ -14,9 +14,11 @@ class MPGColors implements IAppColors {
 
   @override
   Gradient get scaffoldGradient => const LinearGradient(
-        stops: [0.3, 1],
+        stops: [0.1, 0.6, 0.7, 1],
         colors: [
           richBlack,
+          russianViolet,
+          russianViolet,
           russianViolet,
         ],
         begin: Alignment.bottomCenter,
@@ -30,4 +32,13 @@ class MPGColors implements IAppColors {
           amber,
         ],
       );
+
+  @override
+  Color get activePageViewIndicator => white;
+
+  @override
+  Color get dividerColor => white;
+
+  @override
+  Color get inactivePageViewIndicator => grey05;
 }

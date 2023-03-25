@@ -8,18 +8,38 @@ abstract class IAppColors {
   Gradient get scaffoldGradient;
 
   Gradient get mpgButtonGradient;
+
+  Color get dividerColor;
+
+  Color get activePageViewIndicator;
+
+  Color get inactivePageViewIndicator;
 }
 
 abstract class IAppTextStyles {
   TextStyle get mpgColoredButton;
 
-  TextStyle get onboardingTitle;
+  TextStyle get welcomeTitle;
 
-  TextStyle get onboardingSubtitle;
+  TextStyle get welcomeSubtitle;
+
+  TextStyle get mpgWhitedButton;
+
+  TextStyle get onboardingHintTitle;
+
+  TextStyle get onboardingHintDescription;
 }
 
 abstract class IAppAssetsPaths {
-  String get onboardinBackground;
+  String get welcomeBackground;
+
+  String get mpgScaffold;
+
+  String get securityLogo;
+
+  String get simplicityLogo;
+
+  String get flexibilityLogo;
 }
 
 abstract class AppThemeInterface {

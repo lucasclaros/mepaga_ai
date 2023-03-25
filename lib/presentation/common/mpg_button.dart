@@ -5,14 +5,14 @@ import 'package:mepaga_ai/presentation/common/themes/colors/mpg_colors.dart';
 class MPGButton extends StatelessWidget {
   const MPGButton({
     super.key,
-    required this.text,
+    required this.child,
     this.width,
     this.height,
     this.gradient,
     this.onPressed,
   });
 
-  final Text text;
+  final Widget child;
   final double? width;
   final double? height;
   final Gradient? gradient;
@@ -21,15 +21,18 @@ class MPGButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) => GestureDetector(
         onTap: onPressed,
-        child: Container(
-          width: width ?? context.responsiveWidth(295),
+        child: AnimatedContainer(
+          duration: const Duration(
+            milliseconds: 200,
+          ),
+          width: width ?? context.responsiveHeight(295),
           height: height ?? context.responsiveHeight(55),
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(10),
             gradient: gradient ?? MPGColors.of(context).mpgButtonGradient,
           ),
           child: Center(
-            child: text,
+            child: child,
           ),
         ),
       );
