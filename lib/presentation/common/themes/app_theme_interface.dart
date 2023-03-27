@@ -7,7 +7,9 @@ import 'package:provider/provider.dart';
 abstract class IAppColors {
   Gradient get scaffoldGradient;
 
-  Gradient get mpgButtonGradient;
+  Gradient get mpgButtonColoredGradient;
+
+  Gradient get mpgButtonWhitedGradient;
 
   Color get dividerColor;
 
