@@ -32,6 +32,14 @@ class MPGColors implements IAppColors {
           amber,
         ],
       );
+  @override
+  Gradient get mpgButtonWhitedGradient => const LinearGradient(
+        stops: [0.5, 1],
+        colors: [
+          Colors.white,
+          Color(0xFFD3A2FF),
+        ],
+      );
 
   @override
   Color get activePageViewIndicator => white;
