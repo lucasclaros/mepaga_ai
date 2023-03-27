@@ -1,7 +1,6 @@
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:mepaga_ai/presentation/common/responsivity.dart';
 import 'package:mepaga_ai/presentation/common/themes/text_styles/mpg_text_styles.dart';
 import 'package:responsive_styles/responsive_styles.dart';
@@ -46,41 +45,38 @@ class _OnboardingHintCardState extends State<OnboardingHintCard> {
               controller: controller,
               child: Column(
                 children: [
-                  Column(
-                    children: [
-                      SvgPicture.asset(
-                        widget.image,
-                        height: context.responsiveHeight(100),
-                        width: context.responsiveWidth(80),
-                      ),
-                      SizedBox(
-                        height: context.responsiveHeight(37.33),
-                      ),
-                      Container(
-                        padding: EdgeInsets.symmetric(
-                          horizontal: context.responsiveWidth(40),
+                  SizedBox(
+                    height: context.responsiveHeight(60),
+                  ),
+                  SvgPicture.asset(
+                    widget.image,
+                    height: context.responsiveHeight(80),
+                  ),
+                  SizedBox(
+                    height: context.responsiveHeight(30),
+                  ),
+                  Container(
+                    padding: EdgeInsets.symmetric(
+                      horizontal: context.responsiveWidth(40),
+                    ),
+                    child: Column(
+                      children: [
+                        AutoSizeText(
+                          widget.title,
+                          style: MPGTextStyles.of(context).onboardingHintTitle,
+                          textAlign: TextAlign.center,
                         ),
-                        child: Column(
-                          children: [
-                            AutoSizeText(
-                              widget.title,
-                              style:
-                                  MPGTextStyles.of(context).onboardingHintTitle,
-                              textAlign: TextAlign.center,
-                            ),
-                            SizedBox(
-                              height: context.responsiveHeight(37.33),
-                            ),
-                            AutoSizeText(
-                              widget.description,
-                              style: MPGTextStyles.of(context)
-                                  .onboardingHintDescription,
-                              textAlign: TextAlign.center,
-                            ),
-                          ],
+                        SizedBox(
+                          height: context.responsiveHeight(37.33),
                         ),
-                      ),
-                    ],
+                        AutoSizeText(
+                          widget.description,
+                          style: MPGTextStyles.of(context)
+                              .onboardingHintDescription,
+                          textAlign: TextAlign.justify,
+                        ),
+                      ],
+                    ),
                   ),
                 ],
               ),

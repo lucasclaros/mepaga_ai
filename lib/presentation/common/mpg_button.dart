@@ -23,13 +23,14 @@ class MPGButton extends StatelessWidget {
         onTap: onPressed,
         child: AnimatedContainer(
           duration: const Duration(
-            milliseconds: 200,
+            milliseconds: 450,
           ),
           width: width ?? context.responsiveHeight(295),
           height: height ?? context.responsiveHeight(55),
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(10),
-            gradient: gradient ?? MPGColors.of(context).mpgButtonGradient,
+            gradient:
+                gradient ?? MPGColors.of(context).mpgButtonColoredGradient,
           ),
           child: Center(
             child: child,

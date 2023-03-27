@@ -34,24 +34,26 @@ class _OnboardingPageState extends State<OnboardingPage> {
     hints = [
       OnboardingHintCard(
         image: MPGAssetsPaths.of(context).securityLogo,
-        title: 'Segurança na transferência de ingressos',
+        title: 'É seguro mesmo?',
         description:
-            ' O MePagaAí chegou para garantir que você não seja mais enganado por golpistas. '
-            'A plataforma faz o intermédio da negociação, garantindo a integridade da transferência do seu ingresso.',
+            'Ninguém merece ter sua venda atrapalhada por um golpista.\n\n'
+            'Quer acabar com isso e não ter mais dor de cabeça com esse tipo de situação?\n\n'
+            'Aqui sua transferência é realizada por nós sem qualquer tipo de problema.',
       ),
       OnboardingHintCard(
         image: MPGAssetsPaths.of(context).simplicityLogo,
-        title: 'Processo simples e eficiente',
+        title: 'E quanto a burocracia?',
         description:
-            ' Para utilizar o MePagaAí, basta transferir seu ingresso para a nossa conta na plataforma. '
-            'Depois, geramos um link para o comprador realizar o pagamento e o ingresso vai automaticamente para a conta dele.',
+            'Buscamos a simplicidade e eficiência para a sua venda.\n\n'
+            'Faça o passo a passo nas telas seguintes e, em caso de dúvidas se sinta à vontade para nos contactar em qualquer etapa do procedimento.',
       ),
       OnboardingHintCard(
         image: MPGAssetsPaths.of(context).flexibilityLogo,
         title: 'Flexibilidade e praticidade',
         description:
-            ' O MePagaAí oferece a flexibilidade de você desistir da venda do ingresso e resgatá-lo de volta.'
-            ' Além disso, todo o processo é automatizado. Você só precisa compartilhar o link de venda, a gente cuida do resto pra você!',
+            'Quer desistir da venda e resgatar seu ingresso? É possível!\n\n'
+            'Sem cadastros complicados.\n\n'
+            'Apenas compartilhe o link disponibilizado para venda e o resto pode deixar que fazemos por você!',
       ),
     ];
   }
@@ -84,8 +86,8 @@ class _OnboardingPageState extends State<OnboardingPage> {
               ),
               Divider(
                 color: MPGColors.of(context).dividerColor,
-                endIndent: context.responsiveWidth(70),
-                indent: context.responsiveWidth(70),
+                endIndent: context.responsiveWidth(40),
+                indent: context.responsiveWidth(40),
               ),
               SizedBox(
                 height: context.responsiveHeight(30),
@@ -129,9 +131,14 @@ class _OnboardingPageState extends State<OnboardingPage> {
                               ),
                               curve: Curves.easeInOut,
                             ),
+                    gradient: doneButtonCondition
+                        ? null
+                        : MPGColors.of(context).mpgButtonWhitedGradient,
                     child: Text(
                       doneButtonCondition ? 'Vender' : 'Próximo',
-                      style: MPGTextStyles.of(context).mpgColoredButton,
+                      style: doneButtonCondition
+                          ? MPGTextStyles.of(context).mpgColoredButton
+                          : MPGTextStyles.of(context).mpgWhitedButton,
                     ),
                   ),
                 ),
