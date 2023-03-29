@@ -8,9 +8,11 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:mepaga_ai/presentation/common/mpg_button.dart';
+import 'package:mepaga_ai/presentation/common/mpg_checkbox.dart';
 import 'package:mepaga_ai/presentation/common/mpg_scaffold.dart';
 import 'package:mepaga_ai/presentation/common/mpg_textfield.dart';
 import 'package:mepaga_ai/presentation/common/responsivity.dart';
+import 'package:mepaga_ai/presentation/common/themes/assets/mpg_assets_paths.dart';
 import 'package:mepaga_ai/presentation/common/themes/mpg_theme.dart';
 import 'package:mepaga_ai/presentation/common/themes/text_styles/mpg_text_styles.dart';
 
@@ -46,7 +48,7 @@ class _EmailVerificationPageState extends State<EmailVerificationPage> {
                       left: context.responsiveWidth(24),
                     ),
                     child: SvgPicture.asset(
-                      'assets/back_button.svg',
+                      MPGAssetsPaths.of(context).backButton,
                       width: 24,
                     ),
                   ),
@@ -62,11 +64,7 @@ class _EmailVerificationPageState extends State<EmailVerificationPage> {
                       ),
                       AutoSizeText(
                         'Verificação de email',
-                        style: GoogleFonts.barlow(
-                          color: Colors.white,
-                          fontWeight: FontWeight.w500,
-                          fontSize: 32,
-                        ),
+                        style: MPGTextStyles.of(context).emailVerificationTitle,
                         textAlign: TextAlign.center,
                       ),
                       SizedBox(
@@ -75,10 +73,8 @@ class _EmailVerificationPageState extends State<EmailVerificationPage> {
                       AutoSizeText(
                         'Insira o e-mail associado à sua conta Byma.\n\n'
                         'Um código de confirmação será enviado para validação.',
-                        style: GoogleFonts.barlow(
-                          color: Colors.white,
-                          fontSize: 24,
-                        ),
+                        style: MPGTextStyles.of(context)
+                            .emailVerificationDescription,
                         textAlign: TextAlign.center,
                       ),
                       SizedBox(
@@ -109,32 +105,12 @@ class _EmailVerificationPageState extends State<EmailVerificationPage> {
                     mainAxisAlignment: MainAxisAlignment.spaceAround,
                     children: [
                       Expanded(
-                        child: GestureDetector(
-                          onTap: () => setState(() {
-                            _isButtonTermsSelected = !_isButtonTermsSelected;
-                          }),
-                          child: Container(
-                            width: context.responsiveWidth(24),
-                            height: context.responsiveHeight(24),
-                            decoration: BoxDecoration(
-                              color:
-                                  _isButtonTermsSelected ? Colors.white : null,
-                              shape: BoxShape.circle,
-                              border: Border.all(
-                                color: Colors.white,
-                                width: 3,
-                              ),
-                            ),
-                            child: _isButtonTermsSelected
-                                ? Center(
-                                    child: SvgPicture.asset(
-                                      'assets/check_button.svg',
-                                      height: context.responsiveHeight(10),
-                                      width: context.responsiveWidth(12),
-                                    ),
-                                  )
-                                : null,
-                          ),
+                        child: MPGCheckbox(
+                          onTap: (buttonStatus) {
+                            setState(() {
+                              _isButtonTermsSelected = buttonStatus;
+                            });
+                          },
                         ),
                       ),
                       const SizedBox(width: 9),
@@ -145,18 +121,13 @@ class _EmailVerificationPageState extends State<EmailVerificationPage> {
                             children: [
                               TextSpan(
                                 text: 'Li e estou de acordo com todos os ',
-                                style: GoogleFonts.barlow(
-                                  color: Colors.white,
-                                  fontSize: 18,
-                                ),
+                                style: MPGTextStyles.of(context)
+                                    .policyNormalDescription,
                               ),
                               TextSpan(
                                 text: 'Termos e Políticas',
-                                style: GoogleFonts.barlow(
-                                  color: const Color(0xFFFF5800),
-                                  fontWeight: FontWeight.w700,
-                                  fontSize: 18,
-                                ),
+                                style: MPGTextStyles.of(context)
+                                    .policyColoredDescription,
                                 // TODO(Lucas Claros): Adicionar link para o termos e políticas
                                 recognizer: TapGestureRecognizer()
                                   ..onTap = () {},
@@ -184,11 +155,7 @@ class _EmailVerificationPageState extends State<EmailVerificationPage> {
                     'Continuar',
                     style: _isEmailValid && _isButtonTermsSelected
                         ? MPGTextStyles.of(context).mpgColoredButton
-                        : GoogleFonts.barlow(
-                            color: white.withOpacity(0.4),
-                            fontSize: 21,
-                            fontWeight: FontWeight.w700,
-                          ),
+                        : MPGTextStyles.of(context).mpgColoredButtonDisabled,
                   ),
                 ),
               ],

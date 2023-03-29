@@ -29,4 +29,10 @@ class MPGAssetsPaths implements IAppAssetsPaths {
 
   @override
   String get mpgScaffold => getAssetPath('background.jpg');
+
+  @override
+  String get backButton => getAssetPath('back_button.svg');
+
+  @override
+  String get checkButton => getAssetPath('check_button.svg');
 }

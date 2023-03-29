@@ -16,9 +16,11 @@ class MPGAppTheme implements AppThemeInterface {
 }
 
 const white = Colors.white;
+Color white04 = white.withOpacity(0.4);
 const richBlack = Color(0xFF010203);
 const russianViolet = Color(0xFF22004B);
 const razzmatazz = Color(0xFFEB3472);
 const amber = Color(0xFFFF7D00);
 const darkPurple = Color(0xFF200E32);
+const orangePantone = Color(0xFFFF5800);
 Color grey05 = Colors.grey.withOpacity(0.5);

@@ -21,6 +21,8 @@ abstract class IAppColors {
 abstract class IAppTextStyles {
   TextStyle get mpgColoredButton;
 
+  TextStyle get mpgColoredButtonDisabled;
+
   TextStyle get welcomeTitle;
 
   TextStyle get welcomeSubtitle;
@@ -30,6 +32,14 @@ abstract class IAppTextStyles {
   TextStyle get onboardingHintTitle;
 
   TextStyle get onboardingHintDescription;
+
+  TextStyle get emailVerificationTitle;
+
+  TextStyle get emailVerificationDescription;
+
+  TextStyle get policyNormalDescription;
+
+  TextStyle get policyColoredDescription;
 }
 
 abstract class IAppAssetsPaths {
@@ -42,6 +52,10 @@ abstract class IAppAssetsPaths {
   String get simplicityLogo;
 
   String get flexibilityLogo;
+
+  String get backButton;
+
+  String get checkButton;
 }
 
 abstract class AppThemeInterface {
