@@ -1,15 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-import 'package:mepaga_ai/presentation/home/home_page.dart';
+import 'package:mepaga_ai/presentation/auth/verification/email_verification_page.dart';
 import 'package:mepaga_ai/presentation/onboarding/onboarding_page.dart';
 import 'package:mepaga_ai/presentation/welcome/welcome_page.dart';
 
 const _homePage = '/';
+const _verificationPage = 'verification';
 const _otpPage = 'otp';
 const _onboardingPage = 'onboarding';
 
 const _otpPath = _homePage + _otpPage;
 const _onboardingPath = _homePage + _onboardingPage;
+const _verificationPath = _onboardingPath + _homePage + _verificationPage;
 
 final routes = GoRouter(
   routes: [
@@ -25,13 +27,26 @@ final routes = GoRouter(
               child: const OnboardingPage(),
             );
           },
-        )
+          routes: [
+            GoRoute(
+              path: _verificationPage,
+              pageBuilder: (context, state) {
+                return CustomSlideTransition(
+                  key: state.pageKey,
+                  child: const EmailVerificationPage(),
+                );
+              },
+            )
+          ],
+        ),
       ],
     ),
   ],
 );
 
 extension PageNavigationExtension on GoRouter {
+  void pushEmailVerificationPage() => go(_verificationPath);
+
   void pushOTPPage() => go(_otpPath);
 
   void pushOnboardingPage() => go(_onboardingPath);
