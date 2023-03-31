@@ -17,14 +17,14 @@ import 'package:mepaga_ai/presentation/common/themes/assets/mpg_assets_paths.dar
 import 'package:mepaga_ai/presentation/common/themes/mpg_theme.dart';
 import 'package:mepaga_ai/presentation/common/themes/text_styles/mpg_text_styles.dart';
 
-class EmailVerificationPage extends StatefulWidget {
-  const EmailVerificationPage({super.key});
+class EmailVerificationView extends StatefulWidget {
+  const EmailVerificationView({super.key});
 
   @override
-  State<EmailVerificationPage> createState() => _EmailVerificationPageState();
+  State<EmailVerificationView> createState() => _EmailVerificationViewState();
 }
 
-class _EmailVerificationPageState extends State<EmailVerificationPage> {
+class _EmailVerificationViewState extends State<EmailVerificationView> {
   final _emailController = TextEditingController();
   final _emailFocusNode = FocusNode();
   bool _isButtonTermsSelected = false;
@@ -85,18 +85,24 @@ class _EmailVerificationPageState extends State<EmailVerificationPage> {
                             SizedBox(
                               height: context.responsiveHeight(85),
                             ),
-                            MPGTextField(
-                              focusNode: _emailFocusNode,
-                              controller: _emailController,
-                              isPassword: false,
-                              hintText:
-                                  _emailFocusNode.hasFocus ? null : 'Email',
-                              onChanged: (text) {
-                                setState(() {
-                                  _isEmailValid = EmailValidator.validate(text);
-                                });
-                              },
-                              onTap: () => setState(() {}),
+                            FractionallySizedBox(
+                              widthFactor: ResponsiveLayout.isDesktop(context)
+                                  ? 0.75
+                                  : 1,
+                              child: MPGTextField(
+                                focusNode: _emailFocusNode,
+                                controller: _emailController,
+                                isPassword: false,
+                                hintText:
+                                    _emailFocusNode.hasFocus ? null : 'Email',
+                                onChanged: (text) {
+                                  setState(() {
+                                    _isEmailValid =
+                                        EmailValidator.validate(text);
+                                  });
+                                },
+                                onTap: () => setState(() {}),
+                              ),
                             ),
                           ],
                         ),

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:mepaga_ai/presentation/common/responsive_layout.dart';
 import 'package:mepaga_ai/presentation/common/responsivity.dart';
 import 'package:mepaga_ai/presentation/common/themes/assets/mpg_assets_paths.dart';
 
@@ -31,8 +32,12 @@ class _MPGCheckboxState extends State<MPGCheckbox> {
       },
       child: AnimatedContainer(
         duration: const Duration(milliseconds: 250),
-        width: 24,
-        height: 24,
+        width: ResponsiveLayout.isDesktop(context)
+            ? context.responsiveWidth(24)
+            : 24,
+        height: ResponsiveLayout.isDesktop(context)
+            ? context.responsiveHeight(24)
+            : 24,
         decoration: BoxDecoration(
           color: _isButtonTermsSelected
               ? widget.buttonColor ?? Colors.white
@@ -47,8 +52,12 @@ class _MPGCheckboxState extends State<MPGCheckbox> {
             ? Center(
                 child: SvgPicture.asset(
                   MPGAssetsPaths.of(context).checkButton,
-                  height: 10,
-                  width: 12,
+                  width: ResponsiveLayout.isDesktop(context)
+                      ? context.responsiveWidth(12)
+                      : 12,
+                  height: ResponsiveLayout.isDesktop(context)
+                      ? context.responsiveHeight(10)
+                      : 10,
                   color: widget.checkColor ?? Colors.black,
                 ),
               )
