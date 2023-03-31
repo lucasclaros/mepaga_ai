@@ -1,10 +1,13 @@
 // ignore_for_file: lines_longer_than_80_chars
 
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:mepaga_ai/common/routing.dart';
 import 'package:mepaga_ai/presentation/common/mpg_button.dart';
 import 'package:mepaga_ai/presentation/common/mpg_scaffold.dart';
+import 'package:mepaga_ai/presentation/common/responsive_layout.dart';
 import 'package:mepaga_ai/presentation/common/responsivity.dart';
 import 'package:mepaga_ai/presentation/common/themes/assets/mpg_assets_paths.dart';
 import 'package:mepaga_ai/presentation/common/themes/colors/mpg_colors.dart';
@@ -57,6 +60,28 @@ class _OnboardingPageState extends State<OnboardingPage> {
             'Apenas compartilhe o link disponibilizado para venda e o resto pode deixar que fazemos por você!',
       ),
     ];
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      setState(() {
+        if (ResponsiveLayout.isDesktop(context)) {
+          Timer.periodic(
+              const Duration(
+                seconds: 5,
+                milliseconds: 500,
+              ), (Timer timer) {
+            if (_currentHint < 2) {
+              _currentHint++;
+            } else {
+              _currentHint = 0;
+            }
+            pageController.animateToPage(
+              _currentHint,
+              duration: const Duration(milliseconds: 250),
+              curve: Curves.easeInOut,
+            );
+          });
+        }
+      });
+    });
   }
 
   @override
@@ -86,8 +111,12 @@ class _OnboardingPageState extends State<OnboardingPage> {
               ),
               Divider(
                 color: MPGColors.of(context).dividerColor,
-                endIndent: context.responsiveWidth(40),
-                indent: context.responsiveWidth(40),
+                endIndent: context.responsiveWidth(
+                  ResponsiveLayout.isDesktop(context) ? 60 : 40,
+                ),
+                indent: context.responsiveWidth(
+                  ResponsiveLayout.isDesktop(context) ? 60 : 40,
+                ),
               ),
               SizedBox(
                 height: context.responsiveHeight(30),
@@ -113,32 +142,33 @@ class _OnboardingPageState extends State<OnboardingPage> {
               SizedBox(
                 height: context.responsiveHeight(30),
               ),
-              Padding(
-                padding: EdgeInsets.only(
-                  bottom: context.responsiveHeight(60),
-                  left: context.responsiveWidth(30),
-                  right: context.responsiveWidth(30),
-                ),
-                child: MPGButton(
-                  onPressed: doneButtonCondition
-                      ? () => GoRouter.of(context).pushEmailVerificationPage()
-                      : () => pageController.nextPage(
-                            duration: const Duration(
-                              milliseconds: 450,
+              if (!ResponsiveLayout.isDesktop(context))
+                Padding(
+                  padding: EdgeInsets.only(
+                    bottom: context.responsiveHeight(60),
+                    left: context.responsiveWidth(30),
+                    right: context.responsiveWidth(30),
+                  ),
+                  child: MPGButton(
+                    onPressed: doneButtonCondition
+                        ? () => GoRouter.of(context).pushEmailVerificationPage()
+                        : () => pageController.nextPage(
+                              duration: const Duration(
+                                milliseconds: 450,
+                              ),
+                              curve: Curves.easeInOut,
                             ),
-                            curve: Curves.easeInOut,
-                          ),
-                  gradient: doneButtonCondition
-                      ? null
-                      : MPGColors.of(context).mpgButtonWhitedGradient,
-                  child: Text(
-                    doneButtonCondition ? 'Vender' : 'Próximo',
-                    style: doneButtonCondition
-                        ? MPGTextStyles.of(context).mpgColoredButton
-                        : MPGTextStyles.of(context).mpgWhitedButton,
+                    gradient: doneButtonCondition
+                        ? null
+                        : MPGColors.of(context).mpgButtonWhitedGradient,
+                    child: Text(
+                      doneButtonCondition ? 'Vender' : 'Próximo',
+                      style: doneButtonCondition
+                          ? MPGTextStyles.of(context).mpgColoredButton
+                          : MPGTextStyles.of(context).mpgWhitedButton,
+                    ),
                   ),
                 ),
-              ),
             ],
           ),
         ),

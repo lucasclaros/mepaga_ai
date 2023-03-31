@@ -3,6 +3,8 @@ import 'package:focus_detector_v2/focus_detector_v2.dart';
 import 'package:go_router/go_router.dart';
 import 'package:mepaga_ai/common/routing.dart';
 import 'package:mepaga_ai/presentation/common/mpg_button.dart';
+import 'package:mepaga_ai/presentation/common/mpg_scaffold.dart';
+import 'package:mepaga_ai/presentation/common/responsive_layout.dart';
 import 'package:mepaga_ai/presentation/common/responsivity.dart';
 import 'package:mepaga_ai/presentation/common/themes/assets/mpg_assets_paths.dart';
 import 'package:mepaga_ai/presentation/common/themes/text_styles/mpg_text_styles.dart';
@@ -40,16 +42,17 @@ class _WelcomePageState extends State<WelcomePage> {
             isLoading = false;
           });
         },
-        child: Scaffold(
-          body: Stack(
+        child: MPGScaffold(
+          child: Stack(
             alignment: Alignment.center,
             children: [
-              Image.asset(
-                MPGAssetsPaths.of(context).welcomeBackground,
-                fit: BoxFit.cover,
-                width: width,
-                height: height,
-              ),
+              if (!ResponsiveLayout.isDesktop(context))
+                Image.asset(
+                  MPGAssetsPaths.of(context).welcomeBackground,
+                  fit: BoxFit.cover,
+                  width: width,
+                  height: height,
+                ),
               Positioned(
                 bottom: context.responsiveHeight(215),
                 child: SizedBox(

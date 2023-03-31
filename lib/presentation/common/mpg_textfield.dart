@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:mepaga_ai/presentation/common/responsive_layout.dart';
 import 'package:mepaga_ai/presentation/common/responsivity.dart';
 
 class MPGTextField extends StatefulWidget {
@@ -12,6 +13,7 @@ class MPGTextField extends StatefulWidget {
     this.onChanged,
     this.focusNode,
     this.onEditingComplete,
+    this.onTap,
     this.keyboardType,
   });
 
@@ -22,6 +24,7 @@ class MPGTextField extends StatefulWidget {
   final ValueChanged<String>? onChanged;
   final FocusNode? focusNode;
   final VoidCallback? onEditingComplete;
+  final VoidCallback? onTap;
   final TextInputType? keyboardType;
 
   @override
@@ -32,19 +35,24 @@ class _MPGTextFieldState extends State<MPGTextField> {
   @override
   Widget build(BuildContext context) {
     return TextField(
-      cursorColor: Colors.grey,
+      textAlign: ResponsiveLayout.isDesktop(context)
+          ? TextAlign.center
+          : TextAlign.start,
+      cursorColor:
+          ResponsiveLayout.isDesktop(context) ? Colors.black38 : Colors.grey,
       cursorWidth: 1,
       onChanged: widget.onChanged,
       onEditingComplete: widget.onEditingComplete,
+      onTap: widget.onTap,
       obscureText: widget.isPassword,
       focusNode: widget.focusNode,
       controller: widget.controller,
       textInputAction: widget.textInputAction,
       keyboardType: widget.keyboardType,
       decoration: InputDecoration(
-        contentPadding: EdgeInsets.symmetric(
-          horizontal: context.responsiveWidth(22),
-          vertical: context.responsiveHeight(20),
+        contentPadding: const EdgeInsets.symmetric(
+          horizontal: 22,
+          vertical: 15,
         ),
         hintText: widget.hintText,
         hintStyle: GoogleFonts.barlow(
@@ -58,14 +66,18 @@ class _MPGTextFieldState extends State<MPGTextField> {
           borderRadius: BorderRadius.circular(10),
         ),
         focusedBorder: OutlineInputBorder(
-          borderSide: const BorderSide(
-            color: Colors.white,
+          borderSide: BorderSide(
+            color: ResponsiveLayout.isDesktop(context)
+                ? Colors.black
+                : Colors.white,
+            width: ResponsiveLayout.isDesktop(context) ? 2 : 1,
           ),
           borderRadius: BorderRadius.circular(10),
         ),
       ),
       style: GoogleFonts.barlow(
-        color: Colors.white,
+        color:
+            ResponsiveLayout.isDesktop(context) ? Colors.black : Colors.white,
         fontSize: 20,
       ),
     );

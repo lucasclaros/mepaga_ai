@@ -29,9 +29,10 @@ class _MPGCheckboxState extends State<MPGCheckbox> {
         _isButtonTermsSelected = !_isButtonTermsSelected;
         widget.onTap(_isButtonTermsSelected);
       },
-      child: Container(
-        width: context.responsiveWidth(24),
-        height: context.responsiveHeight(24),
+      child: AnimatedContainer(
+        duration: const Duration(milliseconds: 250),
+        width: 24,
+        height: 24,
         decoration: BoxDecoration(
           color: _isButtonTermsSelected
               ? widget.buttonColor ?? Colors.white
@@ -46,9 +47,9 @@ class _MPGCheckboxState extends State<MPGCheckbox> {
             ? Center(
                 child: SvgPicture.asset(
                   MPGAssetsPaths.of(context).checkButton,
-                  height: context.responsiveHeight(10),
-                  width: context.responsiveWidth(12),
-                  color: widget.checkColor,
+                  height: 10,
+                  width: 12,
+                  color: widget.checkColor ?? Colors.black,
                 ),
               )
             : null,

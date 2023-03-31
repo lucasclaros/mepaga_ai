@@ -1,6 +1,7 @@
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:mepaga_ai/presentation/common/responsive_layout.dart';
 import 'package:mepaga_ai/presentation/common/responsivity.dart';
 import 'package:mepaga_ai/presentation/common/themes/text_styles/mpg_text_styles.dart';
 import 'package:responsive_styles/responsive_styles.dart';
@@ -25,22 +26,14 @@ class _OnboardingHintCardState extends State<OnboardingHintCard> {
   final controller = ScrollController();
   @override
   Widget build(BuildContext context) {
-    final responsive = Responsive(context);
-
     return Center(
       child: SizedBox(
         height: double.infinity,
-        width: responsive.value({
-          Breakpoints.xs: double.infinity,
-          Breakpoints.md: 550,
-        }),
+        width: ResponsiveLayout.isDesktop(context) ? 800 : double.infinity,
         child: Center(
           child: Scrollbar(
             controller: controller,
-            thumbVisibility: responsive.value({
-              Breakpoints.xs: true,
-              Breakpoints.md: false,
-            }),
+            thumbVisibility: true,
             child: SingleChildScrollView(
               controller: controller,
               child: Column(
@@ -73,7 +66,9 @@ class _OnboardingHintCardState extends State<OnboardingHintCard> {
                           widget.description,
                           style: MPGTextStyles.of(context)
                               .onboardingHintDescription,
-                          textAlign: TextAlign.justify,
+                          textAlign: ResponsiveLayout.isDesktop(context)
+                              ? TextAlign.center
+                              : TextAlign.justify,
                         ),
                       ],
                     ),
