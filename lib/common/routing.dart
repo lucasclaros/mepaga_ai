@@ -1,7 +1,7 @@
-import 'package:flutter/foundation.dart' show kIsWeb;
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:mepaga_ai/presentation/auth/verification/view/email_verification_view.dart';
+import 'package:mepaga_ai/presentation/common/responsive_layout.dart';
 import 'package:mepaga_ai/presentation/onboarding/onboarding_page.dart';
 import 'package:mepaga_ai/presentation/welcome/welcome_page.dart';
 
@@ -13,6 +13,15 @@ const _onboardingPath = _homePage + _onboardingPage;
 const _verificationPath = _onboardingPath + _homePage + _verificationPage;
 
 final routes = GoRouter(
+  redirect: (context, state) {
+    if (ResponsiveLayout.isDesktop(context)) {
+      if (state.location == (_homePage + _verificationPage) ||
+          state.location == _verificationPath) {
+        return _onboardingPath;
+      }
+    }
+    return null;
+  },
   routes: [
     GoRoute(
       path: _homePage,
@@ -27,25 +36,28 @@ final routes = GoRouter(
             );
           },
           routes: [
-            if (!kIsWeb)
-              GoRoute(
-                path: _verificationPage,
-                pageBuilder: (context, state) {
-                  return CustomSlideTransition(
-                    key: state.pageKey,
-                    child: const EmailVerificationView(),
-                  );
-                },
-              ),
+            GoRoute(
+              path: _verificationPage,
+              pageBuilder: (context, state) {
+                return CustomSlideTransition(
+                  key: state.pageKey,
+                  child: const EmailVerificationView(),
+                );
+              },
+            ),
           ],
         ),
+        GoRoute(
+          path: _verificationPage,
+          builder: (context, state) => Container(),
+        )
       ],
     ),
   ],
 );
 
 extension PageNavigationExtension on GoRouter {
-  void pushEmailVerificationPage() => push(_verificationPath);
+  void pushEmailVerificationPage() => go(_verificationPath);
 
   void pushOnboardingPage() => go(_onboardingPath);
 }
