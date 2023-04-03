@@ -7,9 +7,11 @@ class MPGScaffold extends StatelessWidget {
   const MPGScaffold({
     super.key,
     required this.child,
+    this.backgroundColor,
   });
 
   final Widget child;
+  final Color? backgroundColor;
 
   @override
   Widget build(BuildContext context) {
@@ -18,21 +20,24 @@ class MPGScaffold extends StatelessWidget {
 
     return SafeArea(
       child: Scaffold(
-        body: Stack(
-          alignment: Alignment.center,
-          children: [
-            Image.asset(
-              MPGAssetsPaths.of(context).mpgScaffold,
-              fit: BoxFit.cover,
-              height: height,
-              width: width,
-            ),
-            Scaffold(
-              backgroundColor: Colors.transparent,
-              body: child,
-            )
-          ],
-        ),
+        backgroundColor: backgroundColor,
+        body: backgroundColor != null
+            ? child
+            : Stack(
+                alignment: Alignment.center,
+                children: [
+                  Image.asset(
+                    MPGAssetsPaths.of(context).mpgScaffold,
+                    fit: BoxFit.cover,
+                    height: height,
+                    width: width,
+                  ),
+                  Scaffold(
+                    backgroundColor: Colors.transparent,
+                    body: child,
+                  )
+                ],
+              ),
       ),
     );
   }

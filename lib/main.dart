@@ -1,10 +1,16 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_web_plugins/flutter_web_plugins.dart';
 import 'package:mepaga_ai/common/general_provider.dart';
 import 'package:mepaga_ai/common/routing.dart';
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
+
+  if (kIsWeb) {
+    setUrlStrategy(PathUrlStrategy());
+  }
 
   runApp(
     const GeneralProvider(
