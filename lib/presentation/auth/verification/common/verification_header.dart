@@ -1,0 +1,50 @@
+import 'package:auto_size_text/auto_size_text.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
+import 'package:go_router/go_router.dart';
+import 'package:google_fonts/google_fonts.dart';
+import 'package:mepaga_ai/presentation/common/responsive_layout.dart';
+import 'package:mepaga_ai/presentation/common/responsivity.dart';
+import 'package:mepaga_ai/presentation/common/themes/assets/mpg_assets_paths.dart';
+import 'package:mepaga_ai/presentation/common/themes/text_styles/mpg_text_styles.dart';
+
+class VerificationHeader extends StatelessWidget {
+  const VerificationHeader({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      children: [
+        GestureDetector(
+          onTap: () => GoRouter.of(context).pop(),
+          child: Container(
+            alignment: Alignment.centerLeft,
+            width: MediaQuery.of(context).size.width,
+            padding: EdgeInsets.symmetric(
+              vertical: context.responsiveHeight(16),
+              horizontal: context.responsiveWidth(18),
+            ),
+            child: SvgPicture.asset(
+              MPGAssetsPaths.of(context).backButton,
+              width: 24,
+            ),
+          ),
+        ),
+        SizedBox(
+          height: context.responsiveHeight(41),
+        ),
+        AutoSizeText(
+          'Verificação de email',
+          style: ResponsiveLayout.isDesktop(context)
+              ? GoogleFonts.barlow(
+                  color: Colors.black,
+                  fontSize: 32,
+                  fontWeight: FontWeight.w500,
+                )
+              : MPGTextStyles.of(context).emailVerificationTitle,
+          textAlign: TextAlign.center,
+        ),
+      ],
+    );
+  }
+}
