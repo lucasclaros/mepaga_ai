@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:mepaga_ai/presentation/common/responsive_layout.dart';
-import 'package:mepaga_ai/presentation/common/responsivity.dart';
 
 class MPGTextField extends StatefulWidget {
   const MPGTextField({
@@ -15,6 +14,8 @@ class MPGTextField extends StatefulWidget {
     this.onEditingComplete,
     this.onTap,
     this.keyboardType,
+    this.width,
+    this.height,
   });
 
   final String? hintText;
@@ -26,6 +27,8 @@ class MPGTextField extends StatefulWidget {
   final VoidCallback? onEditingComplete;
   final VoidCallback? onTap;
   final TextInputType? keyboardType;
+  final double? width;
+  final double? height;
 
   @override
   State<MPGTextField> createState() => _MPGTextFieldState();
@@ -34,51 +37,55 @@ class MPGTextField extends StatefulWidget {
 class _MPGTextFieldState extends State<MPGTextField> {
   @override
   Widget build(BuildContext context) {
-    return TextField(
-      textAlign: ResponsiveLayout.isDesktop(context)
-          ? TextAlign.center
-          : TextAlign.start,
-      cursorColor:
-          ResponsiveLayout.isDesktop(context) ? Colors.black38 : Colors.grey,
-      cursorWidth: 1,
-      onChanged: widget.onChanged,
-      onEditingComplete: widget.onEditingComplete,
-      onTap: widget.onTap,
-      obscureText: widget.isPassword,
-      focusNode: widget.focusNode,
-      controller: widget.controller,
-      textInputAction: widget.textInputAction,
-      keyboardType: widget.keyboardType,
-      decoration: InputDecoration(
-        contentPadding: const EdgeInsets.symmetric(
-          horizontal: 22,
-          vertical: 15,
+    return SizedBox(
+      width: widget.width,
+      height: widget.height,
+      child: TextField(
+        textAlign: ResponsiveLayout.isDesktop(context)
+            ? TextAlign.center
+            : TextAlign.start,
+        cursorColor:
+            ResponsiveLayout.isDesktop(context) ? Colors.black38 : Colors.grey,
+        cursorWidth: 1,
+        onChanged: widget.onChanged,
+        onEditingComplete: widget.onEditingComplete,
+        onTap: widget.onTap,
+        obscureText: widget.isPassword,
+        focusNode: widget.focusNode,
+        controller: widget.controller,
+        textInputAction: widget.textInputAction,
+        keyboardType: widget.keyboardType,
+        decoration: InputDecoration(
+          contentPadding: const EdgeInsets.symmetric(
+            horizontal: 22,
+            vertical: 15,
+          ),
+          hintText: widget.hintText,
+          hintStyle: GoogleFonts.barlow(
+            color: Colors.grey,
+            fontSize: 20,
+          ),
+          enabledBorder: OutlineInputBorder(
+            borderSide: const BorderSide(
+              color: Color(0xff2a2a2a),
+            ),
+            borderRadius: BorderRadius.circular(10),
+          ),
+          focusedBorder: OutlineInputBorder(
+            borderSide: BorderSide(
+              color: ResponsiveLayout.isDesktop(context)
+                  ? Colors.black
+                  : Colors.white,
+              width: ResponsiveLayout.isDesktop(context) ? 2 : 1,
+            ),
+            borderRadius: BorderRadius.circular(10),
+          ),
         ),
-        hintText: widget.hintText,
-        hintStyle: GoogleFonts.barlow(
-          color: Colors.grey,
+        style: GoogleFonts.barlow(
+          color:
+              ResponsiveLayout.isDesktop(context) ? Colors.black : Colors.white,
           fontSize: 20,
         ),
-        enabledBorder: OutlineInputBorder(
-          borderSide: const BorderSide(
-            color: Color(0xff2a2a2a),
-          ),
-          borderRadius: BorderRadius.circular(10),
-        ),
-        focusedBorder: OutlineInputBorder(
-          borderSide: BorderSide(
-            color: ResponsiveLayout.isDesktop(context)
-                ? Colors.black
-                : Colors.white,
-            width: ResponsiveLayout.isDesktop(context) ? 2 : 1,
-          ),
-          borderRadius: BorderRadius.circular(10),
-        ),
-      ),
-      style: GoogleFonts.barlow(
-        color:
-            ResponsiveLayout.isDesktop(context) ? Colors.black : Colors.white,
-        fontSize: 20,
       ),
     );
   }
