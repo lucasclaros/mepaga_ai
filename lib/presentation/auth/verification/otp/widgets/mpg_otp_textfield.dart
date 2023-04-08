@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:mepaga_ai/presentation/common/utils.dart';
 import 'package:pinput/pinput.dart';
 
 class MPGOtpTextField extends StatefulWidget {
@@ -23,11 +24,13 @@ class _MPGOtpTextFieldState extends State<MPGOtpTextField> {
 
   @override
   Widget build(BuildContext context) {
+    const _defaulWidth = 56.0;
+    const _defaulHeight = 3.0;
     const borderColor = Colors.grey;
 
     final defaultPinTheme = PinTheme(
-      width: 56,
-      height: 56,
+      width: _defaulWidth,
+      height: _defaulWidth,
       textStyle: GoogleFonts.barlow(
         fontSize: 42,
         fontWeight: FontWeight.w500,
@@ -40,8 +43,8 @@ class _MPGOtpTextFieldState extends State<MPGOtpTextField> {
       mainAxisAlignment: MainAxisAlignment.end,
       children: [
         Container(
-          width: 56,
-          height: 3,
+          width: _defaulWidth,
+          height: _defaulHeight,
           decoration: BoxDecoration(
             color: borderColor,
             borderRadius: BorderRadius.circular(8),
@@ -54,8 +57,8 @@ class _MPGOtpTextFieldState extends State<MPGOtpTextField> {
       mainAxisAlignment: MainAxisAlignment.end,
       children: [
         Container(
-          width: 56,
-          height: 3,
+          width: _defaulWidth,
+          height: _defaulHeight,
           decoration: BoxDecoration(
             color: Colors.white,
             borderRadius: BorderRadius.circular(8),
@@ -71,47 +74,60 @@ class _MPGOtpTextFieldState extends State<MPGOtpTextField> {
           onChanged: (value) => setState(() {
             _otpController.text = value;
           }),
+          scrollPadding: const EdgeInsets.only(bottom: 100),
           pinAnimationType: PinAnimationType.fade,
           controller: _otpController,
           focusNode: _otpFocusNode,
           defaultPinTheme: defaultPinTheme,
           cursor: cursor,
           preFilledWidget: preFilledWidget,
+          animationCurve: Curves.easeInOut,
+          onClipboardFound: (value) {
+            if (isNumeric(value) && value.length == 6) {
+              setState(() {
+                _otpController.text = value;
+              });
+            }
+          },
         ),
-        Row(
-          mainAxisAlignment: MainAxisAlignment.end,
-          children: [
-            SizedBox(
-              child: TextButton(
-                onPressed: () {
-                  Clipboard.getData(Clipboard.kTextPlain).then((value) {
-                    setState(() {
-                      _otpController.text = value?.text ?? '';
+        SizedBox(
+          // 6 from pinput length and 40 from (5 gaps * 8 default padding)
+          width: 6 * _defaulWidth + 40,
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.end,
+            children: [
+              SizedBox(
+                child: TextButton(
+                  onPressed: () {
+                    Clipboard.getData(Clipboard.kTextPlain).then((value) {
+                      setState(() {
+                        _otpController.text = value?.text ?? '';
+                      });
                     });
-                  });
-                },
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.end,
-                  children: [
-                    const Icon(
-                      Icons.assignment,
-                      color: Colors.white,
-                      size: 14,
-                    ),
-                    const SizedBox(width: 5),
-                    Text(
-                      'Colar código',
-                      style: GoogleFonts.barlow(
+                  },
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.end,
+                    children: [
+                      const Icon(
+                        Icons.assignment,
                         color: Colors.white,
-                        fontSize: 14,
-                        fontWeight: FontWeight.w700,
+                        size: 14,
                       ),
-                    ),
-                  ],
+                      const SizedBox(width: 5),
+                      Text(
+                        'Colar código',
+                        style: GoogleFonts.barlow(
+                          color: Colors.white,
+                          fontSize: 14,
+                          fontWeight: FontWeight.w700,
+                        ),
+                      ),
+                    ],
+                  ),
                 ),
               ),
-            ),
-          ],
+            ],
+          ),
         ),
       ],
     );
