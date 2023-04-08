@@ -6,18 +6,19 @@ import 'package:auto_size_text/auto_size_text.dart';
 import 'package:email_validator/email_validator.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:mepaga_ai/presentation/auth/verification/common/verification_header.dart';
 import 'package:mepaga_ai/presentation/common/mpg_button.dart';
 import 'package:mepaga_ai/presentation/common/mpg_checkbox.dart';
 import 'package:mepaga_ai/presentation/common/mpg_textfield.dart';
 import 'package:mepaga_ai/presentation/common/responsive_layout.dart';
 import 'package:mepaga_ai/presentation/common/responsivity.dart';
-import 'package:mepaga_ai/presentation/common/themes/mpg_theme.dart';
+import 'package:mepaga_ai/presentation/common/themes/colors/mpg_colors.dart';
 import 'package:mepaga_ai/presentation/common/themes/text_styles/mpg_text_styles.dart';
 
 class EmailVerificationView extends StatefulWidget {
-  const EmailVerificationView({super.key});
+  const EmailVerificationView({
+    super.key,
+  });
 
   @override
   State<EmailVerificationView> createState() => _EmailVerificationViewState();
@@ -26,6 +27,7 @@ class EmailVerificationView extends StatefulWidget {
 class _EmailVerificationViewState extends State<EmailVerificationView> {
   final _emailController = TextEditingController();
   final _emailFocusNode = FocusNode();
+
   bool _isButtonTermsSelected = false;
   bool _isEmailValid = false;
 
@@ -58,12 +60,10 @@ class _EmailVerificationViewState extends State<EmailVerificationView> {
                         'Insira o e-mail associado à sua conta Byma.\n\n'
                         'Um código de confirmação será enviado para validação.',
                         style: ResponsiveLayout.isDesktop(context)
-                            ? GoogleFonts.barlow(
-                                color: Colors.black,
-                                fontSize: 18,
-                              )
+                            ? MPGTextStyles.of(context)
+                                .emailVerificationDescriptionWeb
                             : MPGTextStyles.of(context)
-                                .onboardingHintDescription,
+                                .emailVerificationDescriptionMobile,
                         textAlign: TextAlign.center,
                       ),
                       SizedBox(
@@ -122,12 +122,10 @@ class _EmailVerificationViewState extends State<EmailVerificationView> {
                               TextSpan(
                                 text: 'Li e estou de acordo com todos os ',
                                 style: ResponsiveLayout.isDesktop(context)
-                                    ? GoogleFonts.barlow(
-                                        color: Colors.black,
-                                        fontSize: 18,
-                                      )
+                                    ? MPGTextStyles.of(context)
+                                        .policyNormalDescriptionWeb
                                     : MPGTextStyles.of(context)
-                                        .policyNormalDescription,
+                                        .policyNormalDescriptionMobile,
                               ),
                               TextSpan(
                                 text: 'Termos e Políticas',
@@ -152,12 +150,8 @@ class _EmailVerificationViewState extends State<EmailVerificationView> {
                   child: MPGButton(
                     gradient: _isEmailValid && _isButtonTermsSelected
                         ? null
-                        : LinearGradient(
-                            colors: [
-                              razzmatazz.withOpacity(0.4),
-                              amber.withOpacity(0.4),
-                            ],
-                          ),
+                        : MPGColors.of(context)
+                            .mpgButtonColoredGradientDisabled,
                     child: Text(
                       'Continuar',
                       style: _isEmailValid && _isButtonTermsSelected

@@ -15,6 +15,7 @@ class MPGAppTheme implements AppThemeInterface {
   MPGTextStyles get textStyles => MPGTextStyles();
 }
 
+const black = Colors.black;
 const white = Colors.white;
 Color white04 = white.withOpacity(0.4);
 const richBlack = Color(0xFF010203);

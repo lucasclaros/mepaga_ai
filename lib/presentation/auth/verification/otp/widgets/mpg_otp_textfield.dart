@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:google_fonts/google_fonts.dart';
+import 'package:mepaga_ai/presentation/common/themes/text_styles/mpg_text_styles.dart';
 import 'package:mepaga_ai/presentation/common/utils.dart';
 import 'package:pinput/pinput.dart';
 
@@ -31,11 +31,7 @@ class _MPGOtpTextFieldState extends State<MPGOtpTextField> {
     final defaultPinTheme = PinTheme(
       width: _defaulWidth,
       height: _defaulWidth,
-      textStyle: GoogleFonts.barlow(
-        fontSize: 42,
-        fontWeight: FontWeight.w500,
-        color: Colors.white,
-      ),
+      textStyle: MPGTextStyles.of(context).pinputDefaultTheme,
       decoration: const BoxDecoration(),
     );
 
@@ -116,11 +112,7 @@ class _MPGOtpTextFieldState extends State<MPGOtpTextField> {
                       const SizedBox(width: 5),
                       Text(
                         'Colar código',
-                        style: GoogleFonts.barlow(
-                          color: Colors.white,
-                          fontSize: 14,
-                          fontWeight: FontWeight.w700,
-                        ),
+                        style: MPGTextStyles.of(context).otpPasteIndicator,
                       ),
                     ],
                   ),

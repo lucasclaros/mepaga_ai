@@ -83,8 +83,65 @@ class MPGTextStyles implements IAppTextStyles {
       );
 
   @override
-  TextStyle get policyNormalDescription => GoogleFonts.barlow(
+  TextStyle get policyNormalDescriptionWeb => GoogleFonts.barlow(
+        color: black,
+        fontSize: 18,
+        fontWeight: FontWeight.w400,
+      );
+
+  @override
+  TextStyle get policyNormalDescriptionMobile => GoogleFonts.barlow(
         color: white,
         fontSize: 18,
+        fontWeight: FontWeight.w400,
+      );
+
+  @override
+  TextStyle get verificationHeaderTitleWeb => GoogleFonts.barlow(
+        color: black,
+        fontSize: 32,
+        fontWeight: FontWeight.w500,
+      );
+
+  @override
+  TextStyle get verificationHeaderTitleMobile => GoogleFonts.barlow(
+        color: white,
+        fontSize: 32,
+        fontWeight: FontWeight.w500,
+      );
+
+  @override
+  TextStyle get emailVerificationDescriptionWeb => GoogleFonts.barlow(
+        color: black,
+        fontSize: 18,
+        fontWeight: FontWeight.w400,
+      );
+
+  @override
+  TextStyle get emailVerificationDescriptionMobile => GoogleFonts.barlow(
+        color: white,
+        fontSize: 18,
+        fontWeight: FontWeight.w400,
+      );
+
+  @override
+  TextStyle get otpVerifcationUserEmail => GoogleFonts.barlow(
+        color: white,
+        fontSize: 20,
+        fontWeight: FontWeight.w700,
+      );
+
+  @override
+  TextStyle get pinputDefaultTheme => GoogleFonts.barlow(
+        color: white,
+        fontSize: 42,
+        fontWeight: FontWeight.w500,
+      );
+
+  @override
+  TextStyle get otpPasteIndicator => GoogleFonts.barlow(
+        color: white,
+        fontSize: 14,
+        fontWeight: FontWeight.w700,
       );
 }

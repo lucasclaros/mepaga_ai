@@ -36,7 +36,7 @@ class _VerificationViewState extends State<VerificationView> {
             children: [
               const VerificationHeader(),
               StreamBuilder<bool>(
-                stream: Stream.value(true),
+                stream: Stream.value(false),
                 builder: (context, snapshot) {
                   return snapshot.data!
                       ? const OTPVerificationView(
@@ -46,7 +46,7 @@ class _VerificationViewState extends State<VerificationView> {
                 },
               ),
               StreamBuilder<bool>(
-                stream: Stream.value(true),
+                stream: Stream.value(false),
                 builder: (context, snapshot) {
                   return snapshot != null && snapshot.data!
                       ? Column(
