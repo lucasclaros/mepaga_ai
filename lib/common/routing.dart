@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-import 'package:mepaga_ai/presentation/auth/verification/email/view/email_verification_view.dart';
 import 'package:mepaga_ai/presentation/auth/verification/verification_page.dart';
 import 'package:mepaga_ai/presentation/common/responsive_layout.dart';
 import 'package:mepaga_ai/presentation/onboarding/onboarding_page.dart';
@@ -9,11 +8,9 @@ import 'package:mepaga_ai/presentation/welcome/welcome_page.dart';
 const _homePage = '/';
 const _verificationPage = 'verification';
 const _onboardingPage = 'onboarding';
-const _otpPage = 'otp';
 
 const _onboardingPath = _homePage + _onboardingPage;
 const _verificationPath = _onboardingPath + _homePage + _verificationPage;
-const _otpPath = _verificationPath + _homePage + _otpPage;
 
 final routes = GoRouter(
   redirect: (context, state) {
@@ -44,23 +41,9 @@ final routes = GoRouter(
               pageBuilder: (context, state) {
                 return CustomSlideTransition(
                   key: state.pageKey,
-                  child: const EmailVerificationView(),
+                  child: const VerificationPage(),
                 );
               },
-              routes: [
-                GoRoute(
-                  path: '$_otpPage/:email',
-                  pageBuilder: (context, state) {
-                    final userEmail = state.params['email']!;
-                    return CustomSlideTransition(
-                      key: state.pageKey,
-                      child: VerificationPage(
-                        userEmail: userEmail,
-                      ),
-                    );
-                  },
-                )
-              ],
             ),
           ],
         ),
@@ -77,8 +60,6 @@ extension PageNavigationExtension on GoRouter {
   void pushEmailVerificationPage() => go(_verificationPath);
 
   void pushOnboardingPage() => go(_onboardingPath);
-
-  void pushOtpPage(String userEmail) => go('$_otpPath/$userEmail');
 }
 
 class CustomSlideTransition extends CustomTransitionPage<void> {
