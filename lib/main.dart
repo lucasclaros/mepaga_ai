@@ -1,24 +1,51 @@
+import 'dart:async';
+
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'package:logger/logger.dart';
 import 'package:mepaga_ai/common/general_provider.dart';
 import 'package:mepaga_ai/common/routing.dart';
 import 'package:mepaga_ai/url_strategy/nonweb_url_strategy.dart'
     if (dart.library.html) 'package:mepaga_ai/url_strategy/web_url_strategy.dart';
 
+class Log {
+  final Logger logger = Logger(
+    printer: PrettyPrinter(),
+  );
+
+  Future<void> logError(
+    String errorType,
+    dynamic error, [
+    StackTrace? stackTrace,
+  ]) async {
+    logger.e(errorType, error, stackTrace);
+  }
+}
+
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
+  final errorLogger = Log().logError;
 
   configureUrl();
 
-  runApp(
-    const GeneralProvider(
-      child: MyApp(),
-    ),
-  );
+  runZonedGuarded(() async {
+    runApp(
+      GeneralProvider(
+        errorLogger: errorLogger,
+        child: const MPGApp(),
+      ),
+    );
+  }, (error, stack) {
+    errorLogger(
+      'Zone Guarded Error',
+      error,
+      stack,
+    );
+  });
 }
 
-class MyApp extends StatelessWidget {
-  const MyApp({super.key});
+class MPGApp extends StatelessWidget {
+  const MPGApp({super.key});
 
   @override
   Widget build(BuildContext context) {

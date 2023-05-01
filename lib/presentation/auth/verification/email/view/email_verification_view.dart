@@ -3,10 +3,12 @@
 import 'dart:math';
 
 import 'package:auto_size_text/auto_size_text.dart';
-import 'package:email_validator/email_validator.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:mepaga_ai/presentation/auth/verification/common/verification_header.dart';
+import 'package:mepaga_ai/presentation/auth/verification/email/bloc/button_status_bloc.dart';
+import 'package:mepaga_ai/presentation/auth/verification/view/bloc/verification_bloc.dart';
 import 'package:mepaga_ai/presentation/common/mpg_button.dart';
 import 'package:mepaga_ai/presentation/common/mpg_checkbox.dart';
 import 'package:mepaga_ai/presentation/common/mpg_textfield.dart';
@@ -25,11 +27,29 @@ class EmailVerificationView extends StatefulWidget {
 }
 
 class _EmailVerificationViewState extends State<EmailVerificationView> {
+  late ButtonStatusBloc _buttonBloc;
+  late VerificationBloc _verificationBloc;
+
   final _emailController = TextEditingController();
   final _emailFocusNode = FocusNode();
-
   bool _isButtonTermsSelected = false;
-  bool _isEmailValid = false;
+
+  String? _errorMessageMapper(VerificationState state) {
+    if (state is InvalidEmail) {
+      return 'Email Inválido';
+    } else if (state is Error) {
+      return 'Ocorreu um erro. Tente Novamente.';
+    }
+    return null;
+  }
+
+  @override
+  void initState() {
+    super.initState();
+
+    _buttonBloc = BlocProvider.of<ButtonStatusBloc>(context);
+    _verificationBloc = BlocProvider.of<VerificationBloc>(context);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -69,18 +89,21 @@ class _EmailVerificationViewState extends State<EmailVerificationView> {
                       SizedBox(
                         height: context.responsiveHeight(85),
                       ),
-                      MPGTextField(
-                        width: min(context.responsiveWidth(300), 400),
-                        focusNode: _emailFocusNode,
-                        controller: _emailController,
-                        isPassword: false,
-                        hintText: _emailFocusNode.hasFocus ? null : 'Email',
-                        onChanged: (text) {
-                          setState(() {
-                            _isEmailValid = EmailValidator.validate(text);
-                          });
+                      BlocBuilder<VerificationBloc, VerificationState>(
+                        builder: (context, state) {
+                          return MPGTextField(
+                            width: min(context.responsiveWidth(300), 400),
+                            focusNode: _emailFocusNode,
+                            controller: _emailController,
+                            isPassword: false,
+                            hintText: _emailFocusNode.hasFocus ? null : 'Email',
+                            onChanged: (text) => _buttonBloc.add(
+                              ButtonStateRequest(email: text),
+                            ),
+                            onTap: () => setState(() {}),
+                            errorText: _errorMessageMapper(state),
+                          );
                         },
-                        onTap: () => setState(() {}),
                       ),
                     ],
                   ),
@@ -143,22 +166,38 @@ class _EmailVerificationViewState extends State<EmailVerificationView> {
                     ],
                   ),
                 ),
-                Padding(
-                  padding: EdgeInsets.symmetric(
-                    vertical: context.responsiveHeight(50),
-                  ),
-                  child: MPGButton(
-                    gradient: _isEmailValid && _isButtonTermsSelected
-                        ? null
-                        : MPGColors.of(context)
-                            .mpgButtonColoredGradientDisabled,
-                    child: Text(
-                      'Continuar',
-                      style: _isEmailValid && _isButtonTermsSelected
-                          ? MPGTextStyles.of(context).mpgColoredButton
-                          : MPGTextStyles.of(context).mpgColoredButtonDisabled,
-                    ),
-                  ),
+                BlocBuilder<ButtonStatusBloc, ButtonStatusState>(
+                  builder: (context, state) {
+                    return Padding(
+                      padding: EdgeInsets.symmetric(
+                        vertical: context.responsiveHeight(50),
+                      ),
+                      child: MPGButton(
+                        onPressed:
+                            state is ActiveButton && _isButtonTermsSelected
+                                ? () {
+                                    _verificationBloc.add(
+                                      EmailVerificationRequest(
+                                        userEmail: _emailController.text,
+                                      ),
+                                    );
+                                  }
+                                : null,
+                        gradient:
+                            state is ActiveButton && _isButtonTermsSelected
+                                ? null
+                                : MPGColors.of(context)
+                                    .mpgButtonColoredGradientDisabled,
+                        child: Text(
+                          'Continuar',
+                          style: state is ActiveButton && _isButtonTermsSelected
+                              ? MPGTextStyles.of(context).mpgColoredButton
+                              : MPGTextStyles.of(context)
+                                  .mpgColoredButtonDisabled,
+                        ),
+                      ),
+                    );
+                  },
                 ),
               ],
             ),

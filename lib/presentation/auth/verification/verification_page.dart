@@ -13,9 +13,9 @@ class _VerificationPageState extends State<VerificationPage> {
   @override
   Widget build(BuildContext context) {
     return ResponsiveLayout(
-      mobile: const VerificationView(),
+      mobile: VerificationView.create(),
       desktop: Row(),
-      tablet: const VerificationView(),
+      tablet: VerificationView.create(),
     );
   }
 }
