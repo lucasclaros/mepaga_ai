@@ -58,6 +58,8 @@ abstract class IAppTextStyles {
   TextStyle get pinputDefaultTheme;
 
   TextStyle get otpPasteIndicator;
+
+  TextStyle get alreadyHasAccountMessage;
 }
 
 abstract class IAppAssetsPaths {

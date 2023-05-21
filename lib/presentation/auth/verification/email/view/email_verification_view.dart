@@ -138,7 +138,7 @@ class _EmailVerificationViewState extends State<EmailVerificationView> {
                       if (!ResponsiveLayout.isDesktop(context))
                         Container(width: 25),
                       Expanded(
-                        flex: ResponsiveLayout.isMobile(context) ? 4 : 6,
+                        flex: 6,
                         child: RichText(
                           text: TextSpan(
                             children: [

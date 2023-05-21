@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:mepaga_ai/presentation/auth/register/register_page.dart';
 import 'package:mepaga_ai/presentation/auth/verification/verification_page.dart';
 import 'package:mepaga_ai/presentation/common/responsive_layout.dart';
 import 'package:mepaga_ai/presentation/onboarding/onboarding_page.dart';
@@ -8,9 +9,11 @@ import 'package:mepaga_ai/presentation/welcome/welcome_page.dart';
 const _homePage = '/';
 const _verificationPage = 'verification';
 const _onboardingPage = 'onboarding';
+const _registerPage = 'register';
 
 const _onboardingPath = _homePage + _onboardingPage;
 const _verificationPath = _onboardingPath + _homePage + _verificationPage;
+const _registerPath = _onboardingPath + _homePage + _registerPage;
 
 final routes = GoRouter(
   redirect: (context, state) {
@@ -45,6 +48,15 @@ final routes = GoRouter(
                 );
               },
             ),
+            GoRoute(
+              path: _registerPage,
+              pageBuilder: (context, state) {
+                return CustomSlideTransition(
+                  key: state.pageKey,
+                  child: const RegisterPage(),
+                );
+              },
+            ),
           ],
         ),
         GoRoute(
@@ -60,6 +72,8 @@ extension PageNavigationExtension on GoRouter {
   void pushEmailVerificationPage() => go(_verificationPath);
 
   void pushOnboardingPage() => go(_onboardingPath);
+
+  void pushRegisterPage() => go(_registerPath);
 }
 
 class CustomSlideTransition extends CustomTransitionPage<void> {

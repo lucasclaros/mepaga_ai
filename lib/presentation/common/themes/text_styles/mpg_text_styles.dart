@@ -144,4 +144,12 @@ class MPGTextStyles implements IAppTextStyles {
         fontSize: 14,
         fontWeight: FontWeight.w700,
       );
+
+  @override
+  TextStyle get alreadyHasAccountMessage => GoogleFonts.barlow(
+        color: white,
+        fontSize: 21,
+        fontWeight: FontWeight.w700,
+        decoration: TextDecoration.underline,
+      );
 }
