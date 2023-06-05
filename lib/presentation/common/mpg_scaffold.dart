@@ -19,25 +19,20 @@ class MPGScaffold extends StatelessWidget {
     final height = MediaQuery.of(context).size.height;
 
     return SafeArea(
-      child: Scaffold(
-        backgroundColor: backgroundColor,
-        body: backgroundColor != null
-            ? child
-            : Stack(
-                alignment: Alignment.center,
-                children: [
-                  Image.asset(
-                    MPGAssetsPaths.of(context).mpgScaffold,
-                    fit: BoxFit.cover,
-                    height: height,
-                    width: width,
-                  ),
-                  Scaffold(
-                    backgroundColor: Colors.transparent,
-                    body: child,
-                  )
-                ],
-              ),
+      child: Stack(
+        alignment: Alignment.center,
+        children: [
+          Image.asset(
+            MPGAssetsPaths.of(context).mpgScaffold,
+            fit: BoxFit.cover,
+            height: height,
+            width: width,
+          ),
+          Scaffold(
+            backgroundColor: backgroundColor ?? Colors.transparent,
+            body: child,
+          )
+        ],
       ),
     );
   }

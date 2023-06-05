@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:mepaga_ai/presentation/auth/verification/view/email_verification_view.dart';
+import 'package:mepaga_ai/presentation/auth/verification/email/view/email_verification_view.dart';
 import 'package:mepaga_ai/presentation/common/responsive_layout.dart';
 import 'package:mepaga_ai/presentation/onboarding/view/onboarding_view.dart';
 

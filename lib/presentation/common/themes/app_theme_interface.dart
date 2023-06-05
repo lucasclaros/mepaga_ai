@@ -9,6 +9,8 @@ abstract class IAppColors {
 
   Gradient get mpgButtonColoredGradient;
 
+  Gradient get mpgButtonColoredGradientDisabled;
+
   Gradient get mpgButtonWhitedGradient;
 
   Color get dividerColor;
@@ -37,9 +39,27 @@ abstract class IAppTextStyles {
 
   TextStyle get emailVerificationDescription;
 
-  TextStyle get policyNormalDescription;
+  TextStyle get policyNormalDescriptionWeb;
+
+  TextStyle get policyNormalDescriptionMobile;
 
   TextStyle get policyColoredDescription;
+
+  TextStyle get verificationHeaderTitleWeb;
+
+  TextStyle get verificationHeaderTitleMobile;
+
+  TextStyle get emailVerificationDescriptionWeb;
+
+  TextStyle get emailVerificationDescriptionMobile;
+
+  TextStyle get otpVerifcationUserEmail;
+
+  TextStyle get pinputDefaultTheme;
+
+  TextStyle get otpPasteIndicator;
+
+  TextStyle get alreadyHasAccountMessage;
 }
 
 abstract class IAppAssetsPaths {
@@ -56,6 +76,16 @@ abstract class IAppAssetsPaths {
   String get backButton;
 
   String get checkButton;
+
+  String get emailIcon;
+
+  String get passwordIconLocked;
+
+  String get passwordIconUnlocked;
+
+  String get passwordEyeVisible;
+
+  String get passwordEyeNotVisible;
 }
 
 abstract class AppThemeInterface {
