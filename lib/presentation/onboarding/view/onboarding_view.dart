@@ -50,7 +50,7 @@ class _OnboardingViewState extends State<OnboardingView> {
         title: 'E quanto a burocracia?',
         description:
             'Buscamos a simplicidade e eficiência para a sua venda.\n\n'
-            'Faça o passo a passo nas telas seguintes e, em caso de dúvidas se sinta à vontade para nos contactar em qualquer etapa do procedimento.',
+            'Faça o passo a passo nas telas seguintes e, em caso de dúvidas sinta-se à vontade para nos contactar em qualquer etapa do procedimento.',
       ),
       OnboardingHintCard(
         image: MPGAssetsPaths.of(context).flexibilityLogo,

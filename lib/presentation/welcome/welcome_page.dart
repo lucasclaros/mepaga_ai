@@ -35,62 +35,61 @@ class _WelcomePageState extends State<WelcomePage> {
     final width = MediaQuery.of(context).size.width;
     final height = MediaQuery.of(context).size.height;
 
-    return SafeArea(
-      child: FocusDetector(
-        onFocusGained: () {
-          setState(() {
-            isLoading = false;
-          });
-        },
-        child: MPGScaffold(
-          child: Stack(
-            alignment: Alignment.center,
-            children: [
-              if (!ResponsiveLayout.isDesktop(context))
-                Image.asset(
-                  MPGAssetsPaths.of(context).welcomeBackground,
-                  fit: BoxFit.cover,
-                  width: width,
-                  height: height,
-                ),
-              Positioned(
-                bottom: context.responsiveHeight(215),
-                child: SizedBox(
-                  width: context.responsiveWidth(249),
-                  child: Column(
-                    children: [
-                      Text(
-                        'ME PAGA AÍ',
-                        style: MPGTextStyles.of(context).welcomeTitle,
-                        textAlign: TextAlign.center,
-                      ),
-                      Text(
-                        'Transfira seus ingressos com segurança',
-                        style: MPGTextStyles.of(context).welcomeSubtitle,
-                        textAlign: TextAlign.center,
-                      ),
-                    ],
-                  ),
+    return FocusDetector(
+      onFocusGained: () {
+        setState(() {
+          isLoading = false;
+        });
+      },
+      child: MPGScaffold(
+        child: Stack(
+          alignment: Alignment.center,
+          children: [
+            if (!ResponsiveLayout.isDesktop(context))
+              Image.asset(
+                MPGAssetsPaths.of(context).welcomeBackground,
+                fit: BoxFit.cover,
+                width: width,
+                height: height,
+                alignment: Alignment.bottomCenter,
+              ),
+            Positioned(
+              bottom: context.responsiveHeight(215),
+              child: SizedBox(
+                width: context.responsiveWidth(249),
+                child: Column(
+                  children: [
+                    Text(
+                      'ME PAGA AÍ',
+                      style: MPGTextStyles.of(context).welcomeTitle,
+                      textAlign: TextAlign.center,
+                    ),
+                    Text(
+                      'Transfira seus ingressos com segurança',
+                      style: MPGTextStyles.of(context).welcomeSubtitle,
+                      textAlign: TextAlign.center,
+                    ),
+                  ],
                 ),
               ),
-              AnimatedPositioned(
-                curve: Curves.fastOutSlowIn,
-                duration: const Duration(
-                  milliseconds: 500,
+            ),
+            AnimatedPositioned(
+              curve: Curves.fastOutSlowIn,
+              duration: const Duration(
+                milliseconds: 500,
+              ),
+              bottom: isLoading
+                  ? -context.responsiveHeight(55)
+                  : context.responsiveHeight(90),
+              child: MPGButton(
+                child: Text(
+                  'Começar',
+                  style: MPGTextStyles.of(context).mpgColoredButton,
                 ),
-                bottom: isLoading
-                    ? -context.responsiveHeight(55)
-                    : context.responsiveHeight(90),
-                child: MPGButton(
-                  child: Text(
-                    'Começar',
-                    style: MPGTextStyles.of(context).mpgColoredButton,
-                  ),
-                  onPressed: () => GoRouter.of(context).pushOnboardingPage(),
-                ),
-              )
-            ],
-          ),
+                onPressed: () => GoRouter.of(context).pushOnboardingPage(),
+              ),
+            )
+          ],
         ),
       ),
     );
