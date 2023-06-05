@@ -1,9 +1,9 @@
 class UrlBuilder {
-  static const _hmlApi = 'http://api.mepaga.ai:5000';
+  static const _hmlApi = 'http://api.mepaga.ai';
 
-  static const _emailValidation = '/validate/user';
+  static const _emailValidation = '/byma/validate-email';
 
-  static const _otpValidation = '/validate/code';
+  static const _otpValidation = '/users/validate-code';
 
   static String get endpointEmailValidation => _hmlApi + _emailValidation;
 

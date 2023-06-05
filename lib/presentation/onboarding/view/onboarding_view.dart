@@ -2,6 +2,7 @@
 
 import 'dart:async';
 
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:mepaga_ai/common/routing.dart';
@@ -145,7 +146,7 @@ class _OnboardingViewState extends State<OnboardingView> {
               if (!ResponsiveLayout.isDesktop(context))
                 Padding(
                   padding: EdgeInsets.only(
-                    bottom: context.responsiveHeight(60),
+                    bottom: context.responsiveHeight(20),
                     left: context.responsiveWidth(30),
                     right: context.responsiveWidth(30),
                   ),
@@ -158,17 +159,36 @@ class _OnboardingViewState extends State<OnboardingView> {
                               ),
                               curve: Curves.easeInOut,
                             ),
-                    gradient: doneButtonCondition
-                        ? null
-                        : MPGColors.of(context).mpgButtonWhitedGradient,
+                    gradient: MPGColors.of(context).mpgButtonWhitedGradient,
                     child: Text(
-                      doneButtonCondition ? 'Vender' : 'Próximo',
-                      style: doneButtonCondition
-                          ? MPGTextStyles.of(context).mpgColoredButton
-                          : MPGTextStyles.of(context).mpgWhitedButton,
+                      doneButtonCondition ? 'Criar conta' : 'Próximo',
+                      style: MPGTextStyles.of(context).mpgWhitedButton,
                     ),
                   ),
                 ),
+              SizedBox(
+                height: context.responsiveHeight(30),
+                child: Visibility(
+                  visible: doneButtonCondition,
+                  child: RichText(
+                    text: TextSpan(
+                      children: [
+                        TextSpan(
+                          text: 'Já possuo conta',
+                          style: MPGTextStyles.of(context)
+                              .alreadyHasAccountMessage,
+                          recognizer: TapGestureRecognizer()
+                            ..onTap =
+                                () => GoRouter.of(context).pushRegisterPage(),
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+              ),
+              SizedBox(
+                height: context.responsiveHeight(50),
+              )
             ],
           ),
         ),

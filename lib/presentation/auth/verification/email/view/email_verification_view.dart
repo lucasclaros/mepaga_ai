@@ -6,7 +6,7 @@ import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:mepaga_ai/presentation/auth/verification/common/verification_header.dart';
+import 'package:mepaga_ai/presentation/common/mpg_header.dart';
 import 'package:mepaga_ai/presentation/auth/verification/email/bloc/button_status_bloc.dart';
 import 'package:mepaga_ai/presentation/auth/verification/view/bloc/verification_bloc.dart';
 import 'package:mepaga_ai/presentation/common/mpg_button.dart';
@@ -72,7 +72,9 @@ class _EmailVerificationViewState extends State<EmailVerificationView> {
                   child: Column(
                     children: [
                       if (ResponsiveLayout.isDesktop(context))
-                        const VerificationHeader(),
+                        const MPGHeader(
+                          title: 'Verificação de email',
+                        ),
                       SizedBox(
                         height: context.responsiveHeight(75),
                       ),
@@ -138,7 +140,7 @@ class _EmailVerificationViewState extends State<EmailVerificationView> {
                       if (!ResponsiveLayout.isDesktop(context))
                         Container(width: 25),
                       Expanded(
-                        flex: ResponsiveLayout.isMobile(context) ? 4 : 6,
+                        flex: 6,
                         child: RichText(
                           text: TextSpan(
                             children: [

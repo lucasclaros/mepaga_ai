@@ -1,11 +1,14 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:mepaga_ai/presentation/common/responsive_layout.dart';
+import 'package:mepaga_ai/presentation/common/themes/assets/mpg_assets_paths.dart';
 
 class MPGTextField extends StatefulWidget {
   const MPGTextField({
     super.key,
     this.hintText,
+    this.labelText,
     this.controller,
     required this.isPassword,
     this.textInputAction,
@@ -21,6 +24,7 @@ class MPGTextField extends StatefulWidget {
   });
 
   final String? hintText;
+  final String? labelText;
   final TextEditingController? controller;
   final bool isPassword;
   final TextInputAction? textInputAction;
@@ -39,77 +43,132 @@ class MPGTextField extends StatefulWidget {
 }
 
 class _MPGTextFieldState extends State<MPGTextField> {
+  bool _hidePassword = true;
+
   @override
   Widget build(BuildContext context) {
-    return SizedBox(
-      width: widget.width,
-      height: widget.height,
-      child: TextFormField(
-        scrollPadding: const EdgeInsets.only(bottom: 50),
-        textAlign: ResponsiveLayout.isDesktop(context)
-            ? TextAlign.center
-            : TextAlign.start,
-        cursorColor:
-            ResponsiveLayout.isDesktop(context) ? Colors.black38 : Colors.grey,
-        cursorWidth: 1,
-        onChanged: widget.onChanged,
-        validator: widget.validator,
-        onEditingComplete: widget.onEditingComplete,
-        onTap: widget.onTap,
-        obscureText: widget.isPassword,
-        focusNode: widget.focusNode,
-        controller: widget.controller,
-        textInputAction: widget.textInputAction,
-        keyboardType: widget.keyboardType,
-        decoration: InputDecoration(
-          prefixIcon: Icon(
-            Icons.mail_outline_outlined,
-            color: widget.errorText == null ? Colors.grey : Colors.red,
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Padding(
+          padding: const EdgeInsets.only(
+            bottom: 8,
           ),
-          errorText: widget.errorText,
-          errorBorder: OutlineInputBorder(
-            borderSide: const BorderSide(
-              color: Colors.red,
+          child: Text(
+            widget.labelText ?? '',
+            style: GoogleFonts.barlow(
+              fontWeight: FontWeight.w500,
+              color: Colors.white.withOpacity(0.8),
+              fontSize: 20,
             ),
-            borderRadius: BorderRadius.circular(10),
           ),
-          contentPadding: const EdgeInsets.symmetric(
-            horizontal: 22,
-            vertical: 15,
-          ),
-          hintText: widget.hintText,
-          hintStyle: GoogleFonts.barlow(
-            color: Colors.grey,
-            fontSize: 20,
-          ),
-          enabledBorder: OutlineInputBorder(
-            borderSide: const BorderSide(
-              color: Color(0xff2a2a2a),
+        ),
+        SizedBox(
+          width: widget.width,
+          height: widget.height,
+          child: TextFormField(
+            scrollPadding: const EdgeInsets.only(bottom: 50),
+            textAlign: ResponsiveLayout.isDesktop(context)
+                ? TextAlign.center
+                : TextAlign.start,
+            cursorColor: ResponsiveLayout.isDesktop(context)
+                ? Colors.black38
+                : Colors.grey,
+            cursorWidth: 1,
+            onChanged: (text) => {
+              setState(() {
+                if (widget.onChanged != null) {
+                  // ignore: prefer_null_aware_method_calls
+                  widget.onChanged!(text);
+                }
+              })
+            },
+            validator: widget.validator,
+            onEditingComplete: widget.onEditingComplete,
+            onTap: widget.onTap,
+            obscureText: widget.isPassword && _hidePassword,
+            focusNode: widget.focusNode,
+            controller: widget.controller,
+            textInputAction: widget.textInputAction,
+            keyboardType: widget.keyboardType,
+            decoration: InputDecoration(
+              filled: true,
+              fillColor: Colors.black.withOpacity(0.5),
+              prefixIcon: SvgPicture.asset(
+                _hidePassword
+                    ? MPGAssetsPaths.of(context).passwordIconLocked
+                    : MPGAssetsPaths.of(context).passwordIconUnlocked,
+              ),
+              suffixIcon: widget.isPassword && widget.controller?.text != ''
+                  ? Padding(
+                      padding: const EdgeInsets.only(right: 16),
+                      child: IconButton(
+                        splashRadius: 0.01,
+                        icon: _hidePassword
+                            ? SvgPicture.asset(
+                                MPGAssetsPaths.of(context)
+                                    .passwordEyeNotVisible,
+                              )
+                            : SvgPicture.asset(
+                                MPGAssetsPaths.of(context).passwordEyeVisible,
+                              ),
+                        onPressed: () {
+                          setState(() {
+                            _hidePassword = !_hidePassword;
+                          });
+                        },
+                        color:
+                            widget.errorText == null ? Colors.grey : Colors.red,
+                      ),
+                    )
+                  : null,
+              errorText: widget.errorText,
+              errorBorder: OutlineInputBorder(
+                borderSide: const BorderSide(
+                  color: Colors.red,
+                ),
+                borderRadius: BorderRadius.circular(10),
+              ),
+              contentPadding: const EdgeInsets.symmetric(
+                horizontal: 22,
+                vertical: 15,
+              ),
+              hintText: widget.hintText,
+              hintStyle: GoogleFonts.barlow(
+                color: Colors.grey,
+                fontSize: 20,
+              ),
+              enabledBorder: OutlineInputBorder(
+                borderSide: const BorderSide(
+                  color: Color(0xff9c9c9c),
+                ),
+                borderRadius: BorderRadius.circular(10),
+              ),
+              focusedBorder: OutlineInputBorder(
+                borderSide: BorderSide(
+                  color: ResponsiveLayout.isDesktop(context)
+                      ? Colors.black
+                      : const Color(0xFF7401FF),
+                  width: 3,
+                ),
+                borderRadius: BorderRadius.circular(10),
+              ),
+              focusedErrorBorder: OutlineInputBorder(
+                borderSide: const BorderSide(
+                  color: Colors.red,
+                ),
+                borderRadius: BorderRadius.circular(10),
+              ),
             ),
-            borderRadius: BorderRadius.circular(10),
-          ),
-          focusedBorder: OutlineInputBorder(
-            borderSide: BorderSide(
+            style: GoogleFonts.barlow(
               color: ResponsiveLayout.isDesktop(context)
                   ? Colors.black
                   : Colors.white,
-              width: ResponsiveLayout.isDesktop(context) ? 2 : 1,
+              fontSize: 20,
             ),
-            borderRadius: BorderRadius.circular(10),
-          ),
-          focusedErrorBorder: OutlineInputBorder(
-            borderSide: const BorderSide(
-              color: Colors.red,
-            ),
-            borderRadius: BorderRadius.circular(10),
           ),
         ),
-        style: GoogleFonts.barlow(
-          color:
-              ResponsiveLayout.isDesktop(context) ? Colors.black : Colors.white,
-          fontSize: 20,
-        ),
-      ),
+      ],
     );
   }
 }

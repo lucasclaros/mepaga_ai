@@ -3,7 +3,7 @@ import 'package:domain/use_cases/email_validation_uc.dart';
 import 'package:domain/use_cases/email_verification_uc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:mepaga_ai/presentation/auth/verification/common/verification_header.dart';
+import 'package:mepaga_ai/presentation/common/mpg_header.dart';
 import 'package:mepaga_ai/presentation/auth/verification/email/bloc/button_status_bloc.dart';
 import 'package:mepaga_ai/presentation/auth/verification/email/view/email_verification_view.dart';
 import 'package:mepaga_ai/presentation/auth/verification/otp/view/otp_verification_view.dart';
@@ -59,7 +59,7 @@ class _VerificationViewState extends State<VerificationView> {
             builder: (context, state) {
               return Column(
                 children: [
-                  const VerificationHeader(),
+                  const MPGHeader(title: 'Verificação de email'),
                   if (state is InitialState || state is Error)
                     const EmailVerificationView(),
                   if (state is ValidEmail)
