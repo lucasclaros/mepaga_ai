@@ -50,4 +50,7 @@ class MPGAssetsPaths implements IAppAssetsPaths {
 
   @override
   String get passwordIconUnlocked => getAssetPath('pass_unlocked.svg');
+
+  @override
+  String get doubtButton => getAssetPath('doubt_button.svg');
 }

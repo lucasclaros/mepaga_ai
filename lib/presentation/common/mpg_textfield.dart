@@ -135,6 +135,12 @@ class _MPGTextFieldState extends State<MPGTextField> {
                     )
                   : null,
               errorText: widget.errorText,
+              errorStyle: GoogleFonts.barlow(
+                color: const Color(0xffd30000),
+                fontSize: 14,
+                fontWeight: FontWeight.w400,
+                height: 0.75,
+              ),
               errorBorder: OutlineInputBorder(
                 borderSide: const BorderSide(
                   color: Color(0xffd30000),
