@@ -7,8 +7,13 @@ import 'package:mepaga_ai/presentation/common/responsivity.dart';
 import 'package:mepaga_ai/presentation/common/themes/assets/mpg_assets_paths.dart';
 import 'package:mepaga_ai/presentation/common/themes/text_styles/mpg_text_styles.dart';
 
-class VerificationHeader extends StatelessWidget {
-  const VerificationHeader({super.key});
+class MPGHeader extends StatelessWidget {
+  const MPGHeader({
+    super.key,
+    required this.title,
+  });
+
+  final String title;
 
   @override
   Widget build(BuildContext context) {
@@ -33,7 +38,7 @@ class VerificationHeader extends StatelessWidget {
           height: context.responsiveHeight(41),
         ),
         AutoSizeText(
-          'Verificação de email',
+          title,
           style: ResponsiveLayout.isDesktop(context)
               ? MPGTextStyles.of(context).verificationHeaderTitleWeb
               : MPGTextStyles.of(context).verificationHeaderTitleMobile,

@@ -76,6 +76,16 @@ abstract class IAppAssetsPaths {
   String get backButton;
 
   String get checkButton;
+
+  String get emailIcon;
+
+  String get passwordIconLocked;
+
+  String get passwordIconUnlocked;
+
+  String get passwordEyeVisible;
+
+  String get passwordEyeNotVisible;
 }
 
 abstract class AppThemeInterface {
