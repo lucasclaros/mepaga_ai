@@ -125,15 +125,16 @@ class _EmailVerificationViewState extends State<EmailVerificationView> {
                           flex: ResponsiveLayout.isMobile(context) ? 1 : 2,
                         ),
                       MPGCheckbox(
+                        isSelected: _isButtonTermsSelected,
                         buttonColor: ResponsiveLayout.isDesktop(context)
                             ? Colors.black
                             : null,
                         checkColor: ResponsiveLayout.isDesktop(context)
                             ? Colors.white
                             : null,
-                        onTap: (buttonStatus) {
+                        onTap: () {
                           setState(() {
-                            _isButtonTermsSelected = buttonStatus;
+                            _isButtonTermsSelected = !_isButtonTermsSelected;
                           });
                         },
                       ),

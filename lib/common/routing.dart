@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:mepaga_ai/presentation/auth/login/login_page.dart';
-import 'package:mepaga_ai/presentation/auth/register/register_page.dart';
+import 'package:mepaga_ai/presentation/auth/register/email/register_email_page.dart';
+import 'package:mepaga_ai/presentation/auth/register/password/register_password_page.dart';
 import 'package:mepaga_ai/presentation/auth/verification/verification_page.dart';
 import 'package:mepaga_ai/presentation/common/responsive_layout.dart';
 import 'package:mepaga_ai/presentation/onboarding/onboarding_page.dart';
@@ -10,12 +11,14 @@ import 'package:mepaga_ai/presentation/welcome/welcome_page.dart';
 const _homePage = '/';
 const _verificationPage = 'verification';
 const _onboardingPage = 'onboarding';
-const _registerPage = 'register';
+const _registerEmailPage = 'register-email';
+const _registerPassPage = 'register-pass';
 const _loginPage = 'login';
 
 const _onboardingPath = _homePage + _onboardingPage;
 const _verificationPath = _onboardingPath + _homePage + _verificationPage;
-const _registerPath = _onboardingPath + _homePage + _registerPage;
+const _registerEmailPath = _onboardingPath + _homePage + _registerEmailPage;
+const _registerPassPath = _registerEmailPath + _homePage + _registerPassPage;
 const _loginPath = _onboardingPath + _homePage + _loginPage;
 
 final routes = GoRouter(
@@ -43,13 +46,30 @@ final routes = GoRouter(
           },
           routes: [
             GoRoute(
-              path: _registerPage,
+              path: _registerEmailPage,
               pageBuilder: (context, state) {
                 return CustomSlideTransition(
                   key: state.pageKey,
-                  child: const RegisterPage(),
+                  child: const RegisterEmailPage(),
                 );
               },
+              routes: [
+                GoRoute(
+                  path: _registerPassPage,
+                  pageBuilder: (context, state) {
+                    final extraData =
+                        state.extra as Map<String, dynamic>? ?? {};
+                    final userEmail = extraData['email'] ?? '';
+
+                    return CustomSlideTransition(
+                      key: state.pageKey,
+                      child: RegisterPasswordPage(
+                        userEmail: userEmail,
+                      ),
+                    );
+                  },
+                ),
+              ],
             ),
             GoRoute(
               path: _loginPage,
@@ -76,7 +96,12 @@ extension PageNavigationExtension on GoRouter {
 
   void pushOnboardingPage() => go(_onboardingPath);
 
-  void pushRegisterPage() => go(_registerPath);
+  void pushRegisterEmailPage() => go(_registerEmailPath);
+
+  void pushRegisterPassPage(String email) => go(
+        _registerPassPath,
+        extra: {'email': email},
+      );
 
   void pushLoginPage() => go(_loginPath);
 }

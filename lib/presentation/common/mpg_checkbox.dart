@@ -10,9 +10,11 @@ class MPGCheckbox extends StatefulWidget {
     required this.onTap,
     this.buttonColor,
     this.checkColor,
+    this.isSelected = false,
   });
 
-  final Function(bool) onTap;
+  final Function()? onTap;
+  final bool isSelected;
   final Color? buttonColor;
   final Color? checkColor;
 
@@ -21,15 +23,10 @@ class MPGCheckbox extends StatefulWidget {
 }
 
 class _MPGCheckboxState extends State<MPGCheckbox> {
-  bool _isButtonTermsSelected = false;
-
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: () {
-        _isButtonTermsSelected = !_isButtonTermsSelected;
-        widget.onTap(_isButtonTermsSelected);
-      },
+      onTap: widget.onTap,
       child: AnimatedContainer(
         duration: const Duration(milliseconds: 250),
         width: ResponsiveLayout.isDesktop(context)
@@ -39,16 +36,14 @@ class _MPGCheckboxState extends State<MPGCheckbox> {
             ? context.responsiveHeight(24)
             : 24,
         decoration: BoxDecoration(
-          color: _isButtonTermsSelected
-              ? widget.buttonColor ?? Colors.white
-              : null,
+          color: widget.isSelected ? widget.buttonColor ?? Colors.white : null,
           shape: BoxShape.circle,
           border: Border.all(
             color: widget.buttonColor ?? Colors.white,
             width: 3,
           ),
         ),
-        child: _isButtonTermsSelected
+        child: widget.isSelected
             ? Center(
                 child: SvgPicture.asset(
                   MPGAssetsPaths.of(context).checkButton,

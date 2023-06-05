@@ -47,7 +47,7 @@ class _OnboardingViewState extends State<OnboardingView> {
       ),
       OnboardingHintCard(
         image: MPGAssetsPaths.of(context).simplicityLogo,
-        title: 'E quanto a burocracia?',
+        title: 'E quanto à burocracia?',
         description:
             'Buscamos a simplicidade e eficiência para a sua venda.\n\n'
             'Faça o passo a passo nas telas seguintes e, em caso de dúvidas sinta-se à vontade para nos contactar em qualquer etapa do procedimento.',
@@ -147,7 +147,7 @@ class _OnboardingViewState extends State<OnboardingView> {
                 ),
                 child: MPGButton(
                   onPressed: doneButtonCondition
-                      ? () => GoRouter.of(context).pushRegisterPage()
+                      ? () => GoRouter.of(context).pushRegisterEmailPage()
                       : () => pageController.nextPage(
                             duration: const Duration(
                               milliseconds: 450,

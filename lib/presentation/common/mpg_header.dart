@@ -19,7 +19,7 @@ class MPGHeader extends StatelessWidget {
   Widget build(BuildContext context) {
     return Column(
       children: [
-        const SizedBox(height: 15),
+        const SizedBox(height: 10),
         GestureDetector(
           onTap: () => GoRouter.of(context).pop(),
           child: Container(
@@ -36,7 +36,7 @@ class MPGHeader extends StatelessWidget {
           ),
         ),
         SizedBox(
-          height: context.responsiveHeight(41),
+          height: context.responsiveHeight(30),
         ),
         AutoSizeText(
           title,
