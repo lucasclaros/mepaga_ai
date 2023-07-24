@@ -69,8 +69,8 @@ class _GeneralProviderState extends State<GeneralProvider> {
       ];
 
   List<SingleChildWidget> _buildUseCasesProvider() => [
-        ProxyProvider2<ErrorLogger, AuthRepository, EmailVerificationUC>(
-          update: (_, logger, repository, __) => EmailVerificationUC(
+        ProxyProvider2<ErrorLogger, AuthRepository, OTPVerificationUC>(
+          update: (_, logger, repository, __) => OTPVerificationUC(
             logger: logger,
             repository: repository,
           ),

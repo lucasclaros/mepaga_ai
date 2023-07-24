@@ -32,7 +32,6 @@ class _MPGOtpTextFieldState extends State<MPGOtpTextField> {
       width: _defaulWidth,
       height: _defaulWidth,
       textStyle: MPGTextStyles.of(context).pinputDefaultTheme,
-      decoration: const BoxDecoration(),
     );
 
     final cursor = Column(

@@ -1,13 +1,11 @@
 // ignore_for_file: lines_longer_than_80_chars, use_decorated_box
 
-import 'dart:math';
-
-import 'package:email_validator/email_validator.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:mepaga_ai/common/routing.dart';
 import 'package:mepaga_ai/presentation/common/mpg_button.dart';
-import 'package:mepaga_ai/presentation/common/mpg_checkbox.dart';
 import 'package:mepaga_ai/presentation/common/mpg_confirmation_check.dart';
 import 'package:mepaga_ai/presentation/common/mpg_header.dart';
 import 'package:mepaga_ai/presentation/common/mpg_scaffold.dart';
@@ -94,42 +92,36 @@ class RegisterPasswordViewState extends State<RegisterPasswordView> {
               isSelected: _specialCharPass,
             ),
             SizedBox(height: context.responsiveHeight(25)),
-            FractionallySizedBox(
-              widthFactor: 0.8,
-              child: MPGTextField(
-                labelText: 'Digite sua senha',
-                textInputAction: TextInputAction.next,
-                controller: _passController,
-                focusNode: _passFocusNode,
-                isPassword: true,
-                hintText: 'Senha',
-                onChanged: (pass) {
-                  setState(() {
-                    _minimunCharPass = checkMiniminChar(pass);
-                    _specialCharPass = checkSpecialChar(pass);
-                    if (_confirmPassController.text.isNotEmpty) {
-                      _errorMessage = confirmPass(_confirmPassController.text);
-                    }
-                  });
-                },
-              ),
+            MPGTextField(
+              labelText: 'Digite sua senha',
+              textInputAction: TextInputAction.next,
+              controller: _passController,
+              focusNode: _passFocusNode,
+              isPassword: true,
+              hintText: 'Senha',
+              onChanged: (pass) {
+                setState(() {
+                  _minimunCharPass = checkMiniminChar(pass);
+                  _specialCharPass = checkSpecialChar(pass);
+                  if (_confirmPassController.text.isNotEmpty) {
+                    _errorMessage = confirmPass(_confirmPassController.text);
+                  }
+                });
+              },
             ),
             SizedBox(height: context.responsiveHeight(30)),
-            FractionallySizedBox(
-              widthFactor: 0.8,
-              child: MPGTextField(
-                labelText: 'Confirme sua senha',
-                controller: _confirmPassController,
-                focusNode: _confirmPassFocusNode,
-                isPassword: true,
-                hintText: 'Senha',
-                errorText: _errorMessage,
-                onChanged: (pass) {
-                  setState(() {
-                    _errorMessage = confirmPass(pass);
-                  });
-                },
-              ),
+            MPGTextField(
+              labelText: 'Confirme sua senha',
+              controller: _confirmPassController,
+              focusNode: _confirmPassFocusNode,
+              isPassword: true,
+              hintText: 'Senha',
+              errorText: _errorMessage,
+              onChanged: (pass) {
+                setState(() {
+                  _errorMessage = confirmPass(pass);
+                });
+              },
             ),
             SizedBox(height: context.responsiveHeight(30)),
             MPGConfirmationCheck(
@@ -159,7 +151,14 @@ class RegisterPasswordViewState extends State<RegisterPasswordView> {
             ),
             SizedBox(height: context.responsiveHeight(40)),
             MPGButton(
-              onPressed: () {},
+              onPressed: () {
+                if (_minimunCharPass &&
+                    _specialCharPass &&
+                    _isTermsSelected &&
+                    _errorMessage == null) {
+                  GoRouter.of(context).pushEmailVerificationPage();
+                }
+              },
               gradient: _minimunCharPass &&
                       _specialCharPass &&
                       _isTermsSelected &&

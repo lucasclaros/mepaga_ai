@@ -1,9 +1,12 @@
 // ignore_for_file: deprecated_member_use
 
+import 'dart:math';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:mepaga_ai/presentation/common/responsive_layout.dart';
+import 'package:mepaga_ai/presentation/common/responsivity.dart';
 import 'package:mepaga_ai/presentation/common/themes/assets/mpg_assets_paths.dart';
 
 class MPGTextField extends StatefulWidget {
@@ -81,7 +84,7 @@ class _MPGTextFieldState extends State<MPGTextField> {
           ),
         ),
         SizedBox(
-          width: widget.width,
+          width: widget.width ?? min(context.responsiveWidth(350), 350),
           height: widget.height,
           child: TextFormField(
             scrollPadding: const EdgeInsets.only(bottom: 50),
@@ -139,7 +142,6 @@ class _MPGTextFieldState extends State<MPGTextField> {
                 color: const Color(0xffd30000),
                 fontSize: 14,
                 fontWeight: FontWeight.w400,
-                height: 0.75,
               ),
               errorBorder: OutlineInputBorder(
                 borderSide: const BorderSide(

@@ -1,3 +1,5 @@
+// ignore_for_file: use_decorated_box, lines_longer_than_80_chars
+
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:google_fonts/google_fonts.dart';

@@ -7,6 +7,7 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:mepaga_ai/common/routing.dart';
+import 'package:mepaga_ai/data/models/user_mm.dart';
 import 'package:mepaga_ai/presentation/auth/register/email/widgets/modal_info.dart';
 import 'package:mepaga_ai/presentation/common/mpg_button.dart';
 import 'package:mepaga_ai/presentation/common/mpg_header.dart';
@@ -60,7 +61,7 @@ class RegisterEmailViewState extends State<RegisterEmailView> {
                   tags: {
                     'doubt': StyledTextWidgetTag(
                       const ModalInfo(),
-                      size: Size.square(context.responsiveWidth(25)),
+                      size: Size.square(min(context.responsiveWidth(25), 25)),
                     ),
                   },
                   style: GoogleFonts.barlow(
@@ -72,39 +73,39 @@ class RegisterEmailViewState extends State<RegisterEmailView> {
                 ),
               ),
               SizedBox(height: context.responsiveHeight(40)),
-              FractionallySizedBox(
-                widthFactor: 0.8,
-                child: MPGTextField(
-                  controller: _emailController,
-                  focusNode: _emailFocusNode,
-                  isPassword: false,
-                  hintText: 'E-mail',
-                  errorText: _errorMessage,
-                  onEditingComplete: () {
-                    _emailFocusNode.unfocus();
-                    setState(() {
-                      _errorMessage = _errorMessageMapper(
-                        _emailController.text,
-                      );
-                    });
-                  },
-                  onChanged: (email) {
-                    setState(() {
-                      if (email.isEmpty) {
-                        _isEmailValid = false;
-                        _errorMessage = null;
-                      } else {
-                        _isEmailValid = EmailValidator.validate(email);
-                      }
-                    });
-                  },
-                ),
+              MPGTextField(
+                controller: _emailController,
+                focusNode: _emailFocusNode,
+                isPassword: false,
+                hintText: 'E-mail',
+                errorText: _errorMessage,
+                onEditingComplete: () {
+                  _emailFocusNode.unfocus();
+                  setState(() {
+                    _errorMessage = _errorMessageMapper(
+                      _emailController.text,
+                    );
+                  });
+                },
+                onChanged: (email) {
+                  setState(() {
+                    if (email.isEmpty) {
+                      _isEmailValid = false;
+                      _errorMessage = null;
+                    } else {
+                      _isEmailValid = EmailValidator.validate(email);
+                    }
+                  });
+                },
               ),
               SizedBox(height: context.responsiveHeight(160)),
               MPGButton(
                 onPressed: _isEmailValid
-                    ? () => GoRouter.of(context)
-                        .pushRegisterPassPage(_emailController.text)
+                    ? () {
+                        UserMM().email = _emailController.text;
+                        GoRouter.of(context)
+                            .pushRegisterPassPage(_emailController.text);
+                      }
                     : null,
                 gradient: _isEmailValid
                     ? null

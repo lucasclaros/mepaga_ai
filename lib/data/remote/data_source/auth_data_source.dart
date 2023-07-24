@@ -10,12 +10,16 @@ class AuthRDS {
 
   final Dio dio;
 
-  Future<UserRM> validateEmailUser({required String userEmail}) async {
+  Future<UserRM> validateOTP({
+    required String userEmail,
+    required String code,
+  }) async {
     try {
       final response = await dio.post(
-        UrlBuilder.endpointEmailValidation,
+        UrlBuilder.endpointOtpValidation,
         data: {
           'email': userEmail,
+          'code': code,
         },
       );
       final user = UserRM.fromJson(response.data);
@@ -27,6 +31,26 @@ class AuthRDS {
     } catch (error) {
       if (error is DioError && error.response?.statusCode == 404) {
         throw UserNotFoundException();
+      }
+      rethrow;
+    }
+  }
+
+  Future<void> registerUser({
+    required String userEmail,
+    required String password,
+  }) async {
+    try {
+      await dio.post(
+        UrlBuilder.endpointUserRegistration,
+        data: {
+          'email': userEmail,
+          'password': password,
+        },
+      );
+    } catch (error) {
+      if (error is DioError && error.response?.statusCode == 404) {
+        throw UserAlreadyExistsException();
       }
       rethrow;
     }
