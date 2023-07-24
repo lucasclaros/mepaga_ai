@@ -34,28 +34,22 @@ class LoginViewState extends State<LoginView> {
             SizedBox(
               height: context.responsiveHeight(90),
             ),
-            FractionallySizedBox(
-              widthFactor: 0.8,
-              child: MPGTextField(
-                labelText: 'Digite seu email',
-                hintText: 'Email',
-                isPassword: false,
-                controller: _emailController,
-                focusNode: _emailFocusNode,
-              ),
+            MPGTextField(
+              labelText: 'Digite seu email',
+              hintText: 'Email',
+              isPassword: false,
+              controller: _emailController,
+              focusNode: _emailFocusNode,
             ),
             SizedBox(
               height: context.responsiveHeight(43),
             ),
-            FractionallySizedBox(
-              widthFactor: 0.8,
-              child: MPGTextField(
-                labelText: 'Digite sua senha',
-                hintText: 'Senha',
-                isPassword: true,
-                controller: _passwordController,
-                focusNode: _passwordFocusNode,
-              ),
+            MPGTextField(
+              labelText: 'Digite sua senha',
+              hintText: 'Senha',
+              isPassword: true,
+              controller: _passwordController,
+              focusNode: _passwordFocusNode,
             ),
             SizedBox(
               height: context.responsiveHeight(190),
@@ -64,9 +58,7 @@ class LoginViewState extends State<LoginView> {
               gradient: MPGColors.of(context).mpgButtonColoredGradientDisabled,
               child: Text(
                 'Login',
-                style: false
-                    ? MPGTextStyles.of(context).mpgColoredButton
-                    : MPGTextStyles.of(context).mpgColoredButtonDisabled,
+                style: MPGTextStyles.of(context).mpgColoredButtonDisabled,
               ),
             ),
           ],

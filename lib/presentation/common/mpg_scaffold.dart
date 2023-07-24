@@ -30,7 +30,13 @@ class MPGScaffold extends StatelessWidget {
           ),
           Scaffold(
             backgroundColor: backgroundColor ?? Colors.transparent,
-            body: child,
+            body: NotificationListener<OverscrollIndicatorNotification>(
+              onNotification: (OverscrollIndicatorNotification overscroll) {
+                overscroll.disallowIndicator();
+                return true;
+              },
+              child: child,
+            ),
           )
         ],
       ),

@@ -8,15 +8,15 @@ class AuthInterceptor extends InterceptorsWrapper {
   ) async {
     try {
       // final accessToken = await onlineCDS.getOnlineAuthToken();
-      final accessToken = '';
+      // final accessToken = '';
 
-      if (accessToken != null) {
-        options.headers.addAll(
-          {
-            'Authorization': 'Bearer $accessToken',
-          },
-        );
-      }
+      // if (accessToken != null) {
+      //   options.headers.addAll(
+      //     {
+      //       'Authorization': 'Bearer $accessToken',
+      //     },
+      //   );
+      // }
     } catch (_) {}
 
     handler.next(options);

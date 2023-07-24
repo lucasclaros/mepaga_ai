@@ -86,6 +86,8 @@ abstract class IAppAssetsPaths {
   String get passwordEyeVisible;
 
   String get passwordEyeNotVisible;
+
+  String get doubtButton;
 }
 
 abstract class AppThemeInterface {

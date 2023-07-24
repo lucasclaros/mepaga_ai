@@ -9,13 +9,11 @@ class AuthRepository implements IAuthRepository {
   final AuthRDS rds;
 
   @override
-  Future<User> verifyUserEmail(String userEmail) async {
-    final user = await rds.validateEmailUser(userEmail: userEmail);
+  Future<User> verifyOTP({
+    required String email,
+    required String code,
+  }) async {
+    final user = await rds.validateOTP(userEmail: email, code: code);
     return user.toDM();
-  }
-
-  @override
-  Future<bool> verifyUserOtp(User user) {
-    throw UnimplementedError();
   }
 }

@@ -1,7 +1,12 @@
+// ignore_for_file: deprecated_member_use
+
+import 'dart:math';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:mepaga_ai/presentation/common/responsive_layout.dart';
+import 'package:mepaga_ai/presentation/common/responsivity.dart';
 import 'package:mepaga_ai/presentation/common/themes/assets/mpg_assets_paths.dart';
 
 class MPGTextField extends StatefulWidget {
@@ -45,36 +50,45 @@ class MPGTextField extends StatefulWidget {
 class _MPGTextFieldState extends State<MPGTextField> {
   bool _hidePassword = true;
 
+  String getPrefixIcon() {
+    if (widget.isPassword) {
+      return _hidePassword
+          ? MPGAssetsPaths.of(context).passwordIconLocked
+          : MPGAssetsPaths.of(context).passwordIconUnlocked;
+    } else {
+      return MPGAssetsPaths.of(context).emailIcon;
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
+    final _isFieldEmpty = widget.controller?.text.isEmpty ?? false;
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Padding(
-          padding: const EdgeInsets.only(
-            bottom: 8,
-          ),
-          child: Text(
-            widget.labelText ?? '',
-            style: GoogleFonts.barlow(
-              fontWeight: FontWeight.w500,
-              color: Colors.white.withOpacity(0.8),
-              fontSize: 20,
+        Visibility(
+          visible: widget.labelText != null,
+          child: Padding(
+            padding: const EdgeInsets.only(
+              bottom: 8,
+              left: 4,
+            ),
+            child: Text(
+              widget.labelText ?? '',
+              style: GoogleFonts.barlow(
+                fontWeight: FontWeight.w500,
+                color: Colors.white.withOpacity(0.8),
+                fontSize: 20,
+              ),
             ),
           ),
         ),
         SizedBox(
-          width: widget.width,
+          width: widget.width ?? min(context.responsiveWidth(350), 350),
           height: widget.height,
           child: TextFormField(
             scrollPadding: const EdgeInsets.only(bottom: 50),
-            textAlign: ResponsiveLayout.isDesktop(context)
-                ? TextAlign.center
-                : TextAlign.start,
-            cursorColor: ResponsiveLayout.isDesktop(context)
-                ? Colors.black38
-                : Colors.grey,
-            cursorWidth: 1,
+            cursorColor: Colors.white,
             onChanged: (text) => {
               setState(() {
                 if (widget.onChanged != null) {
@@ -94,38 +108,44 @@ class _MPGTextFieldState extends State<MPGTextField> {
             decoration: InputDecoration(
               filled: true,
               fillColor: Colors.black.withOpacity(0.5),
-              prefixIcon: SvgPicture.asset(
-                _hidePassword
-                    ? MPGAssetsPaths.of(context).passwordIconLocked
-                    : MPGAssetsPaths.of(context).passwordIconUnlocked,
+              prefixIcon: IconButton(
+                splashRadius: 0.01,
+                icon: SvgPicture.asset(
+                  getPrefixIcon(),
+                  color:
+                      widget.errorText == null ? null : const Color(0xffd30000),
+                ),
+                onPressed: null,
+                color:
+                    widget.errorText == null ? null : const Color(0xffd30000),
               ),
-              suffixIcon: widget.isPassword && widget.controller?.text != ''
-                  ? Padding(
-                      padding: const EdgeInsets.only(right: 16),
-                      child: IconButton(
-                        splashRadius: 0.01,
-                        icon: _hidePassword
-                            ? SvgPicture.asset(
-                                MPGAssetsPaths.of(context)
-                                    .passwordEyeNotVisible,
-                              )
-                            : SvgPicture.asset(
-                                MPGAssetsPaths.of(context).passwordEyeVisible,
-                              ),
-                        onPressed: () {
-                          setState(() {
-                            _hidePassword = !_hidePassword;
-                          });
-                        },
-                        color:
-                            widget.errorText == null ? Colors.grey : Colors.red,
+              suffixIcon: widget.isPassword && !_isFieldEmpty
+                  ? IconButton(
+                      splashRadius: 0.01,
+                      icon: SvgPicture.asset(
+                        _hidePassword
+                            ? MPGAssetsPaths.of(context).passwordEyeNotVisible
+                            : MPGAssetsPaths.of(context).passwordEyeVisible,
+                        color: widget.errorText == null
+                            ? null
+                            : const Color(0xffd30000),
                       ),
+                      onPressed: () {
+                        setState(() {
+                          _hidePassword = !_hidePassword;
+                        });
+                      },
                     )
                   : null,
               errorText: widget.errorText,
+              errorStyle: GoogleFonts.barlow(
+                color: const Color(0xffd30000),
+                fontSize: 14,
+                fontWeight: FontWeight.w400,
+              ),
               errorBorder: OutlineInputBorder(
                 borderSide: const BorderSide(
-                  color: Colors.red,
+                  color: Color(0xffd30000),
                 ),
                 borderRadius: BorderRadius.circular(10),
               ),
@@ -155,7 +175,7 @@ class _MPGTextFieldState extends State<MPGTextField> {
               ),
               focusedErrorBorder: OutlineInputBorder(
                 borderSide: const BorderSide(
-                  color: Colors.red,
+                  color: Color(0xffd30000),
                 ),
                 borderRadius: BorderRadius.circular(10),
               ),

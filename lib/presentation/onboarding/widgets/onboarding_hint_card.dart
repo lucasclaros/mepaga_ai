@@ -4,7 +4,6 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:mepaga_ai/presentation/common/responsive_layout.dart';
 import 'package:mepaga_ai/presentation/common/responsivity.dart';
 import 'package:mepaga_ai/presentation/common/themes/text_styles/mpg_text_styles.dart';
-import 'package:responsive_styles/responsive_styles.dart';
 
 class OnboardingHintCard extends StatefulWidget {
   const OnboardingHintCard({
