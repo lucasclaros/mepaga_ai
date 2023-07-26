@@ -1,7 +1,9 @@
+// ignore_for_file: avoid_dynamic_calls
+
 import 'package:dio/dio.dart';
 import 'package:domain/exceptions.dart';
 import 'package:mepaga_ai/data/remote/infra/url_builder.dart';
-import 'package:mepaga_ai/data/remote/models/user_rm.dart';
+import 'package:mepaga_ai/data/remote/models/user_auth_rm.dart';
 
 class AuthRDS {
   AuthRDS({
@@ -10,31 +12,55 @@ class AuthRDS {
 
   final Dio dio;
 
-  Future<UserRM> validateOTP({
-    required String userEmail,
-    required String code,
+  Future<UserAuthRM> login({
+    required String email,
+    required String password,
   }) async {
     try {
       final response = await dio.post(
-        UrlBuilder.endpointOtpValidation,
+        UrlBuilder.endpointUserLogin,
         data: {
-          'email': userEmail,
-          'code': code,
+          'email': email,
+          'password': password,
         },
       );
-      final user = UserRM.fromJson(response.data);
-      return UserRM(
-        id: user.id,
-        profile: user.profile,
-        email: userEmail,
-      );
+
+      return UserAuthRM.fromJson(response.data);
     } catch (error) {
-      if (error is DioError && error.response?.statusCode == 404) {
-        throw UserNotFoundException();
+      if (error is DioException && error.response != null) {
+        throw UnexpectedException(
+          message: error.response!.data['message'] ?? 'Something went wrong',
+        );
       }
-      rethrow;
+      throw UnexpectedException(message: 'Something went wrong');
     }
   }
+
+  // Future<UserRM> validateOTP({
+  //   required String userEmail,
+  //   required String code,
+  // }) async {
+  //   try {
+  //     final response = await dio.post(
+  //       UrlBuilder.endpointOtpValidation,
+  //       data: {
+  //         'email': userEmail,
+  //         'code': code,
+  //       },
+  //     );
+  //     final user = UserRM.fromJson(response.data);
+  //     return UserRM(
+  //       id: user.id,
+  //       profile: user.profile,
+  //       email: userEmail,
+  //     );
+  //   } catch (error) {
+  //     if (error is DioException && error.response?.statusCode == 404) {
+  //       throw UserNotFoundException();
+  //     }
+  //     rethrow;
+  //   }
+  // }
 
   Future<void> registerUser({
     required String userEmail,
@@ -49,7 +75,7 @@ class AuthRDS {
         },
       );
     } catch (error) {
-      if (error is DioError && error.response?.statusCode == 404) {
+      if (error is DioException && error.response?.statusCode == 404) {
         throw UserAlreadyExistsException();
       }
       rethrow;

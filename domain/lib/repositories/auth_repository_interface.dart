@@ -1,8 +1,8 @@
-import 'package:domain/models/user.dart';
+import 'package:domain/models/user_auth.dart';
 
 abstract class IAuthRepository {
-  Future<User> verifyOTP({
+  Future<UserAuth> login({
     required String email,
-    required String code,
+    required String password,
   });
 }

@@ -1,7 +1,6 @@
 import 'package:dio/dio.dart';
 import 'package:domain/logger.dart';
-import 'package:domain/use_cases/email_validation_uc.dart';
-import 'package:domain/use_cases/email_verification_uc.dart';
+import 'package:domain/use_cases/user_login_uc.dart';
 import 'package:flutter/material.dart';
 import 'package:mepaga_ai/data/remote/data_source/auth_data_source.dart';
 import 'package:mepaga_ai/data/repositories/data_repository.dart';
@@ -69,16 +68,11 @@ class _GeneralProviderState extends State<GeneralProvider> {
       ];
 
   List<SingleChildWidget> _buildUseCasesProvider() => [
-        ProxyProvider2<ErrorLogger, AuthRepository, OTPVerificationUC>(
-          update: (_, logger, repository, __) => OTPVerificationUC(
+        ProxyProvider2<ErrorLogger, AuthRepository, UserLoginUC>(
+          update: (_, logger, repository, __) => UserLoginUC(
             logger: logger,
             repository: repository,
           ),
         ),
-        ProxyProvider<ErrorLogger, EmailValidationUC>(
-          update: (_, logger, __) => EmailValidationUC(
-            logger: logger,
-          ),
-        )
       ];
 }

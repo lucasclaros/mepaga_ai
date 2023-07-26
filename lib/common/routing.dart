@@ -5,6 +5,7 @@ import 'package:mepaga_ai/presentation/auth/otp_verification/otp_verification_pa
 import 'package:mepaga_ai/presentation/auth/register/email/register_email_page.dart';
 import 'package:mepaga_ai/presentation/auth/register/password/register_password_page.dart';
 import 'package:mepaga_ai/presentation/common/responsive_layout.dart';
+import 'package:mepaga_ai/presentation/home/home_page.dart';
 import 'package:mepaga_ai/presentation/onboarding/onboarding_page.dart';
 import 'package:mepaga_ai/presentation/welcome/welcome_page.dart';
 
@@ -14,12 +15,14 @@ const _onboardingPage = 'onboarding';
 const _registerEmailPage = 'register-email';
 const _registerPassPage = 'register-pass';
 const _loginPage = 'login';
+const _startPage = 'start';
 
 const _onboardingPath = _homePage + _onboardingPage;
 const _registerEmailPath = _onboardingPath + _homePage + _registerEmailPage;
 const _registerPassPath = _registerEmailPath + _homePage + _registerPassPage;
 const _verificationPath = _registerPassPath + _homePage + _verificationPage;
 const _loginPath = _onboardingPath + _homePage + _loginPage;
+const _startPath = _homePage + _startPage;
 
 final routes = GoRouter(
   redirect: (context, state) {
@@ -71,7 +74,10 @@ final routes = GoRouter(
                   routes: [
                     GoRoute(
                       path: _verificationPage,
-                      builder: (context, state) => const OTPVerificationPage(),
+                      pageBuilder: (context, state) => CustomSlideTransition(
+                        key: state.pageKey,
+                        child: const OTPVerificationPage(),
+                      ),
                     )
                   ],
                 ),
@@ -87,6 +93,15 @@ final routes = GoRouter(
               },
             ),
           ],
+        ),
+        GoRoute(
+          path: _startPage,
+          pageBuilder: (context, state) {
+            return CustomSlideTransition(
+              key: state.pageKey,
+              child: const HomePage(),
+            );
+          },
         ),
       ],
     ),
@@ -106,6 +121,8 @@ extension PageNavigationExtension on GoRouter {
       );
 
   void pushLoginPage() => go(_loginPath);
+
+  void pushStartPage() => go(_startPath);
 }
 
 class CustomSlideTransition extends CustomTransitionPage<void> {

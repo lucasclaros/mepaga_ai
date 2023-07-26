@@ -1,11 +1,11 @@
 class UrlBuilder {
   static const _hmlApi = 'https://api.mepaga.ai';
 
-  static const _userRegistration = '/users/create';
+  static const _userRegistration = '/user/create';
 
-  static const _otpValidation = '/users/validate-code';
+  static const _otpValidation = '/user/validate-code';
 
-  static const _userLogin = '/users/login';
+  static const _userLogin = '/user/login';
 
   static String get endpointUserRegistration => _hmlApi + _userRegistration;
 

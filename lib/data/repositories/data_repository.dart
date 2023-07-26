@@ -1,4 +1,4 @@
-import 'package:domain/models/user.dart';
+import 'package:domain/models/user_auth.dart';
 import 'package:domain/repositories/auth_repository_interface.dart';
 import 'package:mepaga_ai/data/mappers/remote_to_domain.dart';
 import 'package:mepaga_ai/data/remote/data_source/auth_data_source.dart';
@@ -9,11 +9,20 @@ class AuthRepository implements IAuthRepository {
   final AuthRDS rds;
 
   @override
-  Future<User> verifyOTP({
+  Future<UserAuth> login({
     required String email,
-    required String code,
+    required String password,
   }) async {
-    final user = await rds.validateOTP(userEmail: email, code: code);
-    return user.toDM();
+    final userAuth = await rds.login(email: email, password: password);
+    return userAuth.toDM();
   }
+
+  // @override
+  // Future<dynamic> verifyOTP({
+  //   required String email,
+  //   required String code,
+  // }) async {
+  //   final user = await rds.validateOTP(userEmail: email, code: code);
+  //   return user.toDM();
+  // }
 }

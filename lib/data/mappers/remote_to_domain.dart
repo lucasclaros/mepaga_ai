@@ -1,17 +1,9 @@
-import 'package:domain/models/user.dart';
-import 'package:mepaga_ai/data/remote/models/user_rm.dart';
+import 'package:domain/models/user_auth.dart';
+import 'package:mepaga_ai/data/remote/models/user_auth_rm.dart';
 
-extension UserRMMappers on UserRM {
-  User toDM() => User(
-        id: id,
-        email: email ?? '',
-        profile: profile.toDM(),
-      );
-}
-
-extension UserProfileRMMappres on ProfileRM {
-  Profile toDM() => Profile(
-        name: name,
-        picture: picture,
+extension UserAuthRMMappers on UserAuthRM {
+  UserAuth toDM() => UserAuth(
+        auth: auth,
+        name: name ?? '',
       );
 }
