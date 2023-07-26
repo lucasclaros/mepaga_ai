@@ -2,8 +2,8 @@
 
 import 'package:dio/dio.dart';
 import 'package:domain/exceptions.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:mepaga_ai/data/remote/infra/url_builder.dart';
-import 'package:mepaga_ai/data/remote/models/user_auth_rm.dart';
 
 class AuthRDS {
   AuthRDS({
@@ -12,7 +12,7 @@ class AuthRDS {
 
   final Dio dio;
 
-  Future<UserAuthRM> login({
+  Future<String> login({
     required String email,
     required String password,
   }) async {
@@ -25,7 +25,7 @@ class AuthRDS {
         },
       );
 
-      return UserAuthRM.fromJson(response.data);
+      return response.data['auth'];
     } catch (error) {
       if (error is DioException && error.response != null) {
         throw UnexpectedException(
@@ -34,6 +34,22 @@ class AuthRDS {
       }
       throw UnexpectedException(message: 'Something went wrong');
     }
+  }
+
+  Future<void> cacheValue(String key, String value) {
+    const _secureStorage = FlutterSecureStorage();
+    return _secureStorage.write(key: key, value: value);
+  }
+
+  Future<String?> getValueFromCache(String key) async {
+    const _secureStorage = FlutterSecureStorage();
+    final value = await _secureStorage.read(key: key);
+    return value;
+  }
+
+  Future<void> logout() async {
+    const _secureStorage = FlutterSecureStorage();
+    await _secureStorage.delete(key: 'jwt');
   }
 
   // Future<UserRM> validateOTP({

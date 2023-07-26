@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:mepaga_ai/data/remote/data_source/auth_data_source.dart';
 import 'package:mepaga_ai/presentation/auth/login/login_page.dart';
 import 'package:mepaga_ai/presentation/auth/otp_verification/otp_verification_page.dart';
 import 'package:mepaga_ai/presentation/auth/register/email/register_email_page.dart';
@@ -8,6 +9,7 @@ import 'package:mepaga_ai/presentation/common/responsive_layout.dart';
 import 'package:mepaga_ai/presentation/home/home_page.dart';
 import 'package:mepaga_ai/presentation/onboarding/onboarding_page.dart';
 import 'package:mepaga_ai/presentation/welcome/welcome_page.dart';
+import 'package:provider/provider.dart';
 
 const _homePage = '/';
 const _verificationPage = 'verification';
@@ -25,12 +27,12 @@ const _loginPath = _onboardingPath + _homePage + _loginPage;
 const _startPath = _homePage + _startPage;
 
 final routes = GoRouter(
-  redirect: (context, state) {
-    if (ResponsiveLayout.isDesktop(context)) {
-      if (state.location == (_homePage + _verificationPage) ||
-          state.location == _verificationPath) {
-        return _onboardingPath;
-      }
+  redirect: (context, state) async {
+    final authRds = context.read<AuthRDS>();
+    final token = await authRds.getValueFromCache('jwt');
+
+    if (token != null) {
+      return _startPath;
     }
     return null;
   },
@@ -97,9 +99,11 @@ final routes = GoRouter(
         GoRoute(
           path: _startPage,
           pageBuilder: (context, state) {
+            final extraData = state.extra as Map<String, dynamic>? ?? {};
+            final showFlushbar = extraData['showFlushbar'] ?? false;
             return CustomSlideTransition(
               key: state.pageKey,
-              child: const HomePage(),
+              child: HomePage.create(showFlushbar: showFlushbar),
             );
           },
         ),
@@ -122,7 +126,14 @@ extension PageNavigationExtension on GoRouter {
 
   void pushLoginPage() => go(_loginPath);
 
-  void pushStartPage() => go(_startPath);
+  void pushStartPage({bool showFlushbar = false}) => go(
+        _startPath,
+        extra: {
+          'showFlushbar': showFlushbar,
+        },
+      );
+
+  void pushHomePage() => go(_homePage);
 }
 
 class CustomSlideTransition extends CustomTransitionPage<void> {

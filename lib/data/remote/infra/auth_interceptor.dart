@@ -1,4 +1,5 @@
 import 'package:dio/dio.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 
 class AuthInterceptor extends InterceptorsWrapper {
   @override
@@ -7,16 +8,16 @@ class AuthInterceptor extends InterceptorsWrapper {
     RequestInterceptorHandler handler,
   ) async {
     try {
-      // final accessToken = await onlineCDS.getOnlineAuthToken();
-      // final accessToken = '';
+      const _secureStorage = FlutterSecureStorage();
+      final accessToken = await _secureStorage.read(key: 'jwt');
 
-      // if (accessToken != null) {
-      //   options.headers.addAll(
-      //     {
-      //       'Authorization': 'Bearer $accessToken',
-      //     },
-      //   );
-      // }
+      if (accessToken != '') {
+        options.headers.addAll(
+          {
+            'Authorization': accessToken,
+          },
+        );
+      }
     } catch (_) {}
 
     handler.next(options);

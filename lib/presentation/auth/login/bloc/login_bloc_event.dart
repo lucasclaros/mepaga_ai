@@ -12,3 +12,5 @@ class UserLogin extends LoginBlocEvent {
   final String email;
   final String password;
 }
+
+class UserLogout extends LoginBlocEvent {}

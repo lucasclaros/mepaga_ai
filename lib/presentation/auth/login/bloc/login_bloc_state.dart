@@ -14,3 +14,5 @@ class LoginBlocError extends LoginBlocState {
 
   final String message;
 }
+
+class LoginBlocLogout extends LoginBlocState {}

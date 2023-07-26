@@ -12,3 +12,5 @@ class UnexpectedException extends MPGException {
 class UserNotFoundException extends MPGException {}
 
 class UserAlreadyExistsException extends MPGException {}
+
+class CacheValueNotFoundException extends MPGException {}
