@@ -26,7 +26,7 @@ class AuthRDS {
 
       return response.data['auth'];
     } catch (error) {
-      if (error is DioException && error.response != null) {
+      if (error is DioError && error.response != null) {
         throw UnexpectedException(
           message: error.response!.data['message'] ?? 'Something went wrong',
         );
@@ -74,7 +74,7 @@ class AuthRDS {
         },
       );
     } catch (error) {
-      if (error is DioException && error.response?.statusCode == 404) {
+      if (error is DioError && error.response?.statusCode == 404) {
         throw UserAlreadyExistsException();
       }
       rethrow;

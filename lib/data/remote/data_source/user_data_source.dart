@@ -19,7 +19,7 @@ class UserRDS {
       final user = UserRM.fromJson(response.data);
       return user;
     } catch (error) {
-      if (error is DioException && error.response != null) {
+      if (error is DioError && error.response != null) {
         throw UnexpectedException(
           message: error.response!.data['message'] ?? 'Something went wrong',
         );
