@@ -11,9 +11,11 @@ class MPGHeader extends StatelessWidget {
   const MPGHeader({
     super.key,
     required this.title,
+    this.isBackButtonVisible = true,
   });
 
   final String title;
+  final bool isBackButtonVisible;
 
   @override
   Widget build(BuildContext context) {
@@ -29,15 +31,18 @@ class MPGHeader extends StatelessWidget {
               vertical: context.responsiveHeight(16),
               horizontal: context.responsiveWidth(18),
             ),
-            child: SvgPicture.asset(
-              MPGAssetsPaths.of(context).backButton,
-              width: 24,
+            child: Visibility(
+              visible: isBackButtonVisible,
+              child: SvgPicture.asset(
+                MPGAssetsPaths.of(context).backButton,
+                width: 24,
+              ),
             ),
           ),
         ),
-        SizedBox(
-          height: context.responsiveHeight(30),
-        ),
+        // SizedBox(
+        //   height: context.responsiveHeight(30),
+        // ),
         AutoSizeText(
           title,
           style: ResponsiveLayout.isDesktop(context)

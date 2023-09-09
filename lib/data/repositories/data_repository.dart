@@ -34,4 +34,22 @@ class AuthRepository implements IAuthRepository {
   Future<String?> getJWT() {
     return cds.getJWT();
   }
+
+  @override
+  Future<void> registerUser({
+    required String name,
+    required String userEmail,
+    required String password,
+  }) {
+    return rds.registerUser(
+      name: name,
+      userEmail: userEmail,
+      password: password,
+    );
+  }
+
+  @override
+  Future<String> verifyOTP({required String email, required String code}) {
+    throw UnimplementedError();
+  }
 }

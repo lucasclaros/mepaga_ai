@@ -52,6 +52,7 @@ class _HomePageState extends State<HomePage> {
           children: [
             MPGHeader(
               title: 'Olá, ${UserMM().name}!',
+              isBackButtonVisible: false,
             ),
             const SizedBox(height: 30),
             MPGButton(

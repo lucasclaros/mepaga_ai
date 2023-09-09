@@ -26,6 +26,7 @@ class MPGTextField extends StatefulWidget {
     this.width,
     this.height,
     this.errorText,
+    this.prefixIcon,
   });
 
   final String? hintText;
@@ -42,6 +43,7 @@ class MPGTextField extends StatefulWidget {
   final double? width;
   final double? height;
   final String? errorText;
+  final String? prefixIcon;
 
   @override
   State<MPGTextField> createState() => _MPGTextFieldState();
@@ -51,6 +53,10 @@ class _MPGTextFieldState extends State<MPGTextField> {
   bool _hidePassword = true;
 
   String getPrefixIcon() {
+    if (widget.prefixIcon != null) {
+      return widget.prefixIcon!;
+    }
+
     if (widget.isPassword) {
       return _hidePassword
           ? MPGAssetsPaths.of(context).passwordIconLocked

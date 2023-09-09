@@ -9,4 +9,15 @@ abstract class IAuthRepository {
   Future<String?> getJWT();
 
   Future<void> logout();
+
+  Future<void> registerUser({
+    required String name,
+    required String userEmail,
+    required String password,
+  });
+
+  Future<String> verifyOTP({
+    required String email,
+    required String code,
+  });
 }
