@@ -1,10 +1,15 @@
 import 'package:domain/repositories/auth_repository_interface.dart';
+import 'package:mepaga_ai/data/cache/data_source/online_cds.dart';
 import 'package:mepaga_ai/data/remote/data_source/auth_data_source.dart';
 
 class AuthRepository implements IAuthRepository {
-  AuthRepository({required this.rds});
+  AuthRepository({
+    required this.rds,
+    required this.cds,
+  });
 
   final AuthRDS rds;
+  final OnlineCDS cds;
 
   @override
   Future<String> login({
@@ -17,25 +22,16 @@ class AuthRepository implements IAuthRepository {
 
   @override
   Future<void> logout() {
-    return rds.logout();
+    return cds.logout();
   }
 
   @override
-  Future<void> cacheValue({required String key, required String value}) {
-    return rds.cacheValue(key, value);
+  Future<void> cacheJWT(String authToken) {
+    return cds.cacheJWT(authToken);
   }
 
   @override
-  Future<String?> getValueFromCache({required String key}) {
-    return rds.getValueFromCache(key);
+  Future<String?> getJWT() {
+    return cds.getJWT();
   }
-
-  // @override
-  // Future<dynamic> verifyOTP({
-  //   required String email,
-  //   required String code,
-  // }) async {
-  //   final user = await rds.validateOTP(userEmail: email, code: code);
-  //   return user.toDM();
-  // }
 }

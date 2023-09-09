@@ -1,13 +1,17 @@
 import 'package:dio/dio.dart';
 import 'package:domain/logger.dart';
-import 'package:domain/use_cases/get_cache_value_uc.dart';
-import 'package:domain/use_cases/set_cache_value_uc.dart';
+import 'package:domain/use_cases/cache_jwt_uc.dart';
+import 'package:domain/use_cases/get_jwt_uc.dart';
 import 'package:domain/use_cases/user_login_uc.dart';
 import 'package:domain/use_cases/user_logout_uc.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
+import 'package:mepaga_ai/data/cache/data_source/online_cds.dart';
 import 'package:mepaga_ai/data/remote/data_source/auth_data_source.dart';
+import 'package:mepaga_ai/data/remote/data_source/user_data_source.dart';
 import 'package:mepaga_ai/data/remote/infra/auth_interceptor.dart';
 import 'package:mepaga_ai/data/repositories/data_repository.dart';
+import 'package:mepaga_ai/data/repositories/user_repository.dart';
 import 'package:mepaga_ai/presentation/common/themes/app_theme_interface.dart';
 import 'package:mepaga_ai/presentation/common/themes/mpg_theme.dart';
 import 'package:provider/provider.dart';
@@ -31,14 +35,21 @@ class _GeneralProviderState extends State<GeneralProvider> {
   @override
   Widget build(BuildContext context) => MultiProvider(
         providers: [
+          _buildDependenciesProvider(),
           _buildErrorLoggerProvider(),
           _buildThemeProvider(),
+          ..._buildCDSProvider(),
           _buildDioProvider(),
           ..._buildRDSProvider(),
           ..._buildRepositoriesProvider(),
           ..._buildUseCasesProvider(),
         ],
         child: widget.child,
+      );
+
+  SingleChildWidget _buildDependenciesProvider() =>
+      Provider<FlutterSecureStorage>(
+        create: (_) => const FlutterSecureStorage(),
       );
 
   SingleChildWidget _buildThemeProvider() => Provider<AppThemeInterface>(
@@ -49,26 +60,41 @@ class _GeneralProviderState extends State<GeneralProvider> {
         create: (_) => widget.errorLogger,
       );
 
-  SingleChildWidget _buildDioProvider() => Provider<Dio>(
-        create: (context) {
+  SingleChildWidget _buildDioProvider() => ProxyProvider<OnlineCDS, Dio>(
+        update: (_, cds, __) {
           final dio = Dio()
             ..interceptors.add(
-              AuthInterceptor(),
+              AuthInterceptor(onlineCDS: cds),
             );
           return dio;
         },
       );
 
+  List<SingleChildWidget> _buildCDSProvider() => [
+        ProxyProvider<FlutterSecureStorage, OnlineCDS>(
+          update: (_, secure, __) => OnlineCDS(secureStorage: secure),
+        ),
+      ];
+
   List<SingleChildWidget> _buildRDSProvider() => [
         ProxyProvider<Dio, AuthRDS>(
           update: (_, dio, __) => AuthRDS(dio: dio),
-        )
+        ),
+        ProxyProvider<Dio, UserRDS>(
+          update: (_, dio, __) => UserRDS(dio: dio),
+        ),
       ];
 
   List<SingleChildWidget> _buildRepositoriesProvider() => [
-        ProxyProvider<AuthRDS, AuthRepository>(
-          update: (_, rds, __) => AuthRepository(rds: rds),
-        )
+        ProxyProvider2<AuthRDS, OnlineCDS, AuthRepository>(
+          update: (_, rds, cds, __) => AuthRepository(
+            rds: rds,
+            cds: cds,
+          ),
+        ),
+        ProxyProvider<UserRDS, UserRepository>(
+          update: (_, rds, __) => UserRepository(rds: rds),
+        ),
       ];
 
   List<SingleChildWidget> _buildUseCasesProvider() => [
@@ -84,14 +110,14 @@ class _GeneralProviderState extends State<GeneralProvider> {
             repository: repository,
           ),
         ),
-        ProxyProvider2<ErrorLogger, AuthRepository, GetCacheValueUC>(
-          update: (_, logger, repository, __) => GetCacheValueUC(
+        ProxyProvider2<ErrorLogger, AuthRepository, GetJwtUC>(
+          update: (_, logger, repository, __) => GetJwtUC(
             logger: logger,
             repository: repository,
           ),
         ),
-        ProxyProvider2<ErrorLogger, AuthRepository, SetCacheValueUC>(
-          update: (_, logger, repository, __) => SetCacheValueUC(
+        ProxyProvider2<ErrorLogger, AuthRepository, CacheJwtUC>(
+          update: (_, logger, repository, __) => CacheJwtUC(
             logger: logger,
             repository: repository,
           ),

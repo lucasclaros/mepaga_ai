@@ -4,9 +4,9 @@ abstract class IAuthRepository {
     required String password,
   });
 
-  Future<void> cacheValue({required String key, required String value});
+  Future<void> cacheJWT(String jwt);
 
-  Future<String?> getValueFromCache({required String key});
+  Future<String?> getJWT();
 
   Future<void> logout();
 }

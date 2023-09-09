@@ -1,6 +1,5 @@
-import 'package:domain/use_cases/set_cache_value_uc.dart';
+import 'package:domain/use_cases/cache_jwt_uc.dart';
 import 'package:domain/use_cases/user_login_uc.dart';
-import 'package:domain/use_cases/user_logout_uc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
@@ -21,8 +20,7 @@ class LoginView extends StatefulWidget {
   static Widget create() => BlocProvider<LoginBloc>(
         create: (context) => LoginBloc(
           userLoginUC: context.read<UserLoginUC>(),
-          userLogoutUC: context.read<UserLogoutUC>(),
-          setCacheValueUC: context.read<SetCacheValueUC>(),
+          cacheJwtUC: context.read<CacheJwtUC>(),
         ),
         child: const LoginView(),
       );

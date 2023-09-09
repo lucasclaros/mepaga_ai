@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:mepaga_ai/data/cache/data_source/online_cds.dart';
 import 'package:mepaga_ai/data/remote/data_source/auth_data_source.dart';
 import 'package:mepaga_ai/presentation/auth/login/login_page.dart';
 import 'package:mepaga_ai/presentation/auth/otp_verification/otp_verification_page.dart';
@@ -28,8 +29,8 @@ const _startPath = _homePage + _startPage;
 
 final routes = GoRouter(
   redirect: (context, state) async {
-    final authRds = context.read<AuthRDS>();
-    final token = await authRds.getValueFromCache('jwt');
+    final onlineCds = context.read<OnlineCDS>();
+    final token = await onlineCds.getJWT();
 
     if (token != null) {
       return _startPath;

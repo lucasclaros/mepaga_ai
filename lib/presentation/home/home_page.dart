@@ -1,14 +1,11 @@
-import 'package:another_flushbar/flushbar.dart';
-import 'package:domain/use_cases/set_cache_value_uc.dart';
-import 'package:domain/use_cases/user_login_uc.dart';
-import 'package:domain/use_cases/user_logout_uc.dart';
+import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:mepaga_ai/common/routing.dart';
+import 'package:mepaga_ai/data/cache/data_source/online_cds.dart';
 import 'package:mepaga_ai/data/models/user_mm.dart';
-import 'package:mepaga_ai/presentation/auth/login/bloc/login_bloc.dart';
 import 'package:mepaga_ai/presentation/common/mpg_button.dart';
 import 'package:mepaga_ai/presentation/common/mpg_header.dart';
 import 'package:mepaga_ai/presentation/common/mpg_scaffold.dart';
@@ -23,15 +20,8 @@ class HomePage extends StatefulWidget {
 
   final bool showFlushbar;
 
-  static Widget create({bool showFlushbar = false}) => BlocProvider<LoginBloc>(
-        create: (context) => LoginBloc(
-          userLoginUC: context.read<UserLoginUC>(),
-          userLogoutUC: context.read<UserLogoutUC>(),
-          setCacheValueUC: context.read<SetCacheValueUC>(),
-        ),
-        child: HomePage(
-          showFlushbar: showFlushbar,
-        ),
+  static Widget create({bool showFlushbar = false}) => HomePage(
+        showFlushbar: showFlushbar,
       );
 
   @override
@@ -56,31 +46,30 @@ class _HomePageState extends State<HomePage> {
 
   @override
   Widget build(BuildContext context) {
-    return BlocListener<LoginBloc, LoginBlocState>(
-      listener: (context, state) {
-        if (state is LoginBlocLogout) {
-          GoRouter.of(context).pushHomePage();
-        }
-      },
-      child: MPGScaffold(
-        child: SingleChildScrollView(
-          child: Column(
-            children: [
-              MPGHeader(
-                title: 'Olá, ${UserMM().name}!',
+    return MPGScaffold(
+      child: SingleChildScrollView(
+        child: Column(
+          children: [
+            MPGHeader(
+              title: 'Olá, ${UserMM().name}!',
+            ),
+            const SizedBox(height: 30),
+            MPGButton(
+              child: Text(
+                'Logout',
+                style: MPGTextStyles.of(context).mpgColoredButton,
               ),
-              const SizedBox(height: 30),
-              MPGButton(
-                child: Text(
-                  'Logout',
-                  style: MPGTextStyles.of(context).mpgColoredButton,
-                ),
-                onPressed: () {
-                  context.read<LoginBloc>().add(UserLogout());
-                },
-              ),
-            ],
-          ),
+              onPressed: () async {
+                // await context.read<OnlineCDS>().logout();
+                // GoRouter.of(context).pushHomePage();
+                // final dio = context.read<Dio>();
+                // final response = await dio.get(
+                //   'https://api.mepaga.ai/user',
+                // );
+                // print('TESTE ${response}');
+              },
+            ),
+          ],
         ),
       ),
     );
