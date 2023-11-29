@@ -14,6 +14,7 @@ import 'package:mepaga_ai/presentation/common/mpg_header.dart';
 import 'package:mepaga_ai/presentation/common/mpg_scaffold.dart';
 import 'package:mepaga_ai/presentation/common/mpg_textfield.dart';
 import 'package:mepaga_ai/presentation/common/responsivity.dart';
+import 'package:mepaga_ai/presentation/common/themes/assets/mpg_assets_paths.dart';
 import 'package:mepaga_ai/presentation/common/themes/colors/mpg_colors.dart';
 import 'package:mepaga_ai/presentation/common/themes/text_styles/mpg_text_styles.dart';
 import 'package:styled_text/styled_text.dart';
@@ -29,13 +30,23 @@ class RegisterEmailView extends StatefulWidget {
 
 class RegisterEmailViewState extends State<RegisterEmailView> {
   bool _isEmailValid = false;
-  String? _errorMessage;
+  bool _isNameValid = false;
+  String? _emailErrorMessage;
+  String? _nameErrorMessage;
   final _emailController = TextEditingController();
+  final _nameController = TextEditingController();
   final _emailFocusNode = FocusNode();
 
-  String? _errorMessageMapper(String email) {
+  String? _emailErrorMessageMapper(String email) {
     if (!_isEmailValid && email.isNotEmpty) {
       return 'Email Inválido. Tente Novamente';
+    }
+    return null;
+  }
+
+  String? _nameErrorMessageMapper(String name) {
+    if (!_isNameValid && name.isNotEmpty) {
+      return 'Nome Inválido. Tente Novamente';
     }
     return null;
   }
@@ -74,15 +85,41 @@ class RegisterEmailViewState extends State<RegisterEmailView> {
               ),
               SizedBox(height: context.responsiveHeight(40)),
               MPGTextField(
+                controller: _nameController,
+                isPassword: false,
+                hintText: 'Nome',
+                prefixIcon: MPGAssetsPaths.of(context).userIcon,
+                errorText: _nameErrorMessage,
+                onEditingComplete: () {
+                  _emailFocusNode.requestFocus();
+                  setState(() {
+                    _nameErrorMessage = _nameErrorMessageMapper(
+                      _nameController.text,
+                    );
+                  });
+                },
+                textInputAction: TextInputAction.next,
+                onChanged: (name) {
+                  setState(() {
+                    if (name.isEmpty || name.length < 3) {
+                      _isNameValid = false;
+                    } else {
+                      _isNameValid = true;
+                    }
+                  });
+                },
+              ),
+              SizedBox(height: context.responsiveHeight(29)),
+              MPGTextField(
                 controller: _emailController,
                 focusNode: _emailFocusNode,
                 isPassword: false,
                 hintText: 'E-mail',
-                errorText: _errorMessage,
+                errorText: _emailErrorMessage,
                 onEditingComplete: () {
                   _emailFocusNode.unfocus();
                   setState(() {
-                    _errorMessage = _errorMessageMapper(
+                    _emailErrorMessage = _emailErrorMessageMapper(
                       _emailController.text,
                     );
                   });
@@ -91,7 +128,7 @@ class RegisterEmailViewState extends State<RegisterEmailView> {
                   setState(() {
                     if (email.isEmpty) {
                       _isEmailValid = false;
-                      _errorMessage = null;
+                      _emailErrorMessage = null;
                     } else {
                       _isEmailValid = EmailValidator.validate(email);
                     }
@@ -100,19 +137,20 @@ class RegisterEmailViewState extends State<RegisterEmailView> {
               ),
               SizedBox(height: context.responsiveHeight(160)),
               MPGButton(
-                onPressed: _isEmailValid
+                onPressed: _isEmailValid && _isNameValid
                     ? () {
                         UserMM().email = _emailController.text;
+                        UserMM().name = _nameController.text;
                         GoRouter.of(context)
                             .pushRegisterPassPage(_emailController.text);
                       }
                     : null,
-                gradient: _isEmailValid
+                gradient: _isEmailValid && _isNameValid
                     ? null
                     : MPGColors.of(context).mpgButtonColoredGradientDisabled,
                 child: Text(
                   'Continuar',
-                  style: _isEmailValid
+                  style: _isEmailValid && _isNameValid
                       ? MPGTextStyles.of(context).mpgColoredButton
                       : MPGTextStyles.of(context).mpgColoredButtonDisabled,
                 ),

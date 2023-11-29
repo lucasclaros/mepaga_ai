@@ -1,10 +1,14 @@
 // ignore_for_file: lines_longer_than_80_chars, use_decorated_box
 
+import 'package:domain/use_cases/user_register_uc.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:mepaga_ai/common/routing.dart';
+import 'package:mepaga_ai/data/models/user_mm.dart';
+import 'package:mepaga_ai/presentation/auth/register/bloc/register_bloc.dart';
 import 'package:mepaga_ai/presentation/common/mpg_button.dart';
 import 'package:mepaga_ai/presentation/common/mpg_confirmation_check.dart';
 import 'package:mepaga_ai/presentation/common/mpg_header.dart';
@@ -14,6 +18,8 @@ import 'package:mepaga_ai/presentation/common/responsivity.dart';
 import 'package:mepaga_ai/presentation/common/themes/colors/mpg_colors.dart';
 import 'package:mepaga_ai/presentation/common/themes/text_styles/mpg_text_styles.dart';
 
+import '../../../../common/utils.dart';
+
 class RegisterPasswordView extends StatefulWidget {
   const RegisterPasswordView({
     super.key,
@@ -22,8 +28,13 @@ class RegisterPasswordView extends StatefulWidget {
 
   final String userEmail;
 
-  static Widget create(String userEmail) => RegisterPasswordView(
-        userEmail: userEmail,
+  static Widget create(String userEmail) => BlocProvider<RegisterBloc>(
+        create: (context) => RegisterBloc(
+          userRegisterUC: context.read<UserRegisterUC>(),
+        ),
+        child: RegisterPasswordView(
+          userEmail: userEmail,
+        ),
       );
 
   @override
@@ -39,6 +50,8 @@ class RegisterPasswordViewState extends State<RegisterPasswordView> {
   final _passFocusNode = FocusNode();
   final _confirmPassController = TextEditingController();
   final _confirmPassFocusNode = FocusNode();
+  bool _isLoading = false;
+  bool _isShowingFlushbar = false;
 
   bool checkMiniminChar(String pass) {
     if (pass.length >= 8) {
@@ -63,122 +76,168 @@ class RegisterPasswordViewState extends State<RegisterPasswordView> {
 
   @override
   Widget build(BuildContext context) {
-    return MPGScaffold(
-      child: SingleChildScrollView(
-        child: Column(
-          children: [
-            const MPGHeader(title: 'Defina sua senha'),
-            SizedBox(height: context.responsiveHeight(20)),
-            MPGConfirmationCheck(
-              content: Text(
-                '8 caracteres no mínimo ',
-                style: GoogleFonts.barlow(
-                  fontSize: 20,
-                  fontWeight: FontWeight.w500,
-                  color: Colors.white,
-                ),
-              ),
-              isSelected: _minimunCharPass,
-            ),
-            MPGConfirmationCheck(
-              content: Text(
-                r'Caractere especial (@, !, $, ...)',
-                style: GoogleFonts.barlow(
-                  fontSize: 20,
-                  fontWeight: FontWeight.w500,
-                  color: Colors.white,
-                ),
-              ),
-              isSelected: _specialCharPass,
-            ),
-            SizedBox(height: context.responsiveHeight(25)),
-            MPGTextField(
-              labelText: 'Digite sua senha',
-              textInputAction: TextInputAction.next,
-              controller: _passController,
-              focusNode: _passFocusNode,
-              isPassword: true,
-              hintText: 'Senha',
-              onChanged: (pass) {
-                setState(() {
-                  _minimunCharPass = checkMiniminChar(pass);
-                  _specialCharPass = checkSpecialChar(pass);
-                  if (_confirmPassController.text.isNotEmpty) {
-                    _errorMessage = confirmPass(_confirmPassController.text);
-                  }
-                });
-              },
-            ),
-            SizedBox(height: context.responsiveHeight(30)),
-            MPGTextField(
-              labelText: 'Confirme sua senha',
-              controller: _confirmPassController,
-              focusNode: _confirmPassFocusNode,
-              isPassword: true,
-              hintText: 'Senha',
-              errorText: _errorMessage,
-              onChanged: (pass) {
-                setState(() {
-                  _errorMessage = confirmPass(pass);
-                });
-              },
-            ),
-            SizedBox(height: context.responsiveHeight(30)),
-            MPGConfirmationCheck(
-              onTap: () {
-                setState(() {
-                  _isTermsSelected = !_isTermsSelected;
-                });
-              },
-              isSelected: _isTermsSelected,
-              content: RichText(
-                text: TextSpan(
-                  children: [
-                    TextSpan(
-                      text: 'Li e estou de acordo com todos os ',
-                      style: MPGTextStyles.of(context)
-                          .policyNormalDescriptionMobile,
+    return BlocConsumer<RegisterBloc, RegisterBlocState>(
+      listener: (context, state) {
+        setState(() {
+          _isLoading = state is RegisterBlocLoading;
+        });
+
+        if (state is RegisterBlocError && !_isShowingFlushbar) {
+          setState(() {
+            _isShowingFlushbar = true;
+          });
+
+          showFlushbar(
+            context: context,
+            title: 'Ops... Ocorreu um erro!',
+            message: state.message,
+            fontColor: Colors.white,
+            backgroundColor: Colors.red,
+            thenFunction: () {
+              setState(() {
+                _isShowingFlushbar = false;
+              });
+            },
+          );
+        }
+
+        if (state is RegisterBlocSuccess) {
+          GoRouter.of(context).pushEmailVerificationPage();
+        }
+      },
+      builder: (context, state) {
+        return MPGScaffold(
+          child: SingleChildScrollView(
+            child: Column(
+              children: [
+                const MPGHeader(title: 'Defina sua senha'),
+                SizedBox(height: context.responsiveHeight(20)),
+                MPGConfirmationCheck(
+                  content: Text(
+                    '8 caracteres no mínimo ',
+                    style: GoogleFonts.barlow(
+                      fontSize: 20,
+                      fontWeight: FontWeight.w500,
+                      color: Colors.white,
                     ),
-                    TextSpan(
-                      text: 'Termos e Políticas',
-                      style: MPGTextStyles.of(context).policyColoredDescription,
-                      // TODO(Lucas Claros): Adicionar link para o termos e políticas
-                      recognizer: TapGestureRecognizer()..onTap = () {},
-                    ),
-                  ],
+                  ),
+                  isSelected: _minimunCharPass,
                 ),
-              ),
-            ),
-            SizedBox(height: context.responsiveHeight(40)),
-            MPGButton(
-              onPressed: () {
-                if (_minimunCharPass &&
-                    _specialCharPass &&
-                    _isTermsSelected &&
-                    _errorMessage == null) {
-                  GoRouter.of(context).pushEmailVerificationPage();
-                }
-              },
-              gradient: _minimunCharPass &&
-                      _specialCharPass &&
-                      _isTermsSelected &&
-                      _errorMessage == null
-                  ? null
-                  : MPGColors.of(context).mpgButtonColoredGradientDisabled,
-              child: Text(
-                'Continuar',
-                style: _minimunCharPass &&
+                MPGConfirmationCheck(
+                  content: Text(
+                    r'Caractere especial (@, !, $, ...)',
+                    style: GoogleFonts.barlow(
+                      fontSize: 20,
+                      fontWeight: FontWeight.w500,
+                      color: Colors.white,
+                    ),
+                  ),
+                  isSelected: _specialCharPass,
+                ),
+                SizedBox(height: context.responsiveHeight(25)),
+                MPGTextField(
+                  labelText: 'Digite sua senha',
+                  textInputAction: TextInputAction.next,
+                  controller: _passController,
+                  focusNode: _passFocusNode,
+                  isPassword: true,
+                  hintText: 'Senha',
+                  onChanged: (pass) {
+                    setState(() {
+                      _minimunCharPass = checkMiniminChar(pass);
+                      _specialCharPass = checkSpecialChar(pass);
+                      if (_confirmPassController.text.isNotEmpty) {
+                        _errorMessage =
+                            confirmPass(_confirmPassController.text);
+                      }
+                    });
+                  },
+                ),
+                SizedBox(height: context.responsiveHeight(30)),
+                MPGTextField(
+                  labelText: 'Confirme sua senha',
+                  controller: _confirmPassController,
+                  focusNode: _confirmPassFocusNode,
+                  isPassword: true,
+                  hintText: 'Senha',
+                  errorText: _errorMessage,
+                  onChanged: (pass) {
+                    setState(() {
+                      _errorMessage = confirmPass(pass);
+                    });
+                  },
+                ),
+                SizedBox(height: context.responsiveHeight(30)),
+                MPGConfirmationCheck(
+                  onTap: () {
+                    setState(() {
+                      _isTermsSelected = !_isTermsSelected;
+                    });
+                  },
+                  isSelected: _isTermsSelected,
+                  content: RichText(
+                    text: TextSpan(
+                      children: [
+                        TextSpan(
+                          text: 'Li e estou de acordo com todos os ',
+                          style: MPGTextStyles.of(context)
+                              .policyNormalDescriptionMobile,
+                        ),
+                        TextSpan(
+                          text: 'Termos e Políticas',
+                          style: MPGTextStyles.of(context)
+                              .policyColoredDescription,
+                          // TODO(Lucas Claros): Adicionar link para o termos e políticas
+                          recognizer: TapGestureRecognizer()..onTap = () {},
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+                SizedBox(height: context.responsiveHeight(40)),
+                MPGButton(
+                  onPressed: () {
+                    if (_minimunCharPass &&
                         _specialCharPass &&
                         _isTermsSelected &&
-                        _errorMessage == null
-                    ? MPGTextStyles.of(context).mpgColoredButton
-                    : MPGTextStyles.of(context).mpgColoredButtonDisabled,
-              ),
+                        _errorMessage == null) {
+                      context.read<RegisterBloc>().add(
+                            UserRegister(
+                              name: UserMM().name,
+                              email: UserMM().email,
+                              password: _passController.text,
+                            ),
+                          );
+                    }
+                  },
+                  gradient: _minimunCharPass &&
+                          _specialCharPass &&
+                          _isTermsSelected &&
+                          _errorMessage == null
+                      ? null
+                      : MPGColors.of(context).mpgButtonColoredGradientDisabled,
+                  child: _isLoading
+                      ? const CircularProgressIndicator(
+                          color: Colors.white,
+                          strokeWidth: 2,
+                        )
+                      : Text(
+                          'Continuar',
+                          style: _minimunCharPass &&
+                                  _specialCharPass &&
+                                  _isTermsSelected &&
+                                  _errorMessage == null
+                              ? MPGTextStyles.of(context).mpgColoredButton
+                              : MPGTextStyles.of(context)
+                                  .mpgColoredButtonDisabled,
+                        ),
+                ),
+                SizedBox(height: context.responsiveHeight(40)),
+              ],
             ),
-            SizedBox(height: context.responsiveHeight(40)),
-          ],
-        ),
-      ),
+          ),
+        );
+      },
     );
   }
 }

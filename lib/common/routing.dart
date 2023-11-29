@@ -1,12 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:mepaga_ai/data/cache/data_source/online_cds.dart';
+import 'package:mepaga_ai/data/remote/data_source/auth_data_source.dart';
 import 'package:mepaga_ai/presentation/auth/login/login_page.dart';
 import 'package:mepaga_ai/presentation/auth/otp_verification/otp_verification_page.dart';
 import 'package:mepaga_ai/presentation/auth/register/email/register_email_page.dart';
 import 'package:mepaga_ai/presentation/auth/register/password/register_password_page.dart';
 import 'package:mepaga_ai/presentation/common/responsive_layout.dart';
+import 'package:mepaga_ai/presentation/home/home_page.dart';
 import 'package:mepaga_ai/presentation/onboarding/onboarding_page.dart';
 import 'package:mepaga_ai/presentation/welcome/welcome_page.dart';
+import 'package:provider/provider.dart';
 
 const _homePage = '/';
 const _verificationPage = 'verification';
@@ -14,20 +18,22 @@ const _onboardingPage = 'onboarding';
 const _registerEmailPage = 'register-email';
 const _registerPassPage = 'register-pass';
 const _loginPage = 'login';
+const _startPage = 'start';
 
 const _onboardingPath = _homePage + _onboardingPage;
 const _registerEmailPath = _onboardingPath + _homePage + _registerEmailPage;
 const _registerPassPath = _registerEmailPath + _homePage + _registerPassPage;
 const _verificationPath = _registerPassPath + _homePage + _verificationPage;
 const _loginPath = _onboardingPath + _homePage + _loginPage;
+const _startPath = _homePage + _startPage;
 
 final routes = GoRouter(
-  redirect: (context, state) {
-    if (ResponsiveLayout.isDesktop(context)) {
-      if (state.location == (_homePage + _verificationPage) ||
-          state.location == _verificationPath) {
-        return _onboardingPath;
-      }
+  redirect: (context, state) async {
+    final onlineCds = context.read<OnlineCDS>();
+    final token = await onlineCds.getJWT();
+
+    if (token != null) {
+      return _startPath;
     }
     return null;
   },
@@ -71,7 +77,10 @@ final routes = GoRouter(
                   routes: [
                     GoRoute(
                       path: _verificationPage,
-                      builder: (context, state) => const OTPVerificationPage(),
+                      pageBuilder: (context, state) => CustomSlideTransition(
+                        key: state.pageKey,
+                        child: const OTPVerificationPage(),
+                      ),
                     )
                   ],
                 ),
@@ -87,6 +96,17 @@ final routes = GoRouter(
               },
             ),
           ],
+        ),
+        GoRoute(
+          path: _startPage,
+          pageBuilder: (context, state) {
+            final extraData = state.extra as Map<String, dynamic>? ?? {};
+            final showFlushbar = extraData['showFlushbar'] ?? false;
+            return CustomSlideTransition(
+              key: state.pageKey,
+              child: HomePage.create(showFlushbar: showFlushbar),
+            );
+          },
         ),
       ],
     ),
@@ -106,6 +126,15 @@ extension PageNavigationExtension on GoRouter {
       );
 
   void pushLoginPage() => go(_loginPath);
+
+  void pushStartPage({bool showFlushbar = false}) => go(
+        _startPath,
+        extra: {
+          'showFlushbar': showFlushbar,
+        },
+      );
+
+  void pushHomePage() => go(_homePage);
 }
 
 class CustomSlideTransition extends CustomTransitionPage<void> {

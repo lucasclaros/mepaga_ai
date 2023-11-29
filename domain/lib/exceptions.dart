@@ -1,7 +1,18 @@
-abstract class MPGException implements Exception {}
+abstract class MPGException implements Exception {
+  final String message;
 
-class UnexpectedException implements MPGException {}
+  MPGException({this.message = 'Unexpected error occurred.'});
+}
 
-class UserNotFoundException implements MPGException {}
+class UnexpectedException extends MPGException {
+  UnexpectedException({String message = 'Unexpected error occurred.'})
+      : super(message: message);
+}
 
-class UserAlreadyExistsException implements MPGException {}
+class UserNotFoundException extends MPGException {}
+
+class UserAlreadyExistsException extends MPGException {}
+
+class CacheValueNotFoundException extends MPGException {}
+
+class InvalidInputException extends MPGException {}

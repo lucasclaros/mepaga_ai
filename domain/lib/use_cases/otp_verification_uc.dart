@@ -1,8 +1,7 @@
-import 'package:domain/models/user.dart';
 import 'package:domain/repositories/auth_repository_interface.dart';
 import 'package:domain/use_cases/use_case.dart';
 
-class OTPVerificationUC extends UseCase<OTPVerificationUCParams, User> {
+class OTPVerificationUC extends UseCase<OTPVerificationUCParams, String> {
   final IAuthRepository repository;
 
   OTPVerificationUC({
@@ -11,7 +10,7 @@ class OTPVerificationUC extends UseCase<OTPVerificationUCParams, User> {
   });
 
   @override
-  Future<User> rawCall(OTPVerificationUCParams params) =>
+  Future<String> rawCall(OTPVerificationUCParams params) =>
       repository.verifyOTP(email: params.email, code: params.code);
 }
 

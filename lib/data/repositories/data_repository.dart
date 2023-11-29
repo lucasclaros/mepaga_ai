@@ -1,19 +1,55 @@
-import 'package:domain/models/user.dart';
 import 'package:domain/repositories/auth_repository_interface.dart';
-import 'package:mepaga_ai/data/mappers/remote_to_domain.dart';
+import 'package:mepaga_ai/data/cache/data_source/online_cds.dart';
 import 'package:mepaga_ai/data/remote/data_source/auth_data_source.dart';
 
 class AuthRepository implements IAuthRepository {
-  AuthRepository({required this.rds});
+  AuthRepository({
+    required this.rds,
+    required this.cds,
+  });
 
   final AuthRDS rds;
+  final OnlineCDS cds;
 
   @override
-  Future<User> verifyOTP({
+  Future<String> login({
     required String email,
-    required String code,
+    required String password,
   }) async {
-    final user = await rds.validateOTP(userEmail: email, code: code);
-    return user.toDM();
+    final userAuth = await rds.login(email: email, password: password);
+    return userAuth;
+  }
+
+  @override
+  Future<void> logout() {
+    return cds.logout();
+  }
+
+  @override
+  Future<void> cacheJWT(String authToken) {
+    return cds.cacheJWT(authToken);
+  }
+
+  @override
+  Future<String?> getJWT() {
+    return cds.getJWT();
+  }
+
+  @override
+  Future<void> registerUser({
+    required String name,
+    required String userEmail,
+    required String password,
+  }) {
+    return rds.registerUser(
+      name: name,
+      userEmail: userEmail,
+      password: password,
+    );
+  }
+
+  @override
+  Future<String> verifyOTP({required String email, required String code}) {
+    return rds.verifyOTP(email: email, code: code);
   }
 }
