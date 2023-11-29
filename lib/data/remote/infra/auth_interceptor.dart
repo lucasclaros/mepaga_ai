@@ -13,7 +13,6 @@ class AuthInterceptor extends InterceptorsWrapper {
   ) async {
     try {
       final accessToken = await onlineCDS.getJWT();
-      print('TESTE interc: $accessToken');
 
       if (accessToken != '') {
         options.headers.addAll(

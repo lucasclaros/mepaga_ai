@@ -17,8 +17,7 @@ import 'package:mepaga_ai/presentation/common/mpg_scaffold.dart';
 import 'package:mepaga_ai/presentation/common/responsive_layout.dart';
 import 'package:mepaga_ai/presentation/common/responsivity.dart';
 import 'package:mepaga_ai/presentation/common/themes/text_styles/mpg_text_styles.dart';
-
-import '../../../common/utils.dart';
+import 'package:mepaga_ai/presentation/common/utils.dart';
 
 class OTPVerificationView extends StatefulWidget {
   const OTPVerificationView({
@@ -165,10 +164,15 @@ class _OTPVerificationViewState extends State<OTPVerificationView> {
                             ),
                           );
                     },
-                    child: Text(
-                      'Continuar',
-                      style: MPGTextStyles.of(context).mpgColoredButton,
-                    ),
+                    child: _isLoading
+                        ? const CircularProgressIndicator(
+                            color: Colors.white,
+                            strokeWidth: 2,
+                          )
+                        : Text(
+                            'Continuar',
+                            style: MPGTextStyles.of(context).mpgColoredButton,
+                          ),
                   ),
                 )
               ],

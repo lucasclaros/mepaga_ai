@@ -17,8 +17,7 @@ import 'package:mepaga_ai/presentation/common/mpg_textfield.dart';
 import 'package:mepaga_ai/presentation/common/responsivity.dart';
 import 'package:mepaga_ai/presentation/common/themes/colors/mpg_colors.dart';
 import 'package:mepaga_ai/presentation/common/themes/text_styles/mpg_text_styles.dart';
-
-import '../../../../common/utils.dart';
+import 'package:mepaga_ai/presentation/common/utils.dart';
 
 class RegisterPasswordView extends StatefulWidget {
   const RegisterPasswordView({

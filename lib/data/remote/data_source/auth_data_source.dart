@@ -69,8 +69,6 @@ class AuthRDS {
     required String code,
   }) async {
     try {
-      print("TESTE ${email} ${code}");
-
       final response = await dio.post(
         UrlBuilder.endpointOtpValidation,
         data: {
@@ -78,10 +76,9 @@ class AuthRDS {
           'code': code,
         },
       );
-      print("TESTE ${response.data}");
+
       return response.data['auth'];
     } catch (error) {
-      print("TESTE ${error}");
       if (error is DioException && error.response?.statusCode == 404) {
         throw UserNotFoundException();
       }

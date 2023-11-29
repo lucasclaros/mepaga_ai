@@ -1,4 +1,5 @@
 import 'package:bloc/bloc.dart';
+import 'package:domain/exceptions.dart';
 import 'package:domain/use_cases/user_register_uc.dart';
 import 'package:meta/meta.dart';
 
@@ -16,20 +17,20 @@ class RegisterBloc extends Bloc<RegisterEvent, RegisterBlocState> {
     UserRegister event,
     Emitter<RegisterBlocState> emit,
   ) async {
-    await userRegisterUC(
-      UserRegisterUCParams(
-        email: event.email,
-        password: event.password,
-        name: event.name,
-      ),
-    );
-
     emit(RegisterBlocLoading());
+
     try {
+      await userRegisterUC(
+        UserRegisterUCParams(
+          email: event.email,
+          password: event.password,
+          name: event.name,
+        ),
+      );
       emit(RegisterBlocSuccess());
     } catch (e) {
-      if (e is Exception) {
-        emit(RegisterBlocError(message: e.toString()));
+      if (e is MPGException) {
+        emit(RegisterBlocError(message: e.message));
       }
     }
   }

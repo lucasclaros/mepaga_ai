@@ -1,12 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:mepaga_ai/data/cache/data_source/online_cds.dart';
-import 'package:mepaga_ai/data/remote/data_source/auth_data_source.dart';
 import 'package:mepaga_ai/presentation/auth/login/login_page.dart';
 import 'package:mepaga_ai/presentation/auth/otp_verification/otp_verification_page.dart';
 import 'package:mepaga_ai/presentation/auth/register/email/register_email_page.dart';
 import 'package:mepaga_ai/presentation/auth/register/password/register_password_page.dart';
-import 'package:mepaga_ai/presentation/common/responsive_layout.dart';
 import 'package:mepaga_ai/presentation/home/home_page.dart';
 import 'package:mepaga_ai/presentation/onboarding/onboarding_page.dart';
 import 'package:mepaga_ai/presentation/welcome/welcome_page.dart';

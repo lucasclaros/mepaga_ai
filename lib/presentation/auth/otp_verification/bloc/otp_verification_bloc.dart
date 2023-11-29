@@ -24,6 +24,7 @@ class OtpVerificationBloc
     Emitter<OtpVerificationState> emit,
   ) async {
     emit(OtpVerificationLoading());
+
     try {
       final jwt = await otpVerificationUC(
         OTPVerificationUCParams(
