@@ -13,7 +13,6 @@ class OnlineCDS {
       secureStorage.read(key: _onlineAuthTokenKey);
 
   Future<void> cacheJWT(String authToken) async {
-    print('TESTE cds $authToken');
     return secureStorage.write(
       key: _onlineAuthTokenKey,
       value: authToken,

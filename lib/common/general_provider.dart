@@ -2,8 +2,10 @@ import 'package:dio/dio.dart';
 import 'package:domain/logger.dart';
 import 'package:domain/use_cases/cache_jwt_uc.dart';
 import 'package:domain/use_cases/get_jwt_uc.dart';
+import 'package:domain/use_cases/otp_verification_uc.dart';
 import 'package:domain/use_cases/user_login_uc.dart';
 import 'package:domain/use_cases/user_logout_uc.dart';
+import 'package:domain/use_cases/user_register_uc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:mepaga_ai/data/cache/data_source/online_cds.dart';
@@ -118,6 +120,18 @@ class _GeneralProviderState extends State<GeneralProvider> {
         ),
         ProxyProvider2<ErrorLogger, AuthRepository, CacheJwtUC>(
           update: (_, logger, repository, __) => CacheJwtUC(
+            logger: logger,
+            repository: repository,
+          ),
+        ),
+        ProxyProvider2<ErrorLogger, AuthRepository, UserRegisterUC>(
+          update: (_, logger, repository, __) => UserRegisterUC(
+            logger: logger,
+            repository: repository,
+          ),
+        ),
+        ProxyProvider2<ErrorLogger, AuthRepository, OTPVerificationUC>(
+          update: (_, logger, repository, __) => OTPVerificationUC(
             logger: logger,
             repository: repository,
           ),

@@ -14,3 +14,5 @@ class UserNotFoundException extends MPGException {}
 class UserAlreadyExistsException extends MPGException {}
 
 class CacheValueNotFoundException extends MPGException {}
+
+class InvalidInputException extends MPGException {}

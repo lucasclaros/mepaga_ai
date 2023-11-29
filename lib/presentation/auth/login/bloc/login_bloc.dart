@@ -31,7 +31,6 @@ class LoginBloc extends Bloc<LoginBlocEvent, LoginBlocState> {
           password: event.password,
         ),
       );
-      print('TESTE Bloc: $jwt');
       await cacheJwtUC(CacheJwtUCParams(jwt: jwt));
       emit(LoginBlocSuccess());
     } catch (e) {

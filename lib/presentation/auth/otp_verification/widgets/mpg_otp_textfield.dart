@@ -5,25 +5,24 @@ import 'package:mepaga_ai/presentation/common/utils.dart';
 import 'package:pinput/pinput.dart';
 
 class MPGOtpTextField extends StatefulWidget {
-  const MPGOtpTextField({super.key});
+  const MPGOtpTextField({
+    required this.textController,
+    required this.focusNode,
+    super.key,
+  });
+
+  final TextEditingController textController;
+  final FocusNode focusNode;
 
   @override
   State<MPGOtpTextField> createState() => _MPGOtpTextFieldState();
 }
 
 class _MPGOtpTextFieldState extends State<MPGOtpTextField> {
-  final _otpController = TextEditingController();
-  final _otpFocusNode = FocusNode();
-
-  @override
-  void dispose() {
-    _otpController.dispose();
-    _otpFocusNode.dispose();
-    super.dispose();
-  }
-
   @override
   Widget build(BuildContext context) {
+    final _otpController = widget.textController;
+    final _otpFocusNode = widget.focusNode;
     const _defaulWidth = 56.0;
     const _defaulHeight = 3.0;
     const borderColor = Colors.grey;

@@ -26,7 +26,7 @@ class AuthRDS {
 
       return response.data['auth'];
     } catch (error) {
-      if (error is DioError && error.response != null) {
+      if (error is DioException && error.response != null) {
         throw UnexpectedException(
           message: error.response!.data['message'] ?? 'Something went wrong',
         );
@@ -50,29 +50,39 @@ class AuthRDS {
         },
       );
     } catch (error) {
-      if (error is DioError && error.response?.statusCode == 404) {
-        throw UserAlreadyExistsException();
+      if (error is DioException) {
+        if (error.response?.statusCode == 409) {
+          throw UserAlreadyExistsException();
+        }
+
+        if (error.response?.statusCode == 400) {
+          throw InvalidInputException();
+        }
       }
+
       rethrow;
     }
   }
 
-  Future<String> validateOTP({
-    required String userEmail,
+  Future<String> verifyOTP({
+    required String email,
     required String code,
   }) async {
     try {
+      print("TESTE ${email} ${code}");
+
       final response = await dio.post(
         UrlBuilder.endpointOtpValidation,
         data: {
-          'email': userEmail,
+          'email': email,
           'code': code,
         },
       );
-
+      print("TESTE ${response.data}");
       return response.data['auth'];
     } catch (error) {
-      if (error is DioError && error.response?.statusCode == 404) {
+      print("TESTE ${error}");
+      if (error is DioException && error.response?.statusCode == 404) {
         throw UserNotFoundException();
       }
       rethrow;

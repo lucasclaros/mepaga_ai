@@ -50,6 +50,6 @@ class AuthRepository implements IAuthRepository {
 
   @override
   Future<String> verifyOTP({required String email, required String code}) {
-    throw UnimplementedError();
+    return rds.verifyOTP(email: email, code: code);
   }
 }
