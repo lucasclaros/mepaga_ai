@@ -43,17 +43,17 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
     UserLogout event,
     Emitter<HomeState> emit,
   ) async {
-    emit(HomeLoading());
+    emit(LogoutLoading());
 
     try {
       await userLogoutUC(NoParams());
       UserMM().email = '';
       UserMM().name = '';
       UserMM().pixKey = '';
-      emit(HomeSuccess());
+      emit(LogoutSuccess());
     } catch (e) {
       if (e is Exception) {
-        emit(HomeError(message: e.toString()));
+        emit(LogoutError(message: e.toString()));
       }
     }
   }

@@ -62,8 +62,12 @@ class _HomePageState extends State<HomePage> {
       child: BlocConsumer<HomeBloc, HomeState>(
         listener: (context, state) {
           setState(() {
-            _isLoading = state is HomeLoading;
+            _isLoading = state is HomeLoading || state is LogoutLoading;
           });
+
+          if (state is LogoutSuccess) {
+            GoRouter.of(context).pushLoginPage();
+          }
         },
         builder: (context, state) {
           return Center(
@@ -87,7 +91,6 @@ class _HomePageState extends State<HomePage> {
                           ),
                           onPressed: () {
                             context.read<HomeBloc>().add(UserLogout());
-                            GoRouter.of(context).pushHomePage();
                           },
                         ),
                       ],
