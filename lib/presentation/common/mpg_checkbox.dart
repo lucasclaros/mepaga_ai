@@ -1,8 +1,8 @@
 import 'dart:math';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:mepaga_ai/presentation/common/responsivity.dart';
 import 'package:mepaga_ai/presentation/common/themes/assets/mpg_assets_paths.dart';
 
 class MPGCheckbox extends StatefulWidget {
@@ -30,9 +30,9 @@ class _MPGCheckboxState extends State<MPGCheckbox> {
       onTap: widget.onTap,
       child: AnimatedContainer(
         duration: const Duration(milliseconds: 250),
-        width: min(context.responsiveWidth(25), 25),
-        height: min(context.responsiveWidth(25), 25),
-        padding: const EdgeInsets.all(5),
+        width: min(25.w, 25),
+        height: min(25.h, 25),
+        padding: const EdgeInsets.all(3),
         decoration: BoxDecoration(
           color: widget.isSelected ? widget.buttonColor ?? Colors.white : null,
           shape: BoxShape.circle,
@@ -43,9 +43,7 @@ class _MPGCheckboxState extends State<MPGCheckbox> {
         ),
         child: widget.isSelected
             ? Center(
-                child: SvgPicture.asset(
-                  MPGAssetsPaths.of(context).checkButton,
-                ),
+                child: SvgPicture.asset(MPGAssetsPaths.of(context).checkButton),
               )
             : null,
       ),

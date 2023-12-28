@@ -123,11 +123,8 @@ class _OTPVerificationViewState extends State<OTPVerificationView> {
                                 children: [
                                   TextSpan(
                                     text: 'Não recebeu o email? ',
-                                    style: ResponsiveLayout.isDesktop(context)
-                                        ? MPGTextStyles.of(context)
-                                            .policyNormalDescriptionWeb
-                                        : MPGTextStyles.of(context)
-                                            .policyNormalDescriptionMobile,
+                                    style: MPGTextStyles.of(context)
+                                        .policyNormalDescriptionMobile,
                                   ),
                                   TextSpan(
                                     text: 'Reenviar código',

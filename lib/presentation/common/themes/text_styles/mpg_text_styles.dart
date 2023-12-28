@@ -72,50 +72,29 @@ class MPGTextStyles implements IAppTextStyles {
   @override
   TextStyle get mpgColoredButtonDisabled => GoogleFonts.barlow(
         color: white04,
-        fontSize: 21,
+        fontSize: 21.sp,
         fontWeight: FontWeight.w700,
       );
 
   @override
   TextStyle get policyColoredDescription => GoogleFonts.barlow(
         color: orangePantone,
-        fontSize: 18,
+        fontSize: 18.sp,
         fontWeight: FontWeight.w700,
-      );
-
-  @override
-  TextStyle get policyNormalDescriptionWeb => GoogleFonts.barlow(
-        color: black,
-        fontSize: 18,
-        fontWeight: FontWeight.w400,
       );
 
   @override
   TextStyle get policyNormalDescriptionMobile => GoogleFonts.barlow(
         color: white,
-        fontSize: 18,
+        fontSize: 18.sp,
         fontWeight: FontWeight.w400,
-      );
-
-  @override
-  TextStyle get verificationHeaderTitleWeb => GoogleFonts.barlow(
-        color: black,
-        fontSize: 32,
-        fontWeight: FontWeight.w500,
       );
 
   @override
   TextStyle get verificationHeaderTitleMobile => GoogleFonts.barlow(
         color: white,
-        fontSize: 32,
+        fontSize: 32.sp,
         fontWeight: FontWeight.w500,
-      );
-
-  @override
-  TextStyle get emailVerificationDescriptionWeb => GoogleFonts.barlow(
-        color: black,
-        fontSize: 18,
-        fontWeight: FontWeight.w400,
       );
 
   @override

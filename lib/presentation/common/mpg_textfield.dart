@@ -3,6 +3,7 @@
 import 'dart:math';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:mepaga_ai/presentation/common/responsive_layout.dart';
@@ -84,16 +85,15 @@ class _MPGTextFieldState extends State<MPGTextField> {
               style: GoogleFonts.barlow(
                 fontWeight: FontWeight.w500,
                 color: Colors.white.withOpacity(0.8),
-                fontSize: 20,
+                fontSize: 20.sp,
               ),
             ),
           ),
         ),
         SizedBox(
-          width: widget.width ?? min(context.responsiveWidth(350), 350),
-          height: widget.height,
+          width: widget.width ?? 295.w,
           child: TextFormField(
-            scrollPadding: const EdgeInsets.only(bottom: 50),
+            scrollPadding: EdgeInsets.only(bottom: 50.h),
             cursorColor: Colors.white,
             onChanged: (text) => {
               setState(() {
@@ -115,7 +115,6 @@ class _MPGTextFieldState extends State<MPGTextField> {
               filled: true,
               fillColor: Colors.black.withOpacity(0.5),
               prefixIcon: IconButton(
-                splashRadius: 0.01,
                 icon: SvgPicture.asset(
                   getPrefixIcon(),
                   color:
@@ -146,7 +145,7 @@ class _MPGTextFieldState extends State<MPGTextField> {
               errorText: widget.errorText,
               errorStyle: GoogleFonts.barlow(
                 color: const Color(0xffd30000),
-                fontSize: 14,
+                fontSize: 14.sp,
                 fontWeight: FontWeight.w400,
               ),
               errorBorder: OutlineInputBorder(
@@ -155,14 +154,13 @@ class _MPGTextFieldState extends State<MPGTextField> {
                 ),
                 borderRadius: BorderRadius.circular(10),
               ),
-              contentPadding: const EdgeInsets.symmetric(
-                horizontal: 22,
-                vertical: 15,
+              contentPadding: EdgeInsets.symmetric(
+                vertical: 17.h,
               ),
               hintText: widget.hintText,
               hintStyle: GoogleFonts.barlow(
                 color: Colors.grey,
-                fontSize: 20,
+                fontSize: 20.sp,
               ),
               enabledBorder: OutlineInputBorder(
                 borderSide: const BorderSide(
@@ -187,10 +185,9 @@ class _MPGTextFieldState extends State<MPGTextField> {
               ),
             ),
             style: GoogleFonts.barlow(
-              color: ResponsiveLayout.isDesktop(context)
-                  ? Colors.black
-                  : Colors.white,
-              fontSize: 20,
+              color: Colors.white,
+              fontSize: 20.sp,
+              height: 1,
             ),
           ),
         ),
