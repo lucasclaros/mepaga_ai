@@ -37,7 +37,7 @@ class MPGScaffold extends StatelessWidget {
               },
               child: child,
             ),
-          )
+          ),
         ],
       ),
     );

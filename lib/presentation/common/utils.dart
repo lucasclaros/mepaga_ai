@@ -47,7 +47,7 @@ Future<void> showFlushbar({
             color: backgroundColor.withOpacity(0.6),
             offset: const Offset(0, 2),
             blurRadius: 3,
-          )
+          ),
         ],
     flushbarPosition: flushbarPosition ?? FlushbarPosition.TOP,
     mainButton: mainButton ??

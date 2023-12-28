@@ -1,4 +1,3 @@
-import 'package:dio/dio.dart';
 import 'package:domain/use_cases/get_user_info_uc.dart';
 import 'package:domain/use_cases/user_logout_uc.dart';
 import 'package:flutter/material.dart';
@@ -8,10 +7,8 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:mepaga_ai/common/routing.dart';
-import 'package:mepaga_ai/data/cache/data_source/online_cds.dart';
 import 'package:mepaga_ai/data/models/user_mm.dart';
 import 'package:mepaga_ai/presentation/common/mpg_button.dart';
-import 'package:mepaga_ai/presentation/common/mpg_header.dart';
 import 'package:mepaga_ai/presentation/common/mpg_scaffold.dart';
 import 'package:mepaga_ai/presentation/common/responsivity.dart';
 import 'package:mepaga_ai/presentation/common/themes/assets/mpg_assets_paths.dart';
@@ -118,7 +115,7 @@ class _HomePageState extends State<HomePage> {
                               Icons.notifications_none_outlined,
                               size: 36,
                               color: Color(0xFFCEC2DA),
-                            )
+                            ),
                           ],
                         ),
                         SizedBox(

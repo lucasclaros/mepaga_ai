@@ -88,7 +88,7 @@ class _WelcomePageState extends State<WelcomePage> {
                 ),
                 onPressed: () => GoRouter.of(context).pushOnboardingPage(),
               ),
-            )
+            ),
           ],
         ),
       ),

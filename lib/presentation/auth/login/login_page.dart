@@ -14,7 +14,7 @@ class _LoginPageState extends State<LoginPage> {
   Widget build(BuildContext context) {
     return ResponsiveLayout(
       mobile: LoginView.create(),
-      desktop: Row(),
+      desktop: const Row(),
       tablet: LoginView.create(),
     );
   }

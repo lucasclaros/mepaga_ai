@@ -14,7 +14,7 @@ class _RegisterEmailPageState extends State<RegisterEmailPage> {
   Widget build(BuildContext context) {
     return ResponsiveLayout(
       mobile: RegisterEmailView.create(),
-      desktop: Row(),
+      desktop: const Row(),
       tablet: RegisterEmailView.create(),
     );
   }

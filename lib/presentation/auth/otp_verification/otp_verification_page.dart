@@ -14,7 +14,7 @@ class _OTPVerificationPageState extends State<OTPVerificationPage> {
   Widget build(BuildContext context) {
     return ResponsiveLayout(
       mobile: OTPVerificationView.create(),
-      desktop: Row(),
+      desktop: const Row(),
       tablet: OTPVerificationView.create(),
     );
   }

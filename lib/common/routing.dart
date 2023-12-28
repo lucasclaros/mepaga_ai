@@ -79,7 +79,7 @@ final routes = GoRouter(
                         key: state.pageKey,
                         child: const OTPVerificationPage(),
                       ),
-                    )
+                    ),
                   ],
                 ),
               ],

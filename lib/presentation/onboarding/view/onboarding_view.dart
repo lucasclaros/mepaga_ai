@@ -182,7 +182,7 @@ class _OnboardingViewState extends State<OnboardingView> {
             ),
             SizedBox(
               height: context.responsiveHeight(40),
-            )
+            ),
           ],
         ),
       ),

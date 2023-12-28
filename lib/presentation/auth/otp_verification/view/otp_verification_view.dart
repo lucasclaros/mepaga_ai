@@ -174,7 +174,7 @@ class _OTPVerificationViewState extends State<OTPVerificationView> {
                             style: MPGTextStyles.of(context).mpgColoredButton,
                           ),
                   ),
-                )
+                ),
               ],
             ),
           ),

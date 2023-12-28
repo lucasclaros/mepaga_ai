@@ -19,7 +19,7 @@ class _RegisterPasswordPageState extends State<RegisterPasswordPage> {
   Widget build(BuildContext context) {
     return ResponsiveLayout(
       mobile: RegisterPasswordView.create(widget.userEmail),
-      desktop: Row(),
+      desktop: const Row(),
       tablet: RegisterPasswordView.create(widget.userEmail),
     );
   }

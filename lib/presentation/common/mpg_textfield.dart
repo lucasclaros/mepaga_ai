@@ -101,7 +101,7 @@ class _MPGTextFieldState extends State<MPGTextField> {
                   // ignore: prefer_null_aware_method_calls
                   widget.onChanged!(text);
                 }
-              })
+              }),
             },
             validator: widget.validator,
             onEditingComplete: widget.onEditingComplete,
