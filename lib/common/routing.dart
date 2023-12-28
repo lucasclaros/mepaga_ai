@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:mepaga_ai/data/cache/data_source/online_cds.dart';
 import 'package:mepaga_ai/presentation/auth/login/view/login_view.dart';
-import 'package:mepaga_ai/presentation/auth/otp_verification/otp_verification_page.dart';
+import 'package:mepaga_ai/presentation/auth/otp_verification/view/otp_verification_view.dart';
 import 'package:mepaga_ai/presentation/auth/register/email/view/register_email_view.dart';
 import 'package:mepaga_ai/presentation/auth/register/password/view/register_password_view.dart';
 import 'package:mepaga_ai/presentation/home/home_page.dart';
@@ -71,7 +71,7 @@ final routes = GoRouter(
                       path: _verificationPage,
                       pageBuilder: (context, state) => CustomSlideTransition(
                         key: state.pageKey,
-                        child: const OTPVerificationPage(),
+                        child: OTPVerificationView.create(),
                       ),
                     ),
                   ],

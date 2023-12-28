@@ -3,6 +3,7 @@ import 'package:domain/use_cases/user_logout_uc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -72,10 +73,10 @@ class _HomePageState extends State<HomePage> {
         },
         builder: (context, state) {
           return _isLoading
-              ? const Center(
+              ? Center(
                   child: CircularProgressIndicator(
                     color: Colors.white,
-                    strokeWidth: 2,
+                    strokeWidth: 2.w,
                   ),
                 )
               : SingleChildScrollView(
@@ -84,9 +85,7 @@ class _HomePageState extends State<HomePage> {
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        SizedBox(
-                          height: context.responsiveHeight(39),
-                        ),
+                        SizedBox(height: 39.h),
                         Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
@@ -96,7 +95,7 @@ class _HomePageState extends State<HomePage> {
                                 Text(
                                   'Olá,',
                                   style: GoogleFonts.barlow(
-                                    fontSize: 30,
+                                    fontSize: 30.sp,
                                     fontWeight: FontWeight.w500,
                                     color: Colors.white.withOpacity(0.8),
                                   ),
@@ -104,34 +103,40 @@ class _HomePageState extends State<HomePage> {
                                 Text(
                                   UserMM().name,
                                   style: GoogleFonts.barlow(
-                                    fontSize: 36,
+                                    fontSize: 36.sp,
                                     fontWeight: FontWeight.w500,
                                     color: Colors.white,
                                   ),
                                 ),
                               ],
                             ),
-                            const Icon(
-                              Icons.notifications_none_outlined,
-                              size: 36,
-                              color: Color(0xFFCEC2DA),
+                            IconButton(
+                              onPressed: () {
+                                showFlushbar(
+                                  context: context,
+                                  message: 'Login realizado com sucesso!',
+                                  fontColor: Colors.white,
+                                  backgroundColor: Colors.green,
+                                );
+                              },
+                              icon: const Icon(
+                                Icons.notifications_none_outlined,
+                                size: 36,
+                              ),
+                              color: const Color(0xFFCEC2DA),
                             ),
                           ],
                         ),
-                        SizedBox(
-                          height: context.responsiveHeight(39),
-                        ),
+                        SizedBox(height: 39.h),
                         Text(
                           'Acompanhe seus ingressos.',
                           style: GoogleFonts.barlow(
-                            fontSize: 24,
+                            fontSize: 24.sp,
                             fontWeight: FontWeight.w500,
                             color: Colors.white.withOpacity(0.8),
                           ),
                         ),
-                        SizedBox(
-                          height: context.responsiveHeight(60),
-                        ),
+                        SizedBox(height: 60.h),
                         Center(
                           child: Column(
                             children: [
@@ -140,9 +145,7 @@ class _HomePageState extends State<HomePage> {
                                   MPGAssetsPaths.of(context).emptyTickets,
                                 ),
                               ),
-                              SizedBox(
-                                height: context.responsiveHeight(60),
-                              ),
+                              SizedBox(height: 60.h),
                               Text(
                                 'Você ainda não possui ingressos.',
                                 style: GoogleFonts.barlow(
@@ -154,7 +157,7 @@ class _HomePageState extends State<HomePage> {
                             ],
                           ),
                         ),
-                        const SizedBox(height: 100),
+                        SizedBox(height: 100.h),
                         MPGButton(
                           child: Text(
                             'Logout',
@@ -164,6 +167,7 @@ class _HomePageState extends State<HomePage> {
                             context.read<HomeBloc>().add(UserLogout());
                           },
                         ),
+                        SizedBox(height: 45.h),
                       ],
                     ),
                   ),

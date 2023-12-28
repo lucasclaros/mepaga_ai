@@ -104,9 +104,11 @@ class LoginViewState extends State<LoginView> {
                         );
                   },
                   child: isLoading
-                      ? const CircularProgressIndicator(
-                          color: Colors.white,
-                          strokeWidth: 2,
+                      ? Center(
+                          child: CircularProgressIndicator(
+                            color: Colors.white,
+                            strokeWidth: 2.w,
+                          ),
                         )
                       : Text(
                           'Login',
