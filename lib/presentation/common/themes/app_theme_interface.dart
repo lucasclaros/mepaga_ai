@@ -90,6 +90,8 @@ abstract class IAppAssetsPaths {
   String get doubtButton;
 
   String get userIcon;
+
+  String get emptyTickets;
 }
 
 abstract class AppThemeInterface {

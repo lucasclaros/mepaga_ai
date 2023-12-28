@@ -4,13 +4,17 @@ import 'package:domain/use_cases/user_logout_uc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:go_router/go_router.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:mepaga_ai/common/routing.dart';
 import 'package:mepaga_ai/data/cache/data_source/online_cds.dart';
 import 'package:mepaga_ai/data/models/user_mm.dart';
 import 'package:mepaga_ai/presentation/common/mpg_button.dart';
 import 'package:mepaga_ai/presentation/common/mpg_header.dart';
 import 'package:mepaga_ai/presentation/common/mpg_scaffold.dart';
+import 'package:mepaga_ai/presentation/common/responsivity.dart';
+import 'package:mepaga_ai/presentation/common/themes/assets/mpg_assets_paths.dart';
 import 'package:mepaga_ai/presentation/common/themes/text_styles/mpg_text_styles.dart';
 import 'package:mepaga_ai/presentation/common/utils.dart';
 import 'package:mepaga_ai/presentation/home/bloc/home_bloc.dart';
@@ -70,20 +74,90 @@ class _HomePageState extends State<HomePage> {
           }
         },
         builder: (context, state) {
-          return Center(
-            child: _isLoading
-                ? const CircularProgressIndicator(
+          return _isLoading
+              ? const Center(
+                  child: CircularProgressIndicator(
                     color: Colors.white,
                     strokeWidth: 2,
-                  )
-                : SingleChildScrollView(
+                  ),
+                )
+              : SingleChildScrollView(
+                  child: Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 30),
                     child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        MPGHeader(
-                          title: 'Olá, ${UserMM().name}!',
-                          isBackButtonVisible: false,
+                        SizedBox(
+                          height: context.responsiveHeight(39),
                         ),
-                        const SizedBox(height: 30),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text(
+                                  'Olá,',
+                                  style: GoogleFonts.barlow(
+                                    fontSize: 30,
+                                    fontWeight: FontWeight.w500,
+                                    color: Colors.white.withOpacity(0.8),
+                                  ),
+                                ),
+                                Text(
+                                  UserMM().name,
+                                  style: GoogleFonts.barlow(
+                                    fontSize: 36,
+                                    fontWeight: FontWeight.w500,
+                                    color: Colors.white,
+                                  ),
+                                ),
+                              ],
+                            ),
+                            const Icon(
+                              Icons.notifications_none_outlined,
+                              size: 36,
+                              color: Color(0xFFCEC2DA),
+                            )
+                          ],
+                        ),
+                        SizedBox(
+                          height: context.responsiveHeight(39),
+                        ),
+                        Text(
+                          'Acompanhe seus ingressos.',
+                          style: GoogleFonts.barlow(
+                            fontSize: 24,
+                            fontWeight: FontWeight.w500,
+                            color: Colors.white.withOpacity(0.8),
+                          ),
+                        ),
+                        SizedBox(
+                          height: context.responsiveHeight(60),
+                        ),
+                        Center(
+                          child: Column(
+                            children: [
+                              SizedBox(
+                                child: SvgPicture.asset(
+                                  MPGAssetsPaths.of(context).emptyTickets,
+                                ),
+                              ),
+                              SizedBox(
+                                height: context.responsiveHeight(60),
+                              ),
+                              Text(
+                                'Você ainda não possui ingressos.',
+                                style: GoogleFonts.barlow(
+                                  fontSize: 20,
+                                  fontWeight: FontWeight.w500,
+                                  color: Colors.white.withOpacity(0.8),
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                        const SizedBox(height: 100),
                         MPGButton(
                           child: Text(
                             'Logout',
@@ -96,7 +170,7 @@ class _HomePageState extends State<HomePage> {
                       ],
                     ),
                   ),
-          );
+                );
         },
       ),
     );
