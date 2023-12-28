@@ -2,12 +2,12 @@ import 'package:domain/repositories/auth_repository_interface.dart';
 import 'package:domain/use_cases/use_case.dart';
 
 class UserLoginUC extends UseCase<UserLoginUCParams, String> {
-  final IAuthRepository repository;
-
   UserLoginUC({
     required super.logger,
     required this.repository,
   });
+
+  final IAuthRepository repository;
 
   @override
   Future<String> rawCall(UserLoginUCParams params) => repository.login(
@@ -17,11 +17,11 @@ class UserLoginUC extends UseCase<UserLoginUCParams, String> {
 }
 
 class UserLoginUCParams {
-  final String email;
-  final String password;
-
   UserLoginUCParams({
     required this.email,
     required this.password,
   });
+
+  final String email;
+  final String password;
 }
