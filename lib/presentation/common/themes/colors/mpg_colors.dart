@@ -43,9 +43,10 @@ class MPGColors implements IAppColors {
 
   @override
   Gradient get mpgButtonWhitedGradient => const LinearGradient(
-        stops: [0.5, 1],
+        stops: [0.5, 0.8, 1],
         colors: [
           white,
+          Color(0xFFD3A2FF),
           Color(0xFFD3A2FF),
         ],
       );

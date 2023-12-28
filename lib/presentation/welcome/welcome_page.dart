@@ -1,11 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:focus_detector_v2/focus_detector_v2.dart';
 import 'package:go_router/go_router.dart';
 import 'package:mepaga_ai/common/routing.dart';
 import 'package:mepaga_ai/presentation/common/mpg_button.dart';
 import 'package:mepaga_ai/presentation/common/mpg_scaffold.dart';
-import 'package:mepaga_ai/presentation/common/responsive_layout.dart';
-import 'package:mepaga_ai/presentation/common/responsivity.dart';
 import 'package:mepaga_ai/presentation/common/themes/assets/mpg_assets_paths.dart';
 import 'package:mepaga_ai/presentation/common/themes/text_styles/mpg_text_styles.dart';
 
@@ -32,9 +31,6 @@ class _WelcomePageState extends State<WelcomePage> {
 
   @override
   Widget build(BuildContext context) {
-    final width = MediaQuery.of(context).size.width;
-    final height = MediaQuery.of(context).size.height;
-
     return FocusDetector(
       onFocusGained: () {
         setState(() {
@@ -42,21 +38,14 @@ class _WelcomePageState extends State<WelcomePage> {
         });
       },
       child: MPGScaffold(
+        backgroundImage: MPGAssetsPaths.of(context).welcomeBackground,
         child: Stack(
           alignment: Alignment.center,
           children: [
-            if (!ResponsiveLayout.isDesktop(context))
-              Image.asset(
-                MPGAssetsPaths.of(context).welcomeBackground,
-                fit: BoxFit.cover,
-                width: width,
-                height: height,
-                alignment: Alignment.bottomCenter,
-              ),
             Positioned(
-              bottom: context.responsiveHeight(215),
+              bottom: 215.h,
               child: SizedBox(
-                width: context.responsiveWidth(249),
+                width: 249.w,
                 child: Column(
                   children: [
                     Text(
@@ -78,9 +67,7 @@ class _WelcomePageState extends State<WelcomePage> {
               duration: const Duration(
                 milliseconds: 500,
               ),
-              bottom: isLoading
-                  ? -context.responsiveHeight(55)
-                  : context.responsiveHeight(90),
+              bottom: isLoading ? -55.h : 90.h,
               child: MPGButton(
                 child: Text(
                   'Começar',

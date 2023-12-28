@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:mepaga_ai/presentation/common/themes/app_theme_interface.dart';
 import 'package:mepaga_ai/presentation/common/themes/mpg_theme.dart';
@@ -16,14 +17,14 @@ class MPGTextStyles implements IAppTextStyles {
   @override
   TextStyle get mpgColoredButton => GoogleFonts.barlow(
         color: white,
-        fontSize: 21,
+        fontSize: 21.sp,
         fontWeight: FontWeight.w700,
       );
 
   @override
   TextStyle get mpgWhitedButton => GoogleFonts.barlow(
         color: darkPurple,
-        fontSize: 21,
+        fontSize: 21.sp,
         fontWeight: FontWeight.w700,
       );
 
@@ -31,14 +32,14 @@ class MPGTextStyles implements IAppTextStyles {
   TextStyle get welcomeSubtitle => GoogleFonts.barlow(
         color: white,
         fontWeight: FontWeight.w500,
-        fontSize: 16,
+        fontSize: 16.sp,
       );
 
   @override
   TextStyle get welcomeTitle => GoogleFonts.barlow(
         color: white,
         fontWeight: FontWeight.w800,
-        fontSize: 40,
+        fontSize: 40.sp,
       );
 
   @override
@@ -148,7 +149,7 @@ class MPGTextStyles implements IAppTextStyles {
   @override
   TextStyle get alreadyHasAccountMessage => GoogleFonts.barlow(
         color: white,
-        fontSize: 21,
+        fontSize: 21.sp,
         fontWeight: FontWeight.w700,
         decoration: TextDecoration.underline,
       );

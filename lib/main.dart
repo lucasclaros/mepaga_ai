@@ -23,13 +23,14 @@ class Log {
   }
 }
 
-void main() {
+void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  await ScreenUtil.ensureScreenSize();
   final errorLogger = Log().logError;
 
   configureUrl();
 
-  runZonedGuarded(() async {
+  await runZonedGuarded(() async {
     runApp(
       GeneralProvider(
         errorLogger: errorLogger,

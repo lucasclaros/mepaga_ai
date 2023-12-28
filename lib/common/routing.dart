@@ -6,7 +6,7 @@ import 'package:mepaga_ai/presentation/auth/otp_verification/otp_verification_pa
 import 'package:mepaga_ai/presentation/auth/register/email/register_email_page.dart';
 import 'package:mepaga_ai/presentation/auth/register/password/register_password_page.dart';
 import 'package:mepaga_ai/presentation/home/home_page.dart';
-import 'package:mepaga_ai/presentation/onboarding/onboarding_page.dart';
+import 'package:mepaga_ai/presentation/onboarding/view/onboarding_view.dart';
 import 'package:mepaga_ai/presentation/welcome/welcome_page.dart';
 import 'package:provider/provider.dart';
 
@@ -45,7 +45,7 @@ final routes = GoRouter(
           pageBuilder: (context, state) {
             return CustomSlideTransition(
               key: state.pageKey,
-              child: const OnboardingPage(),
+              child: const OnboardingView(),
             );
           },
           routes: [
