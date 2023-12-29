@@ -1,12 +1,11 @@
 abstract class MPGException implements Exception {
-  final String message;
-
   MPGException({this.message = 'Unexpected error occurred.'});
+
+  final String message;
 }
 
 class UnexpectedException extends MPGException {
-  UnexpectedException({String message = 'Unexpected error occurred.'})
-      : super(message: message);
+  UnexpectedException({super.message});
 }
 
 class UserNotFoundException extends MPGException {}

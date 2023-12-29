@@ -39,17 +39,11 @@ abstract class IAppTextStyles {
 
   TextStyle get emailVerificationDescription;
 
-  TextStyle get policyNormalDescriptionWeb;
-
   TextStyle get policyNormalDescriptionMobile;
 
   TextStyle get policyColoredDescription;
 
-  TextStyle get verificationHeaderTitleWeb;
-
   TextStyle get verificationHeaderTitleMobile;
-
-  TextStyle get emailVerificationDescriptionWeb;
 
   TextStyle get emailVerificationDescriptionMobile;
 

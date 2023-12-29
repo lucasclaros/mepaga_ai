@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:mepaga_ai/presentation/common/responsivity.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:mepaga_ai/presentation/common/themes/colors/mpg_colors.dart';
 
 class MPGButton extends StatelessWidget {
@@ -25,8 +25,8 @@ class MPGButton extends StatelessWidget {
           duration: const Duration(
             milliseconds: 450,
           ),
-          width: width ?? context.responsiveHeight(295),
-          height: height ?? context.responsiveHeight(55),
+          width: width ?? 295.w,
+          height: height ?? 55.h,
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(10),
             gradient:
