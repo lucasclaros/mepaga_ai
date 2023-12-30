@@ -16,4 +16,6 @@ class UrlBuilder {
   static String get endpointUserLogin => _hmlApi + _userLogin;
 
   static String get endpointUserInfo => _hmlApi + _userInfo;
+
+  static String get endpointUserTickets => '$_hmlApi$_userInfo/tickets';
 }

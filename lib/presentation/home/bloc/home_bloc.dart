@@ -1,5 +1,7 @@
 import 'package:bloc/bloc.dart';
+import 'package:domain/models/ticket.dart';
 import 'package:domain/use_cases/get_user_info_uc.dart';
+import 'package:domain/use_cases/get_user_tickets.dart';
 import 'package:domain/use_cases/use_case.dart';
 import 'package:domain/use_cases/user_logout_uc.dart';
 import 'package:mepaga_ai/data/models/user_mm.dart';
@@ -11,6 +13,7 @@ part 'home_state.dart';
 class HomeBloc extends Bloc<HomeEvent, HomeState> {
   HomeBloc({
     required this.getUserInfoUC,
+    required this.getUserTicketsUC,
     required this.userLogoutUC,
   }) : super(HomeInitial()) {
     on<UserInfo>(_mapUserInfoToState);
@@ -18,6 +21,7 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
   }
 
   final GetUserInfoUC getUserInfoUC;
+  final GetUserTicketsUC getUserTicketsUC;
   final UserLogoutUC userLogoutUC;
 
   Future<void> _mapUserInfoToState(
@@ -31,7 +35,8 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
       UserMM().email = user.email;
       UserMM().name = user.name;
       UserMM().pixKey = user.pixKey;
-      emit(HomeSuccess());
+      final tickets = await getUserTicketsUC(NoParams());
+      emit(HomeSuccess(tickets: tickets));
     } catch (e) {
       if (e is Exception) {
         emit(HomeError(message: e.toString()));
