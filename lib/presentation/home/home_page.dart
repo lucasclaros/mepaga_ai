@@ -112,11 +112,14 @@ class _HomePageState extends State<HomePage> {
                   });
 
                   if (state is LogoutSuccess) {
+                    setState(() {
+                      _isLoading = true;
+                    });
                     GoRouter.of(context).pushLogoutPage();
                   }
                 },
                 builder: (context, state) {
-                  if (state is HomeLoading || state is LogoutLoading) {
+                  if (_isLoading) {
                     return const ShimmerTicketList();
                   }
 
