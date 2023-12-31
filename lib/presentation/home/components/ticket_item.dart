@@ -27,83 +27,77 @@ class _TicketItemState extends State<TicketItem> {
         color: Colors.white,
         borderRadius: BorderRadius.circular(10.r),
       ),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: [
-          Expanded(
-            child: Padding(
-              padding: EdgeInsets.only(right: 20.w),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    party?.name ?? 'Festa',
-                    softWrap: false,
-                    overflow: TextOverflow.ellipsis,
-                    style: GoogleFonts.barlow(
-                      fontSize: 20.sp,
-                      fontWeight: FontWeight.w500,
-                      color: Colors.black,
-                    ),
+      child: InkWell(
+        onTap: () {
+          showDialog(
+            context: context,
+            builder: (BuildContext context) {
+              return AlertDialog(
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(10.r),
+                ),
+                title: Text(
+                  'CALMA FI',
+                  style: GoogleFonts.barlow(
+                    fontSize: 20.sp,
+                    fontWeight: FontWeight.w600,
+                    color: Colors.black,
                   ),
-                  Text(
-                    party?.date ?? '00/00/0000',
-                    softWrap: false,
-                    overflow: TextOverflow.ellipsis,
-                    style: GoogleFonts.barlow(
-                      fontSize: 16.sp,
-                      fontWeight: FontWeight.w400,
-                      color: Colors.black,
-                    ),
+                ),
+                content: Text(
+                  'Ainda tô mexendo nisso.\nLogo logo fica pronto!',
+                  style: GoogleFonts.barlow(
+                    fontSize: 16.sp,
+                    fontWeight: FontWeight.w400,
+                    color: Colors.black,
+                  ),
+                ),
+                actions: [
+                  TextButton(
+                    onPressed: () {
+                      Navigator.of(context).pop();
+                    },
+                    child: const Text('OK'),
                   ),
                 ],
-              ),
-            ),
-          ),
-          InkWell(
-            onTap: () {
-              // showOkAlertDialog(
-              //   context: context,
-              //   style: AdaptiveStyle.adaptive,
-              //   title: 'Calma fi',
-              //   message: 'Ainda vou mexer nisso.\nLogo logo fica pronto!',
-              // );
-              showDialog(
-                context: context,
-                builder: (BuildContext context) {
-                  return AlertDialog(
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(10.r),
-                    ),
-                    title: Text(
-                      'CALMA FI',
+              );
+            },
+          );
+        },
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Expanded(
+              child: Padding(
+                padding: EdgeInsets.only(right: 20.w),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      party?.name ?? 'Festa',
+                      softWrap: false,
+                      overflow: TextOverflow.ellipsis,
                       style: GoogleFonts.barlow(
                         fontSize: 20.sp,
-                        fontWeight: FontWeight.w600,
+                        fontWeight: FontWeight.w500,
                         color: Colors.black,
                       ),
                     ),
-                    content: Text(
-                      'Ainda tô mexendo nisso.\nLogo logo fica pronto!',
+                    Text(
+                      party?.date ?? '00/00/0000',
+                      softWrap: false,
+                      overflow: TextOverflow.ellipsis,
                       style: GoogleFonts.barlow(
                         fontSize: 16.sp,
                         fontWeight: FontWeight.w400,
                         color: Colors.black,
                       ),
                     ),
-                    actions: [
-                      TextButton(
-                        onPressed: () {
-                          Navigator.of(context).pop();
-                        },
-                        child: const Text('OK'),
-                      ),
-                    ],
-                  );
-                },
-              );
-            },
-            child: SimpleShadow(
+                  ],
+                ),
+              ),
+            ),
+            SimpleShadow(
               opacity: 0.25,
               offset: const Offset(0, 4),
               child: SvgPicture.asset(
@@ -112,8 +106,8 @@ class _TicketItemState extends State<TicketItem> {
                 clipBehavior: Clip.antiAlias,
               ),
             ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }
