@@ -215,21 +215,17 @@ class RegisterPasswordViewState extends State<RegisterPasswordView> {
                           ? null
                           : MPGColors.of(context)
                               .mpgButtonColoredGradientDisabled,
-                      child: _isLoading
-                          ? const CircularProgressIndicator(
-                              color: Colors.white,
-                              strokeWidth: 2,
-                            )
-                          : Text(
-                              'Continuar',
-                              style: _minimunCharPass &&
-                                      _specialCharPass &&
-                                      _isTermsSelected &&
-                                      _errorMessage == null
-                                  ? MPGTextStyles.of(context).mpgColoredButton
-                                  : MPGTextStyles.of(context)
-                                      .mpgColoredButtonDisabled,
-                            ),
+                      isLoading: _isLoading,
+                      child: Text(
+                        'Continuar',
+                        style: _minimunCharPass &&
+                                _specialCharPass &&
+                                _isTermsSelected &&
+                                _errorMessage == null
+                            ? MPGTextStyles.of(context).mpgColoredButton
+                            : MPGTextStyles.of(context)
+                                .mpgColoredButtonDisabled,
+                      ),
                     ),
                   ],
                 ),

@@ -36,7 +36,9 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
       UserMM().name = user.name;
       UserMM().pixKey = user.pixKey;
       final tickets = await getUserTicketsUC(NoParams());
-      emit(HomeSuccess(tickets: tickets));
+      tickets.isEmpty
+          ? emit(HomeSuccessEmpty())
+          : emit(HomeSuccess(tickets: tickets));
     } catch (e) {
       if (e is Exception) {
         emit(HomeError(message: e.toString()));

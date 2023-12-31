@@ -8,10 +8,14 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:mepaga_ai/common/routing.dart';
+import 'package:mepaga_ai/presentation/common/empty_states/no_tickets_empty_state.dart';
+import 'package:mepaga_ai/presentation/common/mpg_button.dart';
 import 'package:mepaga_ai/presentation/common/mpg_scaffold.dart';
+import 'package:mepaga_ai/presentation/common/themes/text_styles/mpg_text_styles.dart';
 import 'package:mepaga_ai/presentation/common/utils.dart';
 import 'package:mepaga_ai/presentation/home/bloc/home_bloc.dart';
 import 'package:mepaga_ai/presentation/home/components/shimmer_ticket_list.dart';
+import 'package:mepaga_ai/presentation/home/components/ticket_item.dart';
 import 'package:mepaga_ai/presentation/home/components/welcome_header.dart';
 
 class HomePage extends StatefulWidget {
@@ -89,6 +93,17 @@ class _HomePageState extends State<HomePage> {
               ),
             ),
             SizedBox(height: 39.h),
+            MPGButton(
+              width: double.infinity,
+              onPressed: () {
+                context.read<HomeBloc>().add(UserLogout());
+              },
+              child: Text(
+                'Logout',
+                style: MPGTextStyles.of(context).mpgColoredButton,
+              ),
+            ),
+            SizedBox(height: 39.h),
             Expanded(
               child: BlocConsumer<HomeBloc, HomeState>(
                 listener: (context, state) {
@@ -97,28 +112,23 @@ class _HomePageState extends State<HomePage> {
                   });
 
                   if (state is LogoutSuccess) {
-                    GoRouter.of(context).pushLoginPage();
+                    GoRouter.of(context).pushLogoutPage();
                   }
                 },
                 builder: (context, state) {
                   if (state is HomeLoading) return const ShimmerTicketList();
 
+                  if (state is HomeSuccessEmpty) {
+                    return const NoTicketsEmptyState();
+                  }
+
                   if (state is HomeSuccess) {
                     return ListView.builder(
-                      itemCount: state.tickets.length * 5,
+                      physics: const BouncingScrollPhysics(),
+                      itemCount: state.tickets.length * 3,
                       itemBuilder: (context, index) {
-                        return Container(
-                          margin: EdgeInsets.symmetric(vertical: 11.h),
-                          height: 62.h,
-                          decoration: BoxDecoration(
-                            color: Colors.white,
-                            borderRadius: BorderRadius.circular(10.r),
-                          ),
-                          child: Center(
-                            child: Text(
-                              state.tickets[index % 2].party?.name ?? '',
-                            ),
-                          ),
+                        return TicketItem(
+                          party: state.tickets[index % 9].party,
                         );
                       },
                     );
@@ -127,6 +137,7 @@ class _HomePageState extends State<HomePage> {
                 },
               ),
             ),
+            SizedBox(height: 20.h),
           ],
         ),
       ),

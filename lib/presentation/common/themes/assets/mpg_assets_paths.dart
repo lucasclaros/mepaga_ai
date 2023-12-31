@@ -59,4 +59,7 @@ class MPGAssetsPaths implements IAppAssetsPaths {
 
   @override
   String get emptyTickets => getAssetPath('empty_tickets.svg');
+
+  @override
+  String get forwardIcon => getAssetPath('forward_icon.svg');
 }

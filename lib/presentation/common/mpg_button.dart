@@ -10,6 +10,7 @@ class MPGButton extends StatelessWidget {
     this.height,
     this.gradient,
     this.onPressed,
+    this.isLoading = false,
   });
 
   final Widget child;
@@ -17,6 +18,7 @@ class MPGButton extends StatelessWidget {
   final double? height;
   final Gradient? gradient;
   final VoidCallback? onPressed;
+  final bool isLoading;
 
   @override
   Widget build(BuildContext context) => GestureDetector(
@@ -33,7 +35,16 @@ class MPGButton extends StatelessWidget {
                 gradient ?? MPGColors.of(context).mpgButtonColoredGradient,
           ),
           child: Center(
-            child: child,
+            child: isLoading
+                ? SizedBox(
+                    height: 22.w,
+                    width: 22.w,
+                    child: CircularProgressIndicator(
+                      color: Colors.white.withOpacity(0.8),
+                      strokeWidth: 2.w,
+                    ),
+                  )
+                : child,
           ),
         ),
       );

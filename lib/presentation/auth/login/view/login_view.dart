@@ -103,17 +103,11 @@ class LoginViewState extends State<LoginView> {
                           ),
                         );
                   },
-                  child: isLoading
-                      ? Center(
-                          child: CircularProgressIndicator(
-                            color: Colors.white,
-                            strokeWidth: 2.w,
-                          ),
-                        )
-                      : Text(
-                          'Login',
-                          style: MPGTextStyles.of(context).mpgColoredButton,
-                        ),
+                  isLoading: isLoading,
+                  child: Text(
+                    'Login',
+                    style: MPGTextStyles.of(context).mpgColoredButton,
+                  ),
                 ),
                 SizedBox(height: 70.h),
               ],
