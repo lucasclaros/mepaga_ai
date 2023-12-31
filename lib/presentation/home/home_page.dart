@@ -116,7 +116,9 @@ class _HomePageState extends State<HomePage> {
                   }
                 },
                 builder: (context, state) {
-                  if (state is HomeLoading) return const ShimmerTicketList();
+                  if (state is HomeLoading || state is LogoutLoading) {
+                    return const ShimmerTicketList();
+                  }
 
                   if (state is HomeSuccessEmpty) {
                     return const NoTicketsEmptyState();
