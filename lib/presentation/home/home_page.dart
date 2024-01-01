@@ -148,7 +148,8 @@ class _HomePageState extends State<HomePage> {
                 },
                 builder: (context, state) {
                   return RefreshIndicator(
-                    color: const Color(0xFF7401FF),
+                    color: Colors.white,
+                    backgroundColor: const Color(0xFF7401FF),
                     onRefresh: () async {
                       _pagingController.refresh();
                     },
