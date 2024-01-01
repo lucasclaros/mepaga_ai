@@ -1,3 +1,4 @@
+import 'package:domain/models/ticket.dart';
 import 'package:domain/use_cases/get_user_info_uc.dart';
 import 'package:domain/use_cases/get_user_tickets.dart';
 import 'package:domain/use_cases/user_logout_uc.dart';
@@ -7,10 +8,13 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 import 'package:mepaga_ai/common/routing.dart';
+import 'package:mepaga_ai/presentation/common/empty_states/fetch_data_empty_state.dart';
 import 'package:mepaga_ai/presentation/common/empty_states/no_tickets_empty_state.dart';
 import 'package:mepaga_ai/presentation/common/mpg_button.dart';
 import 'package:mepaga_ai/presentation/common/mpg_scaffold.dart';
+import 'package:mepaga_ai/presentation/common/themes/colors/mpg_colors.dart';
 import 'package:mepaga_ai/presentation/common/themes/text_styles/mpg_text_styles.dart';
 import 'package:mepaga_ai/presentation/common/utils.dart';
 import 'package:mepaga_ai/presentation/home/bloc/home_bloc.dart';
@@ -43,6 +47,15 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
   bool _isLoading = false;
+  final _pagingController = PagingController<int, Ticket>(
+    firstPageKey: 0,
+  );
+
+  @override
+  void dispose() {
+    super.dispose();
+    _pagingController.dispose();
+  }
 
   @override
   void initState() {
@@ -57,7 +70,11 @@ class _HomePageState extends State<HomePage> {
       });
     }
     super.initState();
-    context.read<HomeBloc>().add(UserInfo());
+
+    context.read<HomeBloc>().add(UserInfo(initialLoading: true));
+    _pagingController.addPageRequestListener((_) {
+      context.read<HomeBloc>().add(UserInfo());
+    });
   }
 
   @override
@@ -117,28 +134,80 @@ class _HomePageState extends State<HomePage> {
                     });
                     GoRouter.of(context).pushLogoutPage();
                   }
-                },
-                builder: (context, state) {
-                  if (_isLoading) {
-                    return const ShimmerTicketList();
-                  }
-
-                  if (state is HomeSuccessEmpty) {
-                    return const NoTicketsEmptyState();
-                  }
 
                   if (state is HomeSuccess) {
-                    return ListView.builder(
-                      physics: const BouncingScrollPhysics(),
-                      itemCount: state.tickets.length * 3,
-                      itemBuilder: (context, index) {
-                        return TicketItem(
-                          party: state.tickets[index % 9].party,
-                        );
-                      },
+                    _pagingController.appendPage(
+                      state.tickets,
+                      _pagingController.nextPageKey,
                     );
                   }
-                  return Container();
+
+                  if (state is HomeError) {
+                    _pagingController.error = state.message;
+                  }
+                },
+                builder: (context, state) {
+                  return RefreshIndicator(
+                    color: const Color(0xFF7401FF),
+                    onRefresh: () async {
+                      _pagingController.refresh();
+                    },
+                    child: PagedListView<int, Ticket>(
+                      shrinkWrap: true,
+                      pagingController: _pagingController,
+                      builderDelegate: PagedChildBuilderDelegate<Ticket>(
+                        itemBuilder: (context, ticket, index) {
+                          return TicketItem(
+                            party: ticket.party,
+                          );
+                        },
+                        firstPageProgressIndicatorBuilder: (context) =>
+                            const ShimmerTicketList(),
+                        newPageProgressIndicatorBuilder: (context) => Padding(
+                          padding: EdgeInsets.symmetric(vertical: 10.h),
+                          child: Center(
+                            child: SizedBox(
+                              height: 22.w,
+                              width: 22.w,
+                              child: CircularProgressIndicator(
+                                color: Colors.white.withOpacity(0.8),
+                                strokeWidth: 2.w,
+                              ),
+                            ),
+                          ),
+                        ),
+                        newPageErrorIndicatorBuilder: (context) => const Center(
+                          child: Text(
+                            'Ocorreu um erro ao carregar os ingressos',
+                            style: TextStyle(
+                              color: Colors.white,
+                              fontSize: 16,
+                            ),
+                          ),
+                        ),
+                        firstPageErrorIndicatorBuilder: (context) => Column(
+                          children: [
+                            const FetchDataEmptyState(),
+                            SizedBox(height: 20.h),
+                            MPGButton(
+                              gradient:
+                                  MPGColors.of(context).mpgButtonWhitedGradient,
+                              onPressed: () async {
+                                _pagingController.refresh();
+                              },
+                              child: Text(
+                                'Tentar novamente',
+                                style:
+                                    MPGTextStyles.of(context).mpgWhitedButton,
+                              ),
+                            ),
+                          ],
+                        ),
+                        noItemsFoundIndicatorBuilder: (context) =>
+                            const NoTicketsEmptyState(),
+                      ),
+                    ),
+                  );
                 },
               ),
             ),

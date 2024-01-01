@@ -15,7 +15,7 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
     required this.getUserInfoUC,
     required this.getUserTicketsUC,
     required this.userLogoutUC,
-  }) : super(HomeInitial()) {
+  }) : super(HomeLoading()) {
     on<UserInfo>(_mapUserInfoToState);
     on<UserLogout>(_mapUserLogoutToState);
   }
@@ -28,7 +28,9 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
     UserInfo event,
     Emitter<HomeState> emit,
   ) async {
-    emit(HomeLoading());
+    if (event.initialLoading) {
+      emit(HomeLoading());
+    }
 
     try {
       final user = await getUserInfoUC(NoParams());
@@ -36,9 +38,7 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
       UserMM().name = user.name;
       UserMM().pixKey = user.pixKey;
       final tickets = await getUserTicketsUC(NoParams());
-      tickets.isEmpty
-          ? emit(HomeSuccessEmpty())
-          : emit(HomeSuccess(tickets: tickets));
+      emit(HomeSuccess(tickets: tickets));
     } catch (e) {
       if (e is Exception) {
         emit(HomeError(message: e.toString()));

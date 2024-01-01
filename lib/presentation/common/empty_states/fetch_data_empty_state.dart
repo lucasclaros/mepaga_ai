@@ -4,8 +4,8 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:mepaga_ai/presentation/common/themes/assets/mpg_assets_paths.dart';
 
-class NoTicketsEmptyState extends StatelessWidget {
-  const NoTicketsEmptyState({super.key});
+class FetchDataEmptyState extends StatelessWidget {
+  const FetchDataEmptyState({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -19,7 +19,7 @@ class NoTicketsEmptyState extends StatelessWidget {
           ),
           SizedBox(height: 65.h),
           Text(
-            'Você ainda não possui ingressos',
+            'Ocorreu um erro ao carregar os seus ingressos',
             style: GoogleFonts.barlow(
               fontSize: 20.sp,
               fontWeight: FontWeight.w500,
