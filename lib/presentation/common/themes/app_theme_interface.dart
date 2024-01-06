@@ -86,6 +86,8 @@ abstract class IAppAssetsPaths {
   String get userIcon;
 
   String get emptyTickets;
+
+  String get forwardIcon;
 }
 
 abstract class AppThemeInterface {

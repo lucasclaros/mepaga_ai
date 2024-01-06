@@ -152,6 +152,7 @@ class _MPGTextFieldState extends State<MPGTextField> {
               ),
               contentPadding: EdgeInsets.symmetric(
                 vertical: 17.h,
+                horizontal: 10.w,
               ),
               hintText: widget.hintText,
               hintStyle: GoogleFonts.barlow(

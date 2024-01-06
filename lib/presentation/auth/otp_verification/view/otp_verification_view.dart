@@ -149,17 +149,11 @@ class _OTPVerificationViewState extends State<OTPVerificationView> {
                           ),
                         );
                   },
-                  child: _isLoading
-                      ? Center(
-                          child: CircularProgressIndicator(
-                            color: Colors.white,
-                            strokeWidth: 2.w,
-                          ),
-                        )
-                      : Text(
-                          'Validar',
-                          style: MPGTextStyles.of(context).mpgColoredButton,
-                        ),
+                  isLoading: _isLoading,
+                  child: Text(
+                    'Validar',
+                    style: MPGTextStyles.of(context).mpgColoredButton,
+                  ),
                 ),
                 SizedBox(height: 45.h),
               ],

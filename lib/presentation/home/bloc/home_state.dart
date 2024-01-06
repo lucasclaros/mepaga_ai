@@ -7,7 +7,13 @@ class HomeInitial extends HomeState {}
 
 class HomeLoading extends HomeState {}
 
-class HomeSuccess extends HomeState {}
+class HomeSuccessEmpty extends HomeState {}
+
+class HomeSuccess extends HomeState {
+  HomeSuccess({required this.tickets});
+
+  final List<Ticket> tickets;
+}
 
 class HomeError extends HomeState {
   HomeError({required this.message});

@@ -16,6 +16,7 @@ const _onboardingPage = 'onboarding';
 const _registerEmailPage = 'register-email';
 const _registerPassPage = 'register-pass';
 const _loginPage = 'login';
+const _logoutPage = 'logout';
 const _startPage = 'start';
 
 const _onboardingPath = _homePage + _onboardingPage;
@@ -23,6 +24,7 @@ const _registerEmailPath = _onboardingPath + _homePage + _registerEmailPage;
 const _registerPassPath = _registerEmailPath + _homePage + _registerPassPage;
 const _verificationPath = _registerPassPath + _homePage + _verificationPage;
 const _loginPath = _onboardingPath + _homePage + _loginPage;
+const _logoutPath = _homePage + _logoutPage;
 const _startPath = _homePage + _startPage;
 
 final routes = GoRouter(
@@ -90,6 +92,15 @@ final routes = GoRouter(
           ],
         ),
         GoRoute(
+          path: _logoutPage,
+          pageBuilder: (context, state) {
+            return CustomSlideTransition(
+              key: state.pageKey,
+              child: LoginView.create(),
+            );
+          },
+        ),
+        GoRoute(
           path: _startPage,
           pageBuilder: (context, state) {
             final extraData = state.extra as Map<String, dynamic>? ?? {};
@@ -115,6 +126,8 @@ extension PageNavigationExtension on GoRouter {
   void pushRegisterPassPage(String email) => go(_registerPassPath);
 
   void pushLoginPage() => go(_loginPath);
+
+  void pushLogoutPage() => go(_logoutPath);
 
   void pushStartPage({bool showFlushbar = false}) => go(
         _startPath,

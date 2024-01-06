@@ -1,20 +1,26 @@
+import 'package:domain/models/ticket.dart';
 import 'package:domain/use_cases/get_user_info_uc.dart';
+import 'package:domain/use_cases/get_user_tickets.dart';
 import 'package:domain/use_cases/user_logout_uc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 import 'package:mepaga_ai/common/routing.dart';
-import 'package:mepaga_ai/data/models/user_mm.dart';
+import 'package:mepaga_ai/presentation/common/empty_states/fetch_data_empty_state.dart';
+import 'package:mepaga_ai/presentation/common/empty_states/no_tickets_empty_state.dart';
 import 'package:mepaga_ai/presentation/common/mpg_button.dart';
 import 'package:mepaga_ai/presentation/common/mpg_scaffold.dart';
-import 'package:mepaga_ai/presentation/common/themes/assets/mpg_assets_paths.dart';
+import 'package:mepaga_ai/presentation/common/themes/colors/mpg_colors.dart';
 import 'package:mepaga_ai/presentation/common/themes/text_styles/mpg_text_styles.dart';
 import 'package:mepaga_ai/presentation/common/utils.dart';
 import 'package:mepaga_ai/presentation/home/bloc/home_bloc.dart';
+import 'package:mepaga_ai/presentation/home/components/shimmer_ticket_list.dart';
+import 'package:mepaga_ai/presentation/home/components/ticket_item.dart';
+import 'package:mepaga_ai/presentation/home/components/welcome_header.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({
@@ -27,6 +33,7 @@ class HomePage extends StatefulWidget {
   static Widget create({bool showFlushbar = false}) => BlocProvider<HomeBloc>(
         create: (context) => HomeBloc(
           getUserInfoUC: context.read<GetUserInfoUC>(),
+          getUserTicketsUC: context.read<GetUserTicketsUC>(),
           userLogoutUC: context.read<UserLogoutUC>(),
         ),
         child: HomePage(
@@ -40,6 +47,15 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
   bool _isLoading = false;
+  final _pagingController = PagingController<int, Ticket>(
+    firstPageKey: 0,
+  );
+
+  @override
+  void dispose() {
+    super.dispose();
+    _pagingController.dispose();
+  }
 
   @override
   void initState() {
@@ -54,124 +70,151 @@ class _HomePageState extends State<HomePage> {
       });
     }
     super.initState();
-    context.read<HomeBloc>().add(UserInfo());
+
+    context.read<HomeBloc>().add(UserInfo(initialLoading: true));
+    _pagingController.addPageRequestListener((_) {
+      context.read<HomeBloc>().add(UserInfo());
+    });
   }
 
   @override
   Widget build(BuildContext context) {
     return MPGScaffold(
-      child: BlocConsumer<HomeBloc, HomeState>(
-        listener: (context, state) {
-          setState(() {
-            _isLoading = state is HomeLoading || state is LogoutLoading;
-          });
-
-          if (state is LogoutSuccess) {
-            GoRouter.of(context).pushLoginPage();
-          }
-        },
-        builder: (context, state) {
-          return _isLoading
-              ? Center(
-                  child: CircularProgressIndicator(
-                    color: Colors.white,
-                    strokeWidth: 2.w,
+      child: Padding(
+        padding: EdgeInsets.symmetric(horizontal: 30.w),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            SizedBox(height: 39.h),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                WelcomeHeader(isLoading: _isLoading),
+                IconButton(
+                  onPressed: () {},
+                  icon: Icon(
+                    Icons.notifications_none_outlined,
+                    color: Colors.white.withOpacity(0.8),
+                    size: 36.sp,
                   ),
-                )
-              : SingleChildScrollView(
-                  child: Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 30),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        SizedBox(height: 39.h),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Text(
-                                  'Olá,',
-                                  style: GoogleFonts.barlow(
-                                    fontSize: 30.sp,
-                                    fontWeight: FontWeight.w500,
-                                    color: Colors.white.withOpacity(0.8),
-                                  ),
-                                ),
-                                Text(
-                                  UserMM().name,
-                                  style: GoogleFonts.barlow(
-                                    fontSize: 36.sp,
-                                    fontWeight: FontWeight.w500,
-                                    color: Colors.white,
-                                  ),
-                                ),
-                              ],
-                            ),
-                            IconButton(
-                              onPressed: () {
-                                showFlushbar(
-                                  context: context,
-                                  message: 'Login realizado com sucesso!',
-                                  fontColor: Colors.white,
-                                  backgroundColor: Colors.green,
-                                );
-                              },
-                              icon: const Icon(
-                                Icons.notifications_none_outlined,
-                                size: 36,
+                ),
+              ],
+            ),
+            SizedBox(height: 39.h),
+            Text(
+              'Acompanhe seus ingressos',
+              style: GoogleFonts.barlow(
+                fontSize: 24.sp,
+                fontWeight: FontWeight.w500,
+                color: Colors.white.withOpacity(0.8),
+              ),
+            ),
+            SizedBox(height: 39.h),
+            MPGButton(
+              width: double.infinity,
+              onPressed: () {
+                context.read<HomeBloc>().add(UserLogout());
+              },
+              child: Text(
+                'Logout',
+                style: MPGTextStyles.of(context).mpgColoredButton,
+              ),
+            ),
+            SizedBox(height: 39.h),
+            Expanded(
+              child: BlocConsumer<HomeBloc, HomeState>(
+                listener: (context, state) {
+                  setState(() {
+                    _isLoading = state is HomeLoading || state is LogoutLoading;
+                  });
+
+                  if (state is LogoutSuccess) {
+                    setState(() {
+                      _isLoading = true;
+                    });
+                    GoRouter.of(context).pushLogoutPage();
+                  }
+
+                  if (state is HomeSuccess) {
+                    _pagingController.appendPage(
+                      state.tickets,
+                      _pagingController.nextPageKey,
+                    );
+                  }
+
+                  if (state is HomeError) {
+                    _pagingController.error = state.message;
+                  }
+                },
+                builder: (context, state) {
+                  return RefreshIndicator(
+                    color: Colors.white,
+                    backgroundColor: const Color(0xFF7401FF),
+                    onRefresh: () async {
+                      _pagingController.refresh();
+                    },
+                    child: PagedListView<int, Ticket>(
+                      shrinkWrap: true,
+                      pagingController: _pagingController,
+                      builderDelegate: PagedChildBuilderDelegate<Ticket>(
+                        itemBuilder: (context, ticket, index) {
+                          return TicketItem(
+                            party: ticket.party,
+                          );
+                        },
+                        firstPageProgressIndicatorBuilder: (context) =>
+                            const ShimmerTicketList(),
+                        newPageProgressIndicatorBuilder: (context) => Padding(
+                          padding: EdgeInsets.symmetric(vertical: 10.h),
+                          child: Center(
+                            child: SizedBox(
+                              height: 22.w,
+                              width: 22.w,
+                              child: CircularProgressIndicator(
+                                color: Colors.white.withOpacity(0.8),
+                                strokeWidth: 2.w,
                               ),
-                              color: const Color(0xFFCEC2DA),
+                            ),
+                          ),
+                        ),
+                        newPageErrorIndicatorBuilder: (context) => const Center(
+                          child: Text(
+                            'Ocorreu um erro ao carregar os ingressos',
+                            style: TextStyle(
+                              color: Colors.white,
+                              fontSize: 16,
+                            ),
+                          ),
+                        ),
+                        firstPageErrorIndicatorBuilder: (context) => Column(
+                          children: [
+                            const FetchDataEmptyState(),
+                            SizedBox(height: 20.h),
+                            MPGButton(
+                              gradient:
+                                  MPGColors.of(context).mpgButtonWhitedGradient,
+                              onPressed: () async {
+                                _pagingController.refresh();
+                              },
+                              child: Text(
+                                'Tentar novamente',
+                                style:
+                                    MPGTextStyles.of(context).mpgWhitedButton,
+                              ),
                             ),
                           ],
                         ),
-                        SizedBox(height: 39.h),
-                        Text(
-                          'Acompanhe seus ingressos.',
-                          style: GoogleFonts.barlow(
-                            fontSize: 24.sp,
-                            fontWeight: FontWeight.w500,
-                            color: Colors.white.withOpacity(0.8),
-                          ),
-                        ),
-                        SizedBox(height: 60.h),
-                        Center(
-                          child: Column(
-                            children: [
-                              SizedBox(
-                                child: SvgPicture.asset(
-                                  MPGAssetsPaths.of(context).emptyTickets,
-                                ),
-                              ),
-                              SizedBox(height: 60.h),
-                              Text(
-                                'Você ainda não possui ingressos.',
-                                style: GoogleFonts.barlow(
-                                  fontSize: 20,
-                                  fontWeight: FontWeight.w500,
-                                  color: Colors.white.withOpacity(0.8),
-                                ),
-                              ),
-                            ],
-                          ),
-                        ),
-                        SizedBox(height: 100.h),
-                        MPGButton(
-                          child: Text(
-                            'Logout',
-                            style: MPGTextStyles.of(context).mpgColoredButton,
-                          ),
-                          onPressed: () {
-                            context.read<HomeBloc>().add(UserLogout());
-                          },
-                        ),
-                        SizedBox(height: 45.h),
-                      ],
+                        noItemsFoundIndicatorBuilder: (context) =>
+                            const NoTicketsEmptyState(),
+                      ),
                     ),
-                  ),
-                );
-        },
+                  );
+                },
+              ),
+            ),
+            SizedBox(height: 20.h),
+          ],
+        ),
       ),
     );
   }
