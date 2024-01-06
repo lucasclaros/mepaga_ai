@@ -2,6 +2,7 @@ import 'package:domain/use_cases/cache_jwt_uc.dart';
 import 'package:domain/use_cases/user_login_uc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
 import 'package:mepaga_ai/common/routing.dart';
 import 'package:mepaga_ai/presentation/auth/login/bloc/login_bloc.dart';
@@ -9,7 +10,6 @@ import 'package:mepaga_ai/presentation/common/mpg_button.dart';
 import 'package:mepaga_ai/presentation/common/mpg_header.dart';
 import 'package:mepaga_ai/presentation/common/mpg_scaffold.dart';
 import 'package:mepaga_ai/presentation/common/mpg_textfield.dart';
-import 'package:mepaga_ai/presentation/common/responsivity.dart';
 import 'package:mepaga_ai/presentation/common/themes/colors/mpg_colors.dart';
 import 'package:mepaga_ai/presentation/common/themes/text_styles/mpg_text_styles.dart';
 import 'package:mepaga_ai/presentation/common/utils.dart';
@@ -76,9 +76,7 @@ class LoginViewState extends State<LoginView> {
                 const MPGHeader(
                   title: 'Bem-vindo!',
                 ),
-                SizedBox(
-                  height: context.responsiveHeight(90),
-                ),
+                SizedBox(height: 75.h),
                 MPGTextField(
                   labelText: 'Digite seu email',
                   hintText: 'Email',
@@ -86,9 +84,7 @@ class LoginViewState extends State<LoginView> {
                   controller: _emailController,
                   focusNode: _emailFocusNode,
                 ),
-                SizedBox(
-                  height: context.responsiveHeight(43),
-                ),
+                SizedBox(height: 43.h),
                 MPGTextField(
                   labelText: 'Digite sua senha',
                   hintText: 'Senha',
@@ -96,9 +92,7 @@ class LoginViewState extends State<LoginView> {
                   controller: _passwordController,
                   focusNode: _passwordFocusNode,
                 ),
-                SizedBox(
-                  height: context.responsiveHeight(190),
-                ),
+                SizedBox(height: 195.h),
                 MPGButton(
                   gradient: MPGColors.of(context).mpgButtonColoredGradient,
                   onPressed: () {
@@ -109,16 +103,13 @@ class LoginViewState extends State<LoginView> {
                           ),
                         );
                   },
-                  child: isLoading
-                      ? const CircularProgressIndicator(
-                          color: Colors.white,
-                          strokeWidth: 2,
-                        )
-                      : Text(
-                          'Login',
-                          style: MPGTextStyles.of(context).mpgColoredButton,
-                        ),
+                  isLoading: isLoading,
+                  child: Text(
+                    'Login',
+                    style: MPGTextStyles.of(context).mpgColoredButton,
+                  ),
                 ),
+                SizedBox(height: 70.h),
               ],
             ),
           ),

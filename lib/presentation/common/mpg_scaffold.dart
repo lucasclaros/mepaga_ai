@@ -8,10 +8,12 @@ class MPGScaffold extends StatelessWidget {
     super.key,
     required this.child,
     this.backgroundColor,
+    this.backgroundImage,
   });
 
   final Widget child;
   final Color? backgroundColor;
+  final String? backgroundImage;
 
   @override
   Widget build(BuildContext context) {
@@ -23,7 +25,7 @@ class MPGScaffold extends StatelessWidget {
         alignment: Alignment.center,
         children: [
           Image.asset(
-            MPGAssetsPaths.of(context).mpgScaffold,
+            backgroundImage ?? MPGAssetsPaths.of(context).mpgScaffold,
             fit: BoxFit.cover,
             height: height,
             width: width,
@@ -37,7 +39,7 @@ class MPGScaffold extends StatelessWidget {
               },
               child: child,
             ),
-          )
+          ),
         ],
       ),
     );

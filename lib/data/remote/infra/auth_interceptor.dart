@@ -1,5 +1,4 @@
 import 'package:dio/dio.dart';
-import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:mepaga_ai/data/cache/data_source/online_cds.dart';
 
 class AuthInterceptor extends InterceptorsWrapper {

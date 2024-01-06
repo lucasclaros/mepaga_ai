@@ -1,3 +1,4 @@
+import 'package:domain/models/ticket.dart';
 import 'package:domain/models/user.dart';
 import 'package:domain/repositories/user_repository_interface.dart';
 import 'package:mepaga_ai/data/mappers/remote_to_domain.dart';
@@ -13,5 +14,11 @@ class UserRepository implements IUserRepositoryInterface {
   Future<User> getInfo() async {
     final user = await rds.getInfo();
     return user.toDM();
+  }
+
+  @override
+  Future<List<Ticket>> getTickets() async {
+    final tickets = await rds.getTickets();
+    return tickets.map((e) => e.toDM()).toList();
   }
 }

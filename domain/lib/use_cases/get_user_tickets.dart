@@ -1,9 +1,9 @@
-import 'package:domain/models/user.dart';
+import 'package:domain/models/ticket.dart';
 import 'package:domain/repositories/user_repository_interface.dart';
 import 'package:domain/use_cases/use_case.dart';
 
-class GetUserInfoUC extends UseCase<NoParams, User> {
-  GetUserInfoUC({
+class GetUserTicketsUC extends UseCase<NoParams, List<Ticket>> {
+  GetUserTicketsUC({
     required super.logger,
     required this.repository,
   });
@@ -11,5 +11,5 @@ class GetUserInfoUC extends UseCase<NoParams, User> {
   final IUserRepositoryInterface repository;
 
   @override
-  Future<User> rawCall(NoParams params) => repository.getInfo();
+  Future<List<Ticket>> rawCall(NoParams params) => repository.getTickets();
 }

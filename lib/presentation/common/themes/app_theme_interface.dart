@@ -39,17 +39,11 @@ abstract class IAppTextStyles {
 
   TextStyle get emailVerificationDescription;
 
-  TextStyle get policyNormalDescriptionWeb;
-
   TextStyle get policyNormalDescriptionMobile;
 
   TextStyle get policyColoredDescription;
 
-  TextStyle get verificationHeaderTitleWeb;
-
   TextStyle get verificationHeaderTitleMobile;
-
-  TextStyle get emailVerificationDescriptionWeb;
 
   TextStyle get emailVerificationDescriptionMobile;
 
@@ -90,6 +84,10 @@ abstract class IAppAssetsPaths {
   String get doubtButton;
 
   String get userIcon;
+
+  String get emptyTickets;
+
+  String get forwardIcon;
 }
 
 abstract class AppThemeInterface {
