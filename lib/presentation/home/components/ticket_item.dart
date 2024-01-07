@@ -21,7 +21,7 @@ class _TicketItemState extends State<TicketItem> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      margin: EdgeInsets.symmetric(vertical: 11.h),
+      margin: EdgeInsets.only(bottom: 11.h),
       padding: EdgeInsets.symmetric(horizontal: 12.w, vertical: 9.h),
       decoration: BoxDecoration(
         color: Colors.white,
