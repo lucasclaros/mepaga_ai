@@ -91,7 +91,11 @@ class _HomePageState extends State<HomePage> {
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                WelcomeHeader(isLoading: _isLoading),
+                Expanded(
+                  flex: 9,
+                  child: WelcomeHeader(isLoading: _isLoading),
+                ),
+                SizedBox(width: 50.w),
                 IconButton(
                   onPressed: () {},
                   icon: Icon(
