@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:mepaga_ai/custom_icons_icons.dart';
 import 'package:mepaga_ai/presentation/common/mpg_scaffold.dart';
 import 'package:mepaga_ai/presentation/common/themes/assets/mpg_assets_paths.dart';
 import 'package:mepaga_ai/presentation/home/home_page.dart';
@@ -23,8 +24,7 @@ class _BottomNavbarState extends State<BottomNavbar> {
   List<PersistentBottomNavBarItem> _navBarItems() {
     return [
       PersistentBottomNavBarItem(
-        icon: const Icon(Icons.home_rounded),
-        inactiveIcon: const Icon(Icons.home_outlined),
+        icon: const Icon(CustomIcons.home_icon),
         title: 'Home',
         activeColorPrimary: const Color(0xFF5316B6),
         inactiveColorPrimary: const Color(0xFFCEC2DA),
@@ -32,7 +32,7 @@ class _BottomNavbarState extends State<BottomNavbar> {
           fontSize: 12.sp,
           fontWeight: FontWeight.w700,
         ),
-        iconSize: 32.w,
+        // iconSize: 32.w,
       ),
       PersistentBottomNavBarItem(
         icon: const Icon(Icons.add),
@@ -41,8 +41,7 @@ class _BottomNavbarState extends State<BottomNavbar> {
         onPressed: (_) {},
       ),
       PersistentBottomNavBarItem(
-        icon: const Icon(Icons.person),
-        inactiveIcon: const Icon(Icons.person_outline),
+        icon: const Icon(CustomIcons.user_icon),
         title: 'Perfil',
         activeColorPrimary: const Color(0xFF5316B6),
         inactiveColorPrimary: const Color(0xFFCEC2DA),
@@ -50,7 +49,6 @@ class _BottomNavbarState extends State<BottomNavbar> {
           fontSize: 12.sp,
           fontWeight: FontWeight.w700,
         ),
-        iconSize: 32.w,
       ),
     ];
   }
@@ -113,8 +111,6 @@ class _BottomNavbarState extends State<BottomNavbar> {
           navBarHeight: 65.h,
           screenTransitionAnimation: const ScreenTransitionAnimation(
             animateTabTransition: true,
-            // curve: Curves.ease,
-            // duration: Duration(milliseconds: 200),
           ),
         ),
       ),

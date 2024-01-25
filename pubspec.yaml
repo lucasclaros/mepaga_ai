@@ -56,6 +56,10 @@ flutter:
 
     assets:
         - assets/
+    fonts:
+        - family: CustomIcons
+          fonts:
+              - asset: fonts/CustomIcons.ttf
     # fonts:
     #   - family: Schyler
     #     fonts:
