@@ -17,10 +17,10 @@ import 'package:mepaga_ai/presentation/common/mpg_scaffold.dart';
 import 'package:mepaga_ai/presentation/common/themes/colors/mpg_colors.dart';
 import 'package:mepaga_ai/presentation/common/themes/text_styles/mpg_text_styles.dart';
 import 'package:mepaga_ai/presentation/common/utils.dart';
-import 'package:mepaga_ai/presentation/home/bloc/home_bloc.dart';
 import 'package:mepaga_ai/presentation/home/components/shimmer_ticket_list.dart';
 import 'package:mepaga_ai/presentation/home/components/ticket_item.dart';
 import 'package:mepaga_ai/presentation/home/components/welcome_header.dart';
+import 'package:mepaga_ai/presentation/home/screens/home/bloc/home_bloc.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({

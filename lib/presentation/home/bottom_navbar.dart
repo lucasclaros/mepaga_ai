@@ -5,7 +5,8 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:mepaga_ai/custom_icons_icons.dart';
 import 'package:mepaga_ai/presentation/common/mpg_scaffold.dart';
 import 'package:mepaga_ai/presentation/common/themes/assets/mpg_assets_paths.dart';
-import 'package:mepaga_ai/presentation/home/home_page.dart';
+import 'package:mepaga_ai/presentation/home/screens/home/home_page.dart';
+import 'package:mepaga_ai/presentation/home/screens/profile/profile_page.dart';
 import 'package:persistent_bottom_nav_bar/persistent_tab_view.dart';
 import 'package:simple_shadow/simple_shadow.dart';
 
@@ -32,7 +33,6 @@ class _BottomNavbarState extends State<BottomNavbar> {
           fontSize: 12.sp,
           fontWeight: FontWeight.w700,
         ),
-        // iconSize: 32.w,
       ),
       PersistentBottomNavBarItem(
         icon: const Icon(Icons.add),
@@ -64,14 +64,7 @@ class _BottomNavbarState extends State<BottomNavbar> {
           ),
         ),
       ),
-      const MPGScaffold(
-        child: Center(
-          child: Text(
-            'Perfil',
-            style: TextStyle(color: Colors.white),
-          ),
-        ),
-      ),
+      ProfilePage.create(),
     ];
   }
 
@@ -108,7 +101,7 @@ class _BottomNavbarState extends State<BottomNavbar> {
             curve: Curves.ease,
           ),
           navBarStyle: NavBarStyle.simple,
-          navBarHeight: 65.h,
+          navBarHeight: 70.h,
           screenTransitionAnimation: const ScreenTransitionAnimation(
             animateTabTransition: true,
           ),
