@@ -1,15 +1,12 @@
 import 'package:domain/models/ticket.dart';
 import 'package:domain/use_cases/get_user_info_uc.dart';
 import 'package:domain/use_cases/get_user_tickets.dart';
-import 'package:domain/use_cases/user_logout_uc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
-import 'package:mepaga_ai/common/routing.dart';
 import 'package:mepaga_ai/presentation/common/empty_states/fetch_data_empty_state.dart';
 import 'package:mepaga_ai/presentation/common/empty_states/no_tickets_empty_state.dart';
 import 'package:mepaga_ai/presentation/common/mpg_button.dart';
@@ -34,7 +31,6 @@ class HomePage extends StatefulWidget {
         create: (context) => HomeBloc(
           getUserInfoUC: context.read<GetUserInfoUC>(),
           getUserTicketsUC: context.read<GetUserTicketsUC>(),
-          userLogoutUC: context.read<UserLogoutUC>(),
         ),
         child: HomePage(
           showFlushbar: showFlushbar,
@@ -115,31 +111,24 @@ class _HomePageState extends State<HomePage> {
                 color: Colors.white.withOpacity(0.8),
               ),
             ),
-            SizedBox(height: 39.h),
-            MPGButton(
-              width: double.infinity,
-              onPressed: () {
-                context.read<HomeBloc>().add(UserLogout());
-              },
-              child: Text(
-                'Logout',
-                style: MPGTextStyles.of(context).mpgColoredButton,
-              ),
-            ),
+            // SizedBox(height: 39.h),
+            // MPGButton(
+            //   width: double.infinity,
+            //   onPressed: () {
+            //     context.read<HomeBloc>().add(UserLogout());
+            //   },
+            //   child: Text(
+            //     'Logout',
+            //     style: MPGTextStyles.of(context).mpgColoredButton,
+            //   ),
+            // ),
             SizedBox(height: 39.h),
             Expanded(
               child: BlocConsumer<HomeBloc, HomeState>(
                 listener: (context, state) {
                   setState(() {
-                    _isLoading = state is HomeLoading || state is LogoutLoading;
+                    _isLoading = state is HomeLoading;
                   });
-
-                  if (state is LogoutSuccess) {
-                    setState(() {
-                      _isLoading = true;
-                    });
-                    GoRouter.of(context).pushLogoutPage();
-                  }
 
                   if (state is HomeSuccess) {
                     _requests == 0

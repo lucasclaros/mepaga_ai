@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -17,6 +19,8 @@ class ProfileSettingItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final width = MediaQuery.of(context).size.width;
+
     return InkWell(
       onTap: onTap,
       child: Container(
@@ -27,6 +31,7 @@ class ProfileSettingItem extends StatelessWidget {
         ),
         padding: EdgeInsets.symmetric(horizontal: 11.w, vertical: 14.h),
         height: 60.h,
+        width: max(width, 300.w),
         alignment: Alignment.centerLeft,
         child: Row(
           mainAxisAlignment: isLogout
@@ -39,7 +44,7 @@ class ProfileSettingItem extends StatelessWidget {
                 style: GoogleFonts.barlow(
                   fontSize: 18.sp,
                   fontWeight: FontWeight.w500,
-                  color: Color(0xFFEBEBEB),
+                  color: const Color(0xFFEBEBEB),
                 ),
               ),
             ),
