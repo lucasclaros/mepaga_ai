@@ -1,5 +1,11 @@
+// ignore_for_file: use_decorated_box
+
 import 'package:another_flushbar/flushbar.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:google_fonts/google_fonts.dart';
+import 'package:mepaga_ai/presentation/common/mpg_button.dart';
+import 'package:mepaga_ai/presentation/common/themes/text_styles/mpg_text_styles.dart';
 
 bool isNumeric(String string) {
 // Null or empty string is not a number
@@ -69,4 +75,90 @@ Future<void> showFlushbar({
       thenFunction();
     }
   });
+}
+
+Future<void> showMPGBottomSheet({
+  required BuildContext context,
+  required String title,
+  required String buttonText,
+  Function()? onPressed,
+  String? description,
+  Color? backgroundColor,
+  double? height,
+}) async {
+  await showModalBottomSheet<dynamic>(
+    context: context,
+    isScrollControlled: true,
+    backgroundColor: Colors.transparent,
+    builder: (context) => Container(
+      decoration: const BoxDecoration(
+        color: Color(0xff7401FF),
+        borderRadius: BorderRadius.only(
+          topLeft: Radius.circular(30),
+          topRight: Radius.circular(30),
+        ),
+      ),
+      child: NotificationListener<OverscrollIndicatorNotification>(
+        onNotification: (
+          OverscrollIndicatorNotification overscroll,
+        ) {
+          overscroll.disallowIndicator();
+          return true;
+        },
+        child: SizedBox(
+          width: 380.w,
+          height: height,
+          child: Padding(
+            padding: const EdgeInsets.all(25),
+            child: Wrap(
+              alignment: WrapAlignment.center,
+              runAlignment: WrapAlignment.center,
+              crossAxisAlignment: WrapCrossAlignment.center,
+              children: [
+                Column(
+                  children: [
+                    Text(
+                      title,
+                      style: GoogleFonts.barlow(
+                        fontSize: 24,
+                        fontWeight: FontWeight.w700,
+                        color: Colors.white,
+                      ),
+                      textAlign: TextAlign.center,
+                    ),
+                    SizedBox(height: 15.h),
+                    if (description != null)
+                      Text(
+                        description,
+                        style: GoogleFonts.barlow(
+                          fontSize: 16,
+                          fontWeight: FontWeight.w500,
+                          color: Colors.white,
+                        ),
+                        textAlign: TextAlign.justify,
+                      ),
+                  ],
+                ),
+                Padding(
+                  padding: const EdgeInsets.symmetric(
+                    vertical: 20,
+                  ),
+                  child: MPGButton(
+                    child: Text(
+                      buttonText,
+                      style: MPGTextStyles.of(context).mpgColoredButton,
+                    ),
+                    onPressed: () {
+                      onPressed?.call();
+                      Navigator.pop(context);
+                    },
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ),
+      ),
+    ),
+  );
 }

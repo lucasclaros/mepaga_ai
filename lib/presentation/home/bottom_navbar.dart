@@ -55,7 +55,10 @@ class _BottomNavbarState extends State<BottomNavbar> {
 
   List<Widget> _buildScreens() {
     return [
-      HomePage.create(showFlushbar: widget.showFlushbar),
+      HomePage.create(
+        showFlushbar: widget.showFlushbar,
+        triggerBottomSheet: triggerBottomSheet,
+      ),
       const MPGScaffold(
         child: Center(
           child: Text(
@@ -66,6 +69,10 @@ class _BottomNavbarState extends State<BottomNavbar> {
       ),
       ProfilePage.create(),
     ];
+  }
+
+  void triggerBottomSheet(Function(BuildContext) modal) {
+    modal(context);
   }
 
   @override

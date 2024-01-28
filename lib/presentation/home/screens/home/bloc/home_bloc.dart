@@ -1,6 +1,7 @@
 import 'package:bloc/bloc.dart';
 import 'package:domain/models/ticket.dart';
 import 'package:domain/use_cases/get_user_info_uc.dart';
+import 'package:domain/use_cases/get_user_platforms_uc.dart';
 import 'package:domain/use_cases/get_user_tickets.dart';
 import 'package:domain/use_cases/use_case.dart';
 import 'package:mepaga_ai/data/models/user_mm.dart';
@@ -13,12 +14,15 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
   HomeBloc({
     required this.getUserInfoUC,
     required this.getUserTicketsUC,
+    required this.getUserPlatformsUC,
   }) : super(HomeLoading()) {
     on<UserInfo>(_mapUserInfoToState);
+    on<UserPlatforms>(_mapUserPlatformsInfoToState);
   }
 
   final GetUserInfoUC getUserInfoUC;
   final GetUserTicketsUC getUserTicketsUC;
+  final GetUserPlatformsUC getUserPlatformsUC;
 
   Future<void> _mapUserInfoToState(
     UserInfo event,
@@ -40,5 +44,17 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
         emit(HomeError(message: e.toString()));
       }
     }
+  }
+
+  Future<void> _mapUserPlatformsInfoToState(
+    UserPlatforms event,
+    Emitter<HomeState> emit,
+  ) async {
+    try {
+      final platforms = await getUserPlatformsUC(NoParams());
+      if (platforms.length == 1 && !platforms[0].associated) {
+        emit(RegisterPlatform());
+      }
+    } catch (_) {}
   }
 }

@@ -88,7 +88,6 @@ class _ProfilePageState extends State<ProfilePage> {
                 SizedBox(height: 40.h),
                 Expanded(
                   child: ListView.builder(
-                    // separatorBuilder: (_, __) => SizedBox(height: 20.h),
                     shrinkWrap: true,
                     itemCount: settingsOptions.length,
                     itemBuilder: (context, index) {

@@ -1,5 +1,8 @@
+// ignore_for_file: use_decorated_box, lines_longer_than_80_chars
+
 import 'package:domain/models/ticket.dart';
 import 'package:domain/use_cases/get_user_info_uc.dart';
+import 'package:domain/use_cases/get_user_platforms_uc.dart';
 import 'package:domain/use_cases/get_user_tickets.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
@@ -23,17 +26,25 @@ class HomePage extends StatefulWidget {
   const HomePage({
     super.key,
     required this.showFlushbar,
+    this.triggerBottomSheet,
   });
 
   final bool showFlushbar;
+  final void Function(Function(BuildContext))? triggerBottomSheet;
 
-  static Widget create({bool showFlushbar = false}) => BlocProvider<HomeBloc>(
+  static Widget create({
+    bool showFlushbar = false,
+    void Function(Function(BuildContext))? triggerBottomSheet,
+  }) =>
+      BlocProvider<HomeBloc>(
         create: (context) => HomeBloc(
           getUserInfoUC: context.read<GetUserInfoUC>(),
           getUserTicketsUC: context.read<GetUserTicketsUC>(),
+          getUserPlatformsUC: context.read<GetUserPlatformsUC>(),
         ),
         child: HomePage(
           showFlushbar: showFlushbar,
+          triggerBottomSheet: triggerBottomSheet,
         ),
       );
 
@@ -111,21 +122,11 @@ class _HomePageState extends State<HomePage> {
                 color: Colors.white.withOpacity(0.8),
               ),
             ),
-            // SizedBox(height: 39.h),
-            // MPGButton(
-            //   width: double.infinity,
-            //   onPressed: () {
-            //     context.read<HomeBloc>().add(UserLogout());
-            //   },
-            //   child: Text(
-            //     'Logout',
-            //     style: MPGTextStyles.of(context).mpgColoredButton,
-            //   ),
-            // ),
             SizedBox(height: 39.h),
             Expanded(
               child: BlocConsumer<HomeBloc, HomeState>(
                 listener: (context, state) {
+                  print('STATE: $state');
                   setState(() {
                     _isLoading = state is HomeLoading;
                   });
@@ -139,6 +140,17 @@ class _HomePageState extends State<HomePage> {
                             state.tickets,
                             _pagingController.nextPageKey,
                           );
+                    context.read<HomeBloc>().add(UserPlatforms());
+                  }
+
+                  if (state is RegisterPlatform) {
+                    widget.triggerBottomSheet?.call((context) {
+                      showMPGBottomSheet(
+                        context: context,
+                        title: 'Cadastre sua plataforma',
+                        buttonText: 'Cadastrar',
+                      );
+                    });
                   }
 
                   if (state is HomeError) {

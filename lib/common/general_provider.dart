@@ -3,6 +3,7 @@ import 'package:domain/logger.dart';
 import 'package:domain/use_cases/cache_jwt_uc.dart';
 import 'package:domain/use_cases/get_jwt_uc.dart';
 import 'package:domain/use_cases/get_user_info_uc.dart';
+import 'package:domain/use_cases/get_user_platforms_uc.dart';
 import 'package:domain/use_cases/get_user_tickets.dart';
 import 'package:domain/use_cases/otp_verification_uc.dart';
 import 'package:domain/use_cases/user_login_uc.dart';
@@ -146,6 +147,12 @@ class _GeneralProviderState extends State<GeneralProvider> {
         ),
         ProxyProvider2<ErrorLogger, UserRepository, GetUserTicketsUC>(
           update: (_, logger, repository, __) => GetUserTicketsUC(
+            logger: logger,
+            repository: repository,
+          ),
+        ),
+        ProxyProvider2<ErrorLogger, UserRepository, GetUserPlatformsUC>(
+          update: (_, logger, repository, __) => GetUserPlatformsUC(
             logger: logger,
             repository: repository,
           ),
