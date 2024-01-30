@@ -1,14 +1,14 @@
+import 'dart:async';
+import 'dart:math';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:mepaga_ai/custom_icons_icons.dart';
-import 'package:mepaga_ai/presentation/common/mpg_scaffold.dart';
-import 'package:mepaga_ai/presentation/common/themes/assets/mpg_assets_paths.dart';
+import 'package:mepaga_ai/presentation/home/components/add_ticket_float_button.dart';
 import 'package:mepaga_ai/presentation/home/screens/home/home_page.dart';
 import 'package:mepaga_ai/presentation/home/screens/profile/profile_page.dart';
-import 'package:persistent_bottom_nav_bar/persistent_tab_view.dart';
-import 'package:simple_shadow/simple_shadow.dart';
+import 'package:mepaga_ai/presentation/registration/platform/platform_registration_view.dart';
 
 class BottomNavbar extends StatefulWidget {
   const BottomNavbar({super.key, this.showFlushbar = false});
@@ -20,38 +20,8 @@ class BottomNavbar extends StatefulWidget {
 }
 
 class _BottomNavbarState extends State<BottomNavbar> {
-  final _controller = PersistentTabController();
-
-  List<PersistentBottomNavBarItem> _navBarItems() {
-    return [
-      PersistentBottomNavBarItem(
-        icon: const Icon(CustomIcons.home_icon),
-        title: 'Home',
-        activeColorPrimary: const Color(0xFF5316B6),
-        inactiveColorPrimary: const Color(0xFFCEC2DA),
-        textStyle: GoogleFonts.barlow(
-          fontSize: 12.sp,
-          fontWeight: FontWeight.w700,
-        ),
-      ),
-      PersistentBottomNavBarItem(
-        icon: const Icon(Icons.add),
-        activeColorPrimary: Colors.transparent,
-        inactiveColorPrimary: Colors.transparent,
-        onPressed: (_) {},
-      ),
-      PersistentBottomNavBarItem(
-        icon: const Icon(CustomIcons.user_icon),
-        title: 'Perfil',
-        activeColorPrimary: const Color(0xFF5316B6),
-        inactiveColorPrimary: const Color(0xFFCEC2DA),
-        textStyle: GoogleFonts.barlow(
-          fontSize: 12.sp,
-          fontWeight: FontWeight.w700,
-        ),
-      ),
-    ];
-  }
+  final _navbarTabController = StreamController<int>.broadcast();
+  final _pageController = PageController();
 
   List<Widget> _buildScreens() {
     return [
@@ -59,59 +29,90 @@ class _BottomNavbarState extends State<BottomNavbar> {
         showFlushbar: widget.showFlushbar,
         triggerBottomSheet: triggerBottomSheet,
       ),
-      const MPGScaffold(
-        child: Center(
-          child: Text(
-            'Add ticket',
-            style: TextStyle(color: Colors.white),
-          ),
-        ),
-      ),
+      PlatformRegistrationView.create(),
       ProfilePage.create(),
     ];
   }
 
-  void triggerBottomSheet(Function(BuildContext) modal) {
-    modal(context);
+  void triggerBottomSheet(
+    Function(BuildContext, Function(int)) modal,
+  ) {
+    modal(context, _pageController.jumpToPage);
   }
 
   @override
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
-        floatingActionButton: InkWell(
-          onTap: () {
-            _controller.jumpToTab(1);
-          },
-          child: SimpleShadow(
-            opacity: 0.25,
-            offset: const Offset(0, 4),
-            child: SvgPicture.asset(
-              MPGAssetsPaths.of(context).addTicketIcon,
-              width: 90.w,
-            ),
-          ),
+        floatingActionButton: AddTicketFloatingButton(
+          onTap: () => _pageController.jumpToPage(1),
+          tabStream: _navbarTabController.stream,
         ),
         floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
-        body: PersistentTabView(
-          context,
-          controller: _controller,
-          screens: _buildScreens(),
-          items: _navBarItems(),
-          resizeToAvoidBottomInset: true,
-          decoration: NavBarDecoration(
-            borderRadius: BorderRadius.circular(16.r),
-            colorBehindNavBar: Colors.white,
-          ),
-          itemAnimationProperties: const ItemAnimationProperties(
-            duration: Duration(milliseconds: 200),
-            curve: Curves.ease,
-          ),
-          navBarStyle: NavBarStyle.simple,
-          navBarHeight: 70.h,
-          screenTransitionAnimation: const ScreenTransitionAnimation(
-            animateTabTransition: true,
-          ),
+        body: Stack(
+          alignment: Alignment.bottomCenter,
+          children: [
+            ScrollConfiguration(
+              behavior: const ScrollBehavior().copyWith(overscroll: false),
+              child: PageView(
+                controller: _pageController,
+                onPageChanged: _navbarTabController.sink.add,
+                children: [..._buildScreens()],
+              ),
+            ),
+            Container(
+              decoration: const BoxDecoration(
+                borderRadius: BorderRadius.only(
+                  topRight: Radius.circular(30),
+                  topLeft: Radius.circular(30),
+                ),
+              ),
+              height: max(70, 70.w),
+              child: ClipRRect(
+                borderRadius: BorderRadius.only(
+                  topLeft: Radius.circular(32.r),
+                  topRight: Radius.circular(32.r),
+                ),
+                child: StreamBuilder<int>(
+                  initialData: 0,
+                  stream: _navbarTabController.stream,
+                  builder: (context, snapshot) {
+                    return BottomNavigationBar(
+                      currentIndex: snapshot.data ?? 0,
+                      elevation: 0,
+                      onTap: _pageController.jumpToPage,
+                      type: BottomNavigationBarType.fixed,
+                      selectedItemColor: const Color(0xFF5316B6),
+                      unselectedItemColor: const Color(0xFFCEC2DA),
+                      selectedLabelStyle: GoogleFonts.barlow(
+                        fontSize: 12.sp,
+                        fontWeight: FontWeight.w700,
+                      ),
+                      unselectedLabelStyle: GoogleFonts.barlow(
+                        fontSize: 12.sp,
+                        fontWeight: FontWeight.w700,
+                      ),
+                      iconSize: 26,
+                      items: const [
+                        BottomNavigationBarItem(
+                          icon: Icon(CustomIcons.home_icon),
+                          label: 'Home',
+                        ),
+                        BottomNavigationBarItem(
+                          icon: SizedBox.shrink(),
+                          label: '',
+                        ),
+                        BottomNavigationBarItem(
+                          icon: Icon(CustomIcons.user_icon),
+                          label: 'Perfil',
+                        ),
+                      ],
+                    );
+                  },
+                ),
+              ),
+            ),
+          ],
         ),
       ),
     );

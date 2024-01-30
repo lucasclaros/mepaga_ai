@@ -141,8 +141,7 @@ class RegisterEmailViewState extends State<RegisterEmailView> {
                   ? () {
                       UserMM().email = _emailController.text;
                       UserMM().name = _nameController.text;
-                      GoRouter.of(context)
-                          .pushRegisterPassPage(_emailController.text);
+                      GoRouter.of(context).pushRegisterPassPage();
                     }
                   : null,
               gradient: _isEmailValid && _isNameValid

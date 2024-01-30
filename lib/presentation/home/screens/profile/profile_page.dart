@@ -24,7 +24,8 @@ class ProfilePage extends StatefulWidget {
   State<ProfilePage> createState() => _ProfilePageState();
 }
 
-class _ProfilePageState extends State<ProfilePage> {
+class _ProfilePageState extends State<ProfilePage>
+    with AutomaticKeepAliveClientMixin<ProfilePage> {
   bool _isLoading = false;
   late List<ProfileSettingItem> settingsOptions;
 
@@ -50,6 +51,7 @@ class _ProfilePageState extends State<ProfilePage> {
 
   @override
   Widget build(BuildContext context) {
+    super.build(context);
     return BlocConsumer<ProfileSettingsBloc, ProfileSettingsState>(
       listener: (context, state) {
         if (state is ProfileSettingsLoading ||
@@ -106,4 +108,7 @@ class _ProfilePageState extends State<ProfilePage> {
       },
     );
   }
+
+  @override
+  bool get wantKeepAlive => true;
 }

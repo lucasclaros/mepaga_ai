@@ -94,6 +94,8 @@ abstract class IAppAssetsPaths {
   String get homeNavIcon;
 
   String get profileNavIcon;
+
+  String get addTicketSelectedIcon;
 }
 
 abstract class AppThemeInterface {

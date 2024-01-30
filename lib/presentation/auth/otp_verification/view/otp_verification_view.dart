@@ -78,7 +78,7 @@ class _OTPVerificationViewState extends State<OTPVerificationView> {
         }
 
         if (state is OtpVerificationSuccess) {
-          GoRouter.of(context).pushStartPage(showFlushbar: true);
+          GoRouter.of(context).pushMPGHomePage(showFlushbar: true);
         }
       },
       builder: (context, state) {

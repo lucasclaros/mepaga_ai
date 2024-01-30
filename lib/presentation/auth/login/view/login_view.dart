@@ -65,7 +65,7 @@ class LoginViewState extends State<LoginView> {
         }
 
         if (state is LoginBlocSuccess) {
-          GoRouter.of(context).pushStartPage(showFlushbar: true);
+          GoRouter.of(context).pushMPGHomePage(showFlushbar: true);
         }
       },
       builder: (context, state) {

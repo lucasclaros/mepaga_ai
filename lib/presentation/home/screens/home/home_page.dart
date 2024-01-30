@@ -30,11 +30,12 @@ class HomePage extends StatefulWidget {
   });
 
   final bool showFlushbar;
-  final void Function(Function(BuildContext))? triggerBottomSheet;
+  final void Function(Function(BuildContext, Function(int)))?
+      triggerBottomSheet;
 
   static Widget create({
     bool showFlushbar = false,
-    void Function(Function(BuildContext))? triggerBottomSheet,
+    void Function(Function(BuildContext, Function(int)))? triggerBottomSheet,
   }) =>
       BlocProvider<HomeBloc>(
         create: (context) => HomeBloc(
@@ -52,7 +53,8 @@ class HomePage extends StatefulWidget {
   State<HomePage> createState() => _HomePageState();
 }
 
-class _HomePageState extends State<HomePage> {
+class _HomePageState extends State<HomePage>
+    with AutomaticKeepAliveClientMixin<HomePage> {
   bool _isLoading = false;
   int _requests = 3;
   final _pagingController = PagingController<int, Ticket>(
@@ -80,14 +82,16 @@ class _HomePageState extends State<HomePage> {
     super.initState();
 
     context.read<HomeBloc>().add(UserInfo(initialLoading: true));
-    _pagingController.addPageRequestListener((_) {
-      context.read<HomeBloc>().add(UserInfo());
-      _requests--;
-    });
+    // _pagingController.addPageRequestListener((_) {
+    //   context.read<HomeBloc>().add(UserInfo());
+    //   _requests--;
+    // });
+    // context.read<HomeBloc>().add(UserPlatforms());
   }
 
   @override
   Widget build(BuildContext context) {
+    super.build(context);
     return MPGScaffold(
       child: Padding(
         padding: EdgeInsets.symmetric(horizontal: 30.w),
@@ -106,7 +110,7 @@ class _HomePageState extends State<HomePage> {
                 IconButton(
                   onPressed: () {},
                   icon: Icon(
-                    Icons.notifications_none_outlined,
+                    Icons.history,
                     color: Colors.white.withOpacity(0.8),
                     size: 36.sp,
                   ),
@@ -122,11 +126,9 @@ class _HomePageState extends State<HomePage> {
                 color: Colors.white.withOpacity(0.8),
               ),
             ),
-            SizedBox(height: 39.h),
             Expanded(
               child: BlocConsumer<HomeBloc, HomeState>(
                 listener: (context, state) {
-                  print('STATE: $state');
                   setState(() {
                     _isLoading = state is HomeLoading;
                   });
@@ -140,15 +142,19 @@ class _HomePageState extends State<HomePage> {
                             state.tickets,
                             _pagingController.nextPageKey,
                           );
-                    context.read<HomeBloc>().add(UserPlatforms());
                   }
 
                   if (state is RegisterPlatform) {
-                    widget.triggerBottomSheet?.call((context) {
+                    widget.triggerBottomSheet?.call((context, jumpToTab) {
                       showMPGBottomSheet(
                         context: context,
                         title: 'Cadastre sua plataforma',
+                        description: '',
                         buttonText: 'Cadastrar',
+                        height: 250.h,
+                        onPressed: () {
+                          jumpToTab(1);
+                        },
                       );
                     });
                   }
@@ -163,13 +169,16 @@ class _HomePageState extends State<HomePage> {
                     backgroundColor: const Color(0xFF7401FF),
                     onRefresh: () async {
                       _pagingController.refresh();
+                      context.read<HomeBloc>().add(UserInfo());
                       _requests = 3;
                     },
                     child: Scrollbar(
                       thickness: 2.w,
                       child: Padding(
-                        padding: EdgeInsets.symmetric(
-                          horizontal: 4.w,
+                        padding: EdgeInsets.only(
+                          top: 40.h,
+                          right: 4.w,
+                          left: 4.w,
                         ),
                         child: PagedListView<int, Ticket>(
                           shrinkWrap: true,
@@ -224,8 +233,10 @@ class _HomePageState extends State<HomePage> {
                                 ),
                               ],
                             ),
-                            noItemsFoundIndicatorBuilder: (context) =>
-                                const NoTicketsEmptyState(),
+                            noItemsFoundIndicatorBuilder: (context) => Padding(
+                              padding: EdgeInsets.only(top: 50.h),
+                              child: const NoTicketsEmptyState(),
+                            ),
                           ),
                         ),
                       ),
@@ -240,4 +251,7 @@ class _HomePageState extends State<HomePage> {
       ),
     );
   }
+
+  @override
+  bool get wantKeepAlive => true;
 }

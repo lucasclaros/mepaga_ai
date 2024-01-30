@@ -10,22 +10,19 @@ import 'package:mepaga_ai/presentation/onboarding/view/onboarding_view.dart';
 import 'package:mepaga_ai/presentation/welcome/welcome_page.dart';
 import 'package:provider/provider.dart';
 
-const _homePage = '/';
+const _homePage = '/home';
 const _verificationPage = 'verification';
 const _onboardingPage = 'onboarding';
 const _registerEmailPage = 'register-email';
 const _registerPassPage = 'register-pass';
 const _loginPage = 'login';
 const _logoutPage = 'logout';
-const _startPage = 'start';
 
-const _onboardingPath = _homePage + _onboardingPage;
-const _registerEmailPath = _onboardingPath + _homePage + _registerEmailPage;
-const _registerPassPath = _registerEmailPath + _homePage + _registerPassPage;
-const _verificationPath = _registerPassPath + _homePage + _verificationPage;
-const _loginPath = _onboardingPath + _homePage + _loginPage;
-const _logoutPath = _homePage + _logoutPage;
-const _startPath = _homePage + _startPage;
+const _registerEmailPath = '/$_onboardingPage/$_registerEmailPage';
+const _registerPassPath = '$_registerEmailPath/$_registerPassPage';
+const _verificationPath = '$_registerPassPath/$_verificationPage';
+const _loginPath = '/$_onboardingPage/$_loginPage';
+const _logoutPath = '/$_logoutPage';
 
 final routes = GoRouter(
   redirect: (context, state) async {
@@ -33,13 +30,13 @@ final routes = GoRouter(
     final token = await onlineCds.getJWT();
 
     if (token != null) {
-      return _startPath;
+      return _homePage;
     }
     return null;
   },
   routes: [
     GoRoute(
-      path: _homePage,
+      path: '/',
       builder: (context, state) => const WelcomePage(),
       routes: [
         GoRoute(
@@ -100,18 +97,18 @@ final routes = GoRouter(
             );
           },
         ),
-        GoRoute(
-          path: _startPage,
-          pageBuilder: (context, state) {
-            final extraData = state.extra as Map<String, dynamic>? ?? {};
-            final showFlushbar = extraData['showFlushbar'] ?? false;
-            return CustomSlideTransition(
-              key: state.pageKey,
-              child: BottomNavbar(showFlushbar: showFlushbar),
-            );
-          },
-        ),
       ],
+    ),
+    GoRoute(
+      path: _homePage,
+      pageBuilder: (context, state) {
+        final extraData = state.extra as Map<String, dynamic>? ?? {};
+        final showFlushbar = extraData['showFlushbar'] ?? false;
+        return CustomSlideTransition(
+          key: state.pageKey,
+          child: BottomNavbar(showFlushbar: showFlushbar),
+        );
+      },
     ),
   ],
 );
@@ -119,18 +116,18 @@ final routes = GoRouter(
 extension PageNavigationExtension on GoRouter {
   void pushEmailVerificationPage() => go(_verificationPath);
 
-  void pushOnboardingPage() => go(_onboardingPath);
+  void pushOnboardingPage() => go('/$_onboardingPage');
 
   void pushRegisterEmailPage() => go(_registerEmailPath);
 
-  void pushRegisterPassPage(String email) => go(_registerPassPath);
+  void pushRegisterPassPage() => go(_registerPassPath);
 
   void pushLoginPage() => go(_loginPath);
 
   void pushLogoutPage() => go(_logoutPath);
 
-  void pushStartPage({bool showFlushbar = false}) => go(
-        _startPath,
+  void pushMPGHomePage({bool showFlushbar = false}) => go(
+        _homePage,
         extra: {
           'showFlushbar': showFlushbar,
         },
