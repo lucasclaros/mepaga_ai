@@ -8,5 +8,3 @@ class UserInfo extends HomeEvent {
 
   final bool initialLoading;
 }
-
-class UserLogout extends HomeEvent {}

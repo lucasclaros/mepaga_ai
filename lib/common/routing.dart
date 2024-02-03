@@ -5,7 +5,7 @@ import 'package:mepaga_ai/presentation/auth/login/view/login_view.dart';
 import 'package:mepaga_ai/presentation/auth/otp_verification/view/otp_verification_view.dart';
 import 'package:mepaga_ai/presentation/auth/register/email/view/register_email_view.dart';
 import 'package:mepaga_ai/presentation/auth/register/password/view/register_password_view.dart';
-import 'package:mepaga_ai/presentation/home/home_page.dart';
+import 'package:mepaga_ai/presentation/home/bottom_navbar.dart';
 import 'package:mepaga_ai/presentation/onboarding/view/onboarding_view.dart';
 import 'package:mepaga_ai/presentation/welcome/welcome_page.dart';
 import 'package:provider/provider.dart';
@@ -107,7 +107,7 @@ final routes = GoRouter(
             final showFlushbar = extraData['showFlushbar'] ?? false;
             return CustomSlideTransition(
               key: state.pageKey,
-              child: HomePage.create(showFlushbar: showFlushbar),
+              child: BottomNavbar(showFlushbar: showFlushbar),
             );
           },
         ),

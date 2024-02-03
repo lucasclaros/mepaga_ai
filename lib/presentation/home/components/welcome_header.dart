@@ -43,6 +43,7 @@ class WelcomeHeader extends StatelessWidget {
               fontWeight: FontWeight.w500,
               color: Colors.white,
             ),
+            overflow: TextOverflow.ellipsis,
           ),
       ],
     );

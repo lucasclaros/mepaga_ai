@@ -14,10 +14,10 @@ class NoTicketsEmptyState extends StatelessWidget {
         children: [
           SvgPicture.asset(
             MPGAssetsPaths.of(context).emptyTickets,
-            height: 180.h,
-            width: 180.w,
+            height: 150.h,
+            width: 150.w,
           ),
-          SizedBox(height: 65.h),
+          SizedBox(height: 50.h),
           Text(
             'Você ainda não possui ingressos',
             style: GoogleFonts.barlow(

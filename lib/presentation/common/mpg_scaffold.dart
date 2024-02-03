@@ -9,11 +9,13 @@ class MPGScaffold extends StatelessWidget {
     required this.child,
     this.backgroundColor,
     this.backgroundImage,
+    this.bottomNavigationBar,
   });
 
   final Widget child;
   final Color? backgroundColor;
   final String? backgroundImage;
+  final Widget? bottomNavigationBar;
 
   @override
   Widget build(BuildContext context) {
@@ -39,6 +41,7 @@ class MPGScaffold extends StatelessWidget {
               },
               child: child,
             ),
+            bottomNavigationBar: bottomNavigationBar,
           ),
         ],
       ),

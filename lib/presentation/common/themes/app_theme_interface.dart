@@ -88,6 +88,12 @@ abstract class IAppAssetsPaths {
   String get emptyTickets;
 
   String get forwardIcon;
+
+  String get addTicketIcon;
+
+  String get homeNavIcon;
+
+  String get profileNavIcon;
 }
 
 abstract class AppThemeInterface {

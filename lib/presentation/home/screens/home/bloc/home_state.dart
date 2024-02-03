@@ -20,13 +20,3 @@ class HomeError extends HomeState {
 
   final String message;
 }
-
-class LogoutLoading extends HomeState {}
-
-class LogoutSuccess extends HomeState {}
-
-class LogoutError extends HomeState {
-  LogoutError({required this.message});
-
-  final String message;
-}

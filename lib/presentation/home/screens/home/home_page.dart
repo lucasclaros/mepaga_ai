@@ -1,15 +1,12 @@
 import 'package:domain/models/ticket.dart';
 import 'package:domain/use_cases/get_user_info_uc.dart';
 import 'package:domain/use_cases/get_user_tickets.dart';
-import 'package:domain/use_cases/user_logout_uc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
-import 'package:mepaga_ai/common/routing.dart';
 import 'package:mepaga_ai/presentation/common/empty_states/fetch_data_empty_state.dart';
 import 'package:mepaga_ai/presentation/common/empty_states/no_tickets_empty_state.dart';
 import 'package:mepaga_ai/presentation/common/mpg_button.dart';
@@ -17,10 +14,10 @@ import 'package:mepaga_ai/presentation/common/mpg_scaffold.dart';
 import 'package:mepaga_ai/presentation/common/themes/colors/mpg_colors.dart';
 import 'package:mepaga_ai/presentation/common/themes/text_styles/mpg_text_styles.dart';
 import 'package:mepaga_ai/presentation/common/utils.dart';
-import 'package:mepaga_ai/presentation/home/bloc/home_bloc.dart';
 import 'package:mepaga_ai/presentation/home/components/shimmer_ticket_list.dart';
 import 'package:mepaga_ai/presentation/home/components/ticket_item.dart';
 import 'package:mepaga_ai/presentation/home/components/welcome_header.dart';
+import 'package:mepaga_ai/presentation/home/screens/home/bloc/home_bloc.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({
@@ -34,7 +31,6 @@ class HomePage extends StatefulWidget {
         create: (context) => HomeBloc(
           getUserInfoUC: context.read<GetUserInfoUC>(),
           getUserTicketsUC: context.read<GetUserTicketsUC>(),
-          userLogoutUC: context.read<UserLogoutUC>(),
         ),
         child: HomePage(
           showFlushbar: showFlushbar,
@@ -47,6 +43,7 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
   bool _isLoading = false;
+  int _requests = 3;
   final _pagingController = PagingController<int, Ticket>(
     firstPageKey: 0,
   );
@@ -74,6 +71,7 @@ class _HomePageState extends State<HomePage> {
     context.read<HomeBloc>().add(UserInfo(initialLoading: true));
     _pagingController.addPageRequestListener((_) {
       context.read<HomeBloc>().add(UserInfo());
+      _requests--;
     });
   }
 
@@ -89,7 +87,11 @@ class _HomePageState extends State<HomePage> {
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                WelcomeHeader(isLoading: _isLoading),
+                Expanded(
+                  flex: 9,
+                  child: WelcomeHeader(isLoading: _isLoading),
+                ),
+                SizedBox(width: 50.w),
                 IconButton(
                   onPressed: () {},
                   icon: Icon(
@@ -109,37 +111,34 @@ class _HomePageState extends State<HomePage> {
                 color: Colors.white.withOpacity(0.8),
               ),
             ),
-            SizedBox(height: 39.h),
-            MPGButton(
-              width: double.infinity,
-              onPressed: () {
-                context.read<HomeBloc>().add(UserLogout());
-              },
-              child: Text(
-                'Logout',
-                style: MPGTextStyles.of(context).mpgColoredButton,
-              ),
-            ),
+            // SizedBox(height: 39.h),
+            // MPGButton(
+            //   width: double.infinity,
+            //   onPressed: () {
+            //     context.read<HomeBloc>().add(UserLogout());
+            //   },
+            //   child: Text(
+            //     'Logout',
+            //     style: MPGTextStyles.of(context).mpgColoredButton,
+            //   ),
+            // ),
             SizedBox(height: 39.h),
             Expanded(
               child: BlocConsumer<HomeBloc, HomeState>(
                 listener: (context, state) {
                   setState(() {
-                    _isLoading = state is HomeLoading || state is LogoutLoading;
+                    _isLoading = state is HomeLoading;
                   });
 
-                  if (state is LogoutSuccess) {
-                    setState(() {
-                      _isLoading = true;
-                    });
-                    GoRouter.of(context).pushLogoutPage();
-                  }
-
                   if (state is HomeSuccess) {
-                    _pagingController.appendPage(
-                      state.tickets,
-                      _pagingController.nextPageKey,
-                    );
+                    _requests == 0
+                        ? _pagingController.appendLastPage(
+                            state.tickets,
+                          )
+                        : _pagingController.appendPage(
+                            state.tickets,
+                            _pagingController.nextPageKey,
+                          );
                   }
 
                   if (state is HomeError) {
@@ -152,67 +151,78 @@ class _HomePageState extends State<HomePage> {
                     backgroundColor: const Color(0xFF7401FF),
                     onRefresh: () async {
                       _pagingController.refresh();
+                      _requests = 3;
                     },
-                    child: PagedListView<int, Ticket>(
-                      shrinkWrap: true,
-                      pagingController: _pagingController,
-                      builderDelegate: PagedChildBuilderDelegate<Ticket>(
-                        itemBuilder: (context, ticket, index) {
-                          return TicketItem(
-                            party: ticket.party,
-                          );
-                        },
-                        firstPageProgressIndicatorBuilder: (context) =>
-                            const ShimmerTicketList(),
-                        newPageProgressIndicatorBuilder: (context) => Padding(
-                          padding: EdgeInsets.symmetric(vertical: 10.h),
-                          child: Center(
-                            child: SizedBox(
-                              height: 22.w,
-                              width: 22.w,
-                              child: CircularProgressIndicator(
-                                color: Colors.white.withOpacity(0.8),
-                                strokeWidth: 2.w,
+                    child: Scrollbar(
+                      thickness: 2.w,
+                      child: Padding(
+                        padding: EdgeInsets.symmetric(
+                          horizontal: 4.w,
+                        ),
+                        child: PagedListView<int, Ticket>(
+                          shrinkWrap: true,
+                          pagingController: _pagingController,
+                          builderDelegate: PagedChildBuilderDelegate<Ticket>(
+                            itemBuilder: (context, ticket, index) {
+                              return TicketItem(
+                                party: ticket.party,
+                              );
+                            },
+                            firstPageProgressIndicatorBuilder: (context) =>
+                                const ShimmerTicketList(),
+                            newPageProgressIndicatorBuilder: (context) =>
+                                Padding(
+                              padding: EdgeInsets.only(top: 10.h, bottom: 30.h),
+                              child: Center(
+                                child: SizedBox(
+                                  height: 22.w,
+                                  width: 22.w,
+                                  child: CircularProgressIndicator(
+                                    color: Colors.white.withOpacity(0.8),
+                                    strokeWidth: 2.w,
+                                  ),
+                                ),
                               ),
                             ),
-                          ),
-                        ),
-                        newPageErrorIndicatorBuilder: (context) => const Center(
-                          child: Text(
-                            'Ocorreu um erro ao carregar os ingressos',
-                            style: TextStyle(
-                              color: Colors.white,
-                              fontSize: 16,
-                            ),
-                          ),
-                        ),
-                        firstPageErrorIndicatorBuilder: (context) => Column(
-                          children: [
-                            const FetchDataEmptyState(),
-                            SizedBox(height: 20.h),
-                            MPGButton(
-                              gradient:
-                                  MPGColors.of(context).mpgButtonWhitedGradient,
-                              onPressed: () async {
-                                _pagingController.refresh();
-                              },
+                            newPageErrorIndicatorBuilder: (context) =>
+                                const Center(
                               child: Text(
-                                'Tentar novamente',
-                                style:
-                                    MPGTextStyles.of(context).mpgWhitedButton,
+                                'Ocorreu um erro ao carregar os ingressos',
+                                style: TextStyle(
+                                  color: Colors.white,
+                                  fontSize: 16,
+                                ),
                               ),
                             ),
-                          ],
+                            firstPageErrorIndicatorBuilder: (context) => Column(
+                              children: [
+                                const FetchDataEmptyState(),
+                                SizedBox(height: 20.h),
+                                MPGButton(
+                                  gradient: MPGColors.of(context)
+                                      .mpgButtonWhitedGradient,
+                                  onPressed: () async {
+                                    _pagingController.refresh();
+                                  },
+                                  child: Text(
+                                    'Tentar novamente',
+                                    style: MPGTextStyles.of(context)
+                                        .mpgWhitedButton,
+                                  ),
+                                ),
+                              ],
+                            ),
+                            noItemsFoundIndicatorBuilder: (context) =>
+                                const NoTicketsEmptyState(),
+                          ),
                         ),
-                        noItemsFoundIndicatorBuilder: (context) =>
-                            const NoTicketsEmptyState(),
                       ),
                     ),
                   );
                 },
               ),
             ),
-            SizedBox(height: 20.h),
+            SizedBox(height: 35.h),
           ],
         ),
       ),
