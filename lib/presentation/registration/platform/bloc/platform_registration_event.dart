@@ -30,3 +30,13 @@ class CheckUserPlatform extends PlatformRegistrationEvent {
 
   final String platform;
 }
+
+class SendEmailPlatformOtp extends PlatformRegistrationEvent {
+  SendEmailPlatformOtp({
+    required this.platform,
+    required this.email,
+  });
+
+  final String platform;
+  final String email;
+}

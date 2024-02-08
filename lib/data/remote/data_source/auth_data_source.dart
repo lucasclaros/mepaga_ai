@@ -71,7 +71,9 @@ class AuthRDS {
   }) async {
     try {
       final response = await dio.post(
-        UrlBuilder.endpointOtpValidation,
+        param == 'email'
+            ? UrlBuilder.endpointOtpRegisterEmailValidation
+            : UrlBuilder.endpointPlatformEmailValidation,
         data: {
           param: data,
           'code': code,

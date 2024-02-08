@@ -11,7 +11,8 @@ class UrlBuilder {
 
   static String get endpointUserRegistration => _hmlApi + _userRegistration;
 
-  static String get endpointOtpValidation => _hmlApi + _otpValidation;
+  static String get endpointOtpRegisterEmailValidation =>
+      _hmlApi + _otpValidation;
 
   static String get endpointUserLogin => _hmlApi + _userLogin;
 
@@ -26,4 +27,7 @@ class UrlBuilder {
 
   static String endpointPlatformCheck(String platform) =>
       '$_hmlApi$_userInfo/platform/$platform';
+
+  static String get endpointPlatformEmailValidation =>
+      '$_hmlApi$_userInfo/platform/validate';
 }

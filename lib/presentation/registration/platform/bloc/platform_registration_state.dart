@@ -46,3 +46,13 @@ class CheckUserPlatformError extends PlatformRegistrationState {
 
   final String message;
 }
+
+class SendEmailPlatformOtpSuccess extends PlatformRegistrationState {}
+
+class SendEmailPlatformOtpLoading extends PlatformRegistrationState {}
+
+class SendEmailPlatformOtpError extends PlatformRegistrationState {
+  SendEmailPlatformOtpError({required this.message});
+
+  final String message;
+}

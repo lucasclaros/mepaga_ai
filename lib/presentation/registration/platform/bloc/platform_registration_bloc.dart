@@ -20,6 +20,7 @@ class PlatformRegistrationBloc
     on<ListUserPlatforms>(_mapListUserPlatformsInfoToState);
     on<RegisterPlatform>(_mapRegisterPlatformToState);
     on<CheckUserPlatform>(_mapCheckUserPlatformToState);
+    on<SendEmailPlatformOtp>(_mapSendEmailPlatformOtpToState);
   }
 
   final GetUserPlatformsUC getUserPlatformsUC;
@@ -75,8 +76,6 @@ class PlatformRegistrationBloc
 
     try {
       await checkPlatformUC(CheckPlatformUCParams(platform: event.platform));
-
-      emit(CheckUserPlatformSuccess());
     } catch (e) {
       if (e is MPGException) {
         if (e is FoundAccountNoAssociation) {
@@ -87,8 +86,27 @@ class PlatformRegistrationBloc
           emit(CheckUserPlatformSuccessNoAccount());
         }
       }
-    } finally {
-      add(ListUserPlatforms(initialLoading: false));
+    }
+  }
+
+  Future<void> _mapSendEmailPlatformOtpToState(
+    SendEmailPlatformOtp event,
+    Emitter<PlatformRegistrationState> emit,
+  ) async {
+    emit(SendEmailPlatformOtpLoading());
+
+    try {
+      await platformRegisterUC(
+        PlatformRegisterUCParams(
+          platform: event.platform,
+          email: event.email,
+        ),
+      );
+      emit(SendEmailPlatformOtpSuccess());
+    } catch (e) {
+      if (e is MPGException) {
+        emit(SendEmailPlatformOtpError(message: e.message));
+      }
     }
   }
 }

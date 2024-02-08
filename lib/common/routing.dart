@@ -9,9 +9,10 @@ import 'package:mepaga_ai/presentation/home/bottom_navbar.dart';
 import 'package:mepaga_ai/presentation/home/screens/home/home_page.dart';
 import 'package:mepaga_ai/presentation/home/screens/profile/profile_page.dart';
 import 'package:mepaga_ai/presentation/onboarding/view/onboarding_view.dart';
-import 'package:mepaga_ai/presentation/registration/add_email_platform/add_email_platform.dart';
-import 'package:mepaga_ai/presentation/registration/otp_platform_verification/view/otp_platform_verification_view.dart';
+import 'package:mepaga_ai/presentation/registration/platform/add_email_platform/add_email_platform.dart';
+import 'package:mepaga_ai/presentation/registration/platform/otp_platform_verification/view/otp_platform_verification_view.dart';
 import 'package:mepaga_ai/presentation/registration/platform/platform_registration_view.dart';
+import 'package:mepaga_ai/presentation/registration/tickets/transfer_orientation_page.dart';
 import 'package:mepaga_ai/presentation/welcome/welcome_page.dart';
 import 'package:provider/provider.dart';
 
@@ -20,6 +21,7 @@ const _homePage = '/home';
 const _ticketPage = '/tickets';
 const _profilePage = '/profile';
 const _platformVerificationPage = '/verification-platform-email';
+const _platformEmailOtpVerificationPage = '/verification-platform-email-otp';
 
 const _verificationPage = 'verification';
 const _onboardingPage = 'onboarding';
@@ -27,6 +29,7 @@ const _registerEmailPage = 'register-email';
 const _registerPassPage = 'register-pass';
 const _loginPage = 'login';
 const _logoutPage = 'logout';
+const _transferTicketPage = 'transfer-ticket';
 
 const _registerEmailPath = '/$_onboardingPage/$_registerEmailPage';
 const _registerPassPath = '$_registerEmailPath/$_registerPassPage';
@@ -34,6 +37,7 @@ const _signinVerificationPath = '$_registerPassPath/$_verificationPage';
 const _platformRegisterEmailPath = '$_homePage/$_registerEmailPage';
 const _loginPath = '/$_onboardingPage/$_loginPage';
 const _logoutPath = '/$_logoutPage';
+const _transferTicketPath = '$_ticketPage/$_transferTicketPage';
 
 final GlobalKey<NavigatorState> parentNavigatorKey =
     GlobalKey<NavigatorState>();
@@ -115,6 +119,19 @@ final routes = [
                 child: PlatformRegistrationView.create(),
               );
             },
+            routes: [
+              GoRoute(
+                path: _transferTicketPage,
+                pageBuilder: (_, state) {
+                  final extraData = state.extra as Map<String, dynamic>? ?? {};
+                  final platform = extraData['platform'] as String;
+
+                  return CustomSlideTransition(
+                    child: TransferOrientationPage(platform: platform),
+                  );
+                },
+              ),
+            ],
           ),
         ],
       ),
@@ -137,9 +154,33 @@ final routes = [
     parentNavigatorKey: parentNavigatorKey,
     path: _platformVerificationPage,
     pageBuilder: (context, state) {
+      final extraData = state.extra as Map<String, dynamic>? ?? {};
+      final platform = extraData['platform'] as String;
+      final onSuccess = extraData['onSuccess'] as Function(String email);
+
       return CustomSlideTransition(
         key: state.pageKey,
-        child: const AddEmailPlatform(),
+        child: AddEmailPlatform.create(
+          platform: platform,
+          onSuccess: onSuccess,
+        ),
+      );
+    },
+  ),
+  GoRoute(
+    parentNavigatorKey: parentNavigatorKey,
+    path: _platformEmailOtpVerificationPage,
+    pageBuilder: (context, state) {
+      final extraData = state.extra as Map<String, dynamic>? ?? {};
+      final platform = extraData['platform'] as String;
+      final email = extraData['email'] as String?;
+
+      return CustomSlideTransition(
+        key: state.pageKey,
+        child: OTPPlatformVerificationView.create(
+          platform: platform,
+          email: email,
+        ),
       );
     },
   ),
@@ -250,17 +291,33 @@ extension PageNavigationExtension on GoRouter {
 
   void pushPlatformVerificationPage({
     required String platform,
-    String? email,
+    required Function(String email) onSuccess,
   }) =>
       push(
         _platformVerificationPage,
         extra: {
           'platform': platform,
-          'email': email,
+          'onSuccess': onSuccess,
         },
       );
 
-  void pushAddEmailPlatformPage() => router.push(_platformRegisterEmailPath);
+  void pushAddEmailPlatformPage() => push(_platformRegisterEmailPath);
+
+  void pushPlatformEmailOtpVerificationPage({
+    required String platform,
+    String? email,
+  }) =>
+      push(
+        _platformEmailOtpVerificationPage,
+        extra: {'platform': platform, 'email': email},
+      );
+
+  void pushTransferOrientationPage({required String platform}) => push(
+        _transferTicketPath,
+        extra: {
+          'platform': platform,
+        },
+      );
 }
 
 class CustomSlideTransition extends CustomTransitionPage<void> {

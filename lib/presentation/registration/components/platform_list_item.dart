@@ -27,7 +27,7 @@ class PlatformListItem extends StatelessWidget {
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(10),
           border: Border.all(
-            color: const Color(0xFF98929F),
+            color: isLinked ? const Color(0xFF7401FF) : const Color(0xFF98929F),
             width: 2,
           ),
         ),
@@ -47,9 +47,13 @@ class PlatformListItem extends StatelessWidget {
               style: GoogleFonts.barlow(
                 fontSize: 16.sp,
                 fontWeight: FontWeight.w500,
-                color: const Color(0xFF98929F),
+                color: isLinked
+                    ? const Color(0xFFE9E9E9)
+                    : const Color(0xFF98929F),
                 decoration: TextDecoration.underline,
-                decorationColor: const Color(0xFF98929F),
+                decorationColor: isLinked
+                    ? const Color(0xFFE9E9E9)
+                    : const Color(0xFF98929F),
               ),
             ),
           ],

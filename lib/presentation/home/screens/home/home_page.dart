@@ -106,7 +106,42 @@ class _HomePageState extends State<HomePage> {
                 ),
                 SizedBox(width: 50.w),
                 IconButton(
-                  onPressed: () {},
+                  onPressed: () {
+                    showDialog(
+                      context: context,
+                      builder: (BuildContext context) {
+                        return AlertDialog(
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(10.r),
+                          ),
+                          title: Text(
+                            'Aqui vai abrir a tela de histórico de ingressos!',
+                            style: GoogleFonts.barlow(
+                              fontSize: 20.sp,
+                              fontWeight: FontWeight.w600,
+                              color: Colors.black,
+                            ),
+                          ),
+                          content: Text(
+                            'Ainda tô mexendo nisso.\nLogo logo fica pronto!',
+                            style: GoogleFonts.barlow(
+                              fontSize: 16.sp,
+                              fontWeight: FontWeight.w400,
+                              color: Colors.black,
+                            ),
+                          ),
+                          actions: [
+                            TextButton(
+                              onPressed: () {
+                                Navigator.of(context).pop();
+                              },
+                              child: const Text('OK'),
+                            ),
+                          ],
+                        );
+                      },
+                    );
+                  },
                   icon: Icon(
                     Icons.history,
                     color: Colors.white.withOpacity(0.8),
