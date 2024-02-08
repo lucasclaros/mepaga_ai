@@ -65,14 +65,15 @@ class AuthRDS {
   }
 
   Future<String> verifyOTP({
-    required String email,
+    required String param,
+    required String data,
     required String code,
   }) async {
     try {
       final response = await dio.post(
         UrlBuilder.endpointOtpValidation,
         data: {
-          'email': email,
+          param: data,
           'code': code,
         },
       );

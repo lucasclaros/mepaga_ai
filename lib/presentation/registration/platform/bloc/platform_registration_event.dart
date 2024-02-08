@@ -9,7 +9,11 @@ class PlatformRegistrationStarted extends PlatformRegistrationEvent {
   final String platformName;
 }
 
-class ListUserPlatforms extends PlatformRegistrationEvent {}
+class ListUserPlatforms extends PlatformRegistrationEvent {
+  ListUserPlatforms({this.initialLoading = true});
+
+  final bool initialLoading;
+}
 
 class RegisterPlatform extends PlatformRegistrationEvent {
   RegisterPlatform({
@@ -19,4 +23,10 @@ class RegisterPlatform extends PlatformRegistrationEvent {
 
   final String platform;
   final String? email;
+}
+
+class CheckUserPlatform extends PlatformRegistrationEvent {
+  CheckUserPlatform({required this.platform});
+
+  final String platform;
 }

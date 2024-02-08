@@ -69,15 +69,13 @@ class UserRDS {
     String? email,
   }) async {
     try {
-      final response = await dio.post(
+      await dio.post(
         UrlBuilder.endpointPlatformRegister,
         data: {
           'platform': platform,
           'email': email,
         },
       );
-
-      print(response.data);
     } catch (error) {
       if (error is DioException && error.response != null) {
         throw PlatformNotFoundException(
@@ -85,6 +83,30 @@ class UserRDS {
         );
       }
       throw UnexpectedException(message: 'Something went wrong');
+    }
+  }
+
+  Future<void> checkPlatform({required String platform}) async {
+    try {
+      print('Checking platform: $platform');
+      final response = await dio.get(
+        UrlBuilder.endpointPlatformCheck(platform),
+        data: {
+          'platform': platform,
+        },
+      );
+
+      if (response.statusCode == 202) {
+        throw FoundAccountNoAssociation();
+      }
+    } catch (error) {
+      if (error is DioException &&
+          error.response != null &&
+          error.response!.statusCode != 404) {
+        throw PlatformNotFoundException(
+          message: error.response!.data['message'] ?? 'Something went wrong',
+        );
+      }
     }
   }
 }

@@ -19,3 +19,7 @@ class InvalidInputException extends MPGException {}
 class PlatformNotFoundException extends MPGException {
   PlatformNotFoundException({super.message = 'Platform not found.'});
 }
+
+class FoundAccountNoAssociation extends MPGException {}
+
+class NoAccountFound extends MPGException {}

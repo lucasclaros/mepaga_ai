@@ -11,15 +11,21 @@ class OTPVerificationUC extends UseCase<OTPVerificationUCParams, String> {
 
   @override
   Future<String> rawCall(OTPVerificationUCParams params) =>
-      repository.verifyOTP(email: params.email, code: params.code);
+      repository.verifyOTP(
+        param: params.param,
+        data: params.data,
+        code: params.code,
+      );
 }
 
 class OTPVerificationUCParams {
   OTPVerificationUCParams({
-    required this.email,
+    required this.param,
+    required this.data,
     required this.code,
   });
 
-  final String email;
+  final String param;
+  final String data;
   final String code;
 }

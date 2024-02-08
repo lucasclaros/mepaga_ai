@@ -13,4 +13,6 @@ abstract class IUserRepositoryInterface {
     required String platform,
     String? email,
   });
+
+  Future<void> checkPlatform({required String platform});
 }

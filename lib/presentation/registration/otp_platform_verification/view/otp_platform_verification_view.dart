@@ -10,34 +10,45 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
 import 'package:mepaga_ai/common/routing.dart';
 import 'package:mepaga_ai/data/models/user_mm.dart';
-import 'package:mepaga_ai/presentation/auth/otp_verification/bloc/otp_verification_bloc.dart';
-import 'package:mepaga_ai/presentation/common/mpg_otp_textfield.dart';
 import 'package:mepaga_ai/presentation/common/mpg_button.dart';
 import 'package:mepaga_ai/presentation/common/mpg_header.dart';
+import 'package:mepaga_ai/presentation/common/mpg_otp_textfield.dart';
 import 'package:mepaga_ai/presentation/common/mpg_scaffold.dart';
 import 'package:mepaga_ai/presentation/common/themes/text_styles/mpg_text_styles.dart';
 import 'package:mepaga_ai/presentation/common/utils.dart';
+import 'package:mepaga_ai/presentation/registration/otp_platform_verification/bloc/otp_platform_verification_bloc.dart';
 
-class OTPVerificationView extends StatefulWidget {
-  const OTPVerificationView({
+class OTPPlatformVerificationView extends StatefulWidget {
+  const OTPPlatformVerificationView({
     super.key,
+    required this.platform,
+    this.email,
   });
 
-  static Widget create() => BlocProvider<OtpVerificationBloc>(
+  final String platform;
+  final String? email;
+
+  static Widget create({required String platform, String? email}) =>
+      BlocProvider<OtpPlatformVerificationBloc>(
         create: (context) {
-          return OtpVerificationBloc(
+          return OtpPlatformVerificationBloc(
             cacheJwtUC: context.read<CacheJwtUC>(),
             otpVerificationUC: context.read<OTPVerificationUC>(),
           );
         },
-        child: const OTPVerificationView(),
+        child: OTPPlatformVerificationView(
+          platform: platform,
+          email: email,
+        ),
       );
 
   @override
-  State<OTPVerificationView> createState() => _OTPVerificationViewState();
+  State<OTPPlatformVerificationView> createState() =>
+      _OTPPlatformVerificationViewState();
 }
 
-class _OTPVerificationViewState extends State<OTPVerificationView> {
+class _OTPPlatformVerificationViewState
+    extends State<OTPPlatformVerificationView> {
   final _otpController = TextEditingController();
   final _otpFocusNode = FocusNode();
   bool _isLoading = false;
@@ -52,13 +63,14 @@ class _OTPVerificationViewState extends State<OTPVerificationView> {
 
   @override
   Widget build(BuildContext context) {
-    return BlocConsumer<OtpVerificationBloc, OtpVerificationState>(
+    return BlocConsumer<OtpPlatformVerificationBloc,
+        OtpPlatformVerificationState>(
       listener: (context, state) {
         setState(() {
-          _isLoading = state is OtpVerificationLoading;
+          _isLoading = state is OtpPlatformVerificationLoading;
         });
 
-        if (state is OtpVerificationError && !_isShowingFlushbar) {
+        if (state is OtpPlatformVerificationError && !_isShowingFlushbar) {
           setState(() {
             _isShowingFlushbar = true;
           });
@@ -77,7 +89,7 @@ class _OTPVerificationViewState extends State<OTPVerificationView> {
           );
         }
 
-        if (state is OtpVerificationSuccess) {
+        if (state is OtpPlatformVerificationSuccess) {
           GoRouter.of(context).pushMPGHomePage(showFlushbar: true);
         }
       },
@@ -104,7 +116,9 @@ class _OTPVerificationViewState extends State<OTPVerificationView> {
                             textAlign: TextAlign.center,
                           ),
                           AutoSizeText(
-                            UserMM().email,
+                            widget.email != null
+                                ? widget.email!
+                                : UserMM().email,
                             style: MPGTextStyles.of(context)
                                 .otpVerifcationUserEmail,
                             textAlign: TextAlign.center,
@@ -142,9 +156,9 @@ class _OTPVerificationViewState extends State<OTPVerificationView> {
                 SizedBox(height: 100.h),
                 MPGButton(
                   onPressed: () {
-                    context.read<OtpVerificationBloc>().add(
-                          OtpVerificationSend(
-                            email: UserMM().email,
+                    context.read<OtpPlatformVerificationBloc>().add(
+                          OtpPlatformVerificationSend(
+                            platform: widget.platform,
                             code: _otpController.text,
                           ),
                         );

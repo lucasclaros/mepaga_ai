@@ -17,7 +17,8 @@ abstract class IAuthRepository {
   });
 
   Future<String> verifyOTP({
-    required String email,
+    required String param,
+    required String data,
     required String code,
   });
 }

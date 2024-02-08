@@ -2,12 +2,16 @@
 
 import 'dart:math';
 
+import 'package:domain/use_cases/check_platform_uc.dart';
 import 'package:domain/use_cases/get_user_platforms_uc.dart';
 import 'package:domain/use_cases/platform_register_uc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:mepaga_ai/common/routing.dart';
+import 'package:mepaga_ai/data/models/user_mm.dart';
 import 'package:mepaga_ai/presentation/common/mpg_scaffold.dart';
 import 'package:mepaga_ai/presentation/common/themes/assets/mpg_assets_paths.dart';
 import 'package:mepaga_ai/presentation/common/utils.dart';
@@ -15,6 +19,7 @@ import 'package:mepaga_ai/presentation/home/components/shimmer_ticket_list.dart'
 import 'package:mepaga_ai/presentation/registration/platform/bloc/platform_registration_bloc.dart';
 import 'package:mepaga_ai/presentation/registration/platform/components/platform_email_info_modal.dart';
 import 'package:mepaga_ai/presentation/registration/platform/components/platform_list_item.dart';
+import 'package:mepaga_ai/presentation/registration/platform/components/utils.dart';
 import 'package:styled_text/styled_text.dart';
 
 class PlatformRegistrationView extends StatefulWidget {
@@ -24,6 +29,7 @@ class PlatformRegistrationView extends StatefulWidget {
         create: (context) => PlatformRegistrationBloc(
           getUserPlatformsUC: context.read<GetUserPlatformsUC>(),
           platformRegisterUC: context.read<PlatformRegisterUC>(),
+          checkPlatformUC: context.read<CheckPlatformUC>(),
         ),
         child: const PlatformRegistrationView(),
       );
@@ -35,20 +41,15 @@ class PlatformRegistrationView extends StatefulWidget {
 
 class _PlatformRegistrationViewState extends State<PlatformRegistrationView>
     with AutomaticKeepAliveClientMixin<PlatformRegistrationView> {
-  // List<PlatformListItem> _buildPlatforms() => [
-  //       PlatformListItem(
-  //         logo: MPGAssetsPaths.of(context).logoByma,
-  //         isLinked: false,
-  //         platformName: 'byma',
-  //         onTap: () {},
-  //       ),
-  //     ];
-
   @override
   void initState() {
     super.initState();
-    // platforms = _buildPlatforms();
     context.read<PlatformRegistrationBloc>().add(ListUserPlatforms());
+    context.read<PlatformRegistrationBloc>().add(
+          CheckUserPlatform(
+            platform: 'byma',
+          ),
+        );
   }
 
   @override
@@ -83,7 +84,17 @@ class _PlatformRegistrationViewState extends State<PlatformRegistrationView>
                   'Vincule um e-mail que esteja relacionado a plataforma abaixo. <doubt/>',
               tags: {
                 'doubt': StyledTextWidgetTag(
-                  const PlatformEmailInfoModal(),
+                  PlatformEmailInfoModal(
+                    onAssociateSameEmail: () {
+                      context.read<PlatformRegistrationBloc>().add(
+                            RegisterPlatform(
+                              platform: 'byma',
+                              email: UserMM().email,
+                            ),
+                          );
+                    },
+                    onAssociateDifferentEmail: () {},
+                  ),
                   size: Size.square(min(25.w, 25)),
                 ),
               },
@@ -104,73 +115,76 @@ class _PlatformRegistrationViewState extends State<PlatformRegistrationView>
             ),
             SizedBox(height: 56.h),
             Expanded(
-              child: RefreshIndicator(
-                onRefresh: () async {
-                  context
-                      .read<PlatformRegistrationBloc>()
-                      .add(ListUserPlatforms());
+              child: BlocConsumer<PlatformRegistrationBloc,
+                  PlatformRegistrationState>(
+                listener: (context, state) {
+                  if (state is RegisterPlatformError) {
+                    showFlushbar(
+                      context: context,
+                      title: 'Ops... Ocorreu um erro!',
+                      message: state.message,
+                      fontColor: Colors.white,
+                      backgroundColor: Colors.red,
+                    );
+                    GoRouter.of(context)
+                        .pushPlatformVerificationPage(platform: 'byma');
+                  }
+
+                  if (state is CheckUserPlatformSuccessNoAssociation) {
+                    showPlatformEmailAssociationModal(
+                      context: context,
+                      onAssociateSameEmail: () {},
+                      onAssociateDifferentEmail: () {},
+                    );
+                  }
+
+                  // if (state is RegisterPlatformSuccess) {
+                  //   GoRouter.of(context).pushPlatformVerificationPage(
+                  //     platform: state.platform,
+                  //     // email: '',
+                  //   );
+                  // }
                 },
-                child: BlocConsumer<PlatformRegistrationBloc,
-                    PlatformRegistrationState>(
-                  listener: (context, state) {
-                    if (state is RegisterPlatformError) {
-                      showFlushbar(
-                        context: context,
-                        title: 'Ops... Ocorreu um erro!',
-                        message: state.message,
-                        fontColor: Colors.white,
-                        backgroundColor: Colors.red,
-                      );
-                    }
-                  },
-                  builder: (context, state) {
-                    if (state is ListPlatformsLoading) {
-                      return const ShimmerTicketList();
-                    }
+                builder: (context, state) {
+                  if (state is ListPlatformsLoading ||
+                      state is CheckUserPlatformLoading) {
+                    return const ShimmerTicketList();
+                  }
 
-                    if (state is ListPlatformsError ||
-                        state is RegisterPlatformError) {
-                      return Center(
-                        child: ElevatedButton(
-                          onPressed: () {
-                            context
-                                .read<PlatformRegistrationBloc>()
-                                .add(ListUserPlatforms());
-                          },
-                          child: const Text('Tentar'),
-                        ),
-                      );
-                    }
+                  if (state is ListPlatformsSuccess) {
+                    final platforms = state.platforms;
 
-                    if (state is ListPlatformsSuccess) {
-                      final platforms = state.platforms;
+                    return ListView.builder(
+                      shrinkWrap: true,
+                      itemCount: platforms.length,
+                      itemBuilder: (context, index) {
+                        return Padding(
+                          padding: EdgeInsets.only(bottom: 20.h),
+                          child: PlatformListItem(
+                            logo: MPGAssetsPaths.of(context).logoByma,
+                            isLinked: platforms[index].associated,
+                            platformName: platforms[index].platform,
+                            onTap: () {
+                              context.read<PlatformRegistrationBloc>().add(
+                                    RegisterPlatform(
+                                      platform: platforms[index].platform,
+                                      // email: 'lucas.silva.c@hotmail.com',
+                                    ),
+                                  );
+                            },
+                          ),
+                        );
+                      },
+                    );
+                  }
 
-                      return ListView.builder(
-                        shrinkWrap: true,
-                        itemCount: platforms.length,
-                        itemBuilder: (context, index) {
-                          return Padding(
-                            padding: EdgeInsets.only(bottom: 20.h),
-                            child: PlatformListItem(
-                              logo: MPGAssetsPaths.of(context).logoByma,
-                              isLinked: platforms[index].associated,
-                              platformName: platforms[index].platform,
-                              onTap: () {
-                                context.read<PlatformRegistrationBloc>().add(
-                                      RegisterPlatform(
-                                        platform: platforms[index].platform,
-                                      ),
-                                    );
-                              },
-                            ),
-                          );
-                        },
-                      );
-                    }
-
-                    return const SizedBox.shrink();
-                  },
-                ),
+                  return Center(
+                    child: CircularProgressIndicator(
+                      color: Colors.white.withOpacity(0.8),
+                      strokeWidth: 2.w,
+                    ),
+                  );
+                },
               ),
             ),
             SizedBox(height: 60.h),

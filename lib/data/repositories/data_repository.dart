@@ -49,7 +49,15 @@ class AuthRepository implements IAuthRepository {
   }
 
   @override
-  Future<String> verifyOTP({required String email, required String code}) {
-    return rds.verifyOTP(email: email, code: code);
+  Future<String> verifyOTP({
+    required String param,
+    required String data,
+    required String code,
+  }) {
+    return rds.verifyOTP(
+      param: param,
+      data: data,
+      code: code,
+    );
   }
 }

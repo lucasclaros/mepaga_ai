@@ -23,4 +23,7 @@ class UrlBuilder {
 
   static String get endpointPlatformRegister =>
       '$_hmlApi$_userInfo/platform/add';
+
+  static String endpointPlatformCheck(String platform) =>
+      '$_hmlApi$_userInfo/platform/$platform';
 }

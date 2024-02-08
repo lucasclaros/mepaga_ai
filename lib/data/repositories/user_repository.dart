@@ -34,10 +34,14 @@ class UserRepository implements IUserRepositoryInterface {
     required String platform,
     String? email,
   }) async {
-    print('Fetching ${platform}');
     await rds.registerPlatform(
       platform: platform,
       email: email,
     );
+  }
+
+  @override
+  Future<void> checkPlatform({required String platform}) async {
+    await rds.checkPlatform(platform: platform);
   }
 }

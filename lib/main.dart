@@ -27,6 +27,7 @@ void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await ScreenUtil.ensureScreenSize();
   final errorLogger = Log().logError;
+  CustomNavigationHelper.instance;
 
   configureUrl();
 
@@ -63,7 +64,7 @@ class MPGApp extends StatelessWidget {
             PointerDeviceKind.invertedStylus,
           },
         ),
-        routerConfig: routes,
+        routerConfig: CustomNavigationHelper.instance.router,
         debugShowCheckedModeBanner: false,
         title: 'Me Paga Ai',
         theme: ThemeData(

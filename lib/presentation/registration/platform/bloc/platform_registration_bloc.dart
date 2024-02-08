@@ -1,6 +1,7 @@
 import 'package:bloc/bloc.dart';
 import 'package:domain/exceptions.dart';
 import 'package:domain/models/platform.dart';
+import 'package:domain/use_cases/check_platform_uc.dart';
 import 'package:domain/use_cases/get_user_platforms_uc.dart';
 import 'package:domain/use_cases/platform_register_uc.dart';
 import 'package:domain/use_cases/use_case.dart';
@@ -14,19 +15,24 @@ class PlatformRegistrationBloc
   PlatformRegistrationBloc({
     required this.getUserPlatformsUC,
     required this.platformRegisterUC,
+    required this.checkPlatformUC,
   }) : super(PlatformRegistrationInitial()) {
     on<ListUserPlatforms>(_mapListUserPlatformsInfoToState);
     on<RegisterPlatform>(_mapRegisterPlatformToState);
+    on<CheckUserPlatform>(_mapCheckUserPlatformToState);
   }
 
   final GetUserPlatformsUC getUserPlatformsUC;
   final PlatformRegisterUC platformRegisterUC;
+  final CheckPlatformUC checkPlatformUC;
 
   Future<void> _mapListUserPlatformsInfoToState(
-    PlatformRegistrationEvent event,
+    ListUserPlatforms event,
     Emitter<PlatformRegistrationState> emit,
   ) async {
-    emit(ListPlatformsLoading());
+    if (event.initialLoading) {
+      emit(ListPlatformsLoading());
+    }
 
     try {
       final platforms = await getUserPlatformsUC(NoParams());
@@ -42,6 +48,8 @@ class PlatformRegistrationBloc
     RegisterPlatform event,
     Emitter<PlatformRegistrationState> emit,
   ) async {
+    emit(RegisterPlatformLoading());
+
     try {
       await platformRegisterUC(
         PlatformRegisterUCParams(
@@ -49,11 +57,38 @@ class PlatformRegistrationBloc
           email: event.email,
         ),
       );
-      emit(RegisterPlatformSuccess());
+      emit(RegisterPlatformSuccess(platform: event.platform));
     } catch (e) {
       if (e is MPGException) {
         emit(RegisterPlatformError(message: e.message));
       }
+    } finally {
+      add(ListUserPlatforms(initialLoading: false));
+    }
+  }
+
+  Future<void> _mapCheckUserPlatformToState(
+    CheckUserPlatform event,
+    Emitter<PlatformRegistrationState> emit,
+  ) async {
+    emit(CheckUserPlatformLoading());
+
+    try {
+      await checkPlatformUC(CheckPlatformUCParams(platform: event.platform));
+
+      emit(CheckUserPlatformSuccess());
+    } catch (e) {
+      if (e is MPGException) {
+        if (e is FoundAccountNoAssociation) {
+          emit(CheckUserPlatformSuccessNoAssociation());
+        }
+
+        if (e is NoAccountFound) {
+          emit(CheckUserPlatformSuccessNoAccount());
+        }
+      }
+    } finally {
+      add(ListUserPlatforms(initialLoading: false));
     }
   }
 }
