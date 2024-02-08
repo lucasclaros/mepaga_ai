@@ -63,4 +63,28 @@ class UserRDS {
       throw UnexpectedException(message: 'Something went wrong');
     }
   }
+
+  Future<void> registerPlatform({
+    required String platform,
+    String? email,
+  }) async {
+    try {
+      final response = await dio.post(
+        UrlBuilder.endpointPlatformRegister,
+        data: {
+          'platform': platform,
+          'email': email,
+        },
+      );
+
+      print(response.data);
+    } catch (error) {
+      if (error is DioException && error.response != null) {
+        throw PlatformNotFoundException(
+          message: error.response!.data['message'] ?? 'Something went wrong',
+        );
+      }
+      throw UnexpectedException(message: 'Something went wrong');
+    }
+  }
 }

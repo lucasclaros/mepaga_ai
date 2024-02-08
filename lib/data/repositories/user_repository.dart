@@ -28,4 +28,16 @@ class UserRepository implements IUserRepositoryInterface {
     final platforms = await rds.getPlatforms();
     return platforms.map((e) => e.toDM()).toList();
   }
+
+  @override
+  Future<void> registerPlatform({
+    required String platform,
+    String? email,
+  }) async {
+    print('Fetching ${platform}');
+    await rds.registerPlatform(
+      platform: platform,
+      email: email,
+    );
+  }
 }

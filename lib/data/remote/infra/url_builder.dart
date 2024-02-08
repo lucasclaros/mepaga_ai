@@ -20,4 +20,7 @@ class UrlBuilder {
   static String get endpointUserTickets => '$_hmlApi$_userInfo/tickets';
 
   static String get endpointUserPlatforms => '$_hmlApi$_userInfo/platforms';
+
+  static String get endpointPlatformRegister =>
+      '$_hmlApi$_userInfo/platform/add';
 }

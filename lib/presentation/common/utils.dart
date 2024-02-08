@@ -85,6 +85,8 @@ Future<void> showMPGBottomSheet({
   String? description,
   Color? backgroundColor,
   double? height,
+  Widget? children,
+  Widget? descriptionWidget,
 }) async {
   await showModalBottomSheet<dynamic>(
     context: context,
@@ -137,6 +139,7 @@ Future<void> showMPGBottomSheet({
                         ),
                         textAlign: TextAlign.justify,
                       ),
+                    if (descriptionWidget != null) descriptionWidget,
                   ],
                 ),
                 Padding(
@@ -154,6 +157,7 @@ Future<void> showMPGBottomSheet({
                     },
                   ),
                 ),
+                if (children != null) children,
               ],
             ),
           ),

@@ -86,7 +86,7 @@ class _HomePageState extends State<HomePage>
     //   context.read<HomeBloc>().add(UserInfo());
     //   _requests--;
     // });
-    // context.read<HomeBloc>().add(UserPlatforms());
+    context.read<HomeBloc>().add(UserPlatforms());
   }
 
   @override

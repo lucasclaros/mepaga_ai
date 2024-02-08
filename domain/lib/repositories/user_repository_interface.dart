@@ -8,4 +8,9 @@ abstract class IUserRepositoryInterface {
   Future<List<Ticket>> getTickets();
 
   Future<List<Platform>> getPlatforms();
+
+  Future<void> registerPlatform({
+    required String platform,
+    String? email,
+  });
 }

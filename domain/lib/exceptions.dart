@@ -15,3 +15,7 @@ class UserAlreadyExistsException extends MPGException {}
 class CacheValueNotFoundException extends MPGException {}
 
 class InvalidInputException extends MPGException {}
+
+class PlatformNotFoundException extends MPGException {
+  PlatformNotFoundException({super.message = 'Platform not found.'});
+}
