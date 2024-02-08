@@ -88,7 +88,6 @@ class UserRDS {
 
   Future<void> checkPlatform({required String platform}) async {
     try {
-      print('Checking platform: $platform');
       final response = await dio.get(
         UrlBuilder.endpointPlatformCheck(platform),
         data: {

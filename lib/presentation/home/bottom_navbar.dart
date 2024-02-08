@@ -42,71 +42,64 @@ class _BottomNavbarState extends State<BottomNavbar> {
 
   @override
   Widget build(BuildContext context) {
-    return BackButtonListener(
-      onBackButtonPressed: () async {
-        print('Back button pressed');
-        return true;
-      },
-      child: SafeArea(
-        child: Scaffold(
-          floatingActionButton: AddTicketFloatingButton(
-            onTap: () => handleTabChange(1),
-            tabStream: _navbarTabController.stream,
-          ),
-          floatingActionButtonLocation:
-              FloatingActionButtonLocation.centerFloat,
-          body: Stack(
-            alignment: Alignment.bottomCenter,
-            children: [
-              widget.child,
-              Container(
-                decoration: const BoxDecoration(
-                  borderRadius: BorderRadius.only(
-                    topRight: Radius.circular(30),
-                    topLeft: Radius.circular(30),
-                  ),
-                ),
-                height: max(70, 70.w),
-                child: ClipRRect(
-                  borderRadius: BorderRadius.only(
-                    topLeft: Radius.circular(32.r),
-                    topRight: Radius.circular(32.r),
-                  ),
-                  child: BottomNavigationBar(
-                    currentIndex: widget.child.currentIndex,
-                    elevation: 0,
-                    onTap: handleTabChange,
-                    type: BottomNavigationBarType.fixed,
-                    selectedItemColor: const Color(0xFF5316B6),
-                    unselectedItemColor: const Color(0xFFCEC2DA),
-                    selectedLabelStyle: GoogleFonts.barlow(
-                      fontSize: 12.sp,
-                      fontWeight: FontWeight.w700,
-                    ),
-                    unselectedLabelStyle: GoogleFonts.barlow(
-                      fontSize: 12.sp,
-                      fontWeight: FontWeight.w700,
-                    ),
-                    iconSize: 26,
-                    items: const [
-                      BottomNavigationBarItem(
-                        icon: Icon(CustomIcons.home_icon),
-                        label: 'Home',
-                      ),
-                      BottomNavigationBarItem(
-                        icon: SizedBox.shrink(),
-                        label: '',
-                      ),
-                      BottomNavigationBarItem(
-                        icon: Icon(CustomIcons.user_icon),
-                        label: 'Perfil',
-                      ),
-                    ],
-                  ),
+    return SafeArea(
+      child: Scaffold(
+        floatingActionButton: AddTicketFloatingButton(
+          onTap: () => handleTabChange(1),
+          tabStream: _navbarTabController.stream,
+        ),
+        floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
+        body: Stack(
+          alignment: Alignment.bottomCenter,
+          children: [
+            widget.child,
+            Container(
+              decoration: const BoxDecoration(
+                borderRadius: BorderRadius.only(
+                  topRight: Radius.circular(30),
+                  topLeft: Radius.circular(30),
                 ),
               ),
-            ],
-          ),
+              height: max(70, 70.w),
+              child: ClipRRect(
+                borderRadius: BorderRadius.only(
+                  topLeft: Radius.circular(32.r),
+                  topRight: Radius.circular(32.r),
+                ),
+                child: BottomNavigationBar(
+                  currentIndex: widget.child.currentIndex,
+                  elevation: 0,
+                  onTap: handleTabChange,
+                  type: BottomNavigationBarType.fixed,
+                  selectedItemColor: const Color(0xFF5316B6),
+                  unselectedItemColor: const Color(0xFFCEC2DA),
+                  selectedLabelStyle: GoogleFonts.barlow(
+                    fontSize: 12.sp,
+                    fontWeight: FontWeight.w700,
+                  ),
+                  unselectedLabelStyle: GoogleFonts.barlow(
+                    fontSize: 12.sp,
+                    fontWeight: FontWeight.w700,
+                  ),
+                  iconSize: 26,
+                  items: const [
+                    BottomNavigationBarItem(
+                      icon: Icon(CustomIcons.home_icon),
+                      label: 'Home',
+                    ),
+                    BottomNavigationBarItem(
+                      icon: SizedBox.shrink(),
+                      label: '',
+                    ),
+                    BottomNavigationBarItem(
+                      icon: Icon(CustomIcons.user_icon),
+                      label: 'Perfil',
+                    ),
+                  ],
+                ),
+              ),
+            ),
+          ],
         ),
       ),
     );
