@@ -6,13 +6,21 @@ import 'package:mepaga_ai/presentation/auth/otp_verification/view/otp_verificati
 import 'package:mepaga_ai/presentation/auth/register/email/view/register_email_view.dart';
 import 'package:mepaga_ai/presentation/auth/register/password/view/register_password_view.dart';
 import 'package:mepaga_ai/presentation/home/bottom_navbar.dart';
+import 'package:mepaga_ai/presentation/home/screens/home/home_page.dart';
+import 'package:mepaga_ai/presentation/home/screens/profile/profile_page.dart';
 import 'package:mepaga_ai/presentation/onboarding/view/onboarding_view.dart';
 import 'package:mepaga_ai/presentation/registration/add_email_platform/add_email_platform.dart';
 import 'package:mepaga_ai/presentation/registration/otp_platform_verification/view/otp_platform_verification_view.dart';
+import 'package:mepaga_ai/presentation/registration/platform/platform_registration_view.dart';
 import 'package:mepaga_ai/presentation/welcome/welcome_page.dart';
 import 'package:provider/provider.dart';
 
+// PATHS SHELLROUTE
 const _homePage = '/home';
+const _ticketPage = '/tickets';
+const _profilePage = '/profile';
+const _platformVerificationPage = '/verification-platform-email';
+
 const _verificationPage = 'verification';
 const _onboardingPage = 'onboarding';
 const _registerEmailPage = 'register-email';
@@ -23,73 +31,163 @@ const _logoutPage = 'logout';
 const _registerEmailPath = '/$_onboardingPage/$_registerEmailPage';
 const _registerPassPath = '$_registerEmailPath/$_registerPassPage';
 const _signinVerificationPath = '$_registerPassPath/$_verificationPage';
-const _platformVerificationPath = '$_homePage/$_verificationPage';
 const _platformRegisterEmailPath = '$_homePage/$_registerEmailPage';
 const _loginPath = '/$_onboardingPage/$_loginPage';
 const _logoutPath = '/$_logoutPage';
 
-class CustomNavigationHelper {
-  factory CustomNavigationHelper() {
-    return _instance;
-  }
+final GlobalKey<NavigatorState> parentNavigatorKey =
+    GlobalKey<NavigatorState>();
 
-  CustomNavigationHelper._internal() {
-    final routes = [
-      GoRoute(
-        path: '/',
-        builder: (context, state) => const WelcomePage(),
+final GlobalKey<NavigatorState> shellNavigatorKey = GlobalKey<NavigatorState>();
+
+final GlobalKey<NavigatorState> homeTabNavigatorKey =
+    GlobalKey<NavigatorState>();
+
+final GlobalKey<NavigatorState> ticketTabNavigatorKey =
+    GlobalKey<NavigatorState>();
+
+final GlobalKey<NavigatorState> profileTabNavigatorKey =
+    GlobalKey<NavigatorState>();
+
+final routes = [
+  StatefulShellRoute.indexedStack(
+    parentNavigatorKey: parentNavigatorKey,
+    pageBuilder: (
+      _,
+      GoRouterState state,
+      StatefulNavigationShell navigationShell,
+    ) {
+      final extraData = state.extra as Map<String, dynamic>? ?? {};
+      final showFlushbar = extraData['showFlushbar'] ?? false;
+
+      return CustomSlideTransition(
+        child: BottomNavbar(
+          showFlushbar: showFlushbar,
+          child: navigationShell,
+        ),
+      );
+    },
+    branches: [
+      StatefulShellBranch(
+        navigatorKey: homeTabNavigatorKey,
         routes: [
           GoRoute(
-            path: _onboardingPage,
-            pageBuilder: (context, state) {
+            path: _homePage,
+            pageBuilder: (_, state) {
+              final extraData = state.extra as Map<String, dynamic>? ?? {};
+              final showFlushbar = extraData['showFlushbar'] ?? false;
+
               return CustomSlideTransition(
-                key: state.pageKey,
-                child: const OnboardingView(),
+                child: HomePage.create(
+                  showFlushbar: showFlushbar,
+                  triggerBottomSheet: (_) {},
+                ),
               );
             },
             routes: [
               GoRoute(
-                path: _registerEmailPage,
-                pageBuilder: (context, state) {
+                path: _verificationPage,
+                pageBuilder: (_, state) {
+                  final extraData = state.extra as Map<String, dynamic>? ?? {};
+                  final platform = extraData['platform'] as String;
+                  final email = extraData['email'] as String?;
+
                   return CustomSlideTransition(
                     key: state.pageKey,
-                    child: const RegisterEmailView(),
-                  );
-                },
-                routes: [
-                  GoRoute(
-                    path: _registerPassPage,
-                    pageBuilder: (context, state) {
-                      return CustomSlideTransition(
-                        key: state.pageKey,
-                        child: RegisterPasswordView.create(),
-                      );
-                    },
-                    routes: [
-                      GoRoute(
-                        path: _verificationPage,
-                        pageBuilder: (context, state) => CustomSlideTransition(
-                          key: state.pageKey,
-                          child: OTPVerificationView.create(),
-                        ),
-                      ),
-                    ],
-                  ),
-                ],
-              ),
-              GoRoute(
-                path: _loginPage,
-                pageBuilder: (context, state) {
-                  return CustomSlideTransition(
-                    key: state.pageKey,
-                    child: LoginView.create(),
+                    child: OTPPlatformVerificationView.create(
+                      platform: platform,
+                      email: email,
+                    ),
                   );
                 },
               ),
             ],
           ),
+        ],
+      ),
+      StatefulShellBranch(
+        navigatorKey: ticketTabNavigatorKey,
+        routes: [
           GoRoute(
-            path: _logoutPage,
+            path: _ticketPage,
+            pageBuilder: (_, state) {
+              return CustomSlideTransition(
+                child: PlatformRegistrationView.create(),
+              );
+            },
+          ),
+        ],
+      ),
+      StatefulShellBranch(
+        navigatorKey: profileTabNavigatorKey,
+        routes: [
+          GoRoute(
+            path: _profilePage,
+            pageBuilder: (context, GoRouterState state) {
+              return CustomSlideTransition(
+                child: ProfilePage.create(),
+              );
+            },
+          ),
+        ],
+      ),
+    ],
+  ),
+  GoRoute(
+    parentNavigatorKey: parentNavigatorKey,
+    path: _platformVerificationPage,
+    pageBuilder: (context, state) {
+      return CustomSlideTransition(
+        key: state.pageKey,
+        child: const AddEmailPlatform(),
+      );
+    },
+  ),
+  GoRoute(
+    parentNavigatorKey: parentNavigatorKey,
+    path: '/',
+    builder: (context, state) => const WelcomePage(),
+    routes: [
+      GoRoute(
+        path: _onboardingPage,
+        pageBuilder: (context, state) {
+          return CustomSlideTransition(
+            key: state.pageKey,
+            child: const OnboardingView(),
+          );
+        },
+        routes: [
+          GoRoute(
+            path: _registerEmailPage,
+            pageBuilder: (context, state) {
+              return CustomSlideTransition(
+                key: state.pageKey,
+                child: const RegisterEmailView(),
+              );
+            },
+            routes: [
+              GoRoute(
+                path: _registerPassPage,
+                pageBuilder: (context, state) {
+                  return CustomSlideTransition(
+                    key: state.pageKey,
+                    child: RegisterPasswordView.create(),
+                  );
+                },
+                routes: [
+                  GoRoute(
+                    path: _verificationPage,
+                    pageBuilder: (context, state) => CustomSlideTransition(
+                      key: state.pageKey,
+                      child: OTPVerificationView.create(),
+                    ),
+                  ),
+                ],
+              ),
+            ],
+          ),
+          GoRoute(
+            path: _loginPage,
             pageBuilder: (context, state) {
               return CustomSlideTransition(
                 key: state.pageKey,
@@ -100,81 +198,33 @@ class CustomNavigationHelper {
         ],
       ),
       GoRoute(
-        path: _homePage,
+        path: _logoutPage,
         pageBuilder: (context, state) {
-          final extraData = state.extra as Map<String, dynamic>? ?? {};
-          final showFlushbar = extraData['showFlushbar'] ?? false;
           return CustomSlideTransition(
             key: state.pageKey,
-            child: BottomNavbar(showFlushbar: showFlushbar),
+            child: LoginView.create(),
           );
         },
-        routes: [
-          GoRoute(
-            path: _verificationPage,
-            pageBuilder: (context, state) {
-              final extraData = state.extra as Map<String, dynamic>? ?? {};
-              final platform = extraData['platform'] as String;
-              final email = extraData['email'] as String?;
-
-              return CustomSlideTransition(
-                key: state.pageKey,
-                child: OTPPlatformVerificationView.create(
-                  platform: platform,
-                  email: email,
-                ),
-              );
-            },
-          ),
-          GoRoute(
-            path: _registerEmailPage,
-            pageBuilder: (context, state) {
-              return CustomSlideTransition(
-                key: state.pageKey,
-                child: const AddEmailPlatform(),
-              );
-            },
-          ),
-        ],
       ),
-    ];
+    ],
+  ),
+];
 
-    router = GoRouter(
-      redirect: (context, state) async {
-        final onlineCds = context.read<OnlineCDS>();
-        final token = await onlineCds.getJWT();
+final router = GoRouter(
+  redirect: (context, state) async {
+    if (state.fullPath == '/') {
+      final onlineCds = context.read<OnlineCDS>();
+      final token = await onlineCds.getJWT();
 
-        if (token != null) {
-          return _homePage;
-        }
-        return null;
-      },
-      navigatorKey: parentNavigatorKey,
-      initialLocation: '/',
-      routes: routes,
-    );
-  }
-
-  late GoRouter router;
-
-  static final GlobalKey<NavigatorState> parentNavigatorKey =
-      GlobalKey<NavigatorState>();
-
-  static Page getPage({
-    required Widget child,
-    required GoRouterState state,
-  }) {
-    return MaterialPage(
-      key: state.pageKey,
-      child: child,
-    );
-  }
-
-  static final CustomNavigationHelper _instance =
-      CustomNavigationHelper._internal();
-
-  static CustomNavigationHelper get instance => _instance;
-}
+      if (token != null) {
+        return _homePage;
+      }
+    }
+    return null;
+  },
+  navigatorKey: parentNavigatorKey,
+  routes: routes,
+);
 
 extension PageNavigationExtension on GoRouter {
   void pushEmailVerificationPage() => go(_signinVerificationPath);
@@ -202,15 +252,15 @@ extension PageNavigationExtension on GoRouter {
     required String platform,
     String? email,
   }) =>
-      go(
-        _platformVerificationPath,
+      push(
+        _platformVerificationPage,
         extra: {
           'platform': platform,
           'email': email,
         },
       );
 
-  void pushAddEmailPlatformPage() => go(_platformRegisterEmailPath);
+  void pushAddEmailPlatformPage() => router.push(_platformRegisterEmailPath);
 }
 
 class CustomSlideTransition extends CustomTransitionPage<void> {
@@ -225,7 +275,9 @@ class CustomSlideTransition extends CustomTransitionPage<void> {
                   begin: const Offset(1.5, 0),
                   end: Offset.zero,
                 ).chain(
-                  CurveTween(curve: Curves.easeInOut),
+                  CurveTween(
+                    curve: Curves.easeInOut,
+                  ),
                 ),
               ),
               child: child,

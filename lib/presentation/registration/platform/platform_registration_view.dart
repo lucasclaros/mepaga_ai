@@ -39,8 +39,7 @@ class PlatformRegistrationView extends StatefulWidget {
       _PlatformRegistrationViewState();
 }
 
-class _PlatformRegistrationViewState extends State<PlatformRegistrationView>
-    with AutomaticKeepAliveClientMixin<PlatformRegistrationView> {
+class _PlatformRegistrationViewState extends State<PlatformRegistrationView> {
   @override
   void initState() {
     super.initState();
@@ -54,7 +53,6 @@ class _PlatformRegistrationViewState extends State<PlatformRegistrationView>
 
   @override
   Widget build(BuildContext context) {
-    super.build(context);
     return MPGScaffold(
       child: Padding(
         padding: EdgeInsets.symmetric(horizontal: 32.w),
@@ -203,7 +201,4 @@ class _PlatformRegistrationViewState extends State<PlatformRegistrationView>
       ),
     );
   }
-
-  @override
-  bool get wantKeepAlive => true;
 }

@@ -53,8 +53,7 @@ class HomePage extends StatefulWidget {
   State<HomePage> createState() => _HomePageState();
 }
 
-class _HomePageState extends State<HomePage>
-    with AutomaticKeepAliveClientMixin<HomePage> {
+class _HomePageState extends State<HomePage> {
   bool _isLoading = false;
   int _requests = 3;
   final _pagingController = PagingController<int, Ticket>(
@@ -91,7 +90,6 @@ class _HomePageState extends State<HomePage>
 
   @override
   Widget build(BuildContext context) {
-    super.build(context);
     return MPGScaffold(
       child: Padding(
         padding: EdgeInsets.symmetric(horizontal: 30.w),
@@ -251,7 +249,4 @@ class _HomePageState extends State<HomePage>
       ),
     );
   }
-
-  @override
-  bool get wantKeepAlive => true;
 }
