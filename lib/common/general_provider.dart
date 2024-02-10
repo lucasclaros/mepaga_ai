@@ -56,7 +56,11 @@ class _GeneralProviderState extends State<GeneralProvider> {
 
   SingleChildWidget _buildDependenciesProvider() =>
       Provider<FlutterSecureStorage>(
-        create: (_) => const FlutterSecureStorage(),
+        create: (_) => const FlutterSecureStorage(
+          aOptions: AndroidOptions(
+            encryptedSharedPreferences: true,
+          ),
+        ),
       );
 
   SingleChildWidget _buildThemeProvider() => Provider<AppThemeInterface>(

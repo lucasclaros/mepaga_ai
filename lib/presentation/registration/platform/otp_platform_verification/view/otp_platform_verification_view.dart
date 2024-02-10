@@ -1,5 +1,6 @@
 // ignore_for_file: lines_longer_than_80_chars
 
+import 'package:auto_route/auto_route.dart';
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:domain/use_cases/cache_jwt_uc.dart';
 import 'package:domain/use_cases/otp_verification_uc.dart';
@@ -7,7 +8,6 @@ import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:go_router/go_router.dart';
 import 'package:mepaga_ai/data/models/user_mm.dart';
 import 'package:mepaga_ai/presentation/common/mpg_button.dart';
 import 'package:mepaga_ai/presentation/common/mpg_header.dart';
@@ -17,6 +17,7 @@ import 'package:mepaga_ai/presentation/common/themes/text_styles/mpg_text_styles
 import 'package:mepaga_ai/presentation/common/utils.dart';
 import 'package:mepaga_ai/presentation/registration/platform/otp_platform_verification/bloc/otp_platform_verification_bloc.dart';
 
+@RoutePage()
 class OTPPlatformVerificationView extends StatefulWidget {
   const OTPPlatformVerificationView({
     super.key,
@@ -26,20 +27,6 @@ class OTPPlatformVerificationView extends StatefulWidget {
 
   final String platform;
   final String? email;
-
-  static Widget create({required String platform, String? email}) =>
-      BlocProvider<OtpPlatformVerificationBloc>(
-        create: (context) {
-          return OtpPlatformVerificationBloc(
-            cacheJwtUC: context.read<CacheJwtUC>(),
-            otpVerificationUC: context.read<OTPVerificationUC>(),
-          );
-        },
-        child: OTPPlatformVerificationView(
-          platform: platform,
-          email: email,
-        ),
-      );
 
   @override
   State<OTPPlatformVerificationView> createState() =>
@@ -62,118 +49,124 @@ class _OTPPlatformVerificationViewState
 
   @override
   Widget build(BuildContext context) {
-    return BlocConsumer<OtpPlatformVerificationBloc,
-        OtpPlatformVerificationState>(
-      listener: (context, state) {
-        setState(() {
-          _isLoading = state is OtpPlatformVerificationLoading;
-        });
-
-        if (state is OtpPlatformVerificationError && !_isShowingFlushbar) {
+    return BlocProvider(
+      create: (context) => OtpPlatformVerificationBloc(
+        cacheJwtUC: context.read<CacheJwtUC>(),
+        otpVerificationUC: context.read<OTPVerificationUC>(),
+      ),
+      child: BlocConsumer<OtpPlatformVerificationBloc,
+          OtpPlatformVerificationState>(
+        listener: (context, state) {
           setState(() {
-            _isShowingFlushbar = true;
+            _isLoading = state is OtpPlatformVerificationLoading;
           });
 
-          showFlushbar(
-            context: context,
-            title: 'Ops... Ocorreu um erro!',
-            message: state.message,
-            fontColor: Colors.white,
-            backgroundColor: Colors.red,
-            thenFunction: () {
-              setState(() {
-                _isShowingFlushbar = false;
-              });
-            },
-          );
-        }
+          if (state is OtpPlatformVerificationError && !_isShowingFlushbar) {
+            setState(() {
+              _isShowingFlushbar = true;
+            });
 
-        if (state is OtpPlatformVerificationSuccess) {
-          GoRouter.of(context).pop();
-        }
-      },
-      builder: (context, state) {
-        return MPGScaffold(
-          child: SingleChildScrollView(
-            child: Column(
-              children: [
-                Column(
-                  children: [
-                    const MPGHeader(title: 'Verificação de Email'),
-                    Padding(
-                      padding: EdgeInsets.symmetric(
-                        horizontal: 35.w,
-                        vertical: 20.h,
-                      ),
-                      child: Column(
-                        children: [
-                          SizedBox(height: 50.h),
-                          AutoSizeText(
-                            'Insira abaixo o código enviado para:\n',
-                            style: MPGTextStyles.of(context)
-                                .onboardingHintDescription,
-                            textAlign: TextAlign.center,
-                          ),
-                          AutoSizeText(
-                            widget.email != null
-                                ? widget.email!
-                                : UserMM().email,
-                            style: MPGTextStyles.of(context)
-                                .otpVerifcationUserEmail,
-                            textAlign: TextAlign.center,
-                          ),
-                          SizedBox(height: 28.h),
-                          RichText(
-                            text: TextSpan(
-                              children: [
-                                TextSpan(
-                                  text: 'Não recebeu o email? ',
-                                  style: MPGTextStyles.of(context)
-                                      .policyNormalDescriptionMobile,
-                                ),
-                                TextSpan(
-                                  text: 'Reenviar código',
-                                  style: MPGTextStyles.of(context)
-                                      .policyColoredDescription,
-                                  // TODO(Lucas Claros): Adicionar link para reenviar código
-                                  recognizer: TapGestureRecognizer()
-                                    ..onTap = () {},
-                                ),
-                              ],
+            showFlushbar(
+              context: context,
+              title: 'Ops... Ocorreu um erro!',
+              message: state.message,
+              fontColor: Colors.white,
+              backgroundColor: Colors.red,
+              thenFunction: () {
+                setState(() {
+                  _isShowingFlushbar = false;
+                });
+              },
+            );
+          }
+
+          if (state is OtpPlatformVerificationSuccess) {
+            context.router.pop();
+          }
+        },
+        builder: (context, state) {
+          return MPGScaffold(
+            child: SingleChildScrollView(
+              child: Column(
+                children: [
+                  Column(
+                    children: [
+                      const MPGHeader(title: 'Verificação de Email'),
+                      Padding(
+                        padding: EdgeInsets.symmetric(
+                          horizontal: 35.w,
+                          vertical: 20.h,
+                        ),
+                        child: Column(
+                          children: [
+                            SizedBox(height: 50.h),
+                            AutoSizeText(
+                              'Insira abaixo o código enviado para:\n',
+                              style: MPGTextStyles.of(context)
+                                  .onboardingHintDescription,
+                              textAlign: TextAlign.center,
                             ),
-                          ),
-                          SizedBox(height: 85.h),
-                          MPGOtpTextField(
-                            textController: _otpController,
-                            focusNode: _otpFocusNode,
-                          ),
-                        ],
+                            AutoSizeText(
+                              widget.email != null
+                                  ? widget.email!
+                                  : UserMM().email,
+                              style: MPGTextStyles.of(context)
+                                  .otpVerifcationUserEmail,
+                              textAlign: TextAlign.center,
+                            ),
+                            SizedBox(height: 28.h),
+                            RichText(
+                              text: TextSpan(
+                                children: [
+                                  TextSpan(
+                                    text: 'Não recebeu o email? ',
+                                    style: MPGTextStyles.of(context)
+                                        .policyNormalDescriptionMobile,
+                                  ),
+                                  TextSpan(
+                                    text: 'Reenviar código',
+                                    style: MPGTextStyles.of(context)
+                                        .policyColoredDescription,
+                                    // TODO(Lucas Claros): Adicionar link para reenviar código
+                                    recognizer: TapGestureRecognizer()
+                                      ..onTap = () {},
+                                  ),
+                                ],
+                              ),
+                            ),
+                            SizedBox(height: 85.h),
+                            MPGOtpTextField(
+                              textController: _otpController,
+                              focusNode: _otpFocusNode,
+                            ),
+                          ],
+                        ),
                       ),
-                    ),
-                  ],
-                ),
-                SizedBox(height: 100.h),
-                MPGButton(
-                  onPressed: () {
-                    context.read<OtpPlatformVerificationBloc>().add(
-                          OtpPlatformVerificationSend(
-                            platform: widget.platform,
-                            code: _otpController.text,
-                          ),
-                        );
-                  },
-                  isLoading: _isLoading,
-                  child: Text(
-                    'Validar',
-                    style: MPGTextStyles.of(context).mpgColoredButton,
+                    ],
                   ),
-                ),
-                SizedBox(height: 45.h),
-              ],
+                  SizedBox(height: 100.h),
+                  MPGButton(
+                    onPressed: () {
+                      context.read<OtpPlatformVerificationBloc>().add(
+                            OtpPlatformVerificationSend(
+                              platform: widget.platform,
+                              code: _otpController.text,
+                            ),
+                          );
+                    },
+                    isLoading: _isLoading,
+                    child: Text(
+                      'Validar',
+                      style: MPGTextStyles.of(context).mpgColoredButton,
+                    ),
+                  ),
+                  SizedBox(height: 45.h),
+                ],
+              ),
             ),
-          ),
-        );
-      },
+          );
+        },
+      ),
     );
   }
 }

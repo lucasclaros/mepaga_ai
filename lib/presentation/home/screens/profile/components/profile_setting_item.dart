@@ -3,6 +3,8 @@ import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:mepaga_ai/presentation/home/screens/profile/bloc/profile_settings_bloc.dart';
+import 'package:provider/provider.dart';
 import 'package:simple_shadow/simple_shadow.dart';
 
 class ProfileSettingItem extends StatelessWidget {
@@ -22,7 +24,11 @@ class ProfileSettingItem extends StatelessWidget {
     final width = MediaQuery.of(context).size.width;
 
     return InkWell(
-      onTap: onTap,
+      onTap: isLogout
+          ? () => context.read<ProfileSettingsBloc>().add(
+                ProfileSettingsLogout(),
+              )
+          : onTap,
       child: Container(
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(10.r),

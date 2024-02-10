@@ -1,0 +1,434 @@
+// GENERATED CODE - DO NOT MODIFY BY HAND
+
+// **************************************************************************
+// AutoRouterGenerator
+// **************************************************************************
+
+// ignore_for_file: type=lint
+// coverage:ignore-file
+
+part of 'app_router.dart';
+
+abstract class _$AppRouter extends RootStackRouter {
+  // ignore: unused_element
+  _$AppRouter({super.navigatorKey});
+
+  @override
+  final Map<String, PageFactory> pagesMap = {
+    AddEmailPlatformRoute.name: (routeData) {
+      final args = routeData.argsAs<AddEmailPlatformRouteArgs>();
+      return AutoRoutePage<dynamic>(
+        routeData: routeData,
+        child: AddEmailPlatformView(
+          key: args.key,
+          platform: args.platform,
+          onSuccess: args.onSuccess,
+        ),
+      );
+    },
+    BottomNavbarRoute.name: (routeData) {
+      final args = routeData.argsAs<BottomNavbarRouteArgs>(
+          orElse: () => const BottomNavbarRouteArgs());
+      return AutoRoutePage<dynamic>(
+        routeData: routeData,
+        child: BottomNavbarWrapper(
+          key: args.key,
+          showFlushbar: args.showFlushbar,
+        ),
+      );
+    },
+    HomeRoute.name: (routeData) {
+      final args =
+          routeData.argsAs<HomeRouteArgs>(orElse: () => const HomeRouteArgs());
+      return AutoRoutePage<dynamic>(
+        routeData: routeData,
+        child: HomePage(
+          key: args.key,
+          showFlushbar: args.showFlushbar,
+        ),
+      );
+    },
+    LoginRoute.name: (routeData) {
+      return AutoRoutePage<dynamic>(
+        routeData: routeData,
+        child: const LoginView(),
+      );
+    },
+    OTPPlatformVerificationRoute.name: (routeData) {
+      final args = routeData.argsAs<OTPPlatformVerificationRouteArgs>();
+      return AutoRoutePage<dynamic>(
+        routeData: routeData,
+        child: OTPPlatformVerificationView(
+          key: args.key,
+          platform: args.platform,
+          email: args.email,
+        ),
+      );
+    },
+    OTPVerificationRoute.name: (routeData) {
+      return AutoRoutePage<dynamic>(
+        routeData: routeData,
+        child: const OTPVerificationView(),
+      );
+    },
+    OnboardingRoute.name: (routeData) {
+      return AutoRoutePage<dynamic>(
+        routeData: routeData,
+        child: const OnboardingView(),
+      );
+    },
+    PlatformRegistrationRoute.name: (routeData) {
+      return AutoRoutePage<dynamic>(
+        routeData: routeData,
+        child: const PlatformRegistrationView(),
+      );
+    },
+    ProfileRoute.name: (routeData) {
+      return AutoRoutePage<dynamic>(
+        routeData: routeData,
+        child: const ProfilePage(),
+      );
+    },
+    RegisterEmailRoute.name: (routeData) {
+      return AutoRoutePage<dynamic>(
+        routeData: routeData,
+        child: const RegisterEmailView(),
+      );
+    },
+    RegisterPasswordRoute.name: (routeData) {
+      return AutoRoutePage<dynamic>(
+        routeData: routeData,
+        child: const RegisterPasswordView(),
+      );
+    },
+    TransferOrientationRoute.name: (routeData) {
+      final args = routeData.argsAs<TransferOrientationRouteArgs>();
+      return AutoRoutePage<dynamic>(
+        routeData: routeData,
+        child: TransferOrientationPage(
+          key: args.key,
+          platform: args.platform,
+        ),
+      );
+    },
+    WelcomeRoute.name: (routeData) {
+      return AutoRoutePage<dynamic>(
+        routeData: routeData,
+        child: const WelcomePage(),
+      );
+    },
+  };
+}
+
+/// generated route for
+/// [AddEmailPlatformView]
+class AddEmailPlatformRoute extends PageRouteInfo<AddEmailPlatformRouteArgs> {
+  AddEmailPlatformRoute({
+    Key? key,
+    required String platform,
+    required dynamic Function(String) onSuccess,
+    List<PageRouteInfo>? children,
+  }) : super(
+          AddEmailPlatformRoute.name,
+          args: AddEmailPlatformRouteArgs(
+            key: key,
+            platform: platform,
+            onSuccess: onSuccess,
+          ),
+          initialChildren: children,
+        );
+
+  static const String name = 'AddEmailPlatformRoute';
+
+  static const PageInfo<AddEmailPlatformRouteArgs> page =
+      PageInfo<AddEmailPlatformRouteArgs>(name);
+}
+
+class AddEmailPlatformRouteArgs {
+  const AddEmailPlatformRouteArgs({
+    this.key,
+    required this.platform,
+    required this.onSuccess,
+  });
+
+  final Key? key;
+
+  final String platform;
+
+  final dynamic Function(String) onSuccess;
+
+  @override
+  String toString() {
+    return 'AddEmailPlatformRouteArgs{key: $key, platform: $platform, onSuccess: $onSuccess}';
+  }
+}
+
+/// generated route for
+/// [BottomNavbarWrapper]
+class BottomNavbarRoute extends PageRouteInfo<BottomNavbarRouteArgs> {
+  BottomNavbarRoute({
+    Key? key,
+    bool showFlushbar = false,
+    List<PageRouteInfo>? children,
+  }) : super(
+          BottomNavbarRoute.name,
+          args: BottomNavbarRouteArgs(
+            key: key,
+            showFlushbar: showFlushbar,
+          ),
+          initialChildren: children,
+        );
+
+  static const String name = 'BottomNavbarRoute';
+
+  static const PageInfo<BottomNavbarRouteArgs> page =
+      PageInfo<BottomNavbarRouteArgs>(name);
+}
+
+class BottomNavbarRouteArgs {
+  const BottomNavbarRouteArgs({
+    this.key,
+    this.showFlushbar = false,
+  });
+
+  final Key? key;
+
+  final bool showFlushbar;
+
+  @override
+  String toString() {
+    return 'BottomNavbarRouteArgs{key: $key, showFlushbar: $showFlushbar}';
+  }
+}
+
+/// generated route for
+/// [HomePage]
+class HomeRoute extends PageRouteInfo<HomeRouteArgs> {
+  HomeRoute({
+    Key? key,
+    bool showFlushbar = false,
+    List<PageRouteInfo>? children,
+  }) : super(
+          HomeRoute.name,
+          args: HomeRouteArgs(
+            key: key,
+            showFlushbar: showFlushbar,
+          ),
+          initialChildren: children,
+        );
+
+  static const String name = 'HomeRoute';
+
+  static const PageInfo<HomeRouteArgs> page = PageInfo<HomeRouteArgs>(name);
+}
+
+class HomeRouteArgs {
+  const HomeRouteArgs({
+    this.key,
+    this.showFlushbar = false,
+  });
+
+  final Key? key;
+
+  final bool showFlushbar;
+
+  @override
+  String toString() {
+    return 'HomeRouteArgs{key: $key, showFlushbar: $showFlushbar}';
+  }
+}
+
+/// generated route for
+/// [LoginView]
+class LoginRoute extends PageRouteInfo<void> {
+  const LoginRoute({List<PageRouteInfo>? children})
+      : super(
+          LoginRoute.name,
+          initialChildren: children,
+        );
+
+  static const String name = 'LoginRoute';
+
+  static const PageInfo<void> page = PageInfo<void>(name);
+}
+
+/// generated route for
+/// [OTPPlatformVerificationView]
+class OTPPlatformVerificationRoute
+    extends PageRouteInfo<OTPPlatformVerificationRouteArgs> {
+  OTPPlatformVerificationRoute({
+    Key? key,
+    required String platform,
+    String? email,
+    List<PageRouteInfo>? children,
+  }) : super(
+          OTPPlatformVerificationRoute.name,
+          args: OTPPlatformVerificationRouteArgs(
+            key: key,
+            platform: platform,
+            email: email,
+          ),
+          initialChildren: children,
+        );
+
+  static const String name = 'OTPPlatformVerificationRoute';
+
+  static const PageInfo<OTPPlatformVerificationRouteArgs> page =
+      PageInfo<OTPPlatformVerificationRouteArgs>(name);
+}
+
+class OTPPlatformVerificationRouteArgs {
+  const OTPPlatformVerificationRouteArgs({
+    this.key,
+    required this.platform,
+    this.email,
+  });
+
+  final Key? key;
+
+  final String platform;
+
+  final String? email;
+
+  @override
+  String toString() {
+    return 'OTPPlatformVerificationRouteArgs{key: $key, platform: $platform, email: $email}';
+  }
+}
+
+/// generated route for
+/// [OTPVerificationView]
+class OTPVerificationRoute extends PageRouteInfo<void> {
+  const OTPVerificationRoute({List<PageRouteInfo>? children})
+      : super(
+          OTPVerificationRoute.name,
+          initialChildren: children,
+        );
+
+  static const String name = 'OTPVerificationRoute';
+
+  static const PageInfo<void> page = PageInfo<void>(name);
+}
+
+/// generated route for
+/// [OnboardingView]
+class OnboardingRoute extends PageRouteInfo<void> {
+  const OnboardingRoute({List<PageRouteInfo>? children})
+      : super(
+          OnboardingRoute.name,
+          initialChildren: children,
+        );
+
+  static const String name = 'OnboardingRoute';
+
+  static const PageInfo<void> page = PageInfo<void>(name);
+}
+
+/// generated route for
+/// [PlatformRegistrationView]
+class PlatformRegistrationRoute extends PageRouteInfo<void> {
+  const PlatformRegistrationRoute({List<PageRouteInfo>? children})
+      : super(
+          PlatformRegistrationRoute.name,
+          initialChildren: children,
+        );
+
+  static const String name = 'PlatformRegistrationRoute';
+
+  static const PageInfo<void> page = PageInfo<void>(name);
+}
+
+/// generated route for
+/// [ProfilePage]
+class ProfileRoute extends PageRouteInfo<void> {
+  const ProfileRoute({List<PageRouteInfo>? children})
+      : super(
+          ProfileRoute.name,
+          initialChildren: children,
+        );
+
+  static const String name = 'ProfileRoute';
+
+  static const PageInfo<void> page = PageInfo<void>(name);
+}
+
+/// generated route for
+/// [RegisterEmailView]
+class RegisterEmailRoute extends PageRouteInfo<void> {
+  const RegisterEmailRoute({List<PageRouteInfo>? children})
+      : super(
+          RegisterEmailRoute.name,
+          initialChildren: children,
+        );
+
+  static const String name = 'RegisterEmailRoute';
+
+  static const PageInfo<void> page = PageInfo<void>(name);
+}
+
+/// generated route for
+/// [RegisterPasswordView]
+class RegisterPasswordRoute extends PageRouteInfo<void> {
+  const RegisterPasswordRoute({List<PageRouteInfo>? children})
+      : super(
+          RegisterPasswordRoute.name,
+          initialChildren: children,
+        );
+
+  static const String name = 'RegisterPasswordRoute';
+
+  static const PageInfo<void> page = PageInfo<void>(name);
+}
+
+/// generated route for
+/// [TransferOrientationPage]
+class TransferOrientationRoute
+    extends PageRouteInfo<TransferOrientationRouteArgs> {
+  TransferOrientationRoute({
+    Key? key,
+    required String platform,
+    List<PageRouteInfo>? children,
+  }) : super(
+          TransferOrientationRoute.name,
+          args: TransferOrientationRouteArgs(
+            key: key,
+            platform: platform,
+          ),
+          initialChildren: children,
+        );
+
+  static const String name = 'TransferOrientationRoute';
+
+  static const PageInfo<TransferOrientationRouteArgs> page =
+      PageInfo<TransferOrientationRouteArgs>(name);
+}
+
+class TransferOrientationRouteArgs {
+  const TransferOrientationRouteArgs({
+    this.key,
+    required this.platform,
+  });
+
+  final Key? key;
+
+  final String platform;
+
+  @override
+  String toString() {
+    return 'TransferOrientationRouteArgs{key: $key, platform: $platform}';
+  }
+}
+
+/// generated route for
+/// [WelcomePage]
+class WelcomeRoute extends PageRouteInfo<void> {
+  const WelcomeRoute({List<PageRouteInfo>? children})
+      : super(
+          WelcomeRoute.name,
+          initialChildren: children,
+        );
+
+  static const String name = 'WelcomeRoute';
+
+  static const PageInfo<void> page = PageInfo<void>(name);
+}

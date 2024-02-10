@@ -2,10 +2,12 @@ import 'dart:async';
 
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'package:flutter_native_splash/flutter_native_splash.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:logger/logger.dart';
+import 'package:mepaga_ai/common/app_router.dart';
 import 'package:mepaga_ai/common/general_provider.dart';
-import 'package:mepaga_ai/common/routing.dart';
 import 'package:mepaga_ai/url_strategy/nonweb_url_strategy.dart'
     if (dart.library.html) 'package:mepaga_ai/url_strategy/web_url_strategy.dart';
 
@@ -24,7 +26,13 @@ class Log {
 }
 
 void main() async {
-  WidgetsFlutterBinding.ensureInitialized();
+  final widgetsBinding = WidgetsFlutterBinding.ensureInitialized();
+  FlutterNativeSplash.preserve(widgetsBinding: widgetsBinding);
+  await SystemChrome.setEnabledSystemUIMode(
+    SystemUiMode.manual,
+    overlays: [SystemUiOverlay.bottom, SystemUiOverlay.top],
+  );
+
   await ScreenUtil.ensureScreenSize();
   final errorLogger = Log().logError;
 
@@ -46,8 +54,23 @@ void main() async {
   });
 }
 
-class MPGApp extends StatelessWidget {
+class MPGApp extends StatefulWidget {
   const MPGApp({super.key});
+
+  @override
+  State<MPGApp> createState() => _MPGAppState();
+}
+
+class _MPGAppState extends State<MPGApp> {
+  late AppRouter appRouter;
+
+  @override
+  void initState() {
+    super.initState();
+    appRouter = AppRouter(
+      context: context,
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -63,7 +86,7 @@ class MPGApp extends StatelessWidget {
             PointerDeviceKind.invertedStylus,
           },
         ),
-        routerConfig: router,
+        routerConfig: appRouter.config(),
         debugShowCheckedModeBanner: false,
         title: 'Me Paga Ai',
         theme: ThemeData(

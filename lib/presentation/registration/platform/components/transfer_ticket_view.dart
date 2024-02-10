@@ -1,10 +1,11 @@
+import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:mepaga_ai/common/routing.dart';
+import 'package:mepaga_ai/common/app_router.dart';
 import 'package:mepaga_ai/presentation/common/mpg_scaffold.dart';
 import 'package:mepaga_ai/presentation/common/themes/assets/mpg_assets_paths.dart';
+import 'package:mepaga_ai/presentation/common/utils.dart';
 import 'package:mepaga_ai/presentation/registration/components/platform_list_item.dart';
 
 class TransferTicketView extends StatefulWidget {
@@ -35,9 +36,20 @@ class _TransferTicketViewState extends State<TransferTicketView> {
             isLinked: true,
             platformName: 'byma',
             onTap: () {
-              GoRouter.of(context)
-                  .pushTransferOrientationPage(platform: 'byma');
+              showMPGBottomSheet(
+                context: context,
+                title: 'Só um teste',
+                buttonText: 'Fechar',
+                onPressed: () {
+                  context.navigateTo(HomeRoute());
+                },
+              );
             },
+            // onTap: () => context.router.push(
+            //   TransferOrientationRoute(
+            //     platform: 'byma',
+            //   ),
+            // ),
           ),
         ],
       ),

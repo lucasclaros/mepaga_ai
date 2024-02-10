@@ -5,9 +5,9 @@
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
 
    <application
-        android:label="mepaga_ai"
+        android:label="Me Paga Aí"
         android:name="${applicationName}"
-        android:icon="@mipmap/ic_launcher"
+        android:icon="@mipmap/launcher_icon"
         android:enableOnBackInvokedCallback="true"
         >
         <activity

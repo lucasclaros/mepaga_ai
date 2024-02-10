@@ -21,6 +21,12 @@ class PlatformRegistrationBloc
     on<RegisterPlatform>(_mapRegisterPlatformToState);
     on<CheckUserPlatform>(_mapCheckUserPlatformToState);
     on<SendEmailPlatformOtp>(_mapSendEmailPlatformOtpToState);
+    add(ListUserPlatforms());
+    add(
+      CheckUserPlatform(
+        platform: 'byma',
+      ),
+    );
   }
 
   final GetUserPlatformsUC getUserPlatformsUC;

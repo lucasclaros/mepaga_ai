@@ -1,13 +1,14 @@
+import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:focus_detector_v2/focus_detector_v2.dart';
-import 'package:go_router/go_router.dart';
-import 'package:mepaga_ai/common/routing.dart';
+import 'package:mepaga_ai/common/app_router.dart';
 import 'package:mepaga_ai/presentation/common/mpg_button.dart';
 import 'package:mepaga_ai/presentation/common/mpg_scaffold.dart';
 import 'package:mepaga_ai/presentation/common/themes/assets/mpg_assets_paths.dart';
 import 'package:mepaga_ai/presentation/common/themes/text_styles/mpg_text_styles.dart';
 
+@RoutePage()
 class WelcomePage extends StatefulWidget {
   const WelcomePage({super.key});
 
@@ -73,7 +74,9 @@ class _WelcomePageState extends State<WelcomePage> {
                   'Começar',
                   style: MPGTextStyles.of(context).mpgColoredButton,
                 ),
-                onPressed: () => GoRouter.of(context).pushOnboardingPage(),
+                onPressed: () {
+                  context.router.push(const OnboardingRoute());
+                },
               ),
             ),
           ],

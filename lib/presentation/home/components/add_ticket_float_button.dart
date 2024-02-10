@@ -7,14 +7,12 @@ import 'package:simple_shadow/simple_shadow.dart';
 class AddTicketFloatingButton extends StatefulWidget {
   const AddTicketFloatingButton({
     super.key,
-    required this.tabStream,
     required this.onTap,
-    // this.selected = false,
+    this.selected = false,
   });
 
-  final Stream<int> tabStream;
   final VoidCallback onTap;
-  // final bool selected;
+  final bool selected;
 
   @override
   State<AddTicketFloatingButton> createState() =>
@@ -22,29 +20,20 @@ class AddTicketFloatingButton extends StatefulWidget {
 }
 
 class _AddTicketFloatingButtonState extends State<AddTicketFloatingButton> {
-  bool _called = false;
   @override
   Widget build(BuildContext context) {
     return InkWell(
       onTap: () {
         widget.onTap();
-        _called = true;
       },
       child: SimpleShadow(
         opacity: 0.25,
         offset: const Offset(0, 4),
-        child: StreamBuilder<int>(
-          initialData: 0,
-          stream: widget.tabStream,
-          builder: (context, snapshot) {
-            final index = snapshot.data ?? 0;
-            return SvgPicture.asset(
-              index == 1 && _called
-                  ? MPGAssetsPaths.of(context).addTicketSelectedIcon
-                  : MPGAssetsPaths.of(context).addTicketIcon,
-              width: 90.w,
-            );
-          },
+        child: SvgPicture.asset(
+          widget.selected
+              ? MPGAssetsPaths.of(context).addTicketSelectedIcon
+              : MPGAssetsPaths.of(context).addTicketIcon,
+          width: 90.w,
         ),
       ),
     );
