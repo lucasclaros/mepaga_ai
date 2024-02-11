@@ -41,7 +41,11 @@ class _TransferTicketViewState extends State<TransferTicketView> {
                 title: 'Só um teste',
                 buttonText: 'Fechar',
                 onPressed: () {
-                  context.navigateTo(HomeRoute());
+                  context.router.push(
+                    TransferOrientationRoute(
+                      platform: 'byma',
+                    ),
+                  );
                 },
               );
             },

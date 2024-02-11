@@ -35,7 +35,11 @@ class RegisterPlatformError extends PlatformRegistrationState {
 
 class CheckUserPlatformSuccess extends PlatformRegistrationState {}
 
-class CheckUserPlatformSuccessNoAssociation extends PlatformRegistrationState {}
+class CheckUserPlatformSuccessNoAssociation extends PlatformRegistrationState {
+  CheckUserPlatformSuccessNoAssociation({required this.platform});
+
+  final String platform;
+}
 
 class CheckUserPlatformSuccessNoAccount extends PlatformRegistrationState {}
 

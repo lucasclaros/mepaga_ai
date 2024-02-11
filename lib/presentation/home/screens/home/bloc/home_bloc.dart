@@ -20,7 +20,6 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
     on<UserPlatforms>(_mapUserPlatformsInfoToState);
 
     add(UserInfo(initialLoading: true));
-    add(UserPlatforms());
   }
 
   final GetUserInfoUC getUserInfoUC;

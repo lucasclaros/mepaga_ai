@@ -11,7 +11,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
-import 'package:mepaga_ai/common/app_router.dart';
 import 'package:mepaga_ai/presentation/common/empty_states/fetch_data_empty_state.dart';
 import 'package:mepaga_ai/presentation/common/empty_states/no_tickets_empty_state.dart';
 import 'package:mepaga_ai/presentation/common/mpg_button.dart';
@@ -163,19 +162,6 @@ class _HomePageState extends State<HomePage> {
                               state.tickets,
                               _pagingController.nextPageKey,
                             );
-                    }
-
-                    if (state is RegisterPlatform) {
-                      showMPGBottomSheet(
-                        context: context,
-                        title: 'Cadastre sua plataforma',
-                        description: '',
-                        buttonText: 'Cadastrar',
-                        height: 250.h,
-                        onPressed: () {
-                          context.navigateTo(const PlatformRegistrationRoute());
-                        },
-                      );
                     }
 
                     if (state is HomeError) {

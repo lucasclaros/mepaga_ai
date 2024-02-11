@@ -49,7 +49,7 @@ class AuthRepository implements IAuthRepository {
   }
 
   @override
-  Future<String> verifyOTP({
+  Future<String?> verifyOTP({
     required String param,
     required String data,
     required String code,

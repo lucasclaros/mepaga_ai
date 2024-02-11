@@ -24,6 +24,7 @@ class TransferOrientationPage extends StatefulWidget {
 
 class TransferOrientationPageState extends State<TransferOrientationPage> {
   final _controller = ScrollController();
+  final _tranfsEmail = 'transferencia@mepaga.ai';
 
   @override
   Widget build(BuildContext context) {
@@ -59,7 +60,7 @@ class TransferOrientationPageState extends State<TransferOrientationPage> {
                     child: SingleChildScrollView(
                       controller: _controller,
                       child: Text(
-                        '''Para transferir ingressos da sua conta BYMA para sua conta Me Paga Aí é muito simples!\n\nTudo que você precisa fazer é enviar seu ingresso para o e-mail mepagaai@mepagaai.com.\n\nDepois disso, seu ingresso aparecerá aqui. Configure o preço desejado para a venda  e envie o link gerado para a pessoa que irá comprá-lo.\n\nSendo confirmado o pagamento de quem comprou, o valor será depositado diretamente na sua conta.''',
+                        '''Para transferir ingressos da sua conta BYMA para sua conta Me Paga Aí é muito simples!\n\nTudo que você precisa fazer é enviar seu ingresso para o e-mail $_tranfsEmail.\n\nDepois disso, seu ingresso aparecerá aqui. Configure o preço desejado para a venda  e envie o link gerado para a pessoa que irá comprá-lo.\n\nSendo confirmado o pagamento de quem comprou, o valor será depositado diretamente na sua conta.''',
                         style: GoogleFonts.barlow(
                           fontSize: 18.sp,
                           fontWeight: FontWeight.w500,
@@ -77,10 +78,9 @@ class TransferOrientationPageState extends State<TransferOrientationPage> {
                     style: MPGTextStyles.of(context).mpgColoredButton,
                   ),
                   onPressed: () async {
-                    // TODO(Lucas Claros): Implementar e-mail certo
                     await Clipboard.setData(
-                      const ClipboardData(
-                        text: 'mepagaai@mepagaai.com',
+                      ClipboardData(
+                        text: _tranfsEmail,
                       ),
                     ).then(
                       (value) => {

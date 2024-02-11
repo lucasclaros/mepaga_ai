@@ -166,3 +166,71 @@ Future<void> showMPGBottomSheet({
     ),
   );
 }
+
+Future<void> showMPGConfirmationModal({
+  required BuildContext context,
+  required String title,
+  required String message,
+  required String confirmButtonText,
+  required String cancelButtonText,
+  required Function()? onConfirm,
+  Function()? onCancel,
+}) async {
+  await showDialog<bool>(
+    context: context,
+    builder: (context) {
+      return AlertDialog(
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(20.r),
+        ),
+        backgroundColor: const Color(0xFF3B0082),
+        title: Text(
+          title,
+          style: GoogleFonts.barlow(
+            color: Colors.white,
+            fontWeight: FontWeight.w700,
+          ),
+        ),
+        content: Padding(
+          padding: const EdgeInsets.symmetric(vertical: 20),
+          child: Text(
+            message,
+            style: GoogleFonts.barlow(
+              color: Colors.white,
+              fontSize: 16,
+            ),
+          ),
+        ),
+        actions: [
+          TextButton(
+            onPressed: onCancel ?? Navigator.of(context).pop,
+            child: Text(
+              cancelButtonText,
+              style: GoogleFonts.barlow(
+                color: Colors.white,
+                fontWeight: FontWeight.w600,
+                fontSize: 18,
+              ),
+            ),
+          ),
+          MPGButton(
+            onPressed: () {
+              onConfirm?.call();
+              Navigator.of(context).pop();
+            },
+            width: 80.w,
+            height: 40.h,
+            child: Text(
+              confirmButtonText,
+              style: GoogleFonts.barlow(
+                color: Colors.white,
+                fontWeight: FontWeight.w700,
+                fontSize: 16,
+              ),
+            ),
+          ),
+        ],
+      );
+    },
+  );
+}

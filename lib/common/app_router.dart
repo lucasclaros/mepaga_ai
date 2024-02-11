@@ -1,6 +1,7 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_native_splash/flutter_native_splash.dart';
+import 'package:mepaga_ai/common/auto_routers/empty_router_page.dart';
 import 'package:mepaga_ai/data/cache/data_source/online_cds.dart';
 import 'package:mepaga_ai/presentation/auth/login/view/login_view.dart';
 import 'package:mepaga_ai/presentation/auth/otp_verification/view/otp_verification_view.dart';
@@ -38,7 +39,7 @@ class AppRouter extends _$AppRouter {
           guards: [
             AuthGuard(
               context: context,
-            )
+            ),
           ],
         ),
         CustomRoute(
@@ -72,18 +73,6 @@ class AppRouter extends _$AppRouter {
           reverseDurationInMilliseconds: 650,
         ),
         CustomRoute(
-          page: AddEmailPlatformRoute.page,
-          transitionsBuilder: customTransition,
-          durationInMilliseconds: 650,
-          reverseDurationInMilliseconds: 650,
-        ),
-        CustomRoute(
-          page: OTPPlatformVerificationRoute.page,
-          transitionsBuilder: customTransition,
-          durationInMilliseconds: 650,
-          reverseDurationInMilliseconds: 650,
-        ),
-        CustomRoute(
           page: BottomNavbarRoute.page,
           transitionsBuilder: customTransition,
           durationInMilliseconds: 650,
@@ -92,6 +81,27 @@ class AppRouter extends _$AppRouter {
             CustomRoute(page: HomeRoute.page),
             CustomRoute(page: PlatformRegistrationRoute.page),
             CustomRoute(page: ProfileRoute.page),
+          ],
+        ),
+        CustomRoute(page: TransferOrientationRoute.page),
+        CustomRoute(
+          page: EmptyRouterRoute.page,
+          transitionsBuilder: customTransition,
+          durationInMilliseconds: 650,
+          reverseDurationInMilliseconds: 650,
+          children: [
+            CustomRoute(
+              page: AddEmailPlatformRoute.page,
+              transitionsBuilder: customTransition,
+              durationInMilliseconds: 650,
+              reverseDurationInMilliseconds: 650,
+            ),
+            CustomRoute(
+              page: OTPPlatformVerificationRoute.page,
+              transitionsBuilder: customTransition,
+              durationInMilliseconds: 650,
+              reverseDurationInMilliseconds: 650,
+            ),
           ],
         ),
       ];
@@ -138,4 +148,17 @@ class AuthGuard extends AutoRouteGuard {
       resolver.next();
     }
   }
+}
+
+Route<T> modalSheetBuilder<T>(
+  BuildContext context,
+  Widget child,
+  AutoRoutePage<T> page,
+) {
+  print('OII');
+  return ModalBottomSheetRoute(
+    settings: page,
+    builder: (context) => child,
+    isScrollControlled: true,
+  );
 }

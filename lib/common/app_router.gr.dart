@@ -37,6 +37,12 @@ abstract class _$AppRouter extends RootStackRouter {
         ),
       );
     },
+    EmptyRouterRoute.name: (routeData) {
+      return AutoRoutePage<dynamic>(
+        routeData: routeData,
+        child: const EmptyRouterPage(),
+      );
+    },
     HomeRoute.name: (routeData) {
       final args =
           routeData.argsAs<HomeRouteArgs>(orElse: () => const HomeRouteArgs());
@@ -61,6 +67,7 @@ abstract class _$AppRouter extends RootStackRouter {
         child: OTPPlatformVerificationView(
           key: args.key,
           platform: args.platform,
+          onSuccess: args.onSuccess,
           email: args.email,
         ),
       );
@@ -126,7 +133,7 @@ class AddEmailPlatformRoute extends PageRouteInfo<AddEmailPlatformRouteArgs> {
   AddEmailPlatformRoute({
     Key? key,
     required String platform,
-    required dynamic Function(String) onSuccess,
+    required dynamic Function() onSuccess,
     List<PageRouteInfo>? children,
   }) : super(
           AddEmailPlatformRoute.name,
@@ -155,7 +162,7 @@ class AddEmailPlatformRouteArgs {
 
   final String platform;
 
-  final dynamic Function(String) onSuccess;
+  final dynamic Function() onSuccess;
 
   @override
   String toString() {
@@ -199,6 +206,20 @@ class BottomNavbarRouteArgs {
   String toString() {
     return 'BottomNavbarRouteArgs{key: $key, showFlushbar: $showFlushbar}';
   }
+}
+
+/// generated route for
+/// [EmptyRouterPage]
+class EmptyRouterRoute extends PageRouteInfo<void> {
+  const EmptyRouterRoute({List<PageRouteInfo>? children})
+      : super(
+          EmptyRouterRoute.name,
+          initialChildren: children,
+        );
+
+  static const String name = 'EmptyRouterRoute';
+
+  static const PageInfo<void> page = PageInfo<void>(name);
 }
 
 /// generated route for
@@ -259,6 +280,7 @@ class OTPPlatformVerificationRoute
   OTPPlatformVerificationRoute({
     Key? key,
     required String platform,
+    required dynamic Function() onSuccess,
     String? email,
     List<PageRouteInfo>? children,
   }) : super(
@@ -266,6 +288,7 @@ class OTPPlatformVerificationRoute
           args: OTPPlatformVerificationRouteArgs(
             key: key,
             platform: platform,
+            onSuccess: onSuccess,
             email: email,
           ),
           initialChildren: children,
@@ -281,6 +304,7 @@ class OTPPlatformVerificationRouteArgs {
   const OTPPlatformVerificationRouteArgs({
     this.key,
     required this.platform,
+    required this.onSuccess,
     this.email,
   });
 
@@ -288,11 +312,13 @@ class OTPPlatformVerificationRouteArgs {
 
   final String platform;
 
+  final dynamic Function() onSuccess;
+
   final String? email;
 
   @override
   String toString() {
-    return 'OTPPlatformVerificationRouteArgs{key: $key, platform: $platform, email: $email}';
+    return 'OTPPlatformVerificationRouteArgs{key: $key, platform: $platform, onSuccess: $onSuccess, email: $email}';
   }
 }
 

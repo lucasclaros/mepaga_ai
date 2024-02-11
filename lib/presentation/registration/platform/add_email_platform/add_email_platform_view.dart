@@ -7,6 +7,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:mepaga_ai/common/app_router.dart';
 import 'package:mepaga_ai/presentation/common/mpg_button.dart';
 import 'package:mepaga_ai/presentation/common/mpg_header.dart';
 import 'package:mepaga_ai/presentation/common/mpg_scaffold.dart';
@@ -24,7 +25,7 @@ class AddEmailPlatformView extends StatefulWidget {
   });
 
   final String platform;
-  final Function(String email) onSuccess;
+  final Function() onSuccess;
 
   @override
   State<AddEmailPlatformView> createState() => _AddEmailPlatformViewState();
@@ -57,8 +58,13 @@ class _AddEmailPlatformViewState extends State<AddEmailPlatformView> {
             }
 
             if (state is SendEmailPlatformOtpSuccess) {
-              context.router.pop();
-              widget.onSuccess(_emailController.text);
+              context.router.push(
+                OTPPlatformVerificationRoute(
+                  platform: 'byma',
+                  email: _emailController.text,
+                  onSuccess: widget.onSuccess,
+                ),
+              );
             }
           },
           builder: (context, state) {

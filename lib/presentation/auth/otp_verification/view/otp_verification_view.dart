@@ -129,6 +129,14 @@ class _OTPVerificationViewState extends State<OTPVerificationView> {
                             MPGOtpTextField(
                               textController: _otpController,
                               focusNode: _otpFocusNode,
+                              onValidate: () {
+                                context.read<OtpVerificationBloc>().add(
+                                      OtpVerificationSend(
+                                        email: UserMM().email,
+                                        code: _otpController.text,
+                                      ),
+                                    );
+                              },
                             ),
                           ],
                         ),

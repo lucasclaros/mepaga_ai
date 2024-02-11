@@ -22,11 +22,6 @@ class PlatformRegistrationBloc
     on<CheckUserPlatform>(_mapCheckUserPlatformToState);
     on<SendEmailPlatformOtp>(_mapSendEmailPlatformOtpToState);
     add(ListUserPlatforms());
-    add(
-      CheckUserPlatform(
-        platform: 'byma',
-      ),
-    );
   }
 
   final GetUserPlatformsUC getUserPlatformsUC;
@@ -85,7 +80,9 @@ class PlatformRegistrationBloc
     } catch (e) {
       if (e is MPGException) {
         if (e is FoundAccountNoAssociation) {
-          emit(CheckUserPlatformSuccessNoAssociation());
+          emit(
+            CheckUserPlatformSuccessNoAssociation(platform: event.platform),
+          );
         }
 
         if (e is NoAccountFound) {

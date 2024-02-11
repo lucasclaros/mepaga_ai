@@ -1,7 +1,5 @@
 // ignore_for_file: lines_longer_than_80_chars
 
-import 'dart:math';
-
 import 'package:auto_route/auto_route.dart';
 import 'package:domain/use_cases/check_platform_uc.dart';
 import 'package:domain/use_cases/get_user_platforms_uc.dart';
@@ -11,16 +9,13 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:mepaga_ai/common/app_router.dart';
-import 'package:mepaga_ai/data/models/user_mm.dart';
 import 'package:mepaga_ai/presentation/common/mpg_scaffold.dart';
 import 'package:mepaga_ai/presentation/common/themes/assets/mpg_assets_paths.dart';
-import 'package:mepaga_ai/presentation/home/components/shimmer_ticket_list.dart';
+import 'package:mepaga_ai/presentation/common/utils.dart';
 import 'package:mepaga_ai/presentation/registration/components/platform_list_item.dart';
 import 'package:mepaga_ai/presentation/registration/platform/bloc/platform_registration_bloc.dart';
-import 'package:mepaga_ai/presentation/registration/platform/components/platform_email_info_modal.dart';
 import 'package:mepaga_ai/presentation/registration/platform/components/transfer_ticket_view.dart';
 import 'package:mepaga_ai/presentation/registration/platform/components/utils.dart';
-import 'package:styled_text/styled_text.dart';
 
 @RoutePage()
 class PlatformRegistrationView extends StatefulWidget {
@@ -51,36 +46,49 @@ class _PlatformRegistrationViewState extends State<PlatformRegistrationView> {
           child:
               BlocConsumer<PlatformRegistrationBloc, PlatformRegistrationState>(
             listener: (context, state) {
-              if (state is RegisterPlatformError) {
+              print("Aqui $state");
+              if (state is CheckUserPlatformSuccessNoAssociation) {
+                showPlatformEmailAssociationModal(
+                  context: context,
+                  onAssociateSameEmail: () {
+                    context.read<PlatformRegistrationBloc>().add(
+                          RegisterPlatform(
+                            platform: state.platform,
+                          ),
+                        );
+                  },
+                  onAssociateDifferentEmail: () {
+                    context.router.push(
+                      AddEmailPlatformRoute(
+                        platform: 'byma',
+                        onSuccess: () {
+                          context.read<PlatformRegistrationBloc>().add(
+                                ListUserPlatforms(),
+                              );
+                        },
+                      ),
+                    );
+                    Navigator.of(context).pop();
+                  },
+                );
+              }
+
+              if (state is CheckUserPlatformSuccessNoAccount) {
                 context.router.push(
                   AddEmailPlatformRoute(
                     platform: 'byma',
-                    onSuccess: (email) {
-                      context.router.push(
-                        OTPPlatformVerificationRoute(
-                          platform: 'byma',
-                          email: email,
-                        ),
-                      );
+                    onSuccess: () async {
+                      context.read<PlatformRegistrationBloc>().add(
+                            ListUserPlatforms(),
+                          );
                     },
                   ),
                 );
               }
-
-              if (state is CheckUserPlatformSuccessNoAssociation) {
-                showPlatformEmailAssociationModal(
-                  context: context,
-                  onAssociateSameEmail: () {},
-                  onAssociateDifferentEmail: () {},
-                );
-              }
             },
             builder: (context, state) {
-              if (state is ListPlatformsLoading) {
-                return const ShimmerTicketList();
-              }
-
-              if (state is CheckUserPlatformLoading) {
+              if (state is ListPlatformsLoading &&
+                  state is CheckUserPlatformLoading) {
                 return Center(
                   child: CircularProgressIndicator(
                     color: Colors.white.withOpacity(0.8),
@@ -117,25 +125,8 @@ class _PlatformRegistrationViewState extends State<PlatformRegistrationView> {
                       ),
                     ),
                     SizedBox(height: 20.h),
-                    StyledText(
-                      text:
-                          'Vincule um e-mail que esteja relacionado a plataforma abaixo. <doubt/>',
-                      tags: {
-                        'doubt': StyledTextWidgetTag(
-                          PlatformEmailInfoModal(
-                            onAssociateSameEmail: () {
-                              context.read<PlatformRegistrationBloc>().add(
-                                    RegisterPlatform(
-                                      platform: 'byma',
-                                      email: UserMM().email,
-                                    ),
-                                  );
-                            },
-                            onAssociateDifferentEmail: () {},
-                          ),
-                          size: Size.square(min(25.w, 25)),
-                        ),
-                      },
+                    Text(
+                      'Vincule um e-mail que esteja relacionado a plataforma abaixo.',
                       style: GoogleFonts.barlow(
                         fontSize: 16.sp,
                         fontWeight: FontWeight.w500,
@@ -165,7 +156,7 @@ class _PlatformRegistrationViewState extends State<PlatformRegistrationView> {
                               platformName: platforms[index].platform,
                               onTap: () {
                                 context.read<PlatformRegistrationBloc>().add(
-                                      RegisterPlatform(
+                                      CheckUserPlatform(
                                         platform: platforms[index].platform,
                                       ),
                                     );
@@ -175,7 +166,6 @@ class _PlatformRegistrationViewState extends State<PlatformRegistrationView> {
                         },
                       ),
                     ),
-                    SizedBox(height: 60.h),
                     Center(
                       child: Text(
                         'Mais plataformas em breve...',
@@ -186,6 +176,7 @@ class _PlatformRegistrationViewState extends State<PlatformRegistrationView> {
                         ),
                       ),
                     ),
+                    const Spacer(),
                   ],
                 );
               }

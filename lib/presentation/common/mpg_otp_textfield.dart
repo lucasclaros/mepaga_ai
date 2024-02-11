@@ -1,3 +1,5 @@
+// ignore_for_file: lines_longer_than_80_chars
+
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:mepaga_ai/presentation/common/themes/text_styles/mpg_text_styles.dart';
@@ -8,11 +10,13 @@ class MPGOtpTextField extends StatefulWidget {
   const MPGOtpTextField({
     required this.textController,
     required this.focusNode,
+    required this.onValidate,
     super.key,
   });
 
   final TextEditingController textController;
   final FocusNode focusNode;
+  final Function() onValidate;
 
   @override
   State<MPGOtpTextField> createState() => _MPGOtpTextFieldState();
@@ -78,9 +82,21 @@ class _MPGOtpTextFieldState extends State<MPGOtpTextField> {
           animationCurve: Curves.easeInOut,
           onClipboardFound: (value) {
             if (isNumeric(value) && value.length == 6) {
-              setState(() {
-                _otpController.text = value;
-              });
+              showMPGConfirmationModal(
+                context: context,
+                title: 'Colar código OTP',
+                message:
+                    '''Identificamos um código em sua área de transferência. Certifique-se de que o código é o mesmo que você recebeu por e-mail!\n\nDeseja o colar no campo de verificação?''',
+                confirmButtonText: 'Colar',
+                cancelButtonText: 'Cancelar',
+                onConfirm: () {
+                  setState(() {
+                    _otpController.text = value;
+                  });
+                  Clipboard.setData(const ClipboardData(text: ''));
+                  widget.onValidate();
+                },
+              );
             }
           },
         ),
@@ -93,23 +109,21 @@ class _MPGOtpTextFieldState extends State<MPGOtpTextField> {
               SizedBox(
                 child: TextButton(
                   onPressed: () {
-                    Clipboard.getData(Clipboard.kTextPlain).then((value) {
-                      setState(() {
-                        _otpController.text = value?.text ?? '';
-                      });
+                    setState(() {
+                      _otpController.text = '';
                     });
                   },
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.end,
                     children: [
                       const Icon(
-                        Icons.assignment,
+                        Icons.delete,
                         color: Colors.white,
                         size: 14,
                       ),
                       const SizedBox(width: 5),
                       Text(
-                        'Colar código',
+                        'Limpar código',
                         style: MPGTextStyles.of(context).otpPasteIndicator,
                       ),
                     ],

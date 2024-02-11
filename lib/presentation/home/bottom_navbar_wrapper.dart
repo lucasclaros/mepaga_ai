@@ -2,10 +2,12 @@ import 'dart:math';
 
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_exit_app/flutter_exit_app.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:mepaga_ai/common/app_router.dart';
 import 'package:mepaga_ai/custom_icons_icons.dart';
+import 'package:mepaga_ai/presentation/common/utils.dart';
 import 'package:mepaga_ai/presentation/home/components/add_ticket_float_button.dart';
 
 @RoutePage()
@@ -28,7 +30,8 @@ class _BottomNavbarWrapperState extends State<BottomNavbarWrapper> {
 
   @override
   Widget build(BuildContext context) {
-    return AutoTabsRouter.pageView(
+    return AutoTabsRouter.tabBar(
+      curve: Curves.easeInOut,
       duration: const Duration(milliseconds: 350),
       routes: [
         HomeRoute(showFlushbar: widget.showFlushbar),
@@ -49,7 +52,22 @@ class _BottomNavbarWrapperState extends State<BottomNavbarWrapper> {
             body: Stack(
               alignment: Alignment.bottomCenter,
               children: [
-                child,
+                PopScope(
+                  canPop: false,
+                  onPopInvoked: (_) async {
+                    await showMPGConfirmationModal(
+                      context: context,
+                      title: 'Sair do App',
+                      message: 'Tem certeza que deseja sair?',
+                      confirmButtonText: 'Sair',
+                      cancelButtonText: 'Cancelar',
+                      onConfirm: () {
+                        FlutterExitApp.exitApp();
+                      },
+                    );
+                  },
+                  child: child,
+                ),
                 Container(
                   decoration: const BoxDecoration(
                     borderRadius: BorderRadius.only(

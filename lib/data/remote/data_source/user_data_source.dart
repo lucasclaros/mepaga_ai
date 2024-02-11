@@ -95,17 +95,24 @@ class UserRDS {
         },
       );
 
+      print("Aqui ${response.data}");
+      print("Aqui ${response.statusCode}");
       if (response.statusCode == 202) {
+        print("Aqui 4");
         throw FoundAccountNoAssociation();
       }
     } catch (error) {
-      if (error is DioException &&
-          error.response != null &&
-          error.response!.statusCode != 404) {
+      print("Aqui 5 $error");
+      if (error is DioException && error.response != null) {
+        print("Aqui 2 ${error.response!.data}");
+        if (error.response!.statusCode == 404) {
+          throw NoAccountFound();
+        }
         throw PlatformNotFoundException(
           message: error.response!.data['message'] ?? 'Something went wrong',
         );
       }
+      rethrow;
     }
   }
 }

@@ -63,7 +63,7 @@ class LoginViewState extends State<LoginView> {
           }
 
           if (state is LoginBlocSuccess) {
-            context.router.push(BottomNavbarRoute(showFlushbar: true));
+            context.router.replaceAll([BottomNavbarRoute(showFlushbar: true)]);
           }
         },
         builder: (context, state) {

@@ -26,14 +26,13 @@ class OtpPlatformVerificationBloc
     emit(OtpPlatformVerificationLoading());
 
     try {
-      final jwt = await otpVerificationUC(
+      await otpVerificationUC(
         OTPVerificationUCParams(
           param: 'platform',
           data: event.platform,
           code: event.code,
         ),
       );
-      await cacheJwtUC(CacheJwtUCParams(jwt: jwt));
       emit(OtpPlatformVerificationSuccess());
     } catch (e) {
       if (e is MPGException) {

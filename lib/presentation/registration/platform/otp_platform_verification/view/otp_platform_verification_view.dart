@@ -8,6 +8,7 @@ import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:mepaga_ai/common/app_router.dart';
 import 'package:mepaga_ai/data/models/user_mm.dart';
 import 'package:mepaga_ai/presentation/common/mpg_button.dart';
 import 'package:mepaga_ai/presentation/common/mpg_header.dart';
@@ -22,11 +23,13 @@ class OTPPlatformVerificationView extends StatefulWidget {
   const OTPPlatformVerificationView({
     super.key,
     required this.platform,
+    required this.onSuccess,
     this.email,
   });
 
   final String platform;
   final String? email;
+  final Function() onSuccess;
 
   @override
   State<OTPPlatformVerificationView> createState() =>
@@ -81,7 +84,8 @@ class _OTPPlatformVerificationViewState
           }
 
           if (state is OtpPlatformVerificationSuccess) {
-            context.router.pop();
+            widget.onSuccess();
+            context.router.replaceAll([BottomNavbarRoute()]);
           }
         },
         builder: (context, state) {
@@ -138,6 +142,14 @@ class _OTPPlatformVerificationViewState
                             MPGOtpTextField(
                               textController: _otpController,
                               focusNode: _otpFocusNode,
+                              onValidate: () {
+                                context.read<OtpPlatformVerificationBloc>().add(
+                                      OtpPlatformVerificationSend(
+                                        platform: widget.platform,
+                                        code: _otpController.text,
+                                      ),
+                                    );
+                              },
                             ),
                           ],
                         ),

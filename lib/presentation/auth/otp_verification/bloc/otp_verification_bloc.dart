@@ -33,7 +33,7 @@ class OtpVerificationBloc
           code: event.code,
         ),
       );
-      await cacheJwtUC(CacheJwtUCParams(jwt: jwt));
+      await cacheJwtUC(CacheJwtUCParams(jwt: jwt!));
       emit(OtpVerificationSuccess());
     } catch (e) {
       if (e is MPGException) {

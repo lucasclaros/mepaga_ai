@@ -55,7 +55,7 @@ class _ProfilePageState extends State<ProfilePage> {
           }
 
           if (state is ProfileSettingsLogoutSuccess) {
-            context.router.navigate(const WelcomeRoute());
+            context.router.replaceAll([const WelcomeRoute()]);
           }
         },
         builder: (context, state) {
