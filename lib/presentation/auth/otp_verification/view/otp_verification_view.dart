@@ -33,6 +33,7 @@ class _OTPVerificationViewState extends State<OTPVerificationView> {
   final _otpFocusNode = FocusNode();
   bool _isLoading = false;
   bool _isShowingFlushbar = false;
+  String? errorMessage;
 
   @override
   void dispose() {
@@ -55,22 +56,29 @@ class _OTPVerificationViewState extends State<OTPVerificationView> {
           });
 
           if (state is OtpVerificationError && !_isShowingFlushbar) {
-            setState(() {
-              _isShowingFlushbar = true;
-            });
+            if (state is OtpVerificationInvalidOtp ||
+                state is OtpVerificationOTPExpired) {
+              setState(() {
+                errorMessage = state.message;
+              });
+            } else {
+              setState(() {
+                _isShowingFlushbar = true;
+              });
 
-            showFlushbar(
-              context: context,
-              title: 'Ops... Ocorreu um erro!',
-              message: state.message,
-              fontColor: Colors.white,
-              backgroundColor: Colors.red,
-              thenFunction: () {
-                setState(() {
-                  _isShowingFlushbar = false;
-                });
-              },
-            );
+              showFlushbar(
+                context: context,
+                title: 'Ops... Ocorreu um erro!',
+                message: state.message,
+                fontColor: Colors.white,
+                backgroundColor: Colors.red,
+                thenFunction: () {
+                  setState(() {
+                    _isShowingFlushbar = false;
+                  });
+                },
+              );
+            }
           }
 
           if (state is OtpVerificationSuccess) {

@@ -89,6 +89,8 @@ class PlatformRegistrationBloc
           emit(CheckUserPlatformSuccessNoAccount());
         }
       }
+
+      rethrow;
     }
   }
 

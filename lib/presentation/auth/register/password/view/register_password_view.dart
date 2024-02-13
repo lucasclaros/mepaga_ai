@@ -17,7 +17,6 @@ import 'package:mepaga_ai/presentation/common/mpg_scaffold.dart';
 import 'package:mepaga_ai/presentation/common/mpg_textfield.dart';
 import 'package:mepaga_ai/presentation/common/themes/colors/mpg_colors.dart';
 import 'package:mepaga_ai/presentation/common/themes/text_styles/mpg_text_styles.dart';
-import 'package:mepaga_ai/presentation/common/utils.dart';
 
 @RoutePage()
 class RegisterPasswordView extends StatefulWidget {
@@ -39,7 +38,6 @@ class RegisterPasswordViewState extends State<RegisterPasswordView> {
   final _confirmPassController = TextEditingController();
   final _confirmPassFocusNode = FocusNode();
   bool _isLoading = false;
-  bool _isShowingFlushbar = false;
 
   bool checkMiniminChar(String pass) {
     if (pass.length >= 8) {
@@ -74,23 +72,10 @@ class RegisterPasswordViewState extends State<RegisterPasswordView> {
             _isLoading = state is RegisterBlocLoading;
           });
 
-          if (state is RegisterBlocError && !_isShowingFlushbar) {
+          if (state is RegisterBlocError) {
             setState(() {
-              _isShowingFlushbar = true;
+              _errorMessage = state.message;
             });
-
-            showFlushbar(
-              context: context,
-              title: 'Ops... Ocorreu um erro!',
-              message: state.message,
-              fontColor: Colors.white,
-              backgroundColor: Colors.red,
-              thenFunction: () {
-                setState(() {
-                  _isShowingFlushbar = false;
-                });
-              },
-            );
           }
 
           if (state is RegisterBlocSuccess) {
@@ -138,14 +123,14 @@ class RegisterPasswordViewState extends State<RegisterPasswordView> {
                         hintText: 'Senha',
                         onEditingComplete: _confirmPassFocusNode.requestFocus,
                         onChanged: (pass) {
-                          setState(() {
-                            _minimunCharPass = checkMiniminChar(pass);
-                            _specialCharPass = checkSpecialChar(pass);
-                            if (_confirmPassController.text.isNotEmpty) {
+                          _minimunCharPass = checkMiniminChar(pass);
+                          _specialCharPass = checkSpecialChar(pass);
+                          if (_confirmPassController.text.isNotEmpty) {
+                            setState(() {
                               _errorMessage =
                                   confirmPass(_confirmPassController.text);
-                            }
-                          });
+                            });
+                          }
                         },
                       ),
                       SizedBox(height: 40.h),

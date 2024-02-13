@@ -27,6 +27,7 @@ class LoginViewState extends State<LoginView> {
   final _passwordController = TextEditingController();
   bool isLoading = false;
   bool isShowingFlushbar = false;
+  String? errorMessage;
 
   final _emailFocusNode = FocusNode();
   final _passwordFocusNode = FocusNode();
@@ -45,21 +46,27 @@ class LoginViewState extends State<LoginView> {
           });
 
           if (state is LoginBlocError && !isShowingFlushbar) {
-            setState(() {
-              isShowingFlushbar = true;
-            });
-            showFlushbar(
-              context: context,
-              title: 'Ops... Ocorreu um erro!',
-              message: state.message,
-              fontColor: Colors.white,
-              backgroundColor: Colors.red,
-              thenFunction: () {
-                setState(() {
-                  isShowingFlushbar = false;
-                });
-              },
-            );
+            if (state is LoginBlocInvalidCredentials) {
+              setState(() {
+                errorMessage = state.message;
+              });
+            } else {
+              setState(() {
+                isShowingFlushbar = true;
+              });
+              showFlushbar(
+                context: context,
+                title: 'Ops... Ocorreu um erro!',
+                message: state.message,
+                fontColor: Colors.white,
+                backgroundColor: Colors.red,
+                thenFunction: () {
+                  setState(() {
+                    isShowingFlushbar = false;
+                  });
+                },
+              );
+            }
           }
 
           if (state is LoginBlocSuccess) {
@@ -81,6 +88,7 @@ class LoginViewState extends State<LoginView> {
                     isPassword: false,
                     controller: _emailController,
                     focusNode: _emailFocusNode,
+                    errorText: errorMessage,
                   ),
                   SizedBox(height: 43.h),
                   MPGTextField(
@@ -89,6 +97,7 @@ class LoginViewState extends State<LoginView> {
                     isPassword: true,
                     controller: _passwordController,
                     focusNode: _passwordFocusNode,
+                    errorText: errorMessage,
                   ),
                   SizedBox(height: 195.h),
                   MPGButton(

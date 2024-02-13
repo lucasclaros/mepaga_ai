@@ -10,6 +10,7 @@ Future<void> showPlatformEmailAssociationModal({
 }) {
   return showMPGBottomSheet(
     context: context,
+    isDismissable: false,
     title: 'Acho que posso te ajudar aqui',
     descriptionWidget: RichText(
       textAlign: TextAlign.justify,

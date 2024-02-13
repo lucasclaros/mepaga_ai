@@ -1,12 +1,12 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_native_splash/flutter_native_splash.dart';
-import 'package:mepaga_ai/common/auto_routers/empty_router_page.dart';
 import 'package:mepaga_ai/data/cache/data_source/online_cds.dart';
 import 'package:mepaga_ai/presentation/auth/login/view/login_view.dart';
 import 'package:mepaga_ai/presentation/auth/otp_verification/view/otp_verification_view.dart';
 import 'package:mepaga_ai/presentation/auth/register/email/view/register_email_view.dart';
 import 'package:mepaga_ai/presentation/auth/register/password/view/register_password_view.dart';
+import 'package:mepaga_ai/presentation/common/mpg_scaffold.dart';
 import 'package:mepaga_ai/presentation/home/bottom_navbar_wrapper.dart';
 import 'package:mepaga_ai/presentation/home/screens/home/home_page.dart';
 import 'package:mepaga_ai/presentation/home/screens/profile/profile_page.dart';
@@ -44,29 +44,25 @@ class AppRouter extends _$AppRouter {
         MPGRoute(page: OTPVerificationRoute.page),
         MPGRoute(page: LoginRoute.page),
         MPGRoute(
-          path: '/',
           page: BottomNavbarRoute.page,
           children: [
-            MPGRoute(
-              path: 'home',
-              page: HomeTab.page,
-              children: [
-                MPGRoute(path: '', page: HomeRoute.page),
-                MPGRoute(
-                  path: 'orientation',
-                  page: TransferOrientationRoute.page,
-                ),
-              ],
-            ),
+            MPGRoute(page: HomeRoute.page),
             MPGRoute(
               path: 'platform',
               page: PlatformTab.page,
               children: [
-                MPGRoute(path: '', page: PlatformRegistrationRoute.page),
-                MPGRoute(path: 'add-email', page: AddEmailPlatformRoute.page),
+                AutoRoute(
+                  path: '',
+                  page: EmptyRouterRoute.page,
+                  guards: [
+                    BottomNavbarNestedRouteTabGuard(
+                      route: const PlatformRegistrationRoute(),
+                    ),
+                  ],
+                ),
                 MPGRoute(
-                  path: 'otp-platform',
-                  page: OTPPlatformVerificationRoute.page,
+                  path: 'platform-registration',
+                  page: PlatformRegistrationRoute.page,
                 ),
                 MPGRoute(
                   path: 'orientation',
@@ -77,6 +73,8 @@ class AppRouter extends _$AppRouter {
             MPGRoute(page: ProfileRoute.page),
           ],
         ),
+        MPGRoute(page: AddEmailPlatformRoute.page),
+        MPGRoute(page: OTPPlatformVerificationRoute.page),
       ];
 }
 
@@ -115,11 +113,25 @@ class AuthGuard extends AutoRouteGuard {
     final token = await onlineCds.getJWT();
 
     FlutterNativeSplash.remove();
-    // if (token != null) {
-    await router.push(BottomNavbarRoute());
-    // } else {
-    //   resolver.next();
-    // }
+    if (token != null) {
+      await router.push(BottomNavbarRoute());
+    } else {
+      resolver.next();
+    }
+  }
+}
+
+class BottomNavbarNestedRouteTabGuard extends AutoRouteGuard {
+  BottomNavbarNestedRouteTabGuard({required this.route});
+
+  final PageRouteInfo<dynamic> route;
+
+  @override
+  Future<void> onNavigation(
+    NavigationResolver resolver,
+    StackRouter router,
+  ) async {
+    await router.push(route);
   }
 }
 
@@ -159,9 +171,22 @@ class HomeTabPage extends AutoRouter {
 @RoutePage(name: 'PlatformTab')
 class PlatofrmTabPage extends AutoRouter {
   const PlatofrmTabPage({super.key});
+
+  @override
+  WidgetBuilder get placeholder => (context) {
+        return const MPGScaffold(
+          backgroundColor: Colors.transparent,
+          child: SizedBox.shrink(),
+        );
+      };
 }
 
 @RoutePage(name: 'ProfileTab')
 class ProfileTabPage extends AutoRouter {
   const ProfileTabPage({super.key});
+}
+
+@RoutePage()
+class EmptyRouterPage extends AutoRouter {
+  const EmptyRouterPage({super.key});
 }

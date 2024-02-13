@@ -9,13 +9,11 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:mepaga_ai/common/app_router.dart';
-import 'package:mepaga_ai/presentation/common/empty_states/fetch_data_empty_state.dart';
 import 'package:mepaga_ai/presentation/common/mpg_button.dart';
 import 'package:mepaga_ai/presentation/common/mpg_scaffold.dart';
 import 'package:mepaga_ai/presentation/common/themes/assets/mpg_assets_paths.dart';
 import 'package:mepaga_ai/presentation/common/themes/colors/mpg_colors.dart';
 import 'package:mepaga_ai/presentation/common/themes/text_styles/mpg_text_styles.dart';
-import 'package:mepaga_ai/presentation/common/utils.dart';
 import 'package:mepaga_ai/presentation/registration/components/platform_list_item.dart';
 import 'package:mepaga_ai/presentation/registration/platform/bloc/platform_registration_bloc.dart';
 import 'package:mepaga_ai/presentation/registration/platform/components/transfer_ticket_view.dart';
@@ -73,7 +71,13 @@ class _PlatformRegistrationViewState extends State<PlatformRegistrationView> {
                     );
                     Navigator.of(context).pop();
                   },
-                );
+                ).then((_) {
+                  context.read<PlatformRegistrationBloc>().add(
+                        CheckUserPlatform(
+                          platform: state.platform,
+                        ),
+                      );
+                });
               }
 
               if (state is CheckUserPlatformSuccessNoAccount) {

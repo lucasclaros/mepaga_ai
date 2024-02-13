@@ -11,11 +11,13 @@ class MPGOtpTextField extends StatefulWidget {
     required this.textController,
     required this.focusNode,
     required this.onValidate,
+    this.errorMessage,
     super.key,
   });
 
   final TextEditingController textController;
   final FocusNode focusNode;
+  final String? errorMessage;
   final Function() onValidate;
 
   @override
@@ -80,6 +82,7 @@ class _MPGOtpTextFieldState extends State<MPGOtpTextField> {
           cursor: cursor,
           preFilledWidget: preFilledWidget,
           animationCurve: Curves.easeInOut,
+          errorText: widget.errorMessage,
           onClipboardFound: (value) {
             if (isNumeric(value) && value.length == 6) {
               showMPGConfirmationModal(

@@ -37,7 +37,13 @@ class OtpVerificationBloc
       emit(OtpVerificationSuccess());
     } catch (e) {
       if (e is MPGException) {
-        emit(OtpVerificationError(message: e.message));
+        if (e is OTPWrongCode) {
+          emit(OtpVerificationInvalidOtp(message: e.message));
+        } else if (e is OTPExpired) {
+          emit(OtpVerificationOTPExpired(message: e.message));
+        } else {
+          emit(OtpVerificationError(message: e.message));
+        }
       }
     }
   }

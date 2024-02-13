@@ -42,6 +42,7 @@ class _OTPPlatformVerificationViewState
   final _otpFocusNode = FocusNode();
   bool _isLoading = false;
   bool _isShowingFlushbar = false;
+  String? errorMessage;
 
   @override
   void dispose() {
@@ -65,22 +66,29 @@ class _OTPPlatformVerificationViewState
           });
 
           if (state is OtpPlatformVerificationError && !_isShowingFlushbar) {
-            setState(() {
-              _isShowingFlushbar = true;
-            });
+            if (state is OtpPlatformVerificationOTPInvalid ||
+                state is OtpPlatformVerificationOTPExpired) {
+              setState(() {
+                errorMessage = state.message;
+              });
+            } else {
+              setState(() {
+                _isShowingFlushbar = true;
+              });
 
-            showFlushbar(
-              context: context,
-              title: 'Ops... Ocorreu um erro!',
-              message: state.message,
-              fontColor: Colors.white,
-              backgroundColor: Colors.red,
-              thenFunction: () {
-                setState(() {
-                  _isShowingFlushbar = false;
-                });
-              },
-            );
+              showFlushbar(
+                context: context,
+                title: 'Ops... Ocorreu um erro!',
+                message: state.message,
+                fontColor: Colors.white,
+                backgroundColor: Colors.red,
+                thenFunction: () {
+                  setState(() {
+                    _isShowingFlushbar = false;
+                  });
+                },
+              );
+            }
           }
 
           if (state is OtpPlatformVerificationSuccess) {
@@ -142,6 +150,7 @@ class _OTPPlatformVerificationViewState
                             MPGOtpTextField(
                               textController: _otpController,
                               focusNode: _otpFocusNode,
+                              errorMessage: errorMessage,
                               onValidate: () {
                                 context.read<OtpPlatformVerificationBloc>().add(
                                       OtpPlatformVerificationSend(

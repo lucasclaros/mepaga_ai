@@ -14,3 +14,11 @@ class OtpPlatformVerificationError extends OtpPlatformVerificationState {
 
   final String message;
 }
+
+class OtpPlatformVerificationOTPInvalid extends OtpPlatformVerificationError {
+  OtpPlatformVerificationOTPInvalid({required super.message});
+}
+
+class OtpPlatformVerificationOTPExpired extends OtpPlatformVerificationError {
+  OtpPlatformVerificationOTPExpired({required super.message});
+}

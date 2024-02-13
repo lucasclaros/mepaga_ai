@@ -87,9 +87,11 @@ Future<void> showMPGBottomSheet({
   double? height,
   Widget? children,
   Widget? descriptionWidget,
+  bool isDismissable = true,
 }) async {
   await showModalBottomSheet<dynamic>(
     context: context,
+    isDismissible: isDismissable,
     isScrollControlled: true,
     useRootNavigator: true,
     backgroundColor: Colors.transparent,

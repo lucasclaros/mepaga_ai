@@ -14,3 +14,11 @@ class OtpVerificationError extends OtpVerificationState {
 
   final String message;
 }
+
+class OtpVerificationInvalidOtp extends OtpVerificationError {
+  OtpVerificationInvalidOtp({required super.message});
+}
+
+class OtpVerificationOTPExpired extends OtpVerificationError {
+  OtpVerificationOTPExpired({required super.message});
+}
