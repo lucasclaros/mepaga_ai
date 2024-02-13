@@ -69,7 +69,6 @@ class AuthRDS {
     required String data,
     required String code,
   }) async {
-    print('param: $param, data: $data, code: $code');
     final isEmailOtp = param == 'email';
     try {
       final response = await dio.post(
@@ -84,9 +83,7 @@ class AuthRDS {
 
       return response.data['auth'];
     } catch (error) {
-      print(error);
       if (error is DioException && error.response?.statusCode == 404) {
-        print(error.response?.data);
         throw UserNotFoundException();
       }
       rethrow;

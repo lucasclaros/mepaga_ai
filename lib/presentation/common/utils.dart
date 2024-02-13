@@ -91,6 +91,7 @@ Future<void> showMPGBottomSheet({
   await showModalBottomSheet<dynamic>(
     context: context,
     isScrollControlled: true,
+    useRootNavigator: true,
     backgroundColor: Colors.transparent,
     builder: (context) => Container(
       decoration: const BoxDecoration(

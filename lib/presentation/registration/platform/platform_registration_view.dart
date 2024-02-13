@@ -9,8 +9,12 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:mepaga_ai/common/app_router.dart';
+import 'package:mepaga_ai/presentation/common/empty_states/fetch_data_empty_state.dart';
+import 'package:mepaga_ai/presentation/common/mpg_button.dart';
 import 'package:mepaga_ai/presentation/common/mpg_scaffold.dart';
 import 'package:mepaga_ai/presentation/common/themes/assets/mpg_assets_paths.dart';
+import 'package:mepaga_ai/presentation/common/themes/colors/mpg_colors.dart';
+import 'package:mepaga_ai/presentation/common/themes/text_styles/mpg_text_styles.dart';
 import 'package:mepaga_ai/presentation/common/utils.dart';
 import 'package:mepaga_ai/presentation/registration/components/platform_list_item.dart';
 import 'package:mepaga_ai/presentation/registration/platform/bloc/platform_registration_bloc.dart';
@@ -46,7 +50,6 @@ class _PlatformRegistrationViewState extends State<PlatformRegistrationView> {
           child:
               BlocConsumer<PlatformRegistrationBloc, PlatformRegistrationState>(
             listener: (context, state) {
-              print("Aqui $state");
               if (state is CheckUserPlatformSuccessNoAssociation) {
                 showPlatformEmailAssociationModal(
                   context: context,
@@ -94,6 +97,37 @@ class _PlatformRegistrationViewState extends State<PlatformRegistrationView> {
                     color: Colors.white.withOpacity(0.8),
                     strokeWidth: 2.w,
                   ),
+                );
+              }
+
+              if (state is ListPlatformsError) {
+                return Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Text(
+                      'Ops... Ocorreu um erro!',
+                      style: GoogleFonts.barlow(
+                        fontSize: 24,
+                        fontWeight: FontWeight.bold,
+                        color: const Color(0xFFE9E9E9),
+                      ),
+                    ),
+                    SizedBox(height: 20.h),
+                    MPGButton(
+                      gradient: MPGColors.of(context).mpgButtonWhitedGradient,
+                      onPressed: () {
+                        context.router.push(
+                          TransferOrientationRoute(
+                            platform: 'byma',
+                          ),
+                        );
+                      },
+                      child: Text(
+                        'Tentar novamente',
+                        style: MPGTextStyles.of(context).mpgWhitedButton,
+                      ),
+                    ),
+                  ],
                 );
               }
 

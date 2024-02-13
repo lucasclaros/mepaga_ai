@@ -7,6 +7,6 @@ class EmptyRouterPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const IntrinsicHeight(child: AutoRouter());
+    return const AutoRouter();
   }
 }

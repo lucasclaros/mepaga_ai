@@ -33,75 +33,48 @@ class AppRouter extends _$AppRouter {
 
   @override
   List<AutoRoute> get routes => [
-        CustomRoute(
+        MPGRoute(
           page: WelcomeRoute.page,
-          initial: true,
-          guards: [
-            AuthGuard(
-              context: context,
-            ),
-          ],
+          initialRoute: true,
+          guards: [AuthGuard(context: context)],
         ),
-        CustomRoute(
-          page: OnboardingRoute.page,
-          transitionsBuilder: customTransition,
-          durationInMilliseconds: 650,
-          reverseDurationInMilliseconds: 650,
-        ),
-        CustomRoute(
-          page: RegisterEmailRoute.page,
-          transitionsBuilder: customTransition,
-          durationInMilliseconds: 650,
-          reverseDurationInMilliseconds: 650,
-        ),
-        CustomRoute(
-          page: RegisterPasswordRoute.page,
-          transitionsBuilder: customTransition,
-          durationInMilliseconds: 650,
-          reverseDurationInMilliseconds: 650,
-        ),
-        CustomRoute(
-          page: OTPVerificationRoute.page,
-          transitionsBuilder: customTransition,
-          durationInMilliseconds: 650,
-          reverseDurationInMilliseconds: 650,
-        ),
-        CustomRoute(
-          page: LoginRoute.page,
-          transitionsBuilder: customTransition,
-          durationInMilliseconds: 650,
-          reverseDurationInMilliseconds: 650,
-        ),
-        CustomRoute(
+        MPGRoute(page: OnboardingRoute.page),
+        MPGRoute(page: RegisterEmailRoute.page),
+        MPGRoute(page: RegisterPasswordRoute.page),
+        MPGRoute(page: OTPVerificationRoute.page),
+        MPGRoute(page: LoginRoute.page),
+        MPGRoute(
+          path: '/',
           page: BottomNavbarRoute.page,
-          transitionsBuilder: customTransition,
-          durationInMilliseconds: 650,
-          reverseDurationInMilliseconds: 650,
           children: [
-            CustomRoute(page: HomeRoute.page),
-            CustomRoute(page: PlatformRegistrationRoute.page),
-            CustomRoute(page: ProfileRoute.page),
-          ],
-        ),
-        CustomRoute(page: TransferOrientationRoute.page),
-        CustomRoute(
-          page: EmptyRouterRoute.page,
-          transitionsBuilder: customTransition,
-          durationInMilliseconds: 650,
-          reverseDurationInMilliseconds: 650,
-          children: [
-            CustomRoute(
-              page: AddEmailPlatformRoute.page,
-              transitionsBuilder: customTransition,
-              durationInMilliseconds: 650,
-              reverseDurationInMilliseconds: 650,
+            MPGRoute(
+              path: 'home',
+              page: HomeTab.page,
+              children: [
+                MPGRoute(path: '', page: HomeRoute.page),
+                MPGRoute(
+                  path: 'orientation',
+                  page: TransferOrientationRoute.page,
+                ),
+              ],
             ),
-            CustomRoute(
-              page: OTPPlatformVerificationRoute.page,
-              transitionsBuilder: customTransition,
-              durationInMilliseconds: 650,
-              reverseDurationInMilliseconds: 650,
+            MPGRoute(
+              path: 'platform',
+              page: PlatformTab.page,
+              children: [
+                MPGRoute(path: '', page: PlatformRegistrationRoute.page),
+                MPGRoute(path: 'add-email', page: AddEmailPlatformRoute.page),
+                MPGRoute(
+                  path: 'otp-platform',
+                  page: OTPPlatformVerificationRoute.page,
+                ),
+                MPGRoute(
+                  path: 'orientation',
+                  page: TransferOrientationRoute.page,
+                ),
+              ],
             ),
+            MPGRoute(page: ProfileRoute.page),
           ],
         ),
       ];
@@ -142,11 +115,11 @@ class AuthGuard extends AutoRouteGuard {
     final token = await onlineCds.getJWT();
 
     FlutterNativeSplash.remove();
-    if (token != null) {
-      await router.push(BottomNavbarRoute());
-    } else {
-      resolver.next();
-    }
+    // if (token != null) {
+    await router.push(BottomNavbarRoute());
+    // } else {
+    //   resolver.next();
+    // }
   }
 }
 
@@ -155,10 +128,40 @@ Route<T> modalSheetBuilder<T>(
   Widget child,
   AutoRoutePage<T> page,
 ) {
-  print('OII');
   return ModalBottomSheetRoute(
     settings: page,
     builder: (context) => child,
     isScrollControlled: true,
   );
+}
+
+class MPGRoute extends CustomRoute {
+  MPGRoute({
+    required super.page,
+    super.guards,
+    super.children,
+    super.path,
+    super.maintainState = true,
+    bool initialRoute = false,
+  }) : super(
+          transitionsBuilder: customTransition,
+          durationInMilliseconds: 650,
+          reverseDurationInMilliseconds: 650,
+          initial: initialRoute,
+        );
+}
+
+@RoutePage(name: 'HomeTab')
+class HomeTabPage extends AutoRouter {
+  const HomeTabPage({super.key});
+}
+
+@RoutePage(name: 'PlatformTab')
+class PlatofrmTabPage extends AutoRouter {
+  const PlatofrmTabPage({super.key});
+}
+
+@RoutePage(name: 'ProfileTab')
+class ProfileTabPage extends AutoRouter {
+  const ProfileTabPage({super.key});
 }
