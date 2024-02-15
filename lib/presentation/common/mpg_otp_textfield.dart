@@ -86,7 +86,7 @@ class _MPGOtpTextFieldState extends State<MPGOtpTextField> {
           onClipboardFound: (value) {
             if (isNumeric(value) && value.length == 6) {
               showMPGConfirmationModal(
-                context: context,
+                c: context,
                 title: 'Colar código OTP',
                 message:
                     '''Identificamos um código em sua área de transferência. Certifique-se de que o código é o mesmo que você recebeu por e-mail!\n\nDeseja o colar no campo de verificação?''',

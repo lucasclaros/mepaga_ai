@@ -42,6 +42,7 @@ class _HomePageState extends State<HomePage> {
   final _pagingController = PagingController<int, Ticket>(
     firstPageKey: 0,
   );
+  final _scrollController = ScrollController();
 
   @override
   void dispose() {
@@ -177,73 +178,75 @@ class _HomePageState extends State<HomePage> {
                         context.read<HomeBloc>().add(UserInfo());
                         _requests = 3;
                       },
-                      child: Scrollbar(
-                        thickness: 2.w,
-                        child: Padding(
-                          padding: EdgeInsets.only(
-                            top: 40.h,
-                            right: 4.w,
-                            left: 4.w,
-                          ),
-                          child: PagedListView<int, Ticket>(
-                            shrinkWrap: true,
-                            pagingController: _pagingController,
-                            builderDelegate: PagedChildBuilderDelegate<Ticket>(
-                              itemBuilder: (context, ticket, index) {
-                                return TicketItem(
-                                  party: ticket.party,
-                                );
-                              },
-                              firstPageProgressIndicatorBuilder: (context) =>
-                                  const ShimmerTicketList(),
-                              newPageProgressIndicatorBuilder: (context) =>
-                                  Padding(
-                                padding:
-                                    EdgeInsets.only(top: 10.h, bottom: 30.h),
-                                child: Center(
-                                  child: SizedBox(
-                                    height: 22.w,
-                                    width: 22.w,
-                                    child: CircularProgressIndicator(
-                                      color: Colors.white.withOpacity(0.8),
-                                      strokeWidth: 2.w,
+                      child: Padding(
+                        padding: EdgeInsets.only(top: 40.h),
+                        child: Scrollbar(
+                          controller: _scrollController,
+                          thickness: 2.w,
+                          child: Padding(
+                            padding: EdgeInsets.symmetric(horizontal: 4.w),
+                            child: PagedListView<int, Ticket>(
+                              shrinkWrap: true,
+                              scrollController: _scrollController,
+                              pagingController: _pagingController,
+                              builderDelegate:
+                                  PagedChildBuilderDelegate<Ticket>(
+                                itemBuilder: (context, ticket, index) {
+                                  return TicketItem(
+                                    party: ticket.party,
+                                  );
+                                },
+                                firstPageProgressIndicatorBuilder: (context) =>
+                                    const ShimmerTicketList(),
+                                newPageProgressIndicatorBuilder: (context) =>
+                                    Padding(
+                                  padding:
+                                      EdgeInsets.only(top: 10.h, bottom: 30.h),
+                                  child: Center(
+                                    child: SizedBox(
+                                      height: 22.w,
+                                      width: 22.w,
+                                      child: CircularProgressIndicator(
+                                        color: Colors.white.withOpacity(0.8),
+                                        strokeWidth: 2.w,
+                                      ),
                                     ),
                                   ),
                                 ),
-                              ),
-                              newPageErrorIndicatorBuilder: (context) =>
-                                  const Center(
-                                child: Text(
-                                  'Ocorreu um erro ao carregar os ingressos',
-                                  style: TextStyle(
-                                    color: Colors.white,
-                                    fontSize: 16,
-                                  ),
-                                ),
-                              ),
-                              firstPageErrorIndicatorBuilder: (context) =>
-                                  Column(
-                                children: [
-                                  const FetchDataEmptyState(),
-                                  SizedBox(height: 20.h),
-                                  MPGButton(
-                                    gradient: MPGColors.of(context)
-                                        .mpgButtonWhitedGradient,
-                                    onPressed: () async {
-                                      _pagingController.refresh();
-                                    },
-                                    child: Text(
-                                      'Tentar novamente',
-                                      style: MPGTextStyles.of(context)
-                                          .mpgWhitedButton,
+                                newPageErrorIndicatorBuilder: (context) =>
+                                    const Center(
+                                  child: Text(
+                                    'Ocorreu um erro ao carregar os ingressos',
+                                    style: TextStyle(
+                                      color: Colors.white,
+                                      fontSize: 16,
                                     ),
                                   ),
-                                ],
-                              ),
-                              noItemsFoundIndicatorBuilder: (context) =>
-                                  Padding(
-                                padding: EdgeInsets.only(top: 50.h),
-                                child: const NoTicketsEmptyState(),
+                                ),
+                                firstPageErrorIndicatorBuilder: (context) =>
+                                    Column(
+                                  children: [
+                                    const FetchDataEmptyState(),
+                                    SizedBox(height: 20.h),
+                                    MPGButton(
+                                      gradient: MPGColors.of(context)
+                                          .mpgButtonWhitedGradient,
+                                      onPressed: () async {
+                                        _pagingController.refresh();
+                                      },
+                                      child: Text(
+                                        'Tentar novamente',
+                                        style: MPGTextStyles.of(context)
+                                            .mpgWhitedButton,
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                                noItemsFoundIndicatorBuilder: (context) =>
+                                    Padding(
+                                  padding: EdgeInsets.only(top: 50.h),
+                                  child: const NoTicketsEmptyState(),
+                                ),
                               ),
                             ),
                           ),

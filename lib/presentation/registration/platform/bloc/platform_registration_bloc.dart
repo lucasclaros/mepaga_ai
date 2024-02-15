@@ -88,9 +88,12 @@ class PlatformRegistrationBloc
         if (e is NoAccountFound) {
           emit(CheckUserPlatformSuccessNoAccount());
         }
-      }
 
-      rethrow;
+        if (e is EmailAlreadyExistsException) {
+          emit(CheckUserPlatformSuccessEmailExists());
+        }
+      }
+      emit(CheckUserPlatformError(message: e.toString()));
     }
   }
 

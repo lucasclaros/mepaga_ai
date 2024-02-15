@@ -109,9 +109,13 @@ abstract class _$AppRouter extends RootStackRouter {
       );
     },
     ProfileTab.name: (routeData) {
+      final args = routeData.argsAs<ProfileTabArgs>();
       return AutoRoutePage<dynamic>(
         routeData: routeData,
-        child: const ProfileTabPage(),
+        child: ProfileTabPage(
+          onPop: args.onPop,
+          key: args.key,
+        ),
       );
     },
     RegisterEmailRoute.name: (routeData) {
@@ -426,16 +430,39 @@ class ProfileRoute extends PageRouteInfo<void> {
 
 /// generated route for
 /// [ProfileTabPage]
-class ProfileTab extends PageRouteInfo<void> {
-  const ProfileTab({List<PageRouteInfo>? children})
-      : super(
+class ProfileTab extends PageRouteInfo<ProfileTabArgs> {
+  ProfileTab({
+    required void Function() onPop,
+    Key? key,
+    List<PageRouteInfo>? children,
+  }) : super(
           ProfileTab.name,
+          args: ProfileTabArgs(
+            onPop: onPop,
+            key: key,
+          ),
           initialChildren: children,
         );
 
   static const String name = 'ProfileTab';
 
-  static const PageInfo<void> page = PageInfo<void>(name);
+  static const PageInfo<ProfileTabArgs> page = PageInfo<ProfileTabArgs>(name);
+}
+
+class ProfileTabArgs {
+  const ProfileTabArgs({
+    required this.onPop,
+    this.key,
+  });
+
+  final void Function() onPop;
+
+  final Key? key;
+
+  @override
+  String toString() {
+    return 'ProfileTabArgs{onPop: $onPop, key: $key}';
+  }
 }
 
 /// generated route for

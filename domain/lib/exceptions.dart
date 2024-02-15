@@ -68,3 +68,5 @@ class InvalidToken implements MPGException {
   @override
   final String message;
 }
+
+class EmailAlreadyExistsException extends MPGException {}

@@ -17,37 +17,28 @@ class TransferTicketView extends StatefulWidget {
 class _TransferTicketViewState extends State<TransferTicketView> {
   @override
   Widget build(BuildContext context) {
-    return PopScope(
-      canPop: false,
-      onPopInvoked: (didPop) {
-        final tabsRouter = AutoTabsRouter.of(context);
-        if (tabsRouter.activeIndex != 0) {
-          tabsRouter.navigate(HomeRoute());
-        }
-      },
-      child: MPGScaffold(
-        child: Column(
-          children: [
-            SizedBox(height: 70.h),
-            Text(
-              'De onde vem seu ingresso?',
-              style: GoogleFonts.barlow(
-                fontSize: 26,
-                fontWeight: FontWeight.w700,
-                color: const Color(0xFFE9E9E9),
-              ),
+    return MPGScaffold(
+      child: Column(
+        children: [
+          SizedBox(height: 70.h),
+          Text(
+            'De onde vem seu ingresso?',
+            style: GoogleFonts.barlow(
+              fontSize: 26,
+              fontWeight: FontWeight.w700,
+              color: const Color(0xFFE9E9E9),
             ),
-            SizedBox(height: 55.h),
-            PlatformListItem(
-              logo: MPGAssetsPaths.of(context).logoByma,
-              isLinked: true,
-              platformName: 'byma',
-              onTap: () => context.navigateTo(
-                TransferOrientationRoute(platform: 'byma'),
-              ),
+          ),
+          SizedBox(height: 55.h),
+          PlatformListItem(
+            logo: MPGAssetsPaths.of(context).logoByma,
+            isLinked: true,
+            platformName: 'byma',
+            onTap: () => context.navigateTo(
+              TransferOrientationRoute(platform: 'byma'),
             ),
-          ],
-        ),
+          ),
+        ],
       ),
     );
   }

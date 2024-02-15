@@ -6,7 +6,6 @@ import 'package:mepaga_ai/presentation/auth/login/view/login_view.dart';
 import 'package:mepaga_ai/presentation/auth/otp_verification/view/otp_verification_view.dart';
 import 'package:mepaga_ai/presentation/auth/register/email/view/register_email_view.dart';
 import 'package:mepaga_ai/presentation/auth/register/password/view/register_password_view.dart';
-import 'package:mepaga_ai/presentation/common/mpg_scaffold.dart';
 import 'package:mepaga_ai/presentation/home/bottom_navbar_wrapper.dart';
 import 'package:mepaga_ai/presentation/home/screens/home/home_page.dart';
 import 'package:mepaga_ai/presentation/home/screens/profile/profile_page.dart';
@@ -46,7 +45,7 @@ class AppRouter extends _$AppRouter {
         MPGRoute(
           page: BottomNavbarRoute.page,
           children: [
-            MPGRoute(page: HomeRoute.page),
+            MPGRoute(path: 'home-page', page: HomeRoute.page),
             MPGRoute(
               path: 'platform',
               page: PlatformTab.page,
@@ -70,7 +69,7 @@ class AppRouter extends _$AppRouter {
                 ),
               ],
             ),
-            MPGRoute(page: ProfileRoute.page),
+            MPGRoute(path: 'profile-page', page: ProfileRoute.page),
           ],
         ),
         MPGRoute(page: AddEmailPlatformRoute.page),
@@ -171,19 +170,13 @@ class HomeTabPage extends AutoRouter {
 @RoutePage(name: 'PlatformTab')
 class PlatofrmTabPage extends AutoRouter {
   const PlatofrmTabPage({super.key});
-
-  @override
-  WidgetBuilder get placeholder => (context) {
-        return const MPGScaffold(
-          backgroundColor: Colors.transparent,
-          child: SizedBox.shrink(),
-        );
-      };
 }
 
 @RoutePage(name: 'ProfileTab')
 class ProfileTabPage extends AutoRouter {
-  const ProfileTabPage({super.key});
+  const ProfileTabPage({required this.onPop, super.key});
+
+  final VoidCallback onPop;
 }
 
 @RoutePage()

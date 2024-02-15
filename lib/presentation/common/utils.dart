@@ -171,7 +171,7 @@ Future<void> showMPGBottomSheet({
 }
 
 Future<void> showMPGConfirmationModal({
-  required BuildContext context,
+  required BuildContext c,
   required String title,
   required String message,
   required String confirmButtonText,
@@ -180,7 +180,7 @@ Future<void> showMPGConfirmationModal({
   Function()? onCancel,
 }) async {
   await showDialog<bool>(
-    context: context,
+    context: c,
     builder: (context) {
       return AlertDialog(
         shape: RoundedRectangleBorder(
@@ -206,7 +206,7 @@ Future<void> showMPGConfirmationModal({
         ),
         actions: [
           TextButton(
-            onPressed: onCancel ?? Navigator.of(context).pop,
+            onPressed: onCancel ?? () => Navigator.pop(context),
             child: Text(
               cancelButtonText,
               style: GoogleFonts.barlow(

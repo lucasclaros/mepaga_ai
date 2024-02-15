@@ -43,6 +43,8 @@ class CheckUserPlatformSuccessNoAssociation extends PlatformRegistrationState {
 
 class CheckUserPlatformSuccessNoAccount extends PlatformRegistrationState {}
 
+class CheckUserPlatformSuccessEmailExists extends PlatformRegistrationState {}
+
 class CheckUserPlatformLoading extends PlatformRegistrationState {}
 
 class CheckUserPlatformError extends PlatformRegistrationState {

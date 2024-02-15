@@ -48,12 +48,13 @@ class _BottomNavbarWrapperState extends State<BottomNavbarWrapper> {
       builder: (context, child, pageController) {
         return PopScope(
           canPop: false,
-          onPopInvoked: (_) async {
-            if (AutoTabsRouter.of(context).activeIndex != 0) {
+          onPopInvoked: (didPop) async {
+            final index = AutoTabsRouter.of(context).activeIndex;
+            if (index != 0) {
               handleTabChange(pageController, 0, null);
             } else {
               await showMPGConfirmationModal(
-                context: context,
+                c: context,
                 title: 'Sair do App',
                 message: 'Tem certeza que deseja sair?',
                 confirmButtonText: 'Sair',

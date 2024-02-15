@@ -103,6 +103,10 @@ class UserRDS {
         if (error.response!.statusCode == 404) {
           throw NoAccountFound();
         }
+        if (error.response!.statusCode == 400) {
+          throw EmailAlreadyExistsException();
+        }
+
         throw PlatformNotFoundException(
           message: error.response!.data['message'] ?? 'Something went wrong',
         );
