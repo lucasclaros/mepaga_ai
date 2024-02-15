@@ -1,8 +1,8 @@
+import 'package:auto_route/auto_route.dart';
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:go_router/go_router.dart';
 import 'package:mepaga_ai/presentation/common/themes/assets/mpg_assets_paths.dart';
 import 'package:mepaga_ai/presentation/common/themes/text_styles/mpg_text_styles.dart';
 
@@ -22,7 +22,7 @@ class MPGHeader extends StatelessWidget {
       children: [
         SizedBox(height: 10.h),
         GestureDetector(
-          onTap: () => GoRouter.of(context).pop(),
+          onTap: () => context.router.pop(),
           child: Container(
             alignment: Alignment.centerLeft,
             width: MediaQuery.of(context).size.width,

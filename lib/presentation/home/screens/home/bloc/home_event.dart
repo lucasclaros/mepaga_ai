@@ -8,3 +8,5 @@ class UserInfo extends HomeEvent {
 
   final bool initialLoading;
 }
+
+class UserPlatforms extends HomeEvent {}

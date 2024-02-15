@@ -1,9 +1,9 @@
 // ignore_for_file: lines_longer_than_80_chars
+import 'package:auto_route/auto_route.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:go_router/go_router.dart';
-import 'package:mepaga_ai/common/routing.dart';
+import 'package:mepaga_ai/common/app_router.dart';
 import 'package:mepaga_ai/presentation/common/mpg_button.dart';
 import 'package:mepaga_ai/presentation/common/mpg_scaffold.dart';
 import 'package:mepaga_ai/presentation/common/themes/colors/mpg_colors.dart';
@@ -11,6 +11,7 @@ import 'package:mepaga_ai/presentation/common/themes/text_styles/mpg_text_styles
 import 'package:mepaga_ai/presentation/onboarding/utils.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 
+@RoutePage()
 class OnboardingView extends StatefulWidget {
   const OnboardingView({super.key});
 
@@ -32,7 +33,7 @@ class _OnboardingViewState extends State<OnboardingView> {
 
   Function()? _getButtonAction(bool doneButtonCondition, BuildContext context) {
     return doneButtonCondition
-        ? () => GoRouter.of(context).pushRegisterEmailPage()
+        ? () => context.router.push(const RegisterEmailRoute())
         : () => pageController.nextPage(
               duration: const Duration(milliseconds: 450),
               curve: Curves.easeInOut,
@@ -108,7 +109,7 @@ class _OnboardingViewState extends State<OnboardingView> {
                               .alreadyHasAccountMessage,
                           recognizer: TapGestureRecognizer()
                             ..onTap =
-                                () => GoRouter.of(context).pushLoginPage(),
+                                () => context.router.push(const LoginRoute()),
                         ),
                       ],
                     ),

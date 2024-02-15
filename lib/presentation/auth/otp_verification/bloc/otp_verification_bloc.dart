@@ -28,15 +28,22 @@ class OtpVerificationBloc
     try {
       final jwt = await otpVerificationUC(
         OTPVerificationUCParams(
-          email: event.email,
+          param: 'email',
+          data: event.email,
           code: event.code,
         ),
       );
-      await cacheJwtUC(CacheJwtUCParams(jwt: jwt));
+      await cacheJwtUC(CacheJwtUCParams(jwt: jwt!));
       emit(OtpVerificationSuccess());
     } catch (e) {
       if (e is MPGException) {
-        emit(OtpVerificationError(message: e.message));
+        if (e is OTPWrongCode) {
+          emit(OtpVerificationInvalidOtp(message: e.message));
+        } else if (e is OTPExpired) {
+          emit(OtpVerificationOTPExpired(message: e.message));
+        } else {
+          emit(OtpVerificationError(message: e.message));
+        }
       }
     }
   }

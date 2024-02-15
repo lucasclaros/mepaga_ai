@@ -30,7 +30,13 @@ class RegisterBloc extends Bloc<RegisterEvent, RegisterBlocState> {
       emit(RegisterBlocSuccess());
     } catch (e) {
       if (e is MPGException) {
-        emit(RegisterBlocError(message: e.message));
+        if (e is UserAlreadyExistsException) {
+          emit(RegisterBlocUserAlreadyExists());
+        } else if (e is InvalidEmailException) {
+          emit(RegisterBlocInvalidEmail());
+        } else {
+          emit(RegisterBlocError(message: e.message));
+        }
       }
     }
   }

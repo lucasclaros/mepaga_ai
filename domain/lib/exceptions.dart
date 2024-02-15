@@ -10,8 +10,63 @@ class UnexpectedException extends MPGException {
 
 class UserNotFoundException extends MPGException {}
 
-class UserAlreadyExistsException extends MPGException {}
+class UserAlreadyExistsException implements MPGException {
+  UserAlreadyExistsException(this.message);
+
+  @override
+  final String message;
+}
 
 class CacheValueNotFoundException extends MPGException {}
 
-class InvalidInputException extends MPGException {}
+class InvalidEmailException implements MPGException {
+  InvalidEmailException(this.message);
+
+  @override
+  final String message;
+}
+
+class InvalidCredentialsException implements MPGException {
+  InvalidCredentialsException(this.message);
+
+  @override
+  final String message;
+}
+
+class OTPNotVerifiedException implements MPGException {
+  OTPNotVerifiedException(this.message);
+
+  @override
+  final String message;
+}
+
+class PlatformNotFoundException extends MPGException {
+  PlatformNotFoundException({super.message = 'Platform not found.'});
+}
+
+class FoundAccountNoAssociation extends MPGException {}
+
+class NoAccountFound extends MPGException {}
+
+class OTPWrongCode implements MPGException {
+  OTPWrongCode(this.message);
+
+  @override
+  final String message;
+}
+
+class OTPExpired implements MPGException {
+  OTPExpired(this.message);
+
+  @override
+  final String message;
+}
+
+class InvalidToken implements MPGException {
+  InvalidToken(this.message);
+
+  @override
+  final String message;
+}
+
+class EmailAlreadyExistsException extends MPGException {}

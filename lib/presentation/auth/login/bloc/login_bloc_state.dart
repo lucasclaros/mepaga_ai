@@ -14,3 +14,11 @@ class LoginBlocError extends LoginBlocState {
 
   final String message;
 }
+
+class LoginBlocInvalidCredentials extends LoginBlocError {
+  LoginBlocInvalidCredentials({required super.message});
+}
+
+class LoginBlocOTPNotVerified extends LoginBlocError {
+  LoginBlocOTPNotVerified({required super.message});
+}

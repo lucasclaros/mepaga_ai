@@ -2,12 +2,12 @@
 
 import 'dart:math';
 
+import 'package:auto_route/auto_route.dart';
 import 'package:email_validator/email_validator.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:mepaga_ai/common/routing.dart';
+import 'package:mepaga_ai/common/app_router.dart';
 import 'package:mepaga_ai/data/models/user_mm.dart';
 import 'package:mepaga_ai/presentation/auth/register/email/widgets/modal_info.dart';
 import 'package:mepaga_ai/presentation/common/mpg_button.dart';
@@ -19,10 +19,9 @@ import 'package:mepaga_ai/presentation/common/themes/colors/mpg_colors.dart';
 import 'package:mepaga_ai/presentation/common/themes/text_styles/mpg_text_styles.dart';
 import 'package:styled_text/styled_text.dart';
 
+@RoutePage()
 class RegisterEmailView extends StatefulWidget {
   const RegisterEmailView({super.key});
-
-  static Widget create() => const RegisterEmailView();
 
   @override
   State<RegisterEmailView> createState() => RegisterEmailViewState();
@@ -141,8 +140,7 @@ class RegisterEmailViewState extends State<RegisterEmailView> {
                   ? () {
                       UserMM().email = _emailController.text;
                       UserMM().name = _nameController.text;
-                      GoRouter.of(context)
-                          .pushRegisterPassPage(_emailController.text);
+                      context.router.push(const RegisterPasswordRoute());
                     }
                   : null,
               gradient: _isEmailValid && _isNameValid

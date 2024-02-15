@@ -35,7 +35,13 @@ class LoginBloc extends Bloc<LoginBlocEvent, LoginBlocState> {
       emit(LoginBlocSuccess());
     } catch (e) {
       if (e is MPGException) {
-        emit(LoginBlocError(message: e.message));
+        if (e is InvalidCredentialsException) {
+          emit(LoginBlocInvalidCredentials(message: e.message));
+        } else if (e is OTPNotVerifiedException) {
+          emit(LoginBlocOTPNotVerified(message: e.message));
+        } else {
+          emit(LoginBlocError(message: e.message));
+        }
       }
     }
   }
