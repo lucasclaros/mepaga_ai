@@ -9,8 +9,14 @@ class OnlineCDS {
 
   final FlutterSecureStorage secureStorage;
 
-  Future<String?> getJWT() async =>
-      secureStorage.read(key: _onlineAuthTokenKey);
+  Future<String?> getJWT() async {
+    try {
+      return secureStorage.read(key: _onlineAuthTokenKey);
+    } catch (e) {
+      print('Error reading JWT: $e');
+      return null;
+    }
+  }
 
   Future<void> cacheJWT(String authToken) async {
     return secureStorage.write(

@@ -37,6 +37,12 @@ abstract class _$AppRouter extends RootStackRouter {
         ),
       );
     },
+    BuyerRoute.name: (routeData) {
+      return AutoRoutePage<dynamic>(
+        routeData: routeData,
+        child: const BuyerPage(),
+      );
+    },
     EmptyRouterRoute.name: (routeData) {
       return AutoRoutePage<dynamic>(
         routeData: routeData,
@@ -88,6 +94,16 @@ abstract class _$AppRouter extends RootStackRouter {
       return AutoRoutePage<dynamic>(
         routeData: routeData,
         child: const OnboardingView(),
+      );
+    },
+    PaymentRegistrationRoute.name: (routeData) {
+      final args = routeData.argsAs<PaymentRegistrationRouteArgs>();
+      return AutoRoutePage<dynamic>(
+        routeData: routeData,
+        child: PaymentRegistrationPage(
+          key: args.key,
+          onSuccess: args.onSuccess,
+        ),
       );
     },
     PlatformRegistrationRoute.name: (routeData) {
@@ -228,6 +244,20 @@ class BottomNavbarRouteArgs {
   String toString() {
     return 'BottomNavbarRouteArgs{key: $key, showFlushbar: $showFlushbar}';
   }
+}
+
+/// generated route for
+/// [BuyerPage]
+class BuyerRoute extends PageRouteInfo<void> {
+  const BuyerRoute({List<PageRouteInfo>? children})
+      : super(
+          BuyerRoute.name,
+          initialChildren: children,
+        );
+
+  static const String name = 'BuyerRoute';
+
+  static const PageInfo<void> page = PageInfo<void>(name);
 }
 
 /// generated route for
@@ -384,6 +414,45 @@ class OnboardingRoute extends PageRouteInfo<void> {
   static const String name = 'OnboardingRoute';
 
   static const PageInfo<void> page = PageInfo<void>(name);
+}
+
+/// generated route for
+/// [PaymentRegistrationPage]
+class PaymentRegistrationRoute
+    extends PageRouteInfo<PaymentRegistrationRouteArgs> {
+  PaymentRegistrationRoute({
+    Key? key,
+    required void Function() onSuccess,
+    List<PageRouteInfo>? children,
+  }) : super(
+          PaymentRegistrationRoute.name,
+          args: PaymentRegistrationRouteArgs(
+            key: key,
+            onSuccess: onSuccess,
+          ),
+          initialChildren: children,
+        );
+
+  static const String name = 'PaymentRegistrationRoute';
+
+  static const PageInfo<PaymentRegistrationRouteArgs> page =
+      PageInfo<PaymentRegistrationRouteArgs>(name);
+}
+
+class PaymentRegistrationRouteArgs {
+  const PaymentRegistrationRouteArgs({
+    this.key,
+    required this.onSuccess,
+  });
+
+  final Key? key;
+
+  final void Function() onSuccess;
+
+  @override
+  String toString() {
+    return 'PaymentRegistrationRouteArgs{key: $key, onSuccess: $onSuccess}';
+  }
 }
 
 /// generated route for

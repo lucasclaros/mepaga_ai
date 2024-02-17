@@ -3,6 +3,7 @@ import 'package:domain/use_cases/cache_jwt_uc.dart';
 import 'package:domain/use_cases/user_login_uc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_native_splash/flutter_native_splash.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:mepaga_ai/common/app_router.dart';
 import 'package:mepaga_ai/presentation/auth/login/bloc/login_bloc.dart';
@@ -31,6 +32,12 @@ class LoginViewState extends State<LoginView> {
 
   final _emailFocusNode = FocusNode();
   final _passwordFocusNode = FocusNode();
+
+  @override
+  void initState() {
+    super.initState();
+    FlutterNativeSplash.remove();
+  }
 
   @override
   Widget build(BuildContext context) {

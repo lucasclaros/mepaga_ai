@@ -11,6 +11,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
+import 'package:mepaga_ai/common/app_router.dart';
+import 'package:mepaga_ai/data/models/user_mm.dart';
 import 'package:mepaga_ai/presentation/common/empty_states/fetch_data_empty_state.dart';
 import 'package:mepaga_ai/presentation/common/empty_states/no_tickets_empty_state.dart';
 import 'package:mepaga_ai/presentation/common/mpg_button.dart';
@@ -39,6 +41,7 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
   bool _isLoading = false;
   int _requests = 3;
+  bool _verifyPixKey = false;
   final _pagingController = PagingController<int, Ticket>(
     firstPageKey: 0,
   );
@@ -103,7 +106,7 @@ class _HomePageState extends State<HomePage> {
                               borderRadius: BorderRadius.circular(10.r),
                             ),
                             title: Text(
-                              'Aqui vai abrir a tela de histórico de ingressos!',
+                              'Aqui vai abrir a tela de hist rico de ingressos!',
                               style: GoogleFonts.barlow(
                                 fontSize: 20.sp,
                                 fontWeight: FontWeight.w600,
@@ -111,7 +114,7 @@ class _HomePageState extends State<HomePage> {
                               ),
                             ),
                             content: Text(
-                              'Ainda tô mexendo nisso.\nLogo logo fica pronto!',
+                              'Ainda t  mexendo nisso.\nLogo logo fica pronto!',
                               style: GoogleFonts.barlow(
                                 fontSize: 16.sp,
                                 fontWeight: FontWeight.w400,
@@ -163,6 +166,36 @@ class _HomePageState extends State<HomePage> {
                               state.tickets,
                               _pagingController.nextPageKey,
                             );
+                      if (UserMM().pixKey == null && !_verifyPixKey) {
+                        _verifyPixKey = true;
+                        showMPGBottomSheet(
+                          context: context,
+                          title:
+                              'Cadastre sua chave pix para poder receber o dinheiro das suas vendas',
+                          buttonText: 'Cadastrar chave',
+                          isDismissable: false,
+                          onPressed: () {
+                            context.router.push(
+                              PaymentRegistrationRoute(
+                                onSuccess: () {
+                                  _verifyPixKey = false;
+                                  SchedulerBinding.instance
+                                      .addPostFrameCallback((_) {
+                                    showFlushbar(
+                                      context: context,
+                                      message:
+                                          'Chave pix cadastrada com sucesso!',
+                                      fontColor: Colors.white,
+                                      backgroundColor: Colors.green,
+                                    );
+                                  });
+                                  // context.read<HomeBloc>().add(UserInfo());
+                                },
+                              ),
+                            );
+                          },
+                        );
+                      }
                     }
 
                     if (state is HomeError) {

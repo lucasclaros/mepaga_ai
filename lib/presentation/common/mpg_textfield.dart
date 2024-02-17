@@ -1,5 +1,6 @@
 // ignore_for_file: deprecated_member_use
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -24,6 +25,8 @@ class MPGTextField extends StatefulWidget {
     this.height,
     this.errorText,
     this.prefixIcon,
+    this.enabled,
+    this.inputFormatters,
   });
 
   final String? hintText;
@@ -41,6 +44,8 @@ class MPGTextField extends StatefulWidget {
   final double? height;
   final String? errorText;
   final String? prefixIcon;
+  final bool? enabled;
+  final List<TextInputFormatter>? inputFormatters;
 
   @override
   State<MPGTextField> createState() => _MPGTextFieldState();
@@ -107,6 +112,8 @@ class _MPGTextFieldState extends State<MPGTextField> {
             controller: widget.controller,
             textInputAction: widget.textInputAction,
             keyboardType: widget.keyboardType,
+            enabled: widget.enabled,
+            inputFormatters: widget.inputFormatters,
             decoration: InputDecoration(
               filled: true,
               fillColor: Colors.black.withOpacity(0.5),

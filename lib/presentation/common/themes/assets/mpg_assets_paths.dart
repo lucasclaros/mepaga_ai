@@ -77,4 +77,7 @@ class MPGAssetsPaths implements IAppAssetsPaths {
 
   @override
   String get logoByma => getAssetPath('logo_byma.svg');
+
+  @override
+  String get logoPix => getAssetPath('logo_pix.svg');
 }

@@ -98,6 +98,8 @@ abstract class IAppAssetsPaths {
   String get addTicketSelectedIcon;
 
   String get logoByma;
+
+  String get logoPix;
 }
 
 abstract class AppThemeInterface {
