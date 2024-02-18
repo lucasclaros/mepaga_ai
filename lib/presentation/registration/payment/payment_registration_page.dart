@@ -150,33 +150,27 @@ class _PaymentRegistrationPageState extends State<PaymentRegistrationPage> {
                     ),
                     items: const [
                       DropdownMenuItem(
-                        value: 'cpf',
+                        value: 'CPFCNPJ',
                         child: Text(
                           'CPF',
                         ),
                       ),
                       DropdownMenuItem(
-                        value: 'cnpj',
+                        value: 'CPFCNPJ',
                         child: Text(
                           'CNPJ',
                         ),
                       ),
                       DropdownMenuItem(
-                        value: 'email',
+                        value: 'EMAIL',
                         child: Text(
                           'E-mail',
                         ),
                       ),
                       DropdownMenuItem(
-                        value: 'phone',
+                        value: 'PHONE',
                         child: Text(
                           'Telefone',
-                        ),
-                      ),
-                      DropdownMenuItem(
-                        value: 'random',
-                        child: Text(
-                          'Chave aleat ria',
                         ),
                       ),
                     ],

@@ -114,4 +114,26 @@ class UserRDS {
       rethrow;
     }
   }
+
+  Future<void> registerPixKey({
+    required String pixKey,
+    required String keyType,
+  }) async {
+    try {
+      await dio.patch(
+        UrlBuilder.endpointRegisterPixKey,
+        data: {
+          'key': pixKey,
+          'key_type': keyType,
+        },
+      );
+    } catch (error) {
+      if (error is DioException && error.response != null) {
+        throw UnexpectedException(
+          message: error.response!.data['message'] ?? 'Something went wrong',
+        );
+      }
+      throw UnexpectedException(message: 'Something went wrong');
+    }
+  }
 }

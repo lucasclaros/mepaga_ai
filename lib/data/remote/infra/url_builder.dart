@@ -30,4 +30,6 @@ class UrlBuilder {
 
   static String get endpointPlatformEmailValidation =>
       '$_hmlApi$_userInfo/platform/validate';
+
+  static String get endpointRegisterPixKey => '$_hmlApi$_userInfo/pix-key';
 }

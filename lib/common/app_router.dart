@@ -2,6 +2,7 @@ import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_native_splash/flutter_native_splash.dart';
 import 'package:mepaga_ai/data/cache/data_source/online_cds.dart';
+import 'package:mepaga_ai/data/models/user_mm.dart';
 import 'package:mepaga_ai/presentation/auth/login/view/login_view.dart';
 import 'package:mepaga_ai/presentation/auth/otp_verification/view/otp_verification_view.dart';
 import 'package:mepaga_ai/presentation/auth/register/email/view/register_email_view.dart';
@@ -139,6 +140,20 @@ class AuthGuard extends AutoRouteGuard {
   }
 }
 
+class SameRouteGuard extends AutoRouteGuard {
+  SameRouteGuard();
+
+  @override
+  Future<void> onNavigation(
+    NavigationResolver resolver,
+    StackRouter router,
+  ) async {
+    if (router.current.name != resolver.route.name) {
+      resolver.next();
+    }
+  }
+}
+
 class BottomNavbarNestedRouteTabGuard extends AutoRouteGuard {
   BottomNavbarNestedRouteTabGuard({required this.route});
 
@@ -168,7 +183,7 @@ Route<T> modalSheetBuilder<T>(
 class MPGRoute extends CustomRoute {
   MPGRoute({
     required super.page,
-    super.guards,
+    List<AutoRouteGuard> guards = const [],
     super.children,
     super.path,
     super.maintainState = true,
@@ -178,6 +193,7 @@ class MPGRoute extends CustomRoute {
           durationInMilliseconds: 650,
           reverseDurationInMilliseconds: 650,
           initial: initialRoute,
+          guards: [...guards, SameRouteGuard()],
         );
 }
 
@@ -220,9 +236,17 @@ class _BuyerPageState extends State<BuyerPage> {
 
   @override
   Widget build(BuildContext context) {
-    return const MPGScaffold(
+    return MPGScaffold(
       backgroundColor: Colors.white,
-      child: Center(child: Text('Buyer Page Placeholder')),
+      child: Center(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            const Text('Buyer Page Placeholder'),
+            if (UserMM().email.isNotEmpty) Text('Email: ${UserMM().email}'),
+          ],
+        ),
+      ),
     );
   }
 }

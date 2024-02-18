@@ -3,6 +3,7 @@ import 'dart:math';
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_exit_app/flutter_exit_app.dart';
+import 'package:flutter_native_splash/flutter_native_splash.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:mepaga_ai/common/app_router.dart';
@@ -24,6 +25,12 @@ class BottomNavbarWrapper extends StatefulWidget {
 }
 
 class _BottomNavbarWrapperState extends State<BottomNavbarWrapper> {
+  @override
+  void initState() {
+    super.initState();
+    FlutterNativeSplash.remove();
+  }
+
   void handleTabChange(
     PageController t,
     int index,

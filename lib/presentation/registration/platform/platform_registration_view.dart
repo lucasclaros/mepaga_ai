@@ -166,19 +166,22 @@ class _PlatformRegistrationViewState extends State<PlatformRegistrationView> {
                         ),
                       ),
                       SizedBox(height: 30.h),
-                      Text(
-                        'Nenhuma conta sincronizada',
-                        style: GoogleFonts.barlow(
-                          fontSize: 24,
-                          fontWeight: FontWeight.bold,
-                          color: const Color(0xFFE9E9E9),
+                      FittedBox(
+                        fit: BoxFit.scaleDown,
+                        child: Text(
+                          'Nenhuma conta sincronizada',
+                          style: GoogleFonts.barlow(
+                            fontSize: 24,
+                            fontWeight: FontWeight.bold,
+                            color: const Color(0xFFE9E9E9),
+                          ),
                         ),
                       ),
                       SizedBox(height: 20.h),
                       Text(
                         'Vincule um e-mail que esteja relacionado a plataforma abaixo.',
                         style: GoogleFonts.barlow(
-                          fontSize: 16.sp,
+                          fontSize: 16,
                           fontWeight: FontWeight.w500,
                           color: const Color(0xFFE9E9E9),
                         ),
@@ -226,7 +229,8 @@ class _PlatformRegistrationViewState extends State<PlatformRegistrationView> {
                           ),
                         ),
                       ),
-                      const Spacer(),
+                      // const Spacer(),
+                      // SizedBox(height: 55.h),
                     ],
                   );
                 }
