@@ -215,6 +215,14 @@ class _PaymentRegistrationPageState extends State<PaymentRegistrationPage> {
                                 );
                               });
                             },
+                            onChanged: (value) {
+                              setState(() {
+                                _errorText = validateInput(
+                                  _selectedType ?? 'EMAIL',
+                                  value,
+                                );
+                              });
+                            },
                           ),
                           SizedBox(height: 55.h),
                           RichText(
