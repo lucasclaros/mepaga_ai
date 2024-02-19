@@ -23,15 +23,13 @@ class PaymentRegistrationBloc
     emit(RegisterPixLoading());
 
     try {
-      // await pixRegisterUC(
-      //   PixRegisterUCParams(
-      //     pixKey: event.pixKey,
-      //     keyType: event.keyType,
-      //   ),
-      // );
-      await Future.delayed(const Duration(seconds: 2), () {
-        emit(RegisterPixSuccess());
-      });
+      await pixRegisterUC(
+        PixRegisterUCParams(
+          pixKey: event.pixKey,
+          keyType: event.keyType,
+        ),
+      );
+      emit(RegisterPixSuccess());
     } catch (e) {
       if (e is MPGException) {
         emit(RegisterPixError(message: e.message));

@@ -152,9 +152,7 @@ class _HomePageState extends State<HomePage> {
                               state.tickets,
                               _pagingController.nextPageKey,
                             );
-                      if (UserMM().pixKey == null &&
-                          !isPaymentRouteOpen &&
-                          false) {
+                      if (UserMM().pixKey == null && !isPaymentRouteOpen) {
                         showMPGBottomSheet(
                           context: context,
                           title:
