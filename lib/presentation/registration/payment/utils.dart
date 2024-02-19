@@ -1,3 +1,5 @@
+import 'package:cpf_cnpj_validator/cnpj_validator.dart';
+import 'package:cpf_cnpj_validator/cpf_validator.dart';
 import 'package:flutter/services.dart';
 import 'package:mepaga_ai/presentation/common/input_formatters.dart';
 
@@ -30,4 +32,37 @@ TextInputType getInputType(String type) {
     default:
       return TextInputType.text;
   }
+}
+
+String? validateInput(String type, String value) {
+  switch (type) {
+    case 'CPF':
+      return validateCPF(value);
+    case 'CNPJ':
+      return validateCNPJ(value);
+    case 'PHONE':
+      return validatePhone(value);
+    case 'EMAIL':
+      return validateEmail(value);
+    default:
+      return null;
+  }
+}
+
+String? validateCPF(String cpf) {
+  return CPFValidator.isValid(cpf) ? null : 'CPF inválido';
+}
+
+String? validateCNPJ(String cnpj) {
+  return CNPJValidator.isValid(cnpj) ? null : 'CNPJ inválido';
+}
+
+String? validatePhone(String phone) {
+  return phone.length == 15 ? null : 'Telefone inválido';
+}
+
+String? validateEmail(String email) {
+  return RegExp(r'^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$').hasMatch(email)
+      ? null
+      : 'Email inválido';
 }
