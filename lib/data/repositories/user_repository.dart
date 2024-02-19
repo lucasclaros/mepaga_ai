@@ -44,4 +44,15 @@ class UserRepository implements IUserRepositoryInterface {
   Future<void> checkPlatform({required String platform}) async {
     await rds.checkPlatform(platform: platform);
   }
+
+  @override
+  Future<void> registerPixKey({
+    required String pixKey,
+    required String keyType,
+  }) async {
+    await rds.registerPixKey(
+      pixKey: pixKey,
+      keyType: keyType,
+    );
+  }
 }

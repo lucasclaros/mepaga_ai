@@ -77,4 +77,22 @@ class MPGAssetsPaths implements IAppAssetsPaths {
 
   @override
   String get logoByma => getAssetPath('logo_byma.svg');
+
+  @override
+  String get logoPix => getAssetPath('logo_pix.svg');
+
+  @override
+  String get faceWithSunglasses => getAssetPath('face_with_sunglasses.svg');
+
+  @override
+  String get partyEmoji => getAssetPath('party_popper.svg');
+
+  @override
+  String get partyingFace => getAssetPath('partying_face.svg');
+
+  @override
+  String get ballonEmoji => getAssetPath('balloon.svg');
+
+  @override
+  String get beerEmoji => getAssetPath('beer_mug.svg');
 }

@@ -88,80 +88,86 @@ Future<void> showMPGBottomSheet({
   Widget? children,
   Widget? descriptionWidget,
   bool isDismissable = true,
+  bool enableDrag = true,
+  bool canPop = true,
 }) async {
   await showModalBottomSheet<dynamic>(
     context: context,
     isDismissible: isDismissable,
     isScrollControlled: true,
     useRootNavigator: true,
+    enableDrag: enableDrag,
     backgroundColor: Colors.transparent,
-    builder: (context) => Container(
-      decoration: const BoxDecoration(
-        color: Color(0xff7401FF),
-        borderRadius: BorderRadius.only(
-          topLeft: Radius.circular(30),
-          topRight: Radius.circular(30),
+    builder: (context) => PopScope(
+      canPop: canPop,
+      child: Container(
+        decoration: const BoxDecoration(
+          color: Color(0xff7401FF),
+          borderRadius: BorderRadius.only(
+            topLeft: Radius.circular(30),
+            topRight: Radius.circular(30),
+          ),
         ),
-      ),
-      child: NotificationListener<OverscrollIndicatorNotification>(
-        onNotification: (
-          OverscrollIndicatorNotification overscroll,
-        ) {
-          overscroll.disallowIndicator();
-          return true;
-        },
-        child: SizedBox(
-          width: 380.w,
-          height: height,
-          child: Padding(
-            padding: const EdgeInsets.all(25),
-            child: Wrap(
-              alignment: WrapAlignment.center,
-              runAlignment: WrapAlignment.center,
-              crossAxisAlignment: WrapCrossAlignment.center,
-              children: [
-                Column(
-                  children: [
-                    Text(
-                      title,
-                      style: GoogleFonts.barlow(
-                        fontSize: 24,
-                        fontWeight: FontWeight.w700,
-                        color: Colors.white,
-                      ),
-                      textAlign: TextAlign.center,
-                    ),
-                    SizedBox(height: 15.h),
-                    if (description != null)
+        child: NotificationListener<OverscrollIndicatorNotification>(
+          onNotification: (
+            OverscrollIndicatorNotification overscroll,
+          ) {
+            overscroll.disallowIndicator();
+            return true;
+          },
+          child: SizedBox(
+            width: 380.w,
+            height: height,
+            child: Padding(
+              padding: const EdgeInsets.all(25),
+              child: Wrap(
+                alignment: WrapAlignment.center,
+                runAlignment: WrapAlignment.center,
+                crossAxisAlignment: WrapCrossAlignment.center,
+                children: [
+                  Column(
+                    children: [
                       Text(
-                        description,
+                        title,
                         style: GoogleFonts.barlow(
-                          fontSize: 16,
-                          fontWeight: FontWeight.w500,
+                          fontSize: 24,
+                          fontWeight: FontWeight.w700,
                           color: Colors.white,
                         ),
-                        textAlign: TextAlign.justify,
+                        textAlign: TextAlign.center,
                       ),
-                    if (descriptionWidget != null) descriptionWidget,
-                  ],
-                ),
-                Padding(
-                  padding: const EdgeInsets.symmetric(
-                    vertical: 20,
+                      SizedBox(height: 15.h),
+                      if (description != null)
+                        Text(
+                          description,
+                          style: GoogleFonts.barlow(
+                            fontSize: 16,
+                            fontWeight: FontWeight.w500,
+                            color: Colors.white,
+                          ),
+                          textAlign: TextAlign.justify,
+                        ),
+                      if (descriptionWidget != null) descriptionWidget,
+                    ],
                   ),
-                  child: MPGButton(
-                    child: Text(
-                      buttonText,
-                      style: MPGTextStyles.of(context).mpgColoredButton,
+                  Padding(
+                    padding: const EdgeInsets.symmetric(
+                      vertical: 20,
                     ),
-                    onPressed: () {
-                      onPressed?.call();
-                      Navigator.pop(context);
-                    },
+                    child: MPGButton(
+                      child: Text(
+                        buttonText,
+                        style: MPGTextStyles.of(context).mpgColoredButton,
+                      ),
+                      onPressed: () {
+                        onPressed?.call();
+                        Navigator.pop(context);
+                      },
+                    ),
                   ),
-                ),
-                if (children != null) children,
-              ],
+                  if (children != null) children,
+                ],
+              ),
             ),
           ),
         ),

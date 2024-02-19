@@ -2,14 +2,17 @@ import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_native_splash/flutter_native_splash.dart';
 import 'package:mepaga_ai/data/cache/data_source/online_cds.dart';
+import 'package:mepaga_ai/data/models/user_mm.dart';
 import 'package:mepaga_ai/presentation/auth/login/view/login_view.dart';
 import 'package:mepaga_ai/presentation/auth/otp_verification/view/otp_verification_view.dart';
 import 'package:mepaga_ai/presentation/auth/register/email/view/register_email_view.dart';
 import 'package:mepaga_ai/presentation/auth/register/password/view/register_password_view.dart';
+import 'package:mepaga_ai/presentation/common/mpg_scaffold.dart';
 import 'package:mepaga_ai/presentation/home/bottom_navbar_wrapper.dart';
 import 'package:mepaga_ai/presentation/home/screens/home/home_page.dart';
 import 'package:mepaga_ai/presentation/home/screens/profile/profile_page.dart';
 import 'package:mepaga_ai/presentation/onboarding/view/onboarding_view.dart';
+import 'package:mepaga_ai/presentation/registration/payment/payment_registration_page.dart';
 import 'package:mepaga_ai/presentation/registration/platform/add_email_platform/add_email_platform_view.dart';
 import 'package:mepaga_ai/presentation/registration/platform/otp_platform_verification/view/otp_platform_verification_view.dart';
 import 'package:mepaga_ai/presentation/registration/platform/platform_registration_view.dart';
@@ -33,16 +36,25 @@ class AppRouter extends _$AppRouter {
   @override
   List<AutoRoute> get routes => [
         MPGRoute(
+          path: '/welcome',
           page: WelcomeRoute.page,
           initialRoute: true,
           guards: [AuthGuard(context: context)],
         ),
-        MPGRoute(page: OnboardingRoute.page),
-        MPGRoute(page: RegisterEmailRoute.page),
-        MPGRoute(page: RegisterPasswordRoute.page),
-        MPGRoute(page: OTPVerificationRoute.page),
-        MPGRoute(page: LoginRoute.page),
+        MPGRoute(path: '/onboarding', page: OnboardingRoute.page),
+        MPGRoute(path: '/register-email', page: RegisterEmailRoute.page),
+        MPGRoute(path: '/register-password', page: RegisterPasswordRoute.page),
         MPGRoute(
+          path: '/mpg-otp-verification',
+          page: OTPVerificationRoute.page,
+        ),
+        MPGRoute(
+          path: '/login',
+          page: LoginRoute.page,
+          guards: [AuthGuard(context: context)],
+        ),
+        MPGRoute(
+          path: '/bottom-navbar',
           page: BottomNavbarRoute.page,
           children: [
             MPGRoute(path: 'home-page', page: HomeRoute.page),
@@ -72,8 +84,16 @@ class AppRouter extends _$AppRouter {
             MPGRoute(path: 'profile-page', page: ProfileRoute.page),
           ],
         ),
-        MPGRoute(page: AddEmailPlatformRoute.page),
-        MPGRoute(page: OTPPlatformVerificationRoute.page),
+        MPGRoute(path: '/add-email-platform', page: AddEmailPlatformRoute.page),
+        MPGRoute(
+          path: '/platform-otp-verification',
+          page: OTPPlatformVerificationRoute.page,
+        ),
+        MPGRoute(
+          path: '/pix-registration',
+          page: PaymentRegistrationRoute.page,
+        ),
+        MPGRoute(page: BuyerRoute.page, path: '/buyer-page'),
       ];
 }
 
@@ -120,6 +140,20 @@ class AuthGuard extends AutoRouteGuard {
   }
 }
 
+class SameRouteGuard extends AutoRouteGuard {
+  SameRouteGuard();
+
+  @override
+  Future<void> onNavigation(
+    NavigationResolver resolver,
+    StackRouter router,
+  ) async {
+    if (router.current.name != resolver.route.name) {
+      resolver.next();
+    }
+  }
+}
+
 class BottomNavbarNestedRouteTabGuard extends AutoRouteGuard {
   BottomNavbarNestedRouteTabGuard({required this.route});
 
@@ -149,7 +183,7 @@ Route<T> modalSheetBuilder<T>(
 class MPGRoute extends CustomRoute {
   MPGRoute({
     required super.page,
-    super.guards,
+    List<AutoRouteGuard> guards = const [],
     super.children,
     super.path,
     super.maintainState = true,
@@ -159,6 +193,7 @@ class MPGRoute extends CustomRoute {
           durationInMilliseconds: 650,
           reverseDurationInMilliseconds: 650,
           initial: initialRoute,
+          guards: [...guards, SameRouteGuard()],
         );
 }
 
@@ -182,4 +217,36 @@ class ProfileTabPage extends AutoRouter {
 @RoutePage()
 class EmptyRouterPage extends AutoRouter {
   const EmptyRouterPage({super.key});
+}
+
+@RoutePage()
+class BuyerPage extends StatefulWidget {
+  const BuyerPage({super.key});
+
+  @override
+  State<BuyerPage> createState() => _BuyerPageState();
+}
+
+class _BuyerPageState extends State<BuyerPage> {
+  @override
+  void initState() {
+    super.initState();
+    FlutterNativeSplash.remove();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return MPGScaffold(
+      backgroundColor: Colors.white,
+      child: Center(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            const Text('Buyer Page Placeholder'),
+            if (UserMM().email.isNotEmpty) Text('Email: ${UserMM().email}'),
+          ],
+        ),
+      ),
+    );
+  }
 }

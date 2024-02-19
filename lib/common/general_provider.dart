@@ -7,6 +7,7 @@ import 'package:domain/use_cases/get_user_info_uc.dart';
 import 'package:domain/use_cases/get_user_platforms_uc.dart';
 import 'package:domain/use_cases/get_user_tickets.dart';
 import 'package:domain/use_cases/otp_verification_uc.dart';
+import 'package:domain/use_cases/pix_register_uc.dart';
 import 'package:domain/use_cases/platform_register_uc.dart';
 import 'package:domain/use_cases/user_login_uc.dart';
 import 'package:domain/use_cases/user_logout_uc.dart';
@@ -171,6 +172,12 @@ class _GeneralProviderState extends State<GeneralProvider> {
         ),
         ProxyProvider2<ErrorLogger, UserRepository, CheckPlatformUC>(
           update: (_, logger, repository, __) => CheckPlatformUC(
+            logger: logger,
+            repository: repository,
+          ),
+        ),
+        ProxyProvider2<ErrorLogger, UserRepository, PixRegisterUC>(
+          update: (_, logger, repository, __) => PixRegisterUC(
             logger: logger,
             repository: repository,
           ),

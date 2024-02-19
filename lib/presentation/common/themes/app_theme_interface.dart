@@ -98,6 +98,18 @@ abstract class IAppAssetsPaths {
   String get addTicketSelectedIcon;
 
   String get logoByma;
+
+  String get logoPix;
+
+  String get partyEmoji;
+
+  String get partyingFace;
+
+  String get faceWithSunglasses;
+
+  String get ballonEmoji;
+
+  String get beerEmoji;
 }
 
 abstract class AppThemeInterface {

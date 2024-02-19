@@ -15,4 +15,9 @@ abstract class IUserRepositoryInterface {
   });
 
   Future<void> checkPlatform({required String platform});
+
+  Future<void> registerPixKey({
+    required String pixKey,
+    required String keyType,
+  });
 }
