@@ -189,7 +189,7 @@ class _HomePageState extends State<HomePage> {
                                       backgroundColor: Colors.green,
                                     );
                                   });
-                                  // context.read<HomeBloc>().add(UserInfo());
+                                  context.read<HomeBloc>().add(UserInfo());
                                 },
                               ),
                             );
