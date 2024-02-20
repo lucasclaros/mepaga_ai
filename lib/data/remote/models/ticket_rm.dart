@@ -10,6 +10,7 @@ class TicketRM {
     this.price,
     this.sold,
     this.party,
+    this.id,
   });
 
   factory TicketRM.fromJson(Map<String, dynamic> json) =>
@@ -21,4 +22,5 @@ class TicketRM {
   final double? price;
   final bool? sold;
   final PartyRM? party;
+  final String? id;
 }

@@ -213,7 +213,7 @@ class _HomePageState extends State<HomePage> {
                                   PagedChildBuilderDelegate<Ticket>(
                                 itemBuilder: (context, ticket, index) {
                                   return TicketItem(
-                                    party: ticket.party,
+                                    ticket: ticket,
                                   );
                                 },
                                 firstPageProgressIndicatorBuilder: (context) =>

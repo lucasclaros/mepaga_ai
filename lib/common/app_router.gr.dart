@@ -38,9 +38,17 @@ abstract class _$AppRouter extends RootStackRouter {
       );
     },
     BuyerRoute.name: (routeData) {
+      final pathParams = routeData.inheritedPathParams;
+      final args = routeData.argsAs<BuyerRouteArgs>(
+          orElse: () =>
+              BuyerRouteArgs(ticketId: pathParams.optString('ticketId')));
       return AutoRoutePage<dynamic>(
         routeData: routeData,
-        child: const BuyerPage(),
+        child: BuyerPage(
+          key: args.key,
+          ticket: args.ticket,
+          ticketId: args.ticketId,
+        ),
       );
     },
     EmptyRouterRoute.name: (routeData) {
@@ -248,16 +256,45 @@ class BottomNavbarRouteArgs {
 
 /// generated route for
 /// [BuyerPage]
-class BuyerRoute extends PageRouteInfo<void> {
-  const BuyerRoute({List<PageRouteInfo>? children})
-      : super(
+class BuyerRoute extends PageRouteInfo<BuyerRouteArgs> {
+  BuyerRoute({
+    Key? key,
+    Ticket? ticket,
+    String? ticketId,
+    List<PageRouteInfo>? children,
+  }) : super(
           BuyerRoute.name,
+          args: BuyerRouteArgs(
+            key: key,
+            ticket: ticket,
+            ticketId: ticketId,
+          ),
+          rawPathParams: {'ticketId': ticketId},
           initialChildren: children,
         );
 
   static const String name = 'BuyerRoute';
 
-  static const PageInfo<void> page = PageInfo<void>(name);
+  static const PageInfo<BuyerRouteArgs> page = PageInfo<BuyerRouteArgs>(name);
+}
+
+class BuyerRouteArgs {
+  const BuyerRouteArgs({
+    this.key,
+    this.ticket,
+    this.ticketId,
+  });
+
+  final Key? key;
+
+  final Ticket? ticket;
+
+  final String? ticketId;
+
+  @override
+  String toString() {
+    return 'BuyerRouteArgs{key: $key, ticket: $ticket, ticketId: $ticketId}';
+  }
 }
 
 /// generated route for

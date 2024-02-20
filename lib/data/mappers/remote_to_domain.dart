@@ -21,6 +21,7 @@ extension TicketRMMappers on TicketRM {
         price: price,
         sold: sold,
         party: party?.toDM(),
+        id: id,
       );
 }
 

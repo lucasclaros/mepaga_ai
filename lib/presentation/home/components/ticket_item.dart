@@ -1,22 +1,26 @@
+import 'package:auto_route/auto_route.dart';
 import 'package:domain/models/party.dart';
+import 'package:domain/models/ticket.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:mepaga_ai/common/app_router.dart';
 import 'package:mepaga_ai/presentation/common/themes/assets/mpg_assets_paths.dart';
 import 'package:simple_shadow/simple_shadow.dart';
 
 class TicketItem extends StatefulWidget {
-  const TicketItem({super.key, required this.party});
+  const TicketItem({super.key, required this.ticket});
 
-  final Party? party;
+  final Ticket ticket;
 
   @override
   State<TicketItem> createState() => _TicketItemState();
 }
 
 class _TicketItemState extends State<TicketItem> {
-  Party? get party => widget.party;
+  Party? get party => widget.ticket.party;
+  Ticket get ticket => widget.ticket;
 
   @override
   Widget build(BuildContext context) {
@@ -28,83 +32,58 @@ class _TicketItemState extends State<TicketItem> {
         borderRadius: BorderRadius.circular(10.r),
       ),
       child: InkWell(
-        onTap: () {
-          showDialog(
-            context: context,
-            builder: (BuildContext context) {
-              return AlertDialog(
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(10.r),
-                ),
-                title: Text(
-                  'CALMA FI',
-                  style: GoogleFonts.barlow(
-                    fontSize: 20.sp,
-                    fontWeight: FontWeight.w600,
-                    color: Colors.black,
-                  ),
-                ),
-                content: Text(
-                  'Ainda tô mexendo nisso.\nLogo logo fica pronto!',
-                  style: GoogleFonts.barlow(
-                    fontSize: 16.sp,
-                    fontWeight: FontWeight.w400,
-                    color: Colors.black,
-                  ),
-                ),
-                actions: [
-                  TextButton(
-                    onPressed: () {
-                      Navigator.of(context).pop();
-                    },
-                    child: const Text('OK'),
-                  ),
-                ],
-              );
-            },
-          );
-        },
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        onTap: () => context.router.push(BuyerRoute(ticket: ticket)),
+        child: Stack(
           children: [
-            Expanded(
-              child: Padding(
-                padding: EdgeInsets.only(right: 20.w),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      party?.name ?? 'Festa',
-                      softWrap: false,
-                      overflow: TextOverflow.ellipsis,
-                      style: GoogleFonts.barlow(
-                        fontSize: 20.sp,
-                        fontWeight: FontWeight.w500,
-                        color: Colors.black,
-                      ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Expanded(
+                  child: Padding(
+                    padding: EdgeInsets.only(right: 20.w),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          party?.name ?? 'Festa',
+                          softWrap: false,
+                          overflow: TextOverflow.ellipsis,
+                          style: GoogleFonts.barlow(
+                            fontSize: 20.sp,
+                            fontWeight: FontWeight.w500,
+                            color: Colors.black,
+                          ),
+                        ),
+                        Text(
+                          party?.date ?? '00/00/0000',
+                          softWrap: false,
+                          overflow: TextOverflow.ellipsis,
+                          style: GoogleFonts.barlow(
+                            fontSize: 16.sp,
+                            fontWeight: FontWeight.w400,
+                            color: Colors.black,
+                          ),
+                        ),
+                      ],
                     ),
-                    Text(
-                      party?.date ?? '00/00/0000',
-                      softWrap: false,
-                      overflow: TextOverflow.ellipsis,
-                      style: GoogleFonts.barlow(
-                        fontSize: 16.sp,
-                        fontWeight: FontWeight.w400,
-                        color: Colors.black,
-                      ),
-                    ),
-                  ],
+                  ),
                 ),
-              ),
-            ),
-            SimpleShadow(
-              opacity: 0.25,
-              offset: const Offset(0, 4),
-              child: SvgPicture.asset(
-                MPGAssetsPaths.of(context).forwardIcon,
-                height: 43.h,
-                clipBehavior: Clip.antiAlias,
-              ),
+                const Icon(
+                  Icons.error,
+                  color: Colors.red,
+                  size: 20,
+                ),
+                const SizedBox(width: 10),
+                SimpleShadow(
+                  opacity: 0.25,
+                  offset: const Offset(0, 4),
+                  child: SvgPicture.asset(
+                    MPGAssetsPaths.of(context).forwardIcon,
+                    height: 43.h,
+                    clipBehavior: Clip.antiAlias,
+                  ),
+                ),
+              ],
             ),
           ],
         ),
