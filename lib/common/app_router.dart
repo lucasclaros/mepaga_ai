@@ -8,6 +8,7 @@ import 'package:mepaga_ai/presentation/auth/otp_verification/view/otp_verificati
 import 'package:mepaga_ai/presentation/auth/register/email/view/register_email_view.dart';
 import 'package:mepaga_ai/presentation/auth/register/password/view/register_password_view.dart';
 import 'package:mepaga_ai/presentation/buyer/buyer_page.dart';
+import 'package:mepaga_ai/presentation/common/mpg_scaffold.dart';
 import 'package:mepaga_ai/presentation/home/bottom_navbar_wrapper.dart';
 import 'package:mepaga_ai/presentation/home/screens/home/home_page.dart';
 import 'package:mepaga_ai/presentation/home/screens/profile/profile_page.dart';
@@ -205,6 +206,11 @@ class HomeTabPage extends AutoRouter {
 @RoutePage(name: 'PlatformTab')
 class PlatofrmTabPage extends AutoRouter {
   const PlatofrmTabPage({super.key});
+
+  @override
+  WidgetBuilder? get placeholder => (context) => const MPGScaffold(
+        child: SizedBox.shrink(),
+      );
 }
 
 @RoutePage(name: 'ProfileTab')
