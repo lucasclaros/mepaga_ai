@@ -37,12 +37,6 @@ abstract class _$AppRouter extends RootStackRouter {
         ),
       );
     },
-    BuyerRoute.name: (routeData) {
-      return AutoRoutePage<dynamic>(
-        routeData: routeData,
-        child: const BuyerPage(),
-      );
-    },
     EmptyRouterRoute.name: (routeData) {
       return AutoRoutePage<dynamic>(
         routeData: routeData,
@@ -146,6 +140,17 @@ abstract class _$AppRouter extends RootStackRouter {
         child: const RegisterPasswordView(),
       );
     },
+    TicketSellerRoute.name: (routeData) {
+      final args = routeData.argsAs<TicketSellerRouteArgs>();
+      return AutoRoutePage<dynamic>(
+        routeData: routeData,
+        child: TicketSellerPage(
+          key: args.key,
+          ticketId: args.ticketId,
+          isBuy: args.isBuy,
+        ),
+      );
+    },
     TransferOrientationRoute.name: (routeData) {
       final args = routeData.argsAs<TransferOrientationRouteArgs>();
       return AutoRoutePage<dynamic>(
@@ -244,20 +249,6 @@ class BottomNavbarRouteArgs {
   String toString() {
     return 'BottomNavbarRouteArgs{key: $key, showFlushbar: $showFlushbar}';
   }
-}
-
-/// generated route for
-/// [BuyerPage]
-class BuyerRoute extends PageRouteInfo<void> {
-  const BuyerRoute({List<PageRouteInfo>? children})
-      : super(
-          BuyerRoute.name,
-          initialChildren: children,
-        );
-
-  static const String name = 'BuyerRoute';
-
-  static const PageInfo<void> page = PageInfo<void>(name);
 }
 
 /// generated route for
@@ -560,6 +551,49 @@ class RegisterPasswordRoute extends PageRouteInfo<void> {
   static const String name = 'RegisterPasswordRoute';
 
   static const PageInfo<void> page = PageInfo<void>(name);
+}
+
+/// generated route for
+/// [TicketSellerPage]
+class TicketSellerRoute extends PageRouteInfo<TicketSellerRouteArgs> {
+  TicketSellerRoute({
+    Key? key,
+    required String ticketId,
+    bool isBuy = false,
+    List<PageRouteInfo>? children,
+  }) : super(
+          TicketSellerRoute.name,
+          args: TicketSellerRouteArgs(
+            key: key,
+            ticketId: ticketId,
+            isBuy: isBuy,
+          ),
+          initialChildren: children,
+        );
+
+  static const String name = 'TicketSellerRoute';
+
+  static const PageInfo<TicketSellerRouteArgs> page =
+      PageInfo<TicketSellerRouteArgs>(name);
+}
+
+class TicketSellerRouteArgs {
+  const TicketSellerRouteArgs({
+    this.key,
+    required this.ticketId,
+    this.isBuy = false,
+  });
+
+  final Key? key;
+
+  final String ticketId;
+
+  final bool isBuy;
+
+  @override
+  String toString() {
+    return 'TicketSellerRouteArgs{key: $key, ticketId: $ticketId, isBuy: $isBuy}';
+  }
 }
 
 /// generated route for

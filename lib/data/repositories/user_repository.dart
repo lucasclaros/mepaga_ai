@@ -55,4 +55,28 @@ class UserRepository implements IUserRepositoryInterface {
       keyType: keyType,
     );
   }
+
+  @override
+  Future<Ticket> getTicketInfo({
+    required String ticketId,
+    bool isBuy = false,
+  }) async {
+    final ticketRM = await rds.getTicketInfo(
+      ticketId: ticketId,
+      isBuy: isBuy,
+    );
+
+    return ticketRM.toDM();
+  }
+
+  @override
+  Future<void> registerTicketPrice({
+    required String ticketId,
+    required double ticketPrice,
+  }) async {
+    await rds.registerTicketPrice(
+      ticketId: ticketId,
+      ticketPrice: ticketPrice,
+    );
+  }
 }

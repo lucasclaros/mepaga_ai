@@ -110,6 +110,10 @@ abstract class IAppAssetsPaths {
   String get ballonEmoji;
 
   String get beerEmoji;
+
+  String get ticketPlaceholder;
+
+  String get walletIcon;
 }
 
 abstract class AppThemeInterface {

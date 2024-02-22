@@ -32,4 +32,15 @@ class UrlBuilder {
       '$_hmlApi$_userInfo/platform/validate';
 
   static String get endpointRegisterPixKey => '$_hmlApi$_userInfo/pix-key';
+
+  static String endpointTicketInfo({
+    required String ticketId,
+    bool isBuy = false,
+  }) =>
+      isBuy
+          ? '$_hmlApi/ticket/$ticketId'
+          : '$_hmlApi$_userInfo/ticket/$ticketId';
+
+  static String endpointTicketPrice(String ticketId) =>
+      '$_hmlApi/tickets/$ticketId';
 }

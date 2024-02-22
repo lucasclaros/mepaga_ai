@@ -182,7 +182,7 @@ Future<void> showMPGConfirmationModal({
   required String message,
   required String confirmButtonText,
   required String cancelButtonText,
-  required Function()? onConfirm,
+  Function()? onConfirm,
   Function()? onCancel,
 }) async {
   await showDialog<bool>(

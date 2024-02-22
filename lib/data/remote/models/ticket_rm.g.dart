@@ -13,6 +13,8 @@ TicketRM _$TicketRMFromJson(Map<String, dynamic> json) => TicketRM(
       party: json['party'] == null
           ? null
           : PartyRM.fromJson(json['party'] as Map<String, dynamic>),
+      id: json['id'] as String?,
+      platform: json['platform'] as String?,
     );
 
 Map<String, dynamic> _$TicketRMToJson(TicketRM instance) => <String, dynamic>{
@@ -20,4 +22,6 @@ Map<String, dynamic> _$TicketRMToJson(TicketRM instance) => <String, dynamic>{
       'price': instance.price,
       'sold': instance.sold,
       'party': instance.party,
+      'id': instance.id,
+      'platform': instance.platform,
     };

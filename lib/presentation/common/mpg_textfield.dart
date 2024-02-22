@@ -27,6 +27,8 @@ class MPGTextField extends StatefulWidget {
     this.prefixIcon,
     this.enabled,
     this.inputFormatters,
+    this.scrollPadding,
+    this.initialValue,
   });
 
   final String? hintText;
@@ -46,6 +48,8 @@ class MPGTextField extends StatefulWidget {
   final String? prefixIcon;
   final bool? enabled;
   final List<TextInputFormatter>? inputFormatters;
+  final EdgeInsets? scrollPadding;
+  final String? initialValue;
 
   @override
   State<MPGTextField> createState() => _MPGTextFieldState();
@@ -94,7 +98,10 @@ class _MPGTextFieldState extends State<MPGTextField> {
         SizedBox(
           width: widget.width ?? 295.w,
           child: TextFormField(
-            scrollPadding: EdgeInsets.only(bottom: 50.h),
+            scrollPadding: widget.scrollPadding ??
+                EdgeInsets.only(
+                  bottom: 50.h,
+                ),
             cursorColor: Colors.white,
             onChanged: (text) => {
               setState(() {
@@ -104,6 +111,7 @@ class _MPGTextFieldState extends State<MPGTextField> {
                 }
               }),
             },
+            initialValue: widget.initialValue,
             validator: widget.validator,
             onEditingComplete: widget.onEditingComplete,
             onTap: widget.onTap,

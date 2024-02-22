@@ -2,7 +2,6 @@ import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_native_splash/flutter_native_splash.dart';
 import 'package:mepaga_ai/data/cache/data_source/online_cds.dart';
-import 'package:mepaga_ai/data/models/user_mm.dart';
 import 'package:mepaga_ai/presentation/auth/login/view/login_view.dart';
 import 'package:mepaga_ai/presentation/auth/otp_verification/view/otp_verification_view.dart';
 import 'package:mepaga_ai/presentation/auth/register/email/view/register_email_view.dart';
@@ -17,6 +16,7 @@ import 'package:mepaga_ai/presentation/registration/platform/add_email_platform/
 import 'package:mepaga_ai/presentation/registration/platform/otp_platform_verification/view/otp_platform_verification_view.dart';
 import 'package:mepaga_ai/presentation/registration/platform/platform_registration_view.dart';
 import 'package:mepaga_ai/presentation/registration/tickets/transfer_orientation_page.dart';
+import 'package:mepaga_ai/presentation/seller/ticket_seller_page.dart';
 import 'package:mepaga_ai/presentation/welcome/welcome_page.dart';
 import 'package:provider/provider.dart';
 
@@ -93,7 +93,7 @@ class AppRouter extends _$AppRouter {
           path: '/pix-registration',
           page: PaymentRegistrationRoute.page,
         ),
-        MPGRoute(page: BuyerRoute.page, path: '/buyer-page'),
+        MPGRoute(page: TicketSellerRoute.page, path: '/seller-ticket'),
       ];
 }
 
@@ -205,6 +205,11 @@ class HomeTabPage extends AutoRouter {
 @RoutePage(name: 'PlatformTab')
 class PlatofrmTabPage extends AutoRouter {
   const PlatofrmTabPage({super.key});
+
+  @override
+  WidgetBuilder? get placeholder => (context) => const MPGScaffold(
+        child: SizedBox.shrink(),
+      );
 }
 
 @RoutePage(name: 'ProfileTab')
@@ -217,36 +222,4 @@ class ProfileTabPage extends AutoRouter {
 @RoutePage()
 class EmptyRouterPage extends AutoRouter {
   const EmptyRouterPage({super.key});
-}
-
-@RoutePage()
-class BuyerPage extends StatefulWidget {
-  const BuyerPage({super.key});
-
-  @override
-  State<BuyerPage> createState() => _BuyerPageState();
-}
-
-class _BuyerPageState extends State<BuyerPage> {
-  @override
-  void initState() {
-    super.initState();
-    FlutterNativeSplash.remove();
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return MPGScaffold(
-      backgroundColor: Colors.white,
-      child: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            const Text('Buyer Page Placeholder'),
-            if (UserMM().email.isNotEmpty) Text('Email: ${UserMM().email}'),
-          ],
-        ),
-      ),
-    );
-  }
 }

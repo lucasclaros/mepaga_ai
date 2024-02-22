@@ -23,11 +23,17 @@ class _WelcomeHeaderState extends State<WelcomeHeader> {
     'Eai': 'Beleza?',
     'Hey': 'Rockers!',
   };
+  String? selectedStartGreeting;
+
+  @override
+  void initState() {
+    super.initState();
+    selectedStartGreeting =
+        startGreetings[Random().nextInt(startGreetings.length)];
+  }
 
   @override
   Widget build(BuildContext context) {
-    final selectedStartGreeting =
-        startGreetings[Random().nextInt(startGreetings.length)];
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [

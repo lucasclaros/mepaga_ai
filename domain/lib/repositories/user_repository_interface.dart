@@ -20,4 +20,14 @@ abstract class IUserRepositoryInterface {
     required String pixKey,
     required String keyType,
   });
+
+  Future<Ticket> getTicketInfo({
+    required String ticketId,
+    bool isBuy = false,
+  });
+
+  Future<void> registerTicketPrice({
+    required String ticketId,
+    required double ticketPrice,
+  });
 }

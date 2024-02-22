@@ -92,3 +92,43 @@ class TelefoneInputFormatter extends TextInputFormatter {
     }
   }
 }
+
+class PriceInputFormatter extends TextInputFormatter {
+  @override
+  TextEditingValue formatEditUpdate(
+    TextEditingValue oldValue,
+    TextEditingValue newValue,
+  ) {
+    if (newValue.text == r'R$ 0.') {
+      return TextEditingValue.empty;
+    }
+
+    final numericRegex = RegExp(r'[\d]');
+    final newValueDigits =
+        newValue.text.split('').where(numericRegex.hasMatch).join();
+    final numValue = int.tryParse(newValueDigits) ?? 0;
+
+    final newText = _formatCurrency(numValue);
+
+    return TextEditingValue(
+      text: newText,
+      selection: TextSelection.collapsed(offset: newText.length),
+    );
+  }
+
+  String _formatCurrency(int value) {
+    final stringValue = value.toString();
+    final length = stringValue.length;
+
+    if (length <= 2) {
+      return 'R\$ 0.$stringValue'.padLeft(6, '0');
+    } else {
+      final integralPart = stringValue.substring(0, length - 2);
+      final fractionalPart = stringValue.substring(length - 2);
+      return 'R\$ $integralPart.$fractionalPart'.replaceAllMapped(
+        RegExp(r'^(\d{1,3})(?=(\d{3})+(?!\d))'),
+        (match) => '${match[1]}.',
+      );
+    }
+  }
+}

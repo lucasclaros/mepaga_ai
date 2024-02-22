@@ -9,11 +9,9 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:mepaga_ai/common/app_router.dart';
-import 'package:mepaga_ai/presentation/common/mpg_button.dart';
+import 'package:mepaga_ai/presentation/common/empty_states/generic_error_empty_state.dart';
 import 'package:mepaga_ai/presentation/common/mpg_scaffold.dart';
 import 'package:mepaga_ai/presentation/common/themes/assets/mpg_assets_paths.dart';
-import 'package:mepaga_ai/presentation/common/themes/colors/mpg_colors.dart';
-import 'package:mepaga_ai/presentation/common/themes/text_styles/mpg_text_styles.dart';
 import 'package:mepaga_ai/presentation/registration/components/platform_list_item.dart';
 import 'package:mepaga_ai/presentation/registration/platform/bloc/platform_registration_bloc.dart';
 import 'package:mepaga_ai/presentation/registration/platform/components/transfer_ticket_view.dart';
@@ -117,33 +115,12 @@ class _PlatformRegistrationViewState extends State<PlatformRegistrationView> {
                 }
 
                 if (state is ListPlatformsError) {
-                  return Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Text(
-                        'Ops... Ocorreu um erro!',
-                        style: GoogleFonts.barlow(
-                          fontSize: 24,
-                          fontWeight: FontWeight.bold,
-                          color: const Color(0xFFE9E9E9),
-                        ),
-                      ),
-                      SizedBox(height: 20.h),
-                      MPGButton(
-                        gradient: MPGColors.of(context).mpgButtonWhitedGradient,
-                        onPressed: () {
-                          context.router.push(
-                            TransferOrientationRoute(
-                              platform: 'byma',
-                            ),
-                          );
-                        },
-                        child: Text(
-                          'Tentar novamente',
-                          style: MPGTextStyles.of(context).mpgWhitedButton,
-                        ),
-                      ),
-                    ],
+                  return GenericErrorEmptyState(
+                    onRetry: () {
+                      context
+                          .read<PlatformRegistrationBloc>()
+                          .add(ListUserPlatforms());
+                    },
                   );
                 }
 
