@@ -49,6 +49,7 @@ class _HomePageState extends State<HomePage> {
     firstPageKey: 0,
   );
   final _scrollController = ScrollController();
+  String? _emoji;
 
   String getEmoji() {
     final emojis = [
@@ -65,6 +66,7 @@ class _HomePageState extends State<HomePage> {
   void dispose() {
     super.dispose();
     _pagingController.dispose();
+    _scrollController.dispose();
   }
 
   @override
@@ -80,7 +82,7 @@ class _HomePageState extends State<HomePage> {
       });
     }
     super.initState();
-
+    _emoji = getEmoji();
     // _pagingController.addPageRequestListener((_) {
     //   context.read<HomeBloc>().add(UserInfo());
     //   _requests--;
@@ -116,7 +118,7 @@ class _HomePageState extends State<HomePage> {
                     child: Visibility(
                       visible: !_isLoading,
                       child: SvgPicture.asset(
-                        getEmoji(),
+                        _emoji ?? '',
                       ),
                     ),
                   ),
@@ -253,6 +255,9 @@ class _HomePageState extends State<HomePage> {
                                           .mpgButtonWhitedGradient,
                                       onPressed: () async {
                                         _pagingController.refresh();
+                                        context
+                                            .read<HomeBloc>()
+                                            .add(UserInfo());
                                       },
                                       child: Text(
                                         'Tentar novamente',

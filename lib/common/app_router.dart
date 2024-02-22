@@ -1,5 +1,4 @@
 import 'package:auto_route/auto_route.dart';
-import 'package:domain/models/ticket.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_native_splash/flutter_native_splash.dart';
 import 'package:mepaga_ai/data/cache/data_source/online_cds.dart';
@@ -7,7 +6,6 @@ import 'package:mepaga_ai/presentation/auth/login/view/login_view.dart';
 import 'package:mepaga_ai/presentation/auth/otp_verification/view/otp_verification_view.dart';
 import 'package:mepaga_ai/presentation/auth/register/email/view/register_email_view.dart';
 import 'package:mepaga_ai/presentation/auth/register/password/view/register_password_view.dart';
-import 'package:mepaga_ai/presentation/buyer/buyer_page.dart';
 import 'package:mepaga_ai/presentation/common/mpg_scaffold.dart';
 import 'package:mepaga_ai/presentation/home/bottom_navbar_wrapper.dart';
 import 'package:mepaga_ai/presentation/home/screens/home/home_page.dart';
@@ -18,6 +16,7 @@ import 'package:mepaga_ai/presentation/registration/platform/add_email_platform/
 import 'package:mepaga_ai/presentation/registration/platform/otp_platform_verification/view/otp_platform_verification_view.dart';
 import 'package:mepaga_ai/presentation/registration/platform/platform_registration_view.dart';
 import 'package:mepaga_ai/presentation/registration/tickets/transfer_orientation_page.dart';
+import 'package:mepaga_ai/presentation/seller/ticket_seller_page.dart';
 import 'package:mepaga_ai/presentation/welcome/welcome_page.dart';
 import 'package:provider/provider.dart';
 
@@ -94,7 +93,7 @@ class AppRouter extends _$AppRouter {
           path: '/pix-registration',
           page: PaymentRegistrationRoute.page,
         ),
-        MPGRoute(page: BuyerRoute.page, path: '/buyer-page/:ticketId'),
+        MPGRoute(page: TicketSellerRoute.page, path: '/seller-ticket'),
       ];
 }
 

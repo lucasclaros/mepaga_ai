@@ -7,6 +7,7 @@ class TicketVM {
     required this.sold,
     required this.party,
     required this.id,
+    required this.platform,
   });
 
   final int? sellerId;
@@ -14,4 +15,5 @@ class TicketVM {
   final bool? sold;
   final PartyVM? party;
   final String? id;
+  final String? platform;
 }

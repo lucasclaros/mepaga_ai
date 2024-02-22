@@ -7,6 +7,7 @@ class Ticket {
     required this.sold,
     required this.party,
     required this.id,
+    required this.platform,
   });
 
   final int? sellerId;
@@ -14,4 +15,5 @@ class Ticket {
   final bool? sold;
   final Party? party;
   final String? id;
+  final String? platform;
 }

@@ -139,4 +139,50 @@ class UserRDS {
       throw UnexpectedException(message: 'Something went wrong');
     }
   }
+
+  Future<TicketRM> getTicketInfo({
+    required String ticketId,
+    bool isBuy = false,
+  }) async {
+    try {
+      final response = await dio.get(
+        UrlBuilder.endpointTicketInfo(
+          ticketId: ticketId,
+          isBuy: isBuy,
+        ),
+      );
+      final ticket = TicketRM.fromJson(response.data);
+      return ticket;
+    } catch (error) {
+      if (error is DioException && error.response != null) {
+        throw UnexpectedException(
+          message: error.response!.data['message'] ?? 'Something went wrong',
+        );
+      }
+      throw UnexpectedException(message: 'Something went wrong');
+    }
+  }
+
+  Future<void> registerTicketPrice({
+    required String ticketId,
+    required double ticketPrice,
+  }) async {
+    try {
+      await dio.patch(
+        UrlBuilder.endpointTicketPrice(ticketId),
+        data: {
+          'price': ticketPrice,
+        },
+      );
+    } catch (error) {
+      if (error is DioException && error.response != null) {
+        final statusCode = error.response!.statusCode;
+        if (statusCode == 400) {
+          print('Aqui 400');
+          throw TicketAlreadySoldException();
+        }
+      }
+      throw UnexpectedException(message: 'Something went wrong');
+    }
+  }
 }

@@ -2,11 +2,13 @@ import 'package:auto_route/auto_route.dart';
 import 'package:domain/models/party.dart';
 import 'package:domain/models/ticket.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/scheduler.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:mepaga_ai/common/app_router.dart';
 import 'package:mepaga_ai/presentation/common/themes/assets/mpg_assets_paths.dart';
+import 'package:mepaga_ai/presentation/common/utils.dart';
 import 'package:simple_shadow/simple_shadow.dart';
 
 class TicketItem extends StatefulWidget {
@@ -32,7 +34,24 @@ class _TicketItemState extends State<TicketItem> {
         borderRadius: BorderRadius.circular(10.r),
       ),
       child: InkWell(
-        onTap: () => context.router.push(BuyerRoute(ticket: ticket)),
+        onTap: () async {
+          final res = await context.router.push(
+            TicketSellerRoute(
+              ticketId: ticket.id!,
+            ),
+          );
+
+          if (res != null) {
+            SchedulerBinding.instance.addPostFrameCallback((_) {
+              showFlushbar(
+                context: context,
+                message: 'Ingresso cadastrado com sucesso!',
+                backgroundColor: Colors.green,
+                fontColor: Colors.white,
+              );
+            });
+          }
+        },
         child: Stack(
           children: [
             Row(
@@ -68,12 +87,6 @@ class _TicketItemState extends State<TicketItem> {
                     ),
                   ),
                 ),
-                const Icon(
-                  Icons.error,
-                  color: Colors.red,
-                  size: 20,
-                ),
-                const SizedBox(width: 10),
                 SimpleShadow(
                   opacity: 0.25,
                   offset: const Offset(0, 4),

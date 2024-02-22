@@ -70,3 +70,5 @@ class InvalidToken implements MPGException {
 }
 
 class EmailAlreadyExistsException extends MPGException {}
+
+class TicketAlreadySoldException extends MPGException {}

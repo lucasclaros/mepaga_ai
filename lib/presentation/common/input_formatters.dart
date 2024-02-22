@@ -99,7 +99,7 @@ class PriceInputFormatter extends TextInputFormatter {
     TextEditingValue oldValue,
     TextEditingValue newValue,
   ) {
-    if (oldValue.text == r'R$ 0.0') {
+    if (newValue.text == r'R$ 0.') {
       return TextEditingValue.empty;
     }
 
