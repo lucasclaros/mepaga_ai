@@ -45,7 +45,7 @@ class _TicketConfigFieldsState extends State<TicketConfigFields> {
   @override
   void initState() {
     super.initState();
-    _priceWithFee = widget.currentPrice ?? 0;
+    _priceWithFee = (widget.currentPrice ?? 0) > 3 ? widget.currentPrice! : 0;
     _priceWithNoFee = calculatePriceWithoutFee(_priceWithFee);
 
     if (_priceWithNoFee > 0) {
