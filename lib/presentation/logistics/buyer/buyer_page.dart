@@ -83,12 +83,9 @@ class _BuyerPageState extends State<BuyerPage> {
                                 vertical: 16.h,
                                 horizontal: 18.w,
                               ),
-                              child: Visibility(
-                                visible: !kIsWeb,
-                                child: SvgPicture.asset(
-                                  MPGAssetsPaths.of(context).backButton,
-                                  width: 24.w,
-                                ),
+                              child: SvgPicture.asset(
+                                MPGAssetsPaths.of(context).backButton,
+                                width: 24.w,
                               ),
                             ),
                           ),
