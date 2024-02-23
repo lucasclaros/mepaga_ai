@@ -30,4 +30,6 @@ abstract class IUserRepositoryInterface {
     required String ticketId,
     required double ticketPrice,
   });
+
+  Future<void> checkBymaEmail({required String email});
 }

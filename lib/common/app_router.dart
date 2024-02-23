@@ -10,13 +10,15 @@ import 'package:mepaga_ai/presentation/common/mpg_scaffold.dart';
 import 'package:mepaga_ai/presentation/home/bottom_navbar_wrapper.dart';
 import 'package:mepaga_ai/presentation/home/screens/home/home_page.dart';
 import 'package:mepaga_ai/presentation/home/screens/profile/profile_page.dart';
+import 'package:mepaga_ai/presentation/logistics/buyer/add-email/add_buyer_email_page.dart';
+import 'package:mepaga_ai/presentation/logistics/buyer/buyer_page.dart';
+import 'package:mepaga_ai/presentation/logistics/seller/ticket_seller_page.dart';
 import 'package:mepaga_ai/presentation/onboarding/view/onboarding_view.dart';
 import 'package:mepaga_ai/presentation/registration/payment/payment_registration_page.dart';
 import 'package:mepaga_ai/presentation/registration/platform/add_email_platform/add_email_platform_view.dart';
 import 'package:mepaga_ai/presentation/registration/platform/otp_platform_verification/view/otp_platform_verification_view.dart';
 import 'package:mepaga_ai/presentation/registration/platform/platform_registration_view.dart';
 import 'package:mepaga_ai/presentation/registration/tickets/transfer_orientation_page.dart';
-import 'package:mepaga_ai/presentation/seller/ticket_seller_page.dart';
 import 'package:mepaga_ai/presentation/welcome/welcome_page.dart';
 import 'package:provider/provider.dart';
 
@@ -94,6 +96,8 @@ class AppRouter extends _$AppRouter {
           page: PaymentRegistrationRoute.page,
         ),
         MPGRoute(page: TicketSellerRoute.page, path: '/seller-ticket'),
+        MPGRoute(page: BuyerRoute.page, path: '/ticket/:ticketId'),
+        MPGRoute(page: AddBuyerEmailRoute.page, path: '/buyer-email'),
       ];
 }
 

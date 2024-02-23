@@ -10,11 +10,10 @@ import 'package:flutter_svg/svg.dart';
 import 'package:mepaga_ai/presentation/common/empty_states/generic_error_empty_state.dart';
 import 'package:mepaga_ai/presentation/common/mpg_scaffold.dart';
 import 'package:mepaga_ai/presentation/common/themes/assets/mpg_assets_paths.dart';
-import 'package:mepaga_ai/presentation/common/utils.dart';
-import 'package:mepaga_ai/presentation/seller/bloc/ticket_configuration_bloc.dart';
-import 'package:mepaga_ai/presentation/seller/components/shimmer_ticket.dart';
-import 'package:mepaga_ai/presentation/seller/components/ticket_config_fields.dart';
-import 'package:mepaga_ai/presentation/seller/components/ticket_widget.dart';
+import 'package:mepaga_ai/presentation/logistics/bloc/ticket_configuration_bloc.dart';
+import 'package:mepaga_ai/presentation/logistics/components/shimmer_ticket.dart';
+import 'package:mepaga_ai/presentation/logistics/components/ticket_config_fields.dart';
+import 'package:mepaga_ai/presentation/logistics/components/ticket_widget.dart';
 
 @RoutePage()
 class TicketSellerPage extends StatefulWidget {
@@ -82,15 +81,12 @@ class _TicketSellerPageState extends State<TicketSellerPage> {
                       ),
                       TicketWidget(ticket: ticket),
                       SizedBox(height: 25.h),
-                      Visibility(
-                        visible: !widget.isBuy,
-                        child: TicketConfigFields(
-                          ticketId: widget.ticketId,
-                          currentPrice: ticket.price,
-                          onSuccess: () {
-                            context.router.pop(true);
-                          },
-                        ),
+                      TicketConfigFields(
+                        ticketId: widget.ticketId,
+                        currentPrice: ticket.price,
+                        onSuccess: () {
+                          context.router.pop(true);
+                        },
                       ),
                       SizedBox(height: 50.h),
                     ],

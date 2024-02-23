@@ -5,7 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:mepaga_ai/presentation/common/themes/assets/mpg_assets_paths.dart';
-import 'package:mepaga_ai/presentation/seller/components/sw_ticket_border.dart';
+import 'package:mepaga_ai/presentation/logistics/components/sw_ticket_border.dart';
 import 'package:shimmer/shimmer.dart';
 
 class TicketWidget extends StatelessWidget {

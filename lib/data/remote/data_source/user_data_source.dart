@@ -178,8 +178,30 @@ class UserRDS {
       if (error is DioException && error.response != null) {
         final statusCode = error.response!.statusCode;
         if (statusCode == 400) {
-          print('Aqui 400');
           throw TicketAlreadySoldException();
+        }
+      }
+      throw UnexpectedException(message: 'Something went wrong');
+    }
+  }
+
+  Future<void> checkBymaEmail({
+    required String email,
+  }) async {
+    try {
+      final response = await dio.post(
+        UrlBuilder.endpointBymaEmail,
+        data: {
+          'email': email,
+        },
+      );
+      print('Aqui ${response.data}');
+    } catch (error) {
+      if (error is DioException && error.response != null) {
+        final statusCode = error.response!.statusCode;
+        print('Aqui error ${error.response!.data} $statusCode');
+        if (statusCode == 404) {
+          throw NoAccountFound();
         }
       }
       throw UnexpectedException(message: 'Something went wrong');

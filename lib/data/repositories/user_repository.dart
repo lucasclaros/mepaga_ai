@@ -79,4 +79,9 @@ class UserRepository implements IUserRepositoryInterface {
       ticketPrice: ticketPrice,
     );
   }
+
+  @override
+  Future<void> checkBymaEmail({required String email}) async {
+    await rds.checkBymaEmail(email: email);
+  }
 }

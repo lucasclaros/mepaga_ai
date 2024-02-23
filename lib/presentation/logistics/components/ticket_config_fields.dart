@@ -15,8 +15,8 @@ import 'package:mepaga_ai/presentation/common/themes/assets/mpg_assets_paths.dar
 import 'package:mepaga_ai/presentation/common/themes/colors/mpg_colors.dart';
 import 'package:mepaga_ai/presentation/common/themes/text_styles/mpg_text_styles.dart';
 import 'package:mepaga_ai/presentation/common/utils.dart';
-import 'package:mepaga_ai/presentation/seller/bloc/ticket_configuration_bloc.dart';
-import 'package:mepaga_ai/presentation/seller/components/utils.dart';
+import 'package:mepaga_ai/presentation/logistics/bloc/ticket_configuration_bloc.dart';
+import 'package:mepaga_ai/presentation/logistics/components/utils.dart';
 import 'package:styled_text/styled_text.dart';
 
 class TicketConfigFields extends StatefulWidget {
