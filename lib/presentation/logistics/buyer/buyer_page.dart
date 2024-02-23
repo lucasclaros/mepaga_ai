@@ -4,6 +4,7 @@ import 'package:auto_route/auto_route.dart';
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:domain/use_cases/get_ticket_info.dart';
 import 'package:domain/use_cases/ticket_price_register_uc.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_native_splash/flutter_native_splash.dart';
@@ -73,18 +74,21 @@ class _BuyerPageState extends State<BuyerPage> {
                     children: [
                       Row(
                         children: [
-                          GestureDetector(
-                            onTap: () => context.router.pop(),
-                            child: Container(
-                              alignment: Alignment.centerLeft,
-                              width: MediaQuery.of(context).size.width,
-                              padding: EdgeInsets.symmetric(
-                                vertical: 16.h,
-                                horizontal: 18.w,
-                              ),
-                              child: SvgPicture.asset(
-                                MPGAssetsPaths.of(context).backButton,
-                                width: 24.w,
+                          Visibility(
+                            visible: !kIsWeb,
+                            child: GestureDetector(
+                              onTap: () => context.router.pop(),
+                              child: Container(
+                                alignment: Alignment.centerLeft,
+                                width: MediaQuery.of(context).size.width,
+                                padding: EdgeInsets.symmetric(
+                                  vertical: 16.h,
+                                  horizontal: 18.w,
+                                ),
+                                child: SvgPicture.asset(
+                                  MPGAssetsPaths.of(context).backButton,
+                                  width: 24.w,
+                                ),
                               ),
                             ),
                           ),
