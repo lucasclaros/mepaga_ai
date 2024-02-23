@@ -74,17 +74,17 @@ class _BuyerPageState extends State<BuyerPage> {
                     children: [
                       Row(
                         children: [
-                          Visibility(
-                            visible: !kIsWeb,
-                            child: GestureDetector(
-                              onTap: () => context.router.pop(),
-                              child: Container(
-                                alignment: Alignment.centerLeft,
-                                width: MediaQuery.of(context).size.width,
-                                padding: EdgeInsets.symmetric(
-                                  vertical: 16.h,
-                                  horizontal: 18.w,
-                                ),
+                          GestureDetector(
+                            onTap: () => context.router.pop(),
+                            child: Container(
+                              alignment: Alignment.centerLeft,
+                              width: MediaQuery.of(context).size.width,
+                              padding: EdgeInsets.symmetric(
+                                vertical: 16.h,
+                                horizontal: 18.w,
+                              ),
+                              child: Visibility(
+                                visible: !kIsWeb,
                                 child: SvgPicture.asset(
                                   MPGAssetsPaths.of(context).backButton,
                                   width: 24.w,
