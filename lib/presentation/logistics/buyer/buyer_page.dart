@@ -2,6 +2,7 @@
 
 import 'package:auto_route/auto_route.dart';
 import 'package:auto_size_text/auto_size_text.dart';
+import 'package:domain/use_cases/get_payment_charge_uc.dart';
 import 'package:domain/use_cases/get_ticket_info.dart';
 import 'package:domain/use_cases/ticket_price_register_uc.dart';
 import 'package:flutter/material.dart';
@@ -18,8 +19,8 @@ import 'package:mepaga_ai/presentation/common/mpg_scaffold.dart';
 import 'package:mepaga_ai/presentation/common/themes/assets/mpg_assets_paths.dart';
 import 'package:mepaga_ai/presentation/common/themes/colors/mpg_colors.dart';
 import 'package:mepaga_ai/presentation/common/themes/text_styles/mpg_text_styles.dart';
-import 'package:mepaga_ai/presentation/common/utils.dart';
 import 'package:mepaga_ai/presentation/logistics/bloc/ticket_configuration_bloc.dart';
+import 'package:mepaga_ai/presentation/logistics/buyer/bloc/payment_charge_bloc.dart';
 import 'package:mepaga_ai/presentation/logistics/components/shimmer_ticket.dart';
 import 'package:mepaga_ai/presentation/logistics/components/ticket_widget.dart';
 import 'package:mepaga_ai/presentation/logistics/components/utils.dart';
@@ -38,6 +39,8 @@ class BuyerPage extends StatefulWidget {
 }
 
 class _BuyerPageState extends State<BuyerPage> {
+  bool _isLoading = false;
+
   @override
   void initState() {
     super.initState();
@@ -94,7 +97,7 @@ class _BuyerPageState extends State<BuyerPage> {
                       SizedBox(height: 25.h),
                       AutoSizeText(
                         'Ingresso: R\$ ${_priceWithNoFee.toStringAsFixed(2)}',
-                        style: GoogleFonts.roboto(
+                        style: GoogleFonts.barlow(
                           fontSize: 20,
                           fontWeight: FontWeight.w500,
                           color: Colors.white.withOpacity(0.8),
@@ -104,7 +107,7 @@ class _BuyerPageState extends State<BuyerPage> {
                       SizedBox(height: 10.h),
                       AutoSizeText(
                         'Taxa: R\$ ${(_priceWithFee - _priceWithNoFee).toStringAsFixed(2)}',
-                        style: GoogleFonts.roboto(
+                        style: GoogleFonts.barlow(
                           fontSize: 16,
                           fontWeight: FontWeight.w500,
                           color: Colors.white.withOpacity(0.8),
@@ -112,50 +115,96 @@ class _BuyerPageState extends State<BuyerPage> {
                         maxLines: 1,
                       ),
                       SizedBox(height: 40.h),
-                      AutoSizeText(
-                        'Valor final: R\$ ${_priceWithFee.toStringAsFixed(2)}',
-                        style: GoogleFonts.roboto(
-                          fontSize: 20,
-                          fontWeight: FontWeight.w700,
-                          color: Colors.white.withOpacity(0.8),
+                      // AutoSizeText(
+                      //   'Valor final: R\$ ${_priceWithFee.toStringAsFixed(2)}',
+                      //   style: GoogleFonts.barlow(
+                      //     fontSize: 20,
+                      //     fontWeight: FontWeight.w700,
+                      //     color: const Color(0xFFFF5800),
+                      //   ),
+                      //   maxLines: 1,
+                      // ),
+                      RichText(
+                        text: TextSpan(
+                          children: [
+                            TextSpan(
+                              text: 'Valor final: ',
+                              style: GoogleFonts.barlow(
+                                fontSize: 20,
+                                fontWeight: FontWeight.w700,
+                                color: Colors.white.withOpacity(0.8),
+                              ),
+                            ),
+                            TextSpan(
+                              text: 'R\$ ${_priceWithFee.toStringAsFixed(2)}',
+                              style: GoogleFonts.barlow(
+                                fontSize: 20,
+                                fontWeight: FontWeight.w700,
+                                color: const Color(0xFFFF5800),
+                              ),
+                            ),
+                          ],
                         ),
-                        maxLines: 1,
                       ),
                       SizedBox(height: 50.h),
-                      MPGButton(
-                        gradient:
-                            MPGColors.of(context).mpgButtonColoredGradient,
-                        onPressed: () {
-                          if (UserMM().email.isNotEmpty) {
-                            showFlushbar(
-                              context: context,
-                              title: 'Transferência para:',
-                              message: UserMM().email,
-                              backgroundColor: Colors.green,
-                              fontColor: Colors.white,
-                            );
-                          } else {
-                            context.router.push(
-                              AddBuyerEmailRoute(
-                                ticketId: widget.ticketId,
-                                platform: ticket.platform ?? 'byma',
-                                onEmailAdded: (email) {
-                                  showFlushbar(
-                                    context: context,
-                                    title: 'Transferência para:',
-                                    message: email,
-                                    backgroundColor: Colors.green,
-                                    fontColor: Colors.white,
+                      BlocProvider(
+                        create: (context) => PaymentChargeBloc(
+                          getPaymentChargeUC:
+                              context.read<GetPaymentChargeUC>(),
+                        ),
+                        child:
+                            BlocConsumer<PaymentChargeBloc, PaymentChargeState>(
+                          listener: (context, state) {
+                            setState(() {
+                              _isLoading = state is GetPaymentChargeLoading;
+                            });
+
+                            if (state is GetPaymentChargeSuccess) {
+                              context.router.push(
+                                PaymentRoute(
+                                  platform: ticket.platform ?? 'byma',
+                                  paymentCharge: state.paymentCharge,
+                                ),
+                              );
+                            }
+                          },
+                          builder: (context, state) {
+                            return MPGButton(
+                              gradient: MPGColors.of(context)
+                                  .mpgButtonColoredGradient,
+                              onPressed: () {
+                                if (UserMM().email.isNotEmpty) {
+                                  context.read<PaymentChargeBloc>().add(
+                                        GetPaymentChargeEvent(
+                                          ticketId: widget.ticketId,
+                                          transferEmail: UserMM().email,
+                                        ),
+                                      );
+                                } else {
+                                  context.router.push(
+                                    AddBuyerEmailRoute(
+                                      ticketId: widget.ticketId,
+                                      platform: ticket.platform ?? 'byma',
+                                      onEmailAdded: (email) {
+                                        context.read<PaymentChargeBloc>().add(
+                                              GetPaymentChargeEvent(
+                                                ticketId: widget.ticketId,
+                                                transferEmail: email,
+                                              ),
+                                            );
+                                      },
+                                    ),
                                   );
-                                },
+                                }
+                              },
+                              isLoading: _isLoading,
+                              child: Text(
+                                'Realizar pagamento',
+                                style:
+                                    MPGTextStyles.of(context).mpgColoredButton,
                               ),
                             );
-                          }
-                        },
-                        // isLoading: _isLoading,
-                        child: Text(
-                          'Realizar pagamento',
-                          style: MPGTextStyles.of(context).mpgColoredButton,
+                          },
                         ),
                       ),
                       SizedBox(height: 50.h),

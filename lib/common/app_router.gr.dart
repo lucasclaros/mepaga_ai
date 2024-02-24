@@ -115,6 +115,17 @@ abstract class _$AppRouter extends RootStackRouter {
         child: const OnboardingView(),
       );
     },
+    PaymentRoute.name: (routeData) {
+      final args = routeData.argsAs<PaymentRouteArgs>();
+      return AutoRoutePage<dynamic>(
+        routeData: routeData,
+        child: PaymentPage(
+          key: args.key,
+          paymentCharge: args.paymentCharge,
+          platform: args.platform,
+        ),
+      );
+    },
     PaymentRegistrationRoute.name: (routeData) {
       final args = routeData.argsAs<PaymentRegistrationRouteArgs>();
       return AutoRoutePage<dynamic>(
@@ -516,6 +527,49 @@ class OnboardingRoute extends PageRouteInfo<void> {
   static const String name = 'OnboardingRoute';
 
   static const PageInfo<void> page = PageInfo<void>(name);
+}
+
+/// generated route for
+/// [PaymentPage]
+class PaymentRoute extends PageRouteInfo<PaymentRouteArgs> {
+  PaymentRoute({
+    Key? key,
+    required PaymentCharge paymentCharge,
+    required String platform,
+    List<PageRouteInfo>? children,
+  }) : super(
+          PaymentRoute.name,
+          args: PaymentRouteArgs(
+            key: key,
+            paymentCharge: paymentCharge,
+            platform: platform,
+          ),
+          initialChildren: children,
+        );
+
+  static const String name = 'PaymentRoute';
+
+  static const PageInfo<PaymentRouteArgs> page =
+      PageInfo<PaymentRouteArgs>(name);
+}
+
+class PaymentRouteArgs {
+  const PaymentRouteArgs({
+    this.key,
+    required this.paymentCharge,
+    required this.platform,
+  });
+
+  final Key? key;
+
+  final PaymentCharge paymentCharge;
+
+  final String platform;
+
+  @override
+  String toString() {
+    return 'PaymentRouteArgs{key: $key, paymentCharge: $paymentCharge, platform: $platform}';
+  }
 }
 
 /// generated route for

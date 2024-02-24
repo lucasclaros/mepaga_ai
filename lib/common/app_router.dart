@@ -1,4 +1,5 @@
 import 'package:auto_route/auto_route.dart';
+import 'package:domain/models/payment_charge.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_native_splash/flutter_native_splash.dart';
 import 'package:mepaga_ai/data/cache/data_source/online_cds.dart';
@@ -12,6 +13,7 @@ import 'package:mepaga_ai/presentation/home/screens/home/home_page.dart';
 import 'package:mepaga_ai/presentation/home/screens/profile/profile_page.dart';
 import 'package:mepaga_ai/presentation/logistics/buyer/add-email/add_buyer_email_page.dart';
 import 'package:mepaga_ai/presentation/logistics/buyer/buyer_page.dart';
+import 'package:mepaga_ai/presentation/logistics/buyer/payment/payment_page.dart';
 import 'package:mepaga_ai/presentation/logistics/seller/ticket_seller_page.dart';
 import 'package:mepaga_ai/presentation/onboarding/view/onboarding_view.dart';
 import 'package:mepaga_ai/presentation/registration/payment/payment_registration_page.dart';
@@ -98,6 +100,7 @@ class AppRouter extends _$AppRouter {
         MPGRoute(page: TicketSellerRoute.page, path: '/seller-ticket'),
         MPGRoute(page: BuyerRoute.page, path: '/ticket/:ticketId'),
         MPGRoute(page: AddBuyerEmailRoute.page, path: '/buyer-email'),
+        MPGRoute(page: PaymentRoute.page, path: '/payment'),
       ];
 }
 

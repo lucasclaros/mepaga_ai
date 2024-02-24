@@ -3,6 +3,7 @@ import 'package:domain/models/party.dart';
 import 'package:domain/models/ticket.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -42,14 +43,21 @@ class _TicketItemState extends State<TicketItem> {
           );
 
           if (res != null) {
-            SchedulerBinding.instance.addPostFrameCallback((_) {
-              showFlushbar(
-                context: context,
-                message: 'Ingresso cadastrado com sucesso!',
-                backgroundColor: Colors.green,
-                fontColor: Colors.white,
-              );
-            });
+            await Clipboard.setData(
+              ClipboardData(
+                text: 'https://mepaga.ai/ticket/${ticket.id}',
+              ),
+            ).then(
+              (_) => {
+                showFlushbar(
+                  context: context,
+                  title: 'Link de venda gerado com sucesso!',
+                  message: 'Link copiado para a área de transferência.',
+                  fontColor: Colors.white,
+                  backgroundColor: Colors.green,
+                ),
+              },
+            );
           }
         },
         child: Stack(

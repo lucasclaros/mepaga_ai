@@ -3,6 +3,7 @@
 import 'package:dio/dio.dart';
 import 'package:domain/exceptions.dart';
 import 'package:mepaga_ai/data/remote/infra/url_builder.dart';
+import 'package:mepaga_ai/data/remote/models/payment_charge_rm.dart';
 import 'package:mepaga_ai/data/remote/models/platform_rm.dart';
 import 'package:mepaga_ai/data/remote/models/ticket_rm.dart';
 import 'package:mepaga_ai/data/remote/models/user_rm.dart';
@@ -189,20 +190,42 @@ class UserRDS {
     required String email,
   }) async {
     try {
-      final response = await dio.post(
+      await dio.post(
         UrlBuilder.endpointBymaEmail,
         data: {
           'email': email,
         },
       );
-      print('Aqui ${response.data}');
     } catch (error) {
       if (error is DioException && error.response != null) {
         final statusCode = error.response!.statusCode;
-        print('Aqui error ${error.response!.data} $statusCode');
         if (statusCode == 404) {
           throw NoAccountFound();
         }
+      }
+      throw UnexpectedException(message: 'Something went wrong');
+    }
+  }
+
+  Future<PaymentChargeRM> getPaymentCharge({
+    required String ticketId,
+    required String transferEmail,
+  }) async {
+    try {
+      final response = await dio.post(
+        UrlBuilder.endpointPaymentCharge,
+        data: {
+          'ticket_id': ticketId,
+          'transfer_to': transferEmail,
+        },
+      );
+      final paymentCharge = PaymentChargeRM.fromJson(response.data);
+      return paymentCharge;
+    } catch (error) {
+      if (error is DioException && error.response != null) {
+        throw UnexpectedException(
+          message: error.response!.data['message'] ?? 'Something went wrong',
+        );
       }
       throw UnexpectedException(message: 'Something went wrong');
     }

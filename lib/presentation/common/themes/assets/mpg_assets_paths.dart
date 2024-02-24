@@ -101,4 +101,10 @@ class MPGAssetsPaths implements IAppAssetsPaths {
 
   @override
   String get walletIcon => getAssetPath('wallet.svg');
+
+  @override
+  String get copyClipboardIcon => getAssetPath('copy_clipboard_icon.svg');
+
+  @override
+  String get qrTest => getAssetPath('qr_test.png');
 }

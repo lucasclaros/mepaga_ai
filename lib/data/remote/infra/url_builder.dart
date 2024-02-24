@@ -45,4 +45,6 @@ class UrlBuilder {
       '$_hmlApi/tickets/$ticketId';
 
   static String get endpointBymaEmail => '$_hmlApi/byma/validate';
+
+  static String get endpointPaymentCharge => '$_hmlApi/payment/charge';
 }

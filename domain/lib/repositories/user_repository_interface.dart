@@ -1,3 +1,4 @@
+import 'package:domain/models/payment_charge.dart';
 import 'package:domain/models/platform.dart';
 import 'package:domain/models/ticket.dart';
 import 'package:domain/models/user.dart';
@@ -32,4 +33,9 @@ abstract class IUserRepositoryInterface {
   });
 
   Future<void> checkBymaEmail({required String email});
+
+  Future<PaymentCharge> getPaymentCharge({
+    required String ticketId,
+    required String transferEmail,
+  });
 }

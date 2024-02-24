@@ -3,6 +3,7 @@ import 'package:domain/logger.dart';
 import 'package:domain/use_cases/cache_jwt_uc.dart';
 import 'package:domain/use_cases/check_platform_uc.dart';
 import 'package:domain/use_cases/get_jwt_uc.dart';
+import 'package:domain/use_cases/get_payment_charge_uc.dart';
 import 'package:domain/use_cases/get_ticket_info.dart';
 import 'package:domain/use_cases/get_user_info_uc.dart';
 import 'package:domain/use_cases/get_user_platforms_uc.dart';
@@ -199,6 +200,12 @@ class _GeneralProviderState extends State<GeneralProvider> {
         ),
         ProxyProvider2<ErrorLogger, UserRepository, ValidateBymaEmailUC>(
           update: (_, logger, repository, __) => ValidateBymaEmailUC(
+            logger: logger,
+            repository: repository,
+          ),
+        ),
+        ProxyProvider2<ErrorLogger, UserRepository, GetPaymentChargeUC>(
+          update: (_, logger, repository, __) => GetPaymentChargeUC(
             logger: logger,
             repository: repository,
           ),
