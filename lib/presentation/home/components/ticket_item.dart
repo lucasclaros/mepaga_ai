@@ -2,7 +2,6 @@ import 'package:auto_route/auto_route.dart';
 import 'package:domain/models/party.dart';
 import 'package:domain/models/ticket.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/scheduler.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
