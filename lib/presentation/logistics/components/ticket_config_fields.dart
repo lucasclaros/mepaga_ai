@@ -48,14 +48,14 @@ class _TicketConfigFieldsState extends State<TicketConfigFields> {
   @override
   void initState() {
     super.initState();
-    _priceWithFee = (widget.currentPrice ?? 0) > 3 ? widget.currentPrice! : 0;
+    _priceWithFee = (widget.currentPrice ?? 0) > 1.5 ? widget.currentPrice! : 0;
     _priceWithNoFee = calculatePriceWithoutFee(_priceWithFee);
 
     if (_priceWithNoFee > 0) {
       _textController.value = PriceInputFormatter().formatEditUpdate(
         TextEditingValue.empty,
         TextEditingValue(
-          text: _priceWithNoFee > 3
+          text: _priceWithNoFee > 1.5
               ? _priceWithNoFee.toStringAsFixed(2)
               : _priceWithFee.toStringAsFixed(2),
         ),
@@ -180,7 +180,7 @@ class _TicketConfigFieldsState extends State<TicketConfigFields> {
                                         ),
                                       ),
                                       TextSpan(
-                                        text: 'R\$3,00.\n\n',
+                                        text: 'R\$1,50.\n\n',
                                         style: GoogleFonts.barlow(
                                           fontSize: 16.sp,
                                           fontWeight: FontWeight.w500,
