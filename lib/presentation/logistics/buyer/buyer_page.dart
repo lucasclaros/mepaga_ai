@@ -54,6 +54,7 @@ class _BuyerPageState extends State<BuyerPage> {
         getTicketInfoUC: context.read<GetTicketInfoUC>(),
         ticketPriceRegisterUC: context.read<TicketPriceRegisterUC>(),
         ticketId: widget.ticketId,
+        isBuy: true,
       ),
       child: MPGScaffold(
         child: BlocConsumer<TicketConfigurationBloc, TicketConfigurationState>(
@@ -115,15 +116,6 @@ class _BuyerPageState extends State<BuyerPage> {
                         maxLines: 1,
                       ),
                       SizedBox(height: 40.h),
-                      // AutoSizeText(
-                      //   'Valor final: R\$ ${_priceWithFee.toStringAsFixed(2)}',
-                      //   style: GoogleFonts.barlow(
-                      //     fontSize: 20,
-                      //     fontWeight: FontWeight.w700,
-                      //     color: const Color(0xFFFF5800),
-                      //   ),
-                      //   maxLines: 1,
-                      // ),
                       RichText(
                         text: TextSpan(
                           children: [

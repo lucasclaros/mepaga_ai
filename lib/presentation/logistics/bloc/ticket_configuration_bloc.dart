@@ -14,18 +14,25 @@ class TicketConfigurationBloc
     required this.getTicketInfoUC,
     required this.ticketPriceRegisterUC,
     this.ticketId,
+    this.isBuy = false,
   }) : super(TicketConfigurationInitial()) {
     on<GetTicketInfo>(_mapGetTicketInfoToState);
     on<RegisterTicketInfo>(_mapRegisterTicketInfoToState);
 
     if (ticketId != null) {
-      add(GetTicketInfo(ticketId: ticketId!));
+      add(
+        GetTicketInfo(
+          ticketId: ticketId!,
+          isBuy: isBuy,
+        ),
+      );
     }
   }
 
   final GetTicketInfoUC getTicketInfoUC;
   final TicketPriceRegisterUC ticketPriceRegisterUC;
   final String? ticketId;
+  final bool isBuy;
 
   Future<void> _mapGetTicketInfoToState(
     GetTicketInfo event,

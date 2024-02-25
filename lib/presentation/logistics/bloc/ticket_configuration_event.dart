@@ -4,9 +4,10 @@ part of 'ticket_configuration_bloc.dart';
 abstract class TicketConfigurationEvent {}
 
 class GetTicketInfo extends TicketConfigurationEvent {
-  GetTicketInfo({required this.ticketId});
+  GetTicketInfo({required this.ticketId, this.isBuy = false});
 
   final String ticketId;
+  final bool isBuy;
 }
 
 class RegisterTicketInfo extends TicketConfigurationEvent {

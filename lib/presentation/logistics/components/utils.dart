@@ -1,8 +1,6 @@
 import 'dart:math';
 
 double calculatePriceWithFee(double price) {
-  if (price == 0) return 0;
-
   final fee = max(1.5, price * 0.1);
   return price + fee;
 }
