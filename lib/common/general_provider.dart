@@ -3,6 +3,7 @@ import 'package:domain/logger.dart';
 import 'package:domain/use_cases/cache_jwt_uc.dart';
 import 'package:domain/use_cases/check_platform_uc.dart';
 import 'package:domain/use_cases/get_jwt_uc.dart';
+import 'package:domain/use_cases/get_payment_charge_uc.dart';
 import 'package:domain/use_cases/get_ticket_info.dart';
 import 'package:domain/use_cases/get_user_info_uc.dart';
 import 'package:domain/use_cases/get_user_platforms_uc.dart';
@@ -10,10 +11,11 @@ import 'package:domain/use_cases/get_user_tickets.dart';
 import 'package:domain/use_cases/otp_verification_uc.dart';
 import 'package:domain/use_cases/pix_register_uc.dart';
 import 'package:domain/use_cases/platform_register_uc.dart';
+import 'package:domain/use_cases/ticket_price_register_uc.dart';
 import 'package:domain/use_cases/user_login_uc.dart';
 import 'package:domain/use_cases/user_logout_uc.dart';
 import 'package:domain/use_cases/user_register_uc.dart';
-import 'package:domain/use_cases/ticket_price_register_uc.dart';
+import 'package:domain/use_cases/validate_byma_email_uc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:mepaga_ai/data/cache/data_source/online_cds.dart';
@@ -192,6 +194,18 @@ class _GeneralProviderState extends State<GeneralProvider> {
         ),
         ProxyProvider2<ErrorLogger, UserRepository, TicketPriceRegisterUC>(
           update: (_, logger, repository, __) => TicketPriceRegisterUC(
+            logger: logger,
+            repository: repository,
+          ),
+        ),
+        ProxyProvider2<ErrorLogger, UserRepository, ValidateBymaEmailUC>(
+          update: (_, logger, repository, __) => ValidateBymaEmailUC(
+            logger: logger,
+            repository: repository,
+          ),
+        ),
+        ProxyProvider2<ErrorLogger, UserRepository, GetPaymentChargeUC>(
+          update: (_, logger, repository, __) => GetPaymentChargeUC(
             logger: logger,
             repository: repository,
           ),

@@ -25,10 +25,13 @@ class MPGTextField extends StatefulWidget {
     this.height,
     this.errorText,
     this.prefixIcon,
+    this.suffixIcon,
     this.enabled,
     this.inputFormatters,
     this.scrollPadding,
     this.initialValue,
+    this.readOnly = false,
+    this.onSuffixIconPressed,
   });
 
   final String? hintText;
@@ -46,10 +49,13 @@ class MPGTextField extends StatefulWidget {
   final double? height;
   final String? errorText;
   final String? prefixIcon;
+  final String? suffixIcon;
   final bool? enabled;
   final List<TextInputFormatter>? inputFormatters;
   final EdgeInsets? scrollPadding;
   final String? initialValue;
+  final bool readOnly;
+  final VoidCallback? onSuffixIconPressed;
 
   @override
   State<MPGTextField> createState() => _MPGTextFieldState();
@@ -70,6 +76,14 @@ class _MPGTextFieldState extends State<MPGTextField> {
     } else {
       return MPGAssetsPaths.of(context).emailIcon;
     }
+  }
+
+  String getSuffixIcon() {
+    if (widget.suffixIcon != null) {
+      return widget.suffixIcon!;
+    }
+
+    return '';
   }
 
   @override
@@ -112,6 +126,7 @@ class _MPGTextFieldState extends State<MPGTextField> {
               }),
             },
             initialValue: widget.initialValue,
+            readOnly: widget.readOnly,
             validator: widget.validator,
             onEditingComplete: widget.onEditingComplete,
             onTap: widget.onTap,
@@ -135,24 +150,32 @@ class _MPGTextFieldState extends State<MPGTextField> {
                 color:
                     widget.errorText == null ? null : const Color(0xffd30000),
               ),
-              suffixIcon: widget.isPassword && !_isFieldEmpty
+              suffixIcon: widget.suffixIcon != null
                   ? IconButton(
-                      splashRadius: 0.01,
                       icon: SvgPicture.asset(
-                        _hidePassword
-                            ? MPGAssetsPaths.of(context).passwordEyeNotVisible
-                            : MPGAssetsPaths.of(context).passwordEyeVisible,
-                        color: widget.errorText == null
-                            ? null
-                            : const Color(0xffd30000),
+                        widget.suffixIcon!,
                       ),
-                      onPressed: () {
-                        setState(() {
-                          _hidePassword = !_hidePassword;
-                        });
-                      },
+                      onPressed: widget.onSuffixIconPressed,
                     )
-                  : null,
+                  : widget.isPassword && !_isFieldEmpty
+                      ? IconButton(
+                          splashRadius: 0.01,
+                          icon: SvgPicture.asset(
+                            _hidePassword
+                                ? MPGAssetsPaths.of(context)
+                                    .passwordEyeNotVisible
+                                : MPGAssetsPaths.of(context).passwordEyeVisible,
+                            color: widget.errorText == null
+                                ? null
+                                : const Color(0xffd30000),
+                          ),
+                          onPressed: () {
+                            setState(() {
+                              _hidePassword = !_hidePassword;
+                            });
+                          },
+                        )
+                      : null,
               errorText: widget.errorText,
               errorStyle: GoogleFonts.barlow(
                 color: const Color(0xffd30000),
@@ -180,6 +203,14 @@ class _MPGTextFieldState extends State<MPGTextField> {
                 ),
                 borderRadius: BorderRadius.circular(10),
               ),
+              // disabledBorder: widget.disabledBorder
+              //     ? OutlineInputBorder(
+              //         borderSide: const BorderSide(
+              //           color: Color(0xff9c9c9c),
+              //         ),
+              //         borderRadius: BorderRadius.circular(10),
+              //       )
+              //     : null,
               focusedBorder: OutlineInputBorder(
                 borderSide: BorderSide(
                   color: ResponsiveLayout.isDesktop(context)

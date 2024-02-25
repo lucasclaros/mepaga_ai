@@ -270,7 +270,27 @@ class _HomePageState extends State<HomePage> {
                                 noItemsFoundIndicatorBuilder: (context) =>
                                     Padding(
                                   padding: EdgeInsets.only(top: 50.h),
-                                  child: const NoTicketsEmptyState(),
+                                  child: Column(
+                                    children: [
+                                      const NoTicketsEmptyState(),
+                                      const SizedBox(height: 20),
+                                      MPGButton(
+                                        gradient: MPGColors.of(context)
+                                            .mpgButtonWhitedGradient,
+                                        onPressed: () {
+                                          _pagingController.refresh();
+                                          context
+                                              .read<HomeBloc>()
+                                              .add(UserInfo());
+                                        },
+                                        child: Text(
+                                          'Atualizar',
+                                          style: MPGTextStyles.of(context)
+                                              .mpgWhitedButton,
+                                        ),
+                                      ),
+                                    ],
+                                  ),
                                 ),
                               ),
                             ),

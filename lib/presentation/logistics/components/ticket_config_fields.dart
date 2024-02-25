@@ -1,9 +1,12 @@
+// ignore_for_file: lines_longer_than_80_chars
+
 import 'dart:math';
 
 import 'package:domain/use_cases/get_ticket_info.dart';
 import 'package:domain/use_cases/ticket_price_register_uc.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
@@ -15,8 +18,8 @@ import 'package:mepaga_ai/presentation/common/themes/assets/mpg_assets_paths.dar
 import 'package:mepaga_ai/presentation/common/themes/colors/mpg_colors.dart';
 import 'package:mepaga_ai/presentation/common/themes/text_styles/mpg_text_styles.dart';
 import 'package:mepaga_ai/presentation/common/utils.dart';
-import 'package:mepaga_ai/presentation/seller/bloc/ticket_configuration_bloc.dart';
-import 'package:mepaga_ai/presentation/seller/components/utils.dart';
+import 'package:mepaga_ai/presentation/logistics/bloc/ticket_configuration_bloc.dart';
+import 'package:mepaga_ai/presentation/logistics/components/utils.dart';
 import 'package:styled_text/styled_text.dart';
 
 class TicketConfigFields extends StatefulWidget {
@@ -45,14 +48,14 @@ class _TicketConfigFieldsState extends State<TicketConfigFields> {
   @override
   void initState() {
     super.initState();
-    _priceWithFee = (widget.currentPrice ?? 0) > 3 ? widget.currentPrice! : 0;
+    _priceWithFee = (widget.currentPrice ?? 0) > 1.5 ? widget.currentPrice! : 0;
     _priceWithNoFee = calculatePriceWithoutFee(_priceWithFee);
 
     if (_priceWithNoFee > 0) {
       _textController.value = PriceInputFormatter().formatEditUpdate(
         TextEditingValue.empty,
         TextEditingValue(
-          text: _priceWithNoFee > 3
+          text: _priceWithNoFee > 1.5
               ? _priceWithNoFee.toStringAsFixed(2)
               : _priceWithFee.toStringAsFixed(2),
         ),
@@ -68,9 +71,9 @@ class _TicketConfigFieldsState extends State<TicketConfigFields> {
         ticketPriceRegisterUC: context.read<TicketPriceRegisterUC>(),
       ),
       child: BlocConsumer<TicketConfigurationBloc, TicketConfigurationState>(
-        listener: (context, state) {
+        listener: (context, state) async {
           if (state is TicketAlreadySold) {
-            showFlushbar(
+            await showFlushbar(
               context: context,
               message: 'Ingresso já vendido',
               backgroundColor: Colors.red,
@@ -161,12 +164,42 @@ class _TicketConfigFieldsState extends State<TicketConfigFields> {
                             showMPGBottomSheet(
                               context: context,
                               title: 'Por que o preço está maior?',
-                              description:
-                                  'Para que seja possível operar o Me Paga Aí é necessário que haja um pequeno lucro sobre toda venda realizada pelo app.\n\n'
-                                  'A taxa é atual é 10% por ingresso, isso significa que se você quiser vender um ingresso a '
-                                  'R\,00 (por exemplo) o preço que será passado para o comprador será R\,00.\n\n'
-                                  'Assim, você recebe o quanto está pedindo enquanto oferecemos a segurança necessária.\n\n'
-                                  r'A taxa mínima é R$3,00.',
+                              descriptionWidget: Padding(
+                                padding: EdgeInsets.symmetric(horizontal: 10.w),
+                                child: RichText(
+                                  textAlign: TextAlign.center,
+                                  text: TextSpan(
+                                    children: [
+                                      TextSpan(
+                                        text:
+                                            'Cobramos uma taxa de 10% para cobrir os custos operacionais e permitir que suas vendas sejam feitas de forma segura.\n A taxa mínima é de ',
+                                        style: GoogleFonts.barlow(
+                                          fontSize: 16,
+                                          fontWeight: FontWeight.w500,
+                                          color: Colors.white,
+                                        ),
+                                      ),
+                                      TextSpan(
+                                        text: 'R\$1,50.\n\n',
+                                        style: GoogleFonts.barlow(
+                                          fontSize: 16.sp,
+                                          fontWeight: FontWeight.w500,
+                                          color: const Color(0xFFFF5800),
+                                        ),
+                                      ),
+                                      TextSpan(
+                                        text:
+                                            'Você receberá o valor que digitou no ingresso, e a taxa será cobrada apenas do comprador.',
+                                        style: GoogleFonts.barlow(
+                                          fontSize: 16,
+                                          fontWeight: FontWeight.w500,
+                                          color: Colors.white,
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                              ),
                               buttonText: 'Entendi',
                             );
                           },
@@ -191,7 +224,7 @@ class _TicketConfigFieldsState extends State<TicketConfigFields> {
                 gradient: _textController.text.isNotEmpty
                     ? MPGColors.of(context).mpgButtonColoredGradient
                     : MPGColors.of(context).mpgButtonColoredGradientDisabled,
-                onPressed: () {
+                onPressed: () async {
                   if (_textController.text.isNotEmpty) {
                     context.read<TicketConfigurationBloc>().add(
                           RegisterTicketInfo(

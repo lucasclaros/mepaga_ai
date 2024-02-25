@@ -114,6 +114,10 @@ abstract class IAppAssetsPaths {
   String get ticketPlaceholder;
 
   String get walletIcon;
+
+  String get copyClipboardIcon;
+
+  String get qrTest;
 }
 
 abstract class AppThemeInterface {

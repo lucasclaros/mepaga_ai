@@ -1,3 +1,4 @@
+import 'package:domain/models/payment_charge.dart';
 import 'package:domain/models/platform.dart';
 import 'package:domain/models/ticket.dart';
 import 'package:domain/models/user.dart';
@@ -78,5 +79,23 @@ class UserRepository implements IUserRepositoryInterface {
       ticketId: ticketId,
       ticketPrice: ticketPrice,
     );
+  }
+
+  @override
+  Future<void> checkBymaEmail({required String email}) async {
+    await rds.checkBymaEmail(email: email);
+  }
+
+  @override
+  Future<PaymentCharge> getPaymentCharge({
+    required String ticketId,
+    required String transferEmail,
+  }) async {
+    final paymentCharge = await rds.getPaymentCharge(
+      ticketId: ticketId,
+      transferEmail: transferEmail,
+    );
+
+    return paymentCharge.toDM();
   }
 }

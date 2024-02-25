@@ -15,6 +15,18 @@ abstract class _$AppRouter extends RootStackRouter {
 
   @override
   final Map<String, PageFactory> pagesMap = {
+    AddBuyerEmailRoute.name: (routeData) {
+      final args = routeData.argsAs<AddBuyerEmailRouteArgs>();
+      return AutoRoutePage<dynamic>(
+        routeData: routeData,
+        child: AddBuyerEmailPage(
+          key: args.key,
+          ticketId: args.ticketId,
+          platform: args.platform,
+          onEmailAdded: args.onEmailAdded,
+        ),
+      );
+    },
     AddEmailPlatformRoute.name: (routeData) {
       final args = routeData.argsAs<AddEmailPlatformRouteArgs>();
       return AutoRoutePage<dynamic>(
@@ -34,6 +46,19 @@ abstract class _$AppRouter extends RootStackRouter {
         child: BottomNavbarWrapper(
           key: args.key,
           showFlushbar: args.showFlushbar,
+        ),
+      );
+    },
+    BuyerRoute.name: (routeData) {
+      final pathParams = routeData.inheritedPathParams;
+      final args = routeData.argsAs<BuyerRouteArgs>(
+          orElse: () =>
+              BuyerRouteArgs(ticketId: pathParams.getString('ticketId')));
+      return AutoRoutePage<dynamic>(
+        routeData: routeData,
+        child: BuyerPage(
+          key: args.key,
+          ticketId: args.ticketId,
         ),
       );
     },
@@ -88,6 +113,17 @@ abstract class _$AppRouter extends RootStackRouter {
       return AutoRoutePage<dynamic>(
         routeData: routeData,
         child: const OnboardingView(),
+      );
+    },
+    PaymentRoute.name: (routeData) {
+      final args = routeData.argsAs<PaymentRouteArgs>();
+      return AutoRoutePage<dynamic>(
+        routeData: routeData,
+        child: PaymentPage(
+          key: args.key,
+          paymentCharge: args.paymentCharge,
+          platform: args.platform,
+        ),
       );
     },
     PaymentRegistrationRoute.name: (routeData) {
@@ -171,6 +207,54 @@ abstract class _$AppRouter extends RootStackRouter {
 }
 
 /// generated route for
+/// [AddBuyerEmailPage]
+class AddBuyerEmailRoute extends PageRouteInfo<AddBuyerEmailRouteArgs> {
+  AddBuyerEmailRoute({
+    Key? key,
+    required String ticketId,
+    required String platform,
+    required dynamic Function(String) onEmailAdded,
+    List<PageRouteInfo>? children,
+  }) : super(
+          AddBuyerEmailRoute.name,
+          args: AddBuyerEmailRouteArgs(
+            key: key,
+            ticketId: ticketId,
+            platform: platform,
+            onEmailAdded: onEmailAdded,
+          ),
+          initialChildren: children,
+        );
+
+  static const String name = 'AddBuyerEmailRoute';
+
+  static const PageInfo<AddBuyerEmailRouteArgs> page =
+      PageInfo<AddBuyerEmailRouteArgs>(name);
+}
+
+class AddBuyerEmailRouteArgs {
+  const AddBuyerEmailRouteArgs({
+    this.key,
+    required this.ticketId,
+    required this.platform,
+    required this.onEmailAdded,
+  });
+
+  final Key? key;
+
+  final String ticketId;
+
+  final String platform;
+
+  final dynamic Function(String) onEmailAdded;
+
+  @override
+  String toString() {
+    return 'AddBuyerEmailRouteArgs{key: $key, ticketId: $ticketId, platform: $platform, onEmailAdded: $onEmailAdded}';
+  }
+}
+
+/// generated route for
 /// [AddEmailPlatformView]
 class AddEmailPlatformRoute extends PageRouteInfo<AddEmailPlatformRouteArgs> {
   AddEmailPlatformRoute({
@@ -248,6 +332,44 @@ class BottomNavbarRouteArgs {
   @override
   String toString() {
     return 'BottomNavbarRouteArgs{key: $key, showFlushbar: $showFlushbar}';
+  }
+}
+
+/// generated route for
+/// [BuyerPage]
+class BuyerRoute extends PageRouteInfo<BuyerRouteArgs> {
+  BuyerRoute({
+    Key? key,
+    required String ticketId,
+    List<PageRouteInfo>? children,
+  }) : super(
+          BuyerRoute.name,
+          args: BuyerRouteArgs(
+            key: key,
+            ticketId: ticketId,
+          ),
+          rawPathParams: {'ticketId': ticketId},
+          initialChildren: children,
+        );
+
+  static const String name = 'BuyerRoute';
+
+  static const PageInfo<BuyerRouteArgs> page = PageInfo<BuyerRouteArgs>(name);
+}
+
+class BuyerRouteArgs {
+  const BuyerRouteArgs({
+    this.key,
+    required this.ticketId,
+  });
+
+  final Key? key;
+
+  final String ticketId;
+
+  @override
+  String toString() {
+    return 'BuyerRouteArgs{key: $key, ticketId: $ticketId}';
   }
 }
 
@@ -405,6 +527,49 @@ class OnboardingRoute extends PageRouteInfo<void> {
   static const String name = 'OnboardingRoute';
 
   static const PageInfo<void> page = PageInfo<void>(name);
+}
+
+/// generated route for
+/// [PaymentPage]
+class PaymentRoute extends PageRouteInfo<PaymentRouteArgs> {
+  PaymentRoute({
+    Key? key,
+    required PaymentCharge paymentCharge,
+    required String platform,
+    List<PageRouteInfo>? children,
+  }) : super(
+          PaymentRoute.name,
+          args: PaymentRouteArgs(
+            key: key,
+            paymentCharge: paymentCharge,
+            platform: platform,
+          ),
+          initialChildren: children,
+        );
+
+  static const String name = 'PaymentRoute';
+
+  static const PageInfo<PaymentRouteArgs> page =
+      PageInfo<PaymentRouteArgs>(name);
+}
+
+class PaymentRouteArgs {
+  const PaymentRouteArgs({
+    this.key,
+    required this.paymentCharge,
+    required this.platform,
+  });
+
+  final Key? key;
+
+  final PaymentCharge paymentCharge;
+
+  final String platform;
+
+  @override
+  String toString() {
+    return 'PaymentRouteArgs{key: $key, paymentCharge: $paymentCharge, platform: $platform}';
+  }
 }
 
 /// generated route for
