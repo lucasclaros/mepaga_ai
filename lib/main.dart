@@ -21,7 +21,11 @@ class Log {
     dynamic error, [
     StackTrace? stackTrace,
   ]) async {
-    logger.e(errorType, error, stackTrace);
+    logger.e(
+      errorType,
+      error: error,
+      stackTrace: stackTrace,
+    );
   }
 }
 

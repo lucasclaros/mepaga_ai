@@ -1,3 +1,4 @@
+// dart format width=80
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
 // **************************************************************************
@@ -8,203 +9,6 @@
 // coverage:ignore-file
 
 part of 'app_router.dart';
-
-abstract class _$AppRouter extends RootStackRouter {
-  // ignore: unused_element
-  _$AppRouter({super.navigatorKey});
-
-  @override
-  final Map<String, PageFactory> pagesMap = {
-    AddBuyerEmailRoute.name: (routeData) {
-      final args = routeData.argsAs<AddBuyerEmailRouteArgs>();
-      return AutoRoutePage<dynamic>(
-        routeData: routeData,
-        child: AddBuyerEmailPage(
-          key: args.key,
-          ticketId: args.ticketId,
-          platform: args.platform,
-          onEmailAdded: args.onEmailAdded,
-        ),
-      );
-    },
-    AddEmailPlatformRoute.name: (routeData) {
-      final args = routeData.argsAs<AddEmailPlatformRouteArgs>();
-      return AutoRoutePage<dynamic>(
-        routeData: routeData,
-        child: AddEmailPlatformView(
-          key: args.key,
-          platform: args.platform,
-          onSuccess: args.onSuccess,
-        ),
-      );
-    },
-    BottomNavbarRoute.name: (routeData) {
-      final args = routeData.argsAs<BottomNavbarRouteArgs>(
-          orElse: () => const BottomNavbarRouteArgs());
-      return AutoRoutePage<dynamic>(
-        routeData: routeData,
-        child: BottomNavbarWrapper(
-          key: args.key,
-          showFlushbar: args.showFlushbar,
-        ),
-      );
-    },
-    BuyerRoute.name: (routeData) {
-      final pathParams = routeData.inheritedPathParams;
-      final args = routeData.argsAs<BuyerRouteArgs>(
-          orElse: () =>
-              BuyerRouteArgs(ticketId: pathParams.getString('ticketId')));
-      return AutoRoutePage<dynamic>(
-        routeData: routeData,
-        child: BuyerPage(
-          key: args.key,
-          ticketId: args.ticketId,
-        ),
-      );
-    },
-    EmptyRouterRoute.name: (routeData) {
-      return AutoRoutePage<dynamic>(
-        routeData: routeData,
-        child: const EmptyRouterPage(),
-      );
-    },
-    HomeRoute.name: (routeData) {
-      final args =
-          routeData.argsAs<HomeRouteArgs>(orElse: () => const HomeRouteArgs());
-      return AutoRoutePage<dynamic>(
-        routeData: routeData,
-        child: HomePage(
-          key: args.key,
-          showFlushbar: args.showFlushbar,
-        ),
-      );
-    },
-    HomeTab.name: (routeData) {
-      return AutoRoutePage<dynamic>(
-        routeData: routeData,
-        child: const HomeTabPage(),
-      );
-    },
-    LoginRoute.name: (routeData) {
-      return AutoRoutePage<dynamic>(
-        routeData: routeData,
-        child: const LoginView(),
-      );
-    },
-    OTPPlatformVerificationRoute.name: (routeData) {
-      final args = routeData.argsAs<OTPPlatformVerificationRouteArgs>();
-      return AutoRoutePage<dynamic>(
-        routeData: routeData,
-        child: OTPPlatformVerificationView(
-          key: args.key,
-          platform: args.platform,
-          onSuccess: args.onSuccess,
-          email: args.email,
-        ),
-      );
-    },
-    OTPVerificationRoute.name: (routeData) {
-      return AutoRoutePage<dynamic>(
-        routeData: routeData,
-        child: const OTPVerificationView(),
-      );
-    },
-    OnboardingRoute.name: (routeData) {
-      return AutoRoutePage<dynamic>(
-        routeData: routeData,
-        child: const OnboardingView(),
-      );
-    },
-    PaymentRoute.name: (routeData) {
-      final args = routeData.argsAs<PaymentRouteArgs>();
-      return AutoRoutePage<dynamic>(
-        routeData: routeData,
-        child: PaymentPage(
-          key: args.key,
-          paymentCharge: args.paymentCharge,
-          platform: args.platform,
-        ),
-      );
-    },
-    PaymentRegistrationRoute.name: (routeData) {
-      final args = routeData.argsAs<PaymentRegistrationRouteArgs>();
-      return AutoRoutePage<dynamic>(
-        routeData: routeData,
-        child: PaymentRegistrationPage(
-          key: args.key,
-          onSuccess: args.onSuccess,
-        ),
-      );
-    },
-    PlatformRegistrationRoute.name: (routeData) {
-      return AutoRoutePage<dynamic>(
-        routeData: routeData,
-        child: const PlatformRegistrationView(),
-      );
-    },
-    PlatformTab.name: (routeData) {
-      return AutoRoutePage<dynamic>(
-        routeData: routeData,
-        child: const PlatofrmTabPage(),
-      );
-    },
-    ProfileRoute.name: (routeData) {
-      return AutoRoutePage<dynamic>(
-        routeData: routeData,
-        child: const ProfilePage(),
-      );
-    },
-    ProfileTab.name: (routeData) {
-      final args = routeData.argsAs<ProfileTabArgs>();
-      return AutoRoutePage<dynamic>(
-        routeData: routeData,
-        child: ProfileTabPage(
-          onPop: args.onPop,
-          key: args.key,
-        ),
-      );
-    },
-    RegisterEmailRoute.name: (routeData) {
-      return AutoRoutePage<dynamic>(
-        routeData: routeData,
-        child: const RegisterEmailView(),
-      );
-    },
-    RegisterPasswordRoute.name: (routeData) {
-      return AutoRoutePage<dynamic>(
-        routeData: routeData,
-        child: const RegisterPasswordView(),
-      );
-    },
-    TicketSellerRoute.name: (routeData) {
-      final args = routeData.argsAs<TicketSellerRouteArgs>();
-      return AutoRoutePage<dynamic>(
-        routeData: routeData,
-        child: TicketSellerPage(
-          key: args.key,
-          ticketId: args.ticketId,
-          isBuy: args.isBuy,
-        ),
-      );
-    },
-    TransferOrientationRoute.name: (routeData) {
-      final args = routeData.argsAs<TransferOrientationRouteArgs>();
-      return AutoRoutePage<dynamic>(
-        routeData: routeData,
-        child: TransferOrientationPage(
-          key: args.key,
-          platform: args.platform,
-        ),
-      );
-    },
-    WelcomeRoute.name: (routeData) {
-      return AutoRoutePage<dynamic>(
-        routeData: routeData,
-        child: const WelcomePage(),
-      );
-    },
-  };
-}
 
 /// generated route for
 /// [AddBuyerEmailPage]
@@ -228,8 +32,18 @@ class AddBuyerEmailRoute extends PageRouteInfo<AddBuyerEmailRouteArgs> {
 
   static const String name = 'AddBuyerEmailRoute';
 
-  static const PageInfo<AddBuyerEmailRouteArgs> page =
-      PageInfo<AddBuyerEmailRouteArgs>(name);
+  static PageInfo page = PageInfo(
+    name,
+    builder: (data) {
+      final args = data.argsAs<AddBuyerEmailRouteArgs>();
+      return AddBuyerEmailPage(
+        key: args.key,
+        ticketId: args.ticketId,
+        platform: args.platform,
+        onEmailAdded: args.onEmailAdded,
+      );
+    },
+  );
 }
 
 class AddBuyerEmailRouteArgs {
@@ -252,6 +66,18 @@ class AddBuyerEmailRouteArgs {
   String toString() {
     return 'AddBuyerEmailRouteArgs{key: $key, ticketId: $ticketId, platform: $platform, onEmailAdded: $onEmailAdded}';
   }
+
+  @override
+  bool operator ==(Object other) {
+    if (identical(this, other)) return true;
+    if (other is! AddBuyerEmailRouteArgs) return false;
+    return key == other.key &&
+        ticketId == other.ticketId &&
+        platform == other.platform;
+  }
+
+  @override
+  int get hashCode => key.hashCode ^ ticketId.hashCode ^ platform.hashCode;
 }
 
 /// generated route for
@@ -274,8 +100,17 @@ class AddEmailPlatformRoute extends PageRouteInfo<AddEmailPlatformRouteArgs> {
 
   static const String name = 'AddEmailPlatformRoute';
 
-  static const PageInfo<AddEmailPlatformRouteArgs> page =
-      PageInfo<AddEmailPlatformRouteArgs>(name);
+  static PageInfo page = PageInfo(
+    name,
+    builder: (data) {
+      final args = data.argsAs<AddEmailPlatformRouteArgs>();
+      return AddEmailPlatformView(
+        key: args.key,
+        platform: args.platform,
+        onSuccess: args.onSuccess,
+      );
+    },
+  );
 }
 
 class AddEmailPlatformRouteArgs {
@@ -295,6 +130,16 @@ class AddEmailPlatformRouteArgs {
   String toString() {
     return 'AddEmailPlatformRouteArgs{key: $key, platform: $platform, onSuccess: $onSuccess}';
   }
+
+  @override
+  bool operator ==(Object other) {
+    if (identical(this, other)) return true;
+    if (other is! AddEmailPlatformRouteArgs) return false;
+    return key == other.key && platform == other.platform;
+  }
+
+  @override
+  int get hashCode => key.hashCode ^ platform.hashCode;
 }
 
 /// generated route for
@@ -306,24 +151,28 @@ class BottomNavbarRoute extends PageRouteInfo<BottomNavbarRouteArgs> {
     List<PageRouteInfo>? children,
   }) : super(
           BottomNavbarRoute.name,
-          args: BottomNavbarRouteArgs(
-            key: key,
-            showFlushbar: showFlushbar,
-          ),
+          args: BottomNavbarRouteArgs(key: key, showFlushbar: showFlushbar),
           initialChildren: children,
         );
 
   static const String name = 'BottomNavbarRoute';
 
-  static const PageInfo<BottomNavbarRouteArgs> page =
-      PageInfo<BottomNavbarRouteArgs>(name);
+  static PageInfo page = PageInfo(
+    name,
+    builder: (data) {
+      final args = data.argsAs<BottomNavbarRouteArgs>(
+        orElse: () => const BottomNavbarRouteArgs(),
+      );
+      return BottomNavbarWrapper(
+        key: args.key,
+        showFlushbar: args.showFlushbar,
+      );
+    },
+  );
 }
 
 class BottomNavbarRouteArgs {
-  const BottomNavbarRouteArgs({
-    this.key,
-    this.showFlushbar = false,
-  });
+  const BottomNavbarRouteArgs({this.key, this.showFlushbar = false});
 
   final Key? key;
 
@@ -333,6 +182,16 @@ class BottomNavbarRouteArgs {
   String toString() {
     return 'BottomNavbarRouteArgs{key: $key, showFlushbar: $showFlushbar}';
   }
+
+  @override
+  bool operator ==(Object other) {
+    if (identical(this, other)) return true;
+    if (other is! BottomNavbarRouteArgs) return false;
+    return key == other.key && showFlushbar == other.showFlushbar;
+  }
+
+  @override
+  int get hashCode => key.hashCode ^ showFlushbar.hashCode;
 }
 
 /// generated route for
@@ -344,24 +203,28 @@ class BuyerRoute extends PageRouteInfo<BuyerRouteArgs> {
     List<PageRouteInfo>? children,
   }) : super(
           BuyerRoute.name,
-          args: BuyerRouteArgs(
-            key: key,
-            ticketId: ticketId,
-          ),
+          args: BuyerRouteArgs(key: key, ticketId: ticketId),
           rawPathParams: {'ticketId': ticketId},
           initialChildren: children,
         );
 
   static const String name = 'BuyerRoute';
 
-  static const PageInfo<BuyerRouteArgs> page = PageInfo<BuyerRouteArgs>(name);
+  static PageInfo page = PageInfo(
+    name,
+    builder: (data) {
+      final pathParams = data.inheritedPathParams;
+      final args = data.argsAs<BuyerRouteArgs>(
+        orElse: () =>
+            BuyerRouteArgs(ticketId: pathParams.getString('ticketId')),
+      );
+      return BuyerPage(key: args.key, ticketId: args.ticketId);
+    },
+  );
 }
 
 class BuyerRouteArgs {
-  const BuyerRouteArgs({
-    this.key,
-    required this.ticketId,
-  });
+  const BuyerRouteArgs({this.key, required this.ticketId});
 
   final Key? key;
 
@@ -371,20 +234,32 @@ class BuyerRouteArgs {
   String toString() {
     return 'BuyerRouteArgs{key: $key, ticketId: $ticketId}';
   }
+
+  @override
+  bool operator ==(Object other) {
+    if (identical(this, other)) return true;
+    if (other is! BuyerRouteArgs) return false;
+    return key == other.key && ticketId == other.ticketId;
+  }
+
+  @override
+  int get hashCode => key.hashCode ^ ticketId.hashCode;
 }
 
 /// generated route for
 /// [EmptyRouterPage]
 class EmptyRouterRoute extends PageRouteInfo<void> {
   const EmptyRouterRoute({List<PageRouteInfo>? children})
-      : super(
-          EmptyRouterRoute.name,
-          initialChildren: children,
-        );
+      : super(EmptyRouterRoute.name, initialChildren: children);
 
   static const String name = 'EmptyRouterRoute';
 
-  static const PageInfo<void> page = PageInfo<void>(name);
+  static PageInfo page = PageInfo(
+    name,
+    builder: (data) {
+      return const EmptyRouterPage();
+    },
+  );
 }
 
 /// generated route for
@@ -396,23 +271,25 @@ class HomeRoute extends PageRouteInfo<HomeRouteArgs> {
     List<PageRouteInfo>? children,
   }) : super(
           HomeRoute.name,
-          args: HomeRouteArgs(
-            key: key,
-            showFlushbar: showFlushbar,
-          ),
+          args: HomeRouteArgs(key: key, showFlushbar: showFlushbar),
           initialChildren: children,
         );
 
   static const String name = 'HomeRoute';
 
-  static const PageInfo<HomeRouteArgs> page = PageInfo<HomeRouteArgs>(name);
+  static PageInfo page = PageInfo(
+    name,
+    builder: (data) {
+      final args = data.argsAs<HomeRouteArgs>(
+        orElse: () => const HomeRouteArgs(),
+      );
+      return HomePage(key: args.key, showFlushbar: args.showFlushbar);
+    },
+  );
 }
 
 class HomeRouteArgs {
-  const HomeRouteArgs({
-    this.key,
-    this.showFlushbar = false,
-  });
+  const HomeRouteArgs({this.key, this.showFlushbar = false});
 
   final Key? key;
 
@@ -422,34 +299,48 @@ class HomeRouteArgs {
   String toString() {
     return 'HomeRouteArgs{key: $key, showFlushbar: $showFlushbar}';
   }
+
+  @override
+  bool operator ==(Object other) {
+    if (identical(this, other)) return true;
+    if (other is! HomeRouteArgs) return false;
+    return key == other.key && showFlushbar == other.showFlushbar;
+  }
+
+  @override
+  int get hashCode => key.hashCode ^ showFlushbar.hashCode;
 }
 
 /// generated route for
 /// [HomeTabPage]
 class HomeTab extends PageRouteInfo<void> {
   const HomeTab({List<PageRouteInfo>? children})
-      : super(
-          HomeTab.name,
-          initialChildren: children,
-        );
+      : super(HomeTab.name, initialChildren: children);
 
   static const String name = 'HomeTab';
 
-  static const PageInfo<void> page = PageInfo<void>(name);
+  static PageInfo page = PageInfo(
+    name,
+    builder: (data) {
+      return const HomeTabPage();
+    },
+  );
 }
 
 /// generated route for
 /// [LoginView]
 class LoginRoute extends PageRouteInfo<void> {
   const LoginRoute({List<PageRouteInfo>? children})
-      : super(
-          LoginRoute.name,
-          initialChildren: children,
-        );
+      : super(LoginRoute.name, initialChildren: children);
 
   static const String name = 'LoginRoute';
 
-  static const PageInfo<void> page = PageInfo<void>(name);
+  static PageInfo page = PageInfo(
+    name,
+    builder: (data) {
+      return const LoginView();
+    },
+  );
 }
 
 /// generated route for
@@ -475,8 +366,18 @@ class OTPPlatformVerificationRoute
 
   static const String name = 'OTPPlatformVerificationRoute';
 
-  static const PageInfo<OTPPlatformVerificationRouteArgs> page =
-      PageInfo<OTPPlatformVerificationRouteArgs>(name);
+  static PageInfo page = PageInfo(
+    name,
+    builder: (data) {
+      final args = data.argsAs<OTPPlatformVerificationRouteArgs>();
+      return OTPPlatformVerificationView(
+        key: args.key,
+        platform: args.platform,
+        onSuccess: args.onSuccess,
+        email: args.email,
+      );
+    },
+  );
 }
 
 class OTPPlatformVerificationRouteArgs {
@@ -499,34 +400,50 @@ class OTPPlatformVerificationRouteArgs {
   String toString() {
     return 'OTPPlatformVerificationRouteArgs{key: $key, platform: $platform, onSuccess: $onSuccess, email: $email}';
   }
+
+  @override
+  bool operator ==(Object other) {
+    if (identical(this, other)) return true;
+    if (other is! OTPPlatformVerificationRouteArgs) return false;
+    return key == other.key &&
+        platform == other.platform &&
+        email == other.email;
+  }
+
+  @override
+  int get hashCode => key.hashCode ^ platform.hashCode ^ email.hashCode;
 }
 
 /// generated route for
 /// [OTPVerificationView]
 class OTPVerificationRoute extends PageRouteInfo<void> {
   const OTPVerificationRoute({List<PageRouteInfo>? children})
-      : super(
-          OTPVerificationRoute.name,
-          initialChildren: children,
-        );
+      : super(OTPVerificationRoute.name, initialChildren: children);
 
   static const String name = 'OTPVerificationRoute';
 
-  static const PageInfo<void> page = PageInfo<void>(name);
+  static PageInfo page = PageInfo(
+    name,
+    builder: (data) {
+      return const OTPVerificationView();
+    },
+  );
 }
 
 /// generated route for
 /// [OnboardingView]
 class OnboardingRoute extends PageRouteInfo<void> {
   const OnboardingRoute({List<PageRouteInfo>? children})
-      : super(
-          OnboardingRoute.name,
-          initialChildren: children,
-        );
+      : super(OnboardingRoute.name, initialChildren: children);
 
   static const String name = 'OnboardingRoute';
 
-  static const PageInfo<void> page = PageInfo<void>(name);
+  static PageInfo page = PageInfo(
+    name,
+    builder: (data) {
+      return const OnboardingView();
+    },
+  );
 }
 
 /// generated route for
@@ -549,8 +466,17 @@ class PaymentRoute extends PageRouteInfo<PaymentRouteArgs> {
 
   static const String name = 'PaymentRoute';
 
-  static const PageInfo<PaymentRouteArgs> page =
-      PageInfo<PaymentRouteArgs>(name);
+  static PageInfo page = PageInfo(
+    name,
+    builder: (data) {
+      final args = data.argsAs<PaymentRouteArgs>();
+      return PaymentPage(
+        key: args.key,
+        paymentCharge: args.paymentCharge,
+        platform: args.platform,
+      );
+    },
+  );
 }
 
 class PaymentRouteArgs {
@@ -570,6 +496,18 @@ class PaymentRouteArgs {
   String toString() {
     return 'PaymentRouteArgs{key: $key, paymentCharge: $paymentCharge, platform: $platform}';
   }
+
+  @override
+  bool operator ==(Object other) {
+    if (identical(this, other)) return true;
+    if (other is! PaymentRouteArgs) return false;
+    return key == other.key &&
+        paymentCharge == other.paymentCharge &&
+        platform == other.platform;
+  }
+
+  @override
+  int get hashCode => key.hashCode ^ paymentCharge.hashCode ^ platform.hashCode;
 }
 
 /// generated route for
@@ -578,109 +516,124 @@ class PaymentRegistrationRoute
     extends PageRouteInfo<PaymentRegistrationRouteArgs> {
   PaymentRegistrationRoute({
     Key? key,
-    required void Function() onSuccess,
+    required VoidCallback onSuccess,
     List<PageRouteInfo>? children,
   }) : super(
           PaymentRegistrationRoute.name,
-          args: PaymentRegistrationRouteArgs(
-            key: key,
-            onSuccess: onSuccess,
-          ),
+          args: PaymentRegistrationRouteArgs(key: key, onSuccess: onSuccess),
           initialChildren: children,
         );
 
   static const String name = 'PaymentRegistrationRoute';
 
-  static const PageInfo<PaymentRegistrationRouteArgs> page =
-      PageInfo<PaymentRegistrationRouteArgs>(name);
+  static PageInfo page = PageInfo(
+    name,
+    builder: (data) {
+      final args = data.argsAs<PaymentRegistrationRouteArgs>();
+      return PaymentRegistrationPage(key: args.key, onSuccess: args.onSuccess);
+    },
+  );
 }
 
 class PaymentRegistrationRouteArgs {
-  const PaymentRegistrationRouteArgs({
-    this.key,
-    required this.onSuccess,
-  });
+  const PaymentRegistrationRouteArgs({this.key, required this.onSuccess});
 
   final Key? key;
 
-  final void Function() onSuccess;
+  final VoidCallback onSuccess;
 
   @override
   String toString() {
     return 'PaymentRegistrationRouteArgs{key: $key, onSuccess: $onSuccess}';
   }
+
+  @override
+  bool operator ==(Object other) {
+    if (identical(this, other)) return true;
+    if (other is! PaymentRegistrationRouteArgs) return false;
+    return key == other.key && onSuccess == other.onSuccess;
+  }
+
+  @override
+  int get hashCode => key.hashCode ^ onSuccess.hashCode;
 }
 
 /// generated route for
 /// [PlatformRegistrationView]
 class PlatformRegistrationRoute extends PageRouteInfo<void> {
   const PlatformRegistrationRoute({List<PageRouteInfo>? children})
-      : super(
-          PlatformRegistrationRoute.name,
-          initialChildren: children,
-        );
+      : super(PlatformRegistrationRoute.name, initialChildren: children);
 
   static const String name = 'PlatformRegistrationRoute';
 
-  static const PageInfo<void> page = PageInfo<void>(name);
+  static PageInfo page = PageInfo(
+    name,
+    builder: (data) {
+      return const PlatformRegistrationView();
+    },
+  );
 }
 
 /// generated route for
 /// [PlatofrmTabPage]
 class PlatformTab extends PageRouteInfo<void> {
   const PlatformTab({List<PageRouteInfo>? children})
-      : super(
-          PlatformTab.name,
-          initialChildren: children,
-        );
+      : super(PlatformTab.name, initialChildren: children);
 
   static const String name = 'PlatformTab';
 
-  static const PageInfo<void> page = PageInfo<void>(name);
+  static PageInfo page = PageInfo(
+    name,
+    builder: (data) {
+      return const PlatofrmTabPage();
+    },
+  );
 }
 
 /// generated route for
 /// [ProfilePage]
 class ProfileRoute extends PageRouteInfo<void> {
   const ProfileRoute({List<PageRouteInfo>? children})
-      : super(
-          ProfileRoute.name,
-          initialChildren: children,
-        );
+      : super(ProfileRoute.name, initialChildren: children);
 
   static const String name = 'ProfileRoute';
 
-  static const PageInfo<void> page = PageInfo<void>(name);
+  static PageInfo page = PageInfo(
+    name,
+    builder: (data) {
+      return const ProfilePage();
+    },
+  );
 }
 
 /// generated route for
 /// [ProfileTabPage]
 class ProfileTab extends PageRouteInfo<ProfileTabArgs> {
   ProfileTab({
-    required void Function() onPop,
+    required VoidCallback onPop,
     Key? key,
     List<PageRouteInfo>? children,
   }) : super(
           ProfileTab.name,
-          args: ProfileTabArgs(
-            onPop: onPop,
-            key: key,
-          ),
+          args: ProfileTabArgs(onPop: onPop, key: key),
           initialChildren: children,
         );
 
   static const String name = 'ProfileTab';
 
-  static const PageInfo<ProfileTabArgs> page = PageInfo<ProfileTabArgs>(name);
+  static PageInfo page = PageInfo(
+    name,
+    builder: (data) {
+      final args = data.argsAs<ProfileTabArgs>();
+      return ProfileTabPage(onPop: args.onPop, key: args.key);
+    },
+  );
 }
 
 class ProfileTabArgs {
-  const ProfileTabArgs({
-    required this.onPop,
-    this.key,
-  });
+  const ProfileTabArgs({required this.onPop, this.key});
 
-  final void Function() onPop;
+  final VoidCallback onPop;
 
   final Key? key;
 
@@ -688,34 +641,48 @@ class ProfileTabArgs {
   String toString() {
     return 'ProfileTabArgs{onPop: $onPop, key: $key}';
   }
+
+  @override
+  bool operator ==(Object other) {
+    if (identical(this, other)) return true;
+    if (other is! ProfileTabArgs) return false;
+    return onPop == other.onPop && key == other.key;
+  }
+
+  @override
+  int get hashCode => onPop.hashCode ^ key.hashCode;
 }
 
 /// generated route for
 /// [RegisterEmailView]
 class RegisterEmailRoute extends PageRouteInfo<void> {
   const RegisterEmailRoute({List<PageRouteInfo>? children})
-      : super(
-          RegisterEmailRoute.name,
-          initialChildren: children,
-        );
+      : super(RegisterEmailRoute.name, initialChildren: children);
 
   static const String name = 'RegisterEmailRoute';
 
-  static const PageInfo<void> page = PageInfo<void>(name);
+  static PageInfo page = PageInfo(
+    name,
+    builder: (data) {
+      return const RegisterEmailView();
+    },
+  );
 }
 
 /// generated route for
 /// [RegisterPasswordView]
 class RegisterPasswordRoute extends PageRouteInfo<void> {
   const RegisterPasswordRoute({List<PageRouteInfo>? children})
-      : super(
-          RegisterPasswordRoute.name,
-          initialChildren: children,
-        );
+      : super(RegisterPasswordRoute.name, initialChildren: children);
 
   static const String name = 'RegisterPasswordRoute';
 
-  static const PageInfo<void> page = PageInfo<void>(name);
+  static PageInfo page = PageInfo(
+    name,
+    builder: (data) {
+      return const RegisterPasswordView();
+    },
+  );
 }
 
 /// generated route for
@@ -738,8 +705,17 @@ class TicketSellerRoute extends PageRouteInfo<TicketSellerRouteArgs> {
 
   static const String name = 'TicketSellerRoute';
 
-  static const PageInfo<TicketSellerRouteArgs> page =
-      PageInfo<TicketSellerRouteArgs>(name);
+  static PageInfo page = PageInfo(
+    name,
+    builder: (data) {
+      final args = data.argsAs<TicketSellerRouteArgs>();
+      return TicketSellerPage(
+        key: args.key,
+        ticketId: args.ticketId,
+        isBuy: args.isBuy,
+      );
+    },
+  );
 }
 
 class TicketSellerRouteArgs {
@@ -759,6 +735,18 @@ class TicketSellerRouteArgs {
   String toString() {
     return 'TicketSellerRouteArgs{key: $key, ticketId: $ticketId, isBuy: $isBuy}';
   }
+
+  @override
+  bool operator ==(Object other) {
+    if (identical(this, other)) return true;
+    if (other is! TicketSellerRouteArgs) return false;
+    return key == other.key &&
+        ticketId == other.ticketId &&
+        isBuy == other.isBuy;
+  }
+
+  @override
+  int get hashCode => key.hashCode ^ ticketId.hashCode ^ isBuy.hashCode;
 }
 
 /// generated route for
@@ -771,24 +759,23 @@ class TransferOrientationRoute
     List<PageRouteInfo>? children,
   }) : super(
           TransferOrientationRoute.name,
-          args: TransferOrientationRouteArgs(
-            key: key,
-            platform: platform,
-          ),
+          args: TransferOrientationRouteArgs(key: key, platform: platform),
           initialChildren: children,
         );
 
   static const String name = 'TransferOrientationRoute';
 
-  static const PageInfo<TransferOrientationRouteArgs> page =
-      PageInfo<TransferOrientationRouteArgs>(name);
+  static PageInfo page = PageInfo(
+    name,
+    builder: (data) {
+      final args = data.argsAs<TransferOrientationRouteArgs>();
+      return TransferOrientationPage(key: args.key, platform: args.platform);
+    },
+  );
 }
 
 class TransferOrientationRouteArgs {
-  const TransferOrientationRouteArgs({
-    this.key,
-    required this.platform,
-  });
+  const TransferOrientationRouteArgs({this.key, required this.platform});
 
   final Key? key;
 
@@ -798,18 +785,30 @@ class TransferOrientationRouteArgs {
   String toString() {
     return 'TransferOrientationRouteArgs{key: $key, platform: $platform}';
   }
+
+  @override
+  bool operator ==(Object other) {
+    if (identical(this, other)) return true;
+    if (other is! TransferOrientationRouteArgs) return false;
+    return key == other.key && platform == other.platform;
+  }
+
+  @override
+  int get hashCode => key.hashCode ^ platform.hashCode;
 }
 
 /// generated route for
 /// [WelcomePage]
 class WelcomeRoute extends PageRouteInfo<void> {
   const WelcomeRoute({List<PageRouteInfo>? children})
-      : super(
-          WelcomeRoute.name,
-          initialChildren: children,
-        );
+      : super(WelcomeRoute.name, initialChildren: children);
 
   static const String name = 'WelcomeRoute';
 
-  static const PageInfo<void> page = PageInfo<void>(name);
+  static PageInfo page = PageInfo(
+    name,
+    builder: (data) {
+      return const WelcomePage();
+    },
+  );
 }

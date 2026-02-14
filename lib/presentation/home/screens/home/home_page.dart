@@ -44,9 +44,14 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
   bool _isLoading = false;
-  int _requests = 3;
+  // int _requests = 3;
   final _pagingController = PagingController<int, Ticket>(
-    firstPageKey: 0,
+    getNextPageKey: (state) =>
+        state.lastPageIsEmpty ? null : state.nextIntPageKey,
+    fetchPage: (pageKey) {
+      final tickets = <Ticket>[];
+      return Future.value(tickets);
+    },
   );
   final _scrollController = ScrollController();
   String? _emoji;
@@ -146,14 +151,14 @@ class _HomePageState extends State<HomePage> {
                     });
 
                     if (state is HomeSuccess) {
-                      _requests == 0
-                          ? _pagingController.appendLastPage(
-                              state.tickets,
-                            )
-                          : _pagingController.appendPage(
-                              state.tickets,
-                              _pagingController.nextPageKey,
-                            );
+                      // _requests == 0
+                      //     ? _pagingController.appendLastPage(
+                      //         state.tickets,
+                      //       )
+                      //     : _pagingController.appendPage(
+                      //         state.tickets,
+                      //         _pagingController.nextPageKey,
+                      //       );
                       if (UserMM().pixKey == null && !isPaymentRouteOpen) {
                         showMPGBottomSheet(
                           context: context,
@@ -188,7 +193,7 @@ class _HomePageState extends State<HomePage> {
                     }
 
                     if (state is HomeError) {
-                      _pagingController.error = state.message;
+                      // _pagingController.error = state.message;
                     }
                   },
                   builder: (context, state) {
@@ -198,7 +203,7 @@ class _HomePageState extends State<HomePage> {
                       onRefresh: () async {
                         _pagingController.refresh();
                         context.read<HomeBloc>().add(UserInfo());
-                        _requests = 3;
+                        // _requests = 3;
                       },
                       child: Padding(
                         padding: EdgeInsets.only(top: 40.h),
@@ -210,7 +215,8 @@ class _HomePageState extends State<HomePage> {
                             child: PagedListView<int, Ticket>(
                               shrinkWrap: true,
                               scrollController: _scrollController,
-                              pagingController: _pagingController,
+                              state: _pagingController.value,
+                              fetchNextPage: () {},
                               builderDelegate:
                                   PagedChildBuilderDelegate<Ticket>(
                                 itemBuilder: (context, ticket, index) {

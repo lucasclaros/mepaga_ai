@@ -7,7 +7,7 @@ part of 'ticket_rm.dart';
 // **************************************************************************
 
 TicketRM _$TicketRMFromJson(Map<String, dynamic> json) => TicketRM(
-      sellerId: json['seller_id'] as int?,
+      sellerId: (json['seller_id'] as num?)?.toInt(),
       price: (json['price'] as num?)?.toDouble(),
       sold: json['sold'] as bool?,
       party: json['party'] == null

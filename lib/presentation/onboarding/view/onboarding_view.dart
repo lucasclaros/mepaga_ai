@@ -108,8 +108,7 @@ class _OnboardingViewState extends State<OnboardingView> {
                           style: MPGTextStyles.of(context)
                               .alreadyHasAccountMessage,
                           recognizer: TapGestureRecognizer()
-                            ..onTap =
-                                () => context.router.push(const LoginRoute()),
+                            ..onTap = () => context.router.push(HomeRoute()),
                         ),
                       ],
                     ),

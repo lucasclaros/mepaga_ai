@@ -29,7 +29,7 @@ part 'app_router.gr.dart';
 @AutoRouterConfig(
   replaceInRouteName: 'Page|View|Wrapper,Route',
 )
-class AppRouter extends _$AppRouter {
+class AppRouter extends RootStackRouter {
   AppRouter({
     super.navigatorKey,
     required this.context,
