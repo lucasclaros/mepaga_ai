@@ -13,7 +13,6 @@ class LoginBloc extends Bloc<LoginBlocEvent, LoginBlocState> {
     required this.cacheJwtUC,
   }) : super(LoginBlocInitial()) {
     on<UserLogin>(_mapLoginEventToState);
-    // on<UserLogout>(_mapLogoutEventToState);
   }
 
   final UserLoginUC userLoginUC;
@@ -45,19 +44,4 @@ class LoginBloc extends Bloc<LoginBlocEvent, LoginBlocState> {
       }
     }
   }
-
-  // Future<void> _mapLogoutEventToState(
-  //   UserLogout event,
-  //   Emitter<LoginBlocState> emit,
-  // ) async {
-  //   emit(LoginBlocLoading());
-  //   try {
-  //     await userLogoutUC(NoParams());
-  //     emit(LoginBlocLogout());
-  //   } catch (e) {
-  //     if (e is MPGException) {
-  //       emit(LoginBlocError(message: e.message));
-  //     }
-  //   }
-  // }
 }

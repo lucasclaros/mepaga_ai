@@ -93,11 +93,11 @@ class AuthRDS {
         final errorMessage = error.response!.data['message'];
 
         if (statusCode == 404) {
-          OTPWrongCode(errorMessage);
+          throw OTPWrongCode(errorMessage);
         }
 
         if (statusCode == 410) {
-          OTPExpired(errorMessage);
+          throw OTPExpired(errorMessage);
         }
 
         if (statusCode == 401) {
