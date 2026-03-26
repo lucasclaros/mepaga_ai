@@ -1,12 +1,12 @@
 // ignore_for_file: use_decorated_box, lines_longer_than_80_chars
 
-import 'package:auto_route/auto_route.dart';
 import 'package:domain/use_cases/get_ticket_info.dart';
 import 'package:domain/use_cases/ticket_price_register_uc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:go_router/go_router.dart';
 import 'package:mepaga_ai/presentation/common/empty_states/generic_error_empty_state.dart';
 import 'package:mepaga_ai/presentation/common/mpg_scaffold.dart';
 import 'package:mepaga_ai/presentation/common/themes/assets/mpg_assets_paths.dart';
@@ -15,7 +15,6 @@ import 'package:mepaga_ai/presentation/logistics/components/shimmer_ticket.dart'
 import 'package:mepaga_ai/presentation/logistics/components/ticket_config_fields.dart';
 import 'package:mepaga_ai/presentation/logistics/components/ticket_widget.dart';
 
-@RoutePage()
 class TicketSellerPage extends StatefulWidget {
   const TicketSellerPage({
     super.key,
@@ -63,7 +62,7 @@ class _TicketSellerPageState extends State<TicketSellerPage> {
                       Row(
                         children: [
                           GestureDetector(
-                            onTap: () => context.router.pop(),
+                            onTap: () => context.pop(),
                             child: Container(
                               alignment: Alignment.centerLeft,
                               width: MediaQuery.of(context).size.width,
@@ -85,7 +84,7 @@ class _TicketSellerPageState extends State<TicketSellerPage> {
                         ticketId: widget.ticketId,
                         currentPrice: ticket.price,
                         onSuccess: () {
-                          context.router.pop(true);
+                          context.pop(true);
                         },
                       ),
                       SizedBox(height: 50.h),

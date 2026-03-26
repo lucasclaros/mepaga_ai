@@ -10,3 +10,4 @@ class UserInfo extends HomeEvent {
 }
 
 class UserPlatforms extends HomeEvent {}
+

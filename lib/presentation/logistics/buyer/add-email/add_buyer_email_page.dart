@@ -1,9 +1,9 @@
-import 'package:auto_route/auto_route.dart';
 import 'package:domain/use_cases/validate_byma_email_uc.dart';
 import 'package:email_validator/email_validator.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:mepaga_ai/presentation/common/mpg_button.dart';
 import 'package:mepaga_ai/presentation/common/mpg_header.dart';
@@ -13,7 +13,6 @@ import 'package:mepaga_ai/presentation/common/themes/colors/mpg_colors.dart';
 import 'package:mepaga_ai/presentation/common/themes/text_styles/mpg_text_styles.dart';
 import 'package:mepaga_ai/presentation/logistics/buyer/add-email/bloc/add_buyer_email_bloc.dart';
 
-@RoutePage()
 class AddBuyerEmailPage extends StatefulWidget {
   const AddBuyerEmailPage({
     super.key,
@@ -127,12 +126,14 @@ class _AddBuyerEmailPageState extends State<AddBuyerEmailPage> {
                           });
 
                           if (state is CheckBuyerEmailSuccessNoAccount) {
-                            _emailErrorMessage = 'Email não encontrado';
+                            setState(() {
+                              _emailErrorMessage = 'Email não encontrado';
+                            });
                           }
 
                           if (state is CheckBuyerEmailSuccess) {
                             widget.onEmailAdded(_textController.text);
-                            context.router.pop();
+                            context.pop();
                           }
                         },
                         builder: (context, state) {

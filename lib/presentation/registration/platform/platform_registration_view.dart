@@ -1,14 +1,13 @@
 // ignore_for_file: lines_longer_than_80_chars
 
-import 'package:auto_route/auto_route.dart';
 import 'package:domain/use_cases/check_platform_uc.dart';
 import 'package:domain/use_cases/get_user_platforms_uc.dart';
 import 'package:domain/use_cases/platform_register_uc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:mepaga_ai/common/app_router.dart';
 import 'package:mepaga_ai/presentation/common/empty_states/generic_error_empty_state.dart';
 import 'package:mepaga_ai/presentation/common/mpg_scaffold.dart';
 import 'package:mepaga_ai/presentation/common/themes/assets/mpg_assets_paths.dart';
@@ -17,7 +16,6 @@ import 'package:mepaga_ai/presentation/registration/platform/bloc/platform_regis
 import 'package:mepaga_ai/presentation/registration/platform/components/transfer_ticket_view.dart';
 import 'package:mepaga_ai/presentation/registration/platform/components/utils.dart';
 
-@RoutePage()
 class PlatformRegistrationView extends StatefulWidget {
   const PlatformRegistrationView({super.key});
 
@@ -40,71 +38,55 @@ class _PlatformRegistrationViewState extends State<PlatformRegistrationView> {
         platformRegisterUC: context.read<PlatformRegisterUC>(),
         checkPlatformUC: context.read<CheckPlatformUC>(),
       ),
-      child: PopScope(
-        canPop: false,
-        onPopInvoked: (didPop) {
-          final tabsRouter = AutoTabsRouter.of(context);
-          if (tabsRouter.activeIndex != 0) {
-            tabsRouter.navigate(HomeRoute());
-          }
-        },
-        child: MPGScaffold(
+      child: MPGScaffold(
           child: Padding(
             padding: EdgeInsets.symmetric(horizontal: 32.w),
             child: BlocConsumer<PlatformRegistrationBloc,
                 PlatformRegistrationState>(
               listener: (context, state) {
                 if (state is CheckUserPlatformSuccessNoAssociation) {
+                  final bloc = context.read<PlatformRegistrationBloc>();
                   showPlatformEmailAssociationModal(
                     context: context,
                     onAssociateSameEmail: () {
-                      context.read<PlatformRegistrationBloc>().add(
-                            RegisterPlatform(
-                              platform: state.platform,
-                            ),
-                          );
+                      bloc.add(RegisterPlatform(platform: state.platform));
                     },
                     onAssociateDifferentEmail: () {
-                      context.router.push(
-                        AddEmailPlatformRoute(
-                          platform: 'byma',
-                          onSuccess: () {
-                            context.read<PlatformRegistrationBloc>().add(
-                                  ListUserPlatforms(),
-                                );
+                      context.push(
+                        '/add-email-platform',
+                        extra: {
+                          'platform': 'byma',
+                          'onSuccess': () {
+                            bloc.add(ListUserPlatforms());
                           },
-                        ),
+                        },
                       );
                     },
                   ).then((_) {
-                    context.read<PlatformRegistrationBloc>().add(
-                          ListUserPlatforms(),
-                        );
+                    bloc.add(ListUserPlatforms());
                   });
                 }
 
                 if (state is CheckUserPlatformSuccessNoAccount ||
                     state is CheckUserPlatformSuccessEmailExists) {
-                  context.router
+                  final bloc = context.read<PlatformRegistrationBloc>();
+                  context
                       .push(
-                    AddEmailPlatformRoute(
-                      platform: 'byma',
-                      onSuccess: () async {
-                        context.read<PlatformRegistrationBloc>().add(
-                              ListUserPlatforms(),
-                            );
+                    '/add-email-platform',
+                    extra: {
+                      'platform': 'byma',
+                      'onSuccess': () {
+                        bloc.add(ListUserPlatforms());
                       },
-                    ),
+                    },
                   )
                       .then((_) {
-                    context.read<PlatformRegistrationBloc>().add(
-                          ListUserPlatforms(),
-                        );
+                    bloc.add(ListUserPlatforms());
                   });
                 }
               },
               builder: (context, state) {
-                if (state is ListPlatformsLoading &&
+                if (state is ListPlatformsLoading ||
                     state is CheckUserPlatformLoading) {
                   return Center(
                     child: CircularProgressIndicator(
@@ -222,7 +204,6 @@ class _PlatformRegistrationViewState extends State<PlatformRegistrationView> {
             ),
           ),
         ),
-      ),
     );
   }
 }

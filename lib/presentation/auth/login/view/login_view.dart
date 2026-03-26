@@ -1,11 +1,9 @@
-import 'package:auto_route/auto_route.dart';
 import 'package:domain/use_cases/cache_jwt_uc.dart';
 import 'package:domain/use_cases/user_login_uc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_native_splash/flutter_native_splash.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:mepaga_ai/common/app_router.dart';
+import 'package:go_router/go_router.dart';
 import 'package:mepaga_ai/presentation/auth/login/bloc/login_bloc.dart';
 import 'package:mepaga_ai/presentation/common/mpg_button.dart';
 import 'package:mepaga_ai/presentation/common/mpg_header.dart';
@@ -15,7 +13,6 @@ import 'package:mepaga_ai/presentation/common/themes/colors/mpg_colors.dart';
 import 'package:mepaga_ai/presentation/common/themes/text_styles/mpg_text_styles.dart';
 import 'package:mepaga_ai/presentation/common/utils.dart';
 
-@RoutePage()
 class LoginView extends StatefulWidget {
   const LoginView({super.key});
 
@@ -36,7 +33,6 @@ class LoginViewState extends State<LoginView> {
   @override
   void initState() {
     super.initState();
-    FlutterNativeSplash.remove();
   }
 
   @override
@@ -77,7 +73,7 @@ class LoginViewState extends State<LoginView> {
           }
 
           if (state is LoginBlocSuccess) {
-            context.router.replaceAll([BottomNavbarRoute(showFlushbar: true)]);
+            context.go('/', extra: true);
           }
         },
         builder: (context, state) {

@@ -1,145 +1,112 @@
 import 'dart:math';
 
-import 'package:auto_route/auto_route.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_exit_app/flutter_exit_app.dart';
-import 'package:flutter_native_splash/flutter_native_splash.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:mepaga_ai/common/app_router.dart';
 import 'package:mepaga_ai/custom_icons_icons.dart';
 import 'package:mepaga_ai/presentation/common/utils.dart';
 import 'package:mepaga_ai/presentation/home/components/add_ticket_float_button.dart';
 
-@RoutePage()
-class BottomNavbarWrapper extends StatefulWidget {
+class BottomNavbarWrapper extends StatelessWidget {
   const BottomNavbarWrapper({
     super.key,
-    this.showFlushbar = false,
+    required this.navigationShell,
   });
 
-  final bool showFlushbar;
-
-  @override
-  State<BottomNavbarWrapper> createState() => _BottomNavbarWrapperState();
-}
-
-class _BottomNavbarWrapperState extends State<BottomNavbarWrapper> {
-  @override
-  void initState() {
-    super.initState();
-    FlutterNativeSplash.remove();
-  }
-
-  void handleTabChange(
-    PageController t,
-    int index,
-    Duration? d,
-  ) {
-    t.animateToPage(
-      index,
-      duration: d ?? const Duration(milliseconds: 1),
-      curve: Curves.easeInOut,
-    );
-  }
+  final StatefulNavigationShell navigationShell;
 
   @override
   Widget build(BuildContext context) {
-    return AutoTabsRouter.pageView(
-      duration: const Duration(milliseconds: 350),
-      routes: [
-        HomeRoute(showFlushbar: widget.showFlushbar),
-        const PlatformTab(),
-        const ProfileRoute(),
-      ],
-      builder: (context, child, pageController) {
-        return PopScope(
-          canPop: false,
-          onPopInvoked: (didPop) async {
-            final index = AutoTabsRouter.of(context).activeIndex;
-            if (index != 0) {
-              handleTabChange(pageController, 0, null);
-            } else {
-              await showMPGConfirmationModal(
-                c: context,
-                title: 'Sair do App',
-                message: 'Tem certeza que deseja sair?',
-                confirmButtonText: 'Sair',
-                cancelButtonText: 'Cancelar',
-                onConfirm: () {
-                  FlutterExitApp.exitApp();
-                },
-              );
-            }
-          },
-          child: SafeArea(
-            child: Scaffold(
-              floatingActionButton: AddTicketFloatingButton(
-                onTap: () => handleTabChange(pageController, 1, null),
-                selected: AutoTabsRouter.of(context).activeIndex == 1,
-              ),
-              floatingActionButtonLocation:
-                  FloatingActionButtonLocation.centerFloat,
-              body: Stack(
-                alignment: Alignment.bottomCenter,
-                children: [
-                  child,
-                  Container(
-                    decoration: const BoxDecoration(
-                      borderRadius: BorderRadius.only(
-                        topRight: Radius.circular(30),
-                        topLeft: Radius.circular(30),
-                      ),
-                    ),
-                    height: max(70, 70.w),
-                    child: ClipRRect(
-                      borderRadius: BorderRadius.only(
-                        topLeft: Radius.circular(32.r),
-                        topRight: Radius.circular(32.r),
-                      ),
-                      child: BottomNavigationBar(
-                        currentIndex: AutoTabsRouter.of(context).activeIndex,
-                        elevation: 0,
-                        onTap: (index) => handleTabChange(
-                          pageController,
-                          index,
-                          null,
-                        ),
-                        type: BottomNavigationBarType.fixed,
-                        selectedItemColor: const Color(0xFF5316B6),
-                        unselectedItemColor: const Color(0xFFCEC2DA),
-                        selectedLabelStyle: GoogleFonts.barlow(
-                          fontSize: 12.sp,
-                          fontWeight: FontWeight.w700,
-                        ),
-                        unselectedLabelStyle: GoogleFonts.barlow(
-                          fontSize: 12.sp,
-                          fontWeight: FontWeight.w700,
-                        ),
-                        iconSize: 26,
-                        items: const [
-                          BottomNavigationBarItem(
-                            icon: Icon(CustomIcons.home_icon),
-                            label: 'Home',
-                          ),
-                          BottomNavigationBarItem(
-                            icon: SizedBox.shrink(),
-                            label: '',
-                          ),
-                          BottomNavigationBarItem(
-                            icon: Icon(CustomIcons.user_icon),
-                            label: 'Perfil',
-                          ),
-                        ],
-                      ),
-                    ),
-                  ),
-                ],
-              ),
-            ),
-          ),
-        );
+    return PopScope(
+      canPop: false,
+      onPopInvokedWithResult: (didPop, _) async {
+        if (navigationShell.currentIndex != 0) {
+          navigationShell.goBranch(0);
+        } else {
+          if (!kIsWeb) {
+            await showMPGConfirmationModal(
+              c: context,
+              title: 'Sair do App',
+              message: 'Tem certeza que deseja sair?',
+              confirmButtonText: 'Sair',
+              cancelButtonText: 'Cancelar',
+              onConfirm: () {
+                FlutterExitApp.exitApp();
+              },
+            );
+          }
+        }
       },
+      child: SafeArea(
+        child: Scaffold(
+          floatingActionButton: AddTicketFloatingButton(
+            onTap: () => navigationShell.goBranch(1),
+            selected: navigationShell.currentIndex == 1,
+          ),
+          floatingActionButtonLocation:
+              FloatingActionButtonLocation.centerFloat,
+          body: Stack(
+            alignment: Alignment.bottomCenter,
+            children: [
+              navigationShell,
+              Container(
+                decoration: const BoxDecoration(
+                  borderRadius: BorderRadius.only(
+                    topRight: Radius.circular(30),
+                    topLeft: Radius.circular(30),
+                  ),
+                ),
+                height: max(70, 70.w),
+                child: ClipRRect(
+                  borderRadius: BorderRadius.only(
+                    topLeft: Radius.circular(32.r),
+                    topRight: Radius.circular(32.r),
+                  ),
+                  child: BottomNavigationBar(
+                    currentIndex: navigationShell.currentIndex,
+                    elevation: 0,
+                    onTap: (index) {
+                      navigationShell.goBranch(
+                        index,
+                        initialLocation: index == navigationShell.currentIndex,
+                      );
+                    },
+                    type: BottomNavigationBarType.fixed,
+                    selectedItemColor: const Color(0xFF5316B6),
+                    unselectedItemColor: const Color(0xFFCEC2DA),
+                    selectedLabelStyle: GoogleFonts.barlow(
+                      fontSize: 12.sp,
+                      fontWeight: FontWeight.w700,
+                    ),
+                    unselectedLabelStyle: GoogleFonts.barlow(
+                      fontSize: 12.sp,
+                      fontWeight: FontWeight.w700,
+                    ),
+                    iconSize: 26,
+                    items: const [
+                      BottomNavigationBarItem(
+                        icon: Icon(CustomIcons.home_icon),
+                        label: 'Home',
+                      ),
+                      BottomNavigationBarItem(
+                        icon: SizedBox.shrink(),
+                        label: '',
+                      ),
+                      BottomNavigationBarItem(
+                        icon: Icon(CustomIcons.user_icon),
+                        label: 'Perfil',
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+            ],
+          ),
+        ),
+      ),
     );
   }
 }

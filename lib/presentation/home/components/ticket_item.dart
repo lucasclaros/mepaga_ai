@@ -1,12 +1,12 @@
-import 'package:auto_route/auto_route.dart';
 import 'package:domain/models/party.dart';
 import 'package:domain/models/ticket.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:mepaga_ai/common/app_router.dart';
+import 'package:intl/intl.dart';
 import 'package:mepaga_ai/presentation/common/themes/assets/mpg_assets_paths.dart';
 import 'package:mepaga_ai/presentation/common/utils.dart';
 import 'package:simple_shadow/simple_shadow.dart';
@@ -24,6 +24,16 @@ class _TicketItemState extends State<TicketItem> {
   Party? get party => widget.ticket.party;
   Ticket get ticket => widget.ticket;
 
+  String _formatDate(String? rawDate) {
+    if (rawDate == null) return '';
+    try {
+      final dt = DateTime.parse(rawDate).toLocal();
+      return DateFormat("dd/MM/yyyy 'às' HH'h'mm").format(dt);
+    } catch (_) {
+      return rawDate;
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -35,27 +45,22 @@ class _TicketItemState extends State<TicketItem> {
       ),
       child: InkWell(
         onTap: () async {
-          final res = await context.router.push(
-            TicketSellerRoute(
-              ticketId: ticket.id!,
-            ),
+          final res = await context.push(
+            '/seller-ticket?ticketId=${ticket.id!}',
           );
 
+          if (!mounted) return;
           if (res != null) {
             await Clipboard.setData(
-              ClipboardData(
-                text: 'https://mepaga.ai/ticket/${ticket.id}',
-              ),
-            ).then(
-              (_) => {
-                showFlushbar(
-                  context: context,
-                  title: 'Link de venda gerado com sucesso!',
-                  message: 'Link copiado para a área de transferência.',
-                  fontColor: Colors.white,
-                  backgroundColor: Colors.green,
-                ),
-              },
+              ClipboardData(text: 'https://mepaga.ai/ticket/${ticket.id}'),
+            );
+            if (!mounted) return;
+            showFlushbar(
+              context: context,
+              title: 'Link de venda gerado com sucesso!',
+              message: 'Link copiado para a área de transferência.',
+              fontColor: Colors.white,
+              backgroundColor: Colors.green,
             );
           }
         },
@@ -81,7 +86,7 @@ class _TicketItemState extends State<TicketItem> {
                           ),
                         ),
                         Text(
-                          party?.date ?? '00/00/0000',
+                          _formatDate(party?.date),
                           softWrap: false,
                           overflow: TextOverflow.ellipsis,
                           style: GoogleFonts.barlow(

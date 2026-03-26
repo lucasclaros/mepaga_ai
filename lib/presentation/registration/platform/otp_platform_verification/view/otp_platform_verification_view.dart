@@ -1,6 +1,5 @@
 // ignore_for_file: lines_longer_than_80_chars
 
-import 'package:auto_route/auto_route.dart';
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:domain/use_cases/cache_jwt_uc.dart';
 import 'package:domain/use_cases/otp_verification_uc.dart';
@@ -8,7 +7,7 @@ import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:mepaga_ai/common/app_router.dart';
+import 'package:go_router/go_router.dart';
 import 'package:mepaga_ai/data/models/user_mm.dart';
 import 'package:mepaga_ai/presentation/common/mpg_button.dart';
 import 'package:mepaga_ai/presentation/common/mpg_header.dart';
@@ -18,7 +17,6 @@ import 'package:mepaga_ai/presentation/common/themes/text_styles/mpg_text_styles
 import 'package:mepaga_ai/presentation/common/utils.dart';
 import 'package:mepaga_ai/presentation/registration/platform/otp_platform_verification/bloc/otp_platform_verification_bloc.dart';
 
-@RoutePage()
 class OTPPlatformVerificationView extends StatefulWidget {
   const OTPPlatformVerificationView({
     super.key,
@@ -93,7 +91,7 @@ class _OTPPlatformVerificationViewState
 
           if (state is OtpPlatformVerificationSuccess) {
             widget.onSuccess();
-            context.router.replaceAll([BottomNavbarRoute()]);
+            context.go('/');
           }
         },
         builder: (context, state) {

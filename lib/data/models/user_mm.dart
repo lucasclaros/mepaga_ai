@@ -6,7 +6,7 @@ class UserMM {
   UserMM._internal();
   String email = '';
   String name = '';
-  String? pixKey = '';
+  String? pixKey;
 
   static final UserMM _instance = UserMM._internal();
 }

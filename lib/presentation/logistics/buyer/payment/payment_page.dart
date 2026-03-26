@@ -1,6 +1,5 @@
 // ignore_for_file: lines_longer_than_80_chars, use_decorated_box
 
-import 'package:auto_route/auto_route.dart';
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:domain/models/payment_charge.dart';
@@ -18,7 +17,6 @@ import 'package:mepaga_ai/presentation/common/themes/assets/mpg_assets_paths.dar
 import 'package:mepaga_ai/presentation/common/utils.dart';
 import 'package:mepaga_ai/presentation/logistics/buyer/payment/components/step_widget.dart';
 
-@RoutePage()
 class PaymentPage extends StatefulWidget {
   const PaymentPage({
     super.key,
@@ -90,6 +88,12 @@ class _PaymentPageState extends State<PaymentPage> {
                                         const CircularProgressIndicator(
                                       color: Colors.white,
                                       strokeWidth: 2,
+                                    ),
+                                    errorWidget: (context, url, error) =>
+                                        const Icon(
+                                      Icons.qr_code,
+                                      color: Colors.white54,
+                                      size: 80,
                                     ),
                                     imageBuilder: (context, imageProvider) =>
                                         Image(

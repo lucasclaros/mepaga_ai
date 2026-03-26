@@ -7,9 +7,9 @@ part of 'platform_rm.dart';
 // **************************************************************************
 
 PlatformRM _$PlatformRMFromJson(Map<String, dynamic> json) => PlatformRM(
-      platform: json['platform'] as String,
-      associated: json['associated'] as bool,
-    );
+  platform: json['platform'] as String,
+  associated: json['associated'] as bool,
+);
 
 Map<String, dynamic> _$PlatformRMToJson(PlatformRM instance) =>
     <String, dynamic>{

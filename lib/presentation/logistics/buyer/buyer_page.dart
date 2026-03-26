@@ -1,17 +1,15 @@
 // ignore_for_file: lines_longer_than_80_chars
 
-import 'package:auto_route/auto_route.dart';
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:domain/use_cases/get_payment_charge_uc.dart';
 import 'package:domain/use_cases/get_ticket_info.dart';
 import 'package:domain/use_cases/ticket_price_register_uc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_native_splash/flutter_native_splash.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:mepaga_ai/common/app_router.dart';
 import 'package:mepaga_ai/data/models/user_mm.dart';
 import 'package:mepaga_ai/presentation/common/empty_states/generic_error_empty_state.dart';
 import 'package:mepaga_ai/presentation/common/mpg_button.dart';
@@ -25,11 +23,10 @@ import 'package:mepaga_ai/presentation/logistics/components/shimmer_ticket.dart'
 import 'package:mepaga_ai/presentation/logistics/components/ticket_widget.dart';
 import 'package:mepaga_ai/presentation/logistics/components/utils.dart';
 
-@RoutePage()
 class BuyerPage extends StatefulWidget {
   const BuyerPage({
     super.key,
-    @PathParam('ticketId') required this.ticketId,
+    required this.ticketId,
   });
 
   final String ticketId;
@@ -44,7 +41,6 @@ class _BuyerPageState extends State<BuyerPage> {
   @override
   void initState() {
     super.initState();
-    FlutterNativeSplash.remove();
   }
 
   @override
@@ -78,7 +74,7 @@ class _BuyerPageState extends State<BuyerPage> {
                       Row(
                         children: [
                           GestureDetector(
-                            onTap: () => context.router.pop(),
+                            onTap: () => context.pop(),
                             child: Container(
                               alignment: Alignment.centerLeft,
                               width: MediaQuery.of(context).size.width,
@@ -152,11 +148,12 @@ class _BuyerPageState extends State<BuyerPage> {
                             });
 
                             if (state is GetPaymentChargeSuccess) {
-                              context.router.push(
-                                PaymentRoute(
-                                  platform: ticket.platform ?? 'byma',
-                                  paymentCharge: state.paymentCharge,
-                                ),
+                              context.push(
+                                '/payment',
+                                extra: {
+                                  'platform': ticket.platform ?? 'byma',
+                                  'paymentCharge': state.paymentCharge,
+                                },
                               );
                             }
                           },
@@ -173,11 +170,12 @@ class _BuyerPageState extends State<BuyerPage> {
                                         ),
                                       );
                                 } else {
-                                  context.router.push(
-                                    AddBuyerEmailRoute(
-                                      ticketId: widget.ticketId,
-                                      platform: ticket.platform ?? 'byma',
-                                      onEmailAdded: (email) {
+                                  context.push(
+                                    '/buyer-email',
+                                    extra: {
+                                      'ticketId': widget.ticketId,
+                                      'platform': ticket.platform ?? 'byma',
+                                      'onEmailAdded': (email) {
                                         context.read<PaymentChargeBloc>().add(
                                               GetPaymentChargeEvent(
                                                 ticketId: widget.ticketId,
@@ -185,7 +183,7 @@ class _BuyerPageState extends State<BuyerPage> {
                                               ),
                                             );
                                       },
-                                    ),
+                                    },
                                   );
                                 }
                               },

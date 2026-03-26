@@ -6,8 +6,8 @@ import 'package:flutter/services.dart';
 import 'package:flutter_native_splash/flutter_native_splash.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:logger/logger.dart';
-import 'package:mepaga_ai/common/app_router.dart';
 import 'package:mepaga_ai/common/general_provider.dart';
+import 'package:mepaga_ai/common/go_router_config.dart';
 import 'package:mepaga_ai/url_strategy/nonweb_url_strategy.dart'
     if (dart.library.html) 'package:mepaga_ai/url_strategy/web_url_strategy.dart';
 
@@ -30,25 +30,32 @@ class Log {
 }
 
 void main() async {
-  final widgetsBinding = WidgetsFlutterBinding.ensureInitialized();
-  FlutterNativeSplash.preserve(widgetsBinding: widgetsBinding);
-  await SystemChrome.setEnabledSystemUIMode(
-    SystemUiMode.manual,
-    overlays: [SystemUiOverlay.bottom, SystemUiOverlay.top],
-  );
-
-  await ScreenUtil.ensureScreenSize();
   final errorLogger = Log().logError;
 
   configureUrl();
 
   await runZonedGuarded(() async {
+    final widgetsBinding = WidgetsFlutterBinding.ensureInitialized();
+    FlutterNativeSplash.preserve(widgetsBinding: widgetsBinding);
+    await SystemChrome.setEnabledSystemUIMode(
+      SystemUiMode.manual,
+      overlays: [SystemUiOverlay.bottom, SystemUiOverlay.top],
+    );
+
+    await ScreenUtil.ensureScreenSize();
+
     runApp(
       GeneralProvider(
         errorLogger: errorLogger,
         child: const MPGApp(),
       ),
     );
+
+    // Adicionado: Remover o splash screen após a primeira renderização do frame
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      FlutterNativeSplash.remove();
+    });
+
   }, (error, stack) {
     errorLogger(
       'Zone Guarded Error',
@@ -58,23 +65,8 @@ void main() async {
   });
 }
 
-class MPGApp extends StatefulWidget {
+class MPGApp extends StatelessWidget {
   const MPGApp({super.key});
-
-  @override
-  State<MPGApp> createState() => _MPGAppState();
-}
-
-class _MPGAppState extends State<MPGApp> {
-  late AppRouter appRouter;
-
-  @override
-  void initState() {
-    super.initState();
-    appRouter = AppRouter(
-      context: context,
-    );
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -90,7 +82,7 @@ class _MPGAppState extends State<MPGApp> {
             PointerDeviceKind.invertedStylus,
           },
         ),
-        routerConfig: appRouter.config(),
+        routerConfig: routerConfig, // <--- MUDANÇA PRINCIPAL
         debugShowCheckedModeBanner: false,
         title: 'Me Paga Ai',
         theme: ThemeData(

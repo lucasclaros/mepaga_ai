@@ -1,13 +1,12 @@
 import 'dart:math';
 
-import 'package:auto_route/auto_route.dart';
 import 'package:domain/use_cases/platform_register_uc.dart';
 import 'package:email_validator/email_validator.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:mepaga_ai/common/app_router.dart';
 import 'package:mepaga_ai/presentation/common/mpg_button.dart';
 import 'package:mepaga_ai/presentation/common/mpg_header.dart';
 import 'package:mepaga_ai/presentation/common/mpg_scaffold.dart';
@@ -16,7 +15,6 @@ import 'package:mepaga_ai/presentation/common/themes/colors/mpg_colors.dart';
 import 'package:mepaga_ai/presentation/common/themes/text_styles/mpg_text_styles.dart';
 import 'package:mepaga_ai/presentation/registration/platform/add_email_platform/bloc/add_email_platform_bloc.dart';
 
-@RoutePage()
 class AddEmailPlatformView extends StatefulWidget {
   const AddEmailPlatformView({
     super.key,
@@ -54,16 +52,19 @@ class _AddEmailPlatformViewState extends State<AddEmailPlatformView> {
         child: BlocConsumer<AddEmailPlatformBloc, AddEmailPlatformState>(
           listener: (context, state) {
             if (state is SendEmailPlatformOtpError) {
-              _emailErrorMessage = 'E-mail não encontrado';
+              setState(() {
+                _emailErrorMessage = 'E-mail não encontrado';
+              });
             }
 
             if (state is SendEmailPlatformOtpSuccess) {
-              context.router.push(
-                OTPPlatformVerificationRoute(
-                  platform: 'byma',
-                  email: _emailController.text,
-                  onSuccess: widget.onSuccess,
-                ),
+              context.push(
+                '/platform-otp-verification',
+                extra: {
+                  'platform': 'byma',
+                  'email': _emailController.text,
+                  'onSuccess': widget.onSuccess,
+                },
               );
             }
           },

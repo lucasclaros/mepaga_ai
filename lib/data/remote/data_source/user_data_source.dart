@@ -82,7 +82,7 @@ class UserRDS {
         throw PlatformNotFoundException(
           message: error.response!.data['message'] ?? 'Something went wrong',
         );
-      }
+        }
       throw UnexpectedException(message: 'Something went wrong');
     }
   }

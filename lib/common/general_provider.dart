@@ -18,10 +18,12 @@ import 'package:domain/use_cases/user_register_uc.dart';
 import 'package:domain/use_cases/validate_byma_email_uc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
+import 'package:mepaga_ai/config/app_config.dart';
 import 'package:mepaga_ai/data/cache/data_source/online_cds.dart';
 import 'package:mepaga_ai/data/remote/data_source/auth_data_source.dart';
 import 'package:mepaga_ai/data/remote/data_source/user_data_source.dart';
 import 'package:mepaga_ai/data/remote/infra/auth_interceptor.dart';
+import 'package:mepaga_ai/data/remote/infra/mock_interceptor.dart';
 import 'package:mepaga_ai/data/repositories/data_repository.dart';
 import 'package:mepaga_ai/data/repositories/user_repository.dart';
 import 'package:mepaga_ai/presentation/common/themes/app_theme_interface.dart';
@@ -78,10 +80,13 @@ class _GeneralProviderState extends State<GeneralProvider> {
 
   SingleChildWidget _buildDioProvider() => ProxyProvider<OnlineCDS, Dio>(
         update: (_, cds, __) {
-          final dio = Dio()
-            ..interceptors.add(
-              AuthInterceptor(onlineCDS: cds),
-            );
+          final dio = Dio();
+          if (kMockApiCalls) {
+            dio.interceptors.add(MockInterceptor());
+          }
+          dio.interceptors.add(
+            AuthInterceptor(onlineCDS: cds),
+          );
           return dio;
         },
       );

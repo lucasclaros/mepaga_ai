@@ -1,16 +1,14 @@
-import 'package:auto_route/auto_route.dart';
 import 'package:domain/use_cases/user_logout_uc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:mepaga_ai/common/app_router.dart';
 import 'package:mepaga_ai/presentation/common/mpg_scaffold.dart';
 import 'package:mepaga_ai/presentation/home/screens/profile/bloc/profile_settings_bloc.dart';
 import 'package:mepaga_ai/presentation/home/screens/profile/components/profile_setting_item.dart';
 import 'package:mepaga_ai/presentation/home/screens/profile/components/profile_user_info.dart';
 
-@RoutePage()
 class ProfilePage extends StatefulWidget {
   const ProfilePage({super.key});
 
@@ -55,7 +53,7 @@ class _ProfilePageState extends State<ProfilePage> {
           }
 
           if (state is ProfileSettingsLogoutSuccess) {
-            context.router.replaceAll([const WelcomeRoute()]);
+            context.go('/welcome');
           }
         },
         builder: (context, state) {

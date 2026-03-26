@@ -2,7 +2,6 @@
 
 import 'dart:math';
 
-import 'package:auto_route/auto_route.dart';
 import 'package:domain/models/ticket.dart';
 import 'package:domain/use_cases/get_user_info_uc.dart';
 import 'package:domain/use_cases/get_user_platforms_uc.dart';
@@ -12,9 +11,9 @@ import 'package:flutter/scheduler.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
-import 'package:mepaga_ai/common/app_router.dart';
 import 'package:mepaga_ai/data/models/user_mm.dart';
 import 'package:mepaga_ai/presentation/common/empty_states/fetch_data_empty_state.dart';
 import 'package:mepaga_ai/presentation/common/empty_states/no_tickets_empty_state.dart';
@@ -29,12 +28,8 @@ import 'package:mepaga_ai/presentation/home/components/ticket_item.dart';
 import 'package:mepaga_ai/presentation/home/components/welcome_header.dart';
 import 'package:mepaga_ai/presentation/home/screens/home/bloc/home_bloc.dart';
 
-@RoutePage()
 class HomePage extends StatefulWidget {
-  const HomePage({
-    super.key,
-    this.showFlushbar = false,
-  });
+  const HomePage({super.key, this.showFlushbar = false});
 
   final bool showFlushbar;
 
@@ -44,15 +39,6 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
   bool _isLoading = false;
-  // int _requests = 3;
-  final _pagingController = PagingController<int, Ticket>(
-    getNextPageKey: (state) =>
-        state.lastPageIsEmpty ? null : state.nextIntPageKey,
-    fetchPage: (pageKey) {
-      final tickets = <Ticket>[];
-      return Future.value(tickets);
-    },
-  );
   final _scrollController = ScrollController();
   String? _emoji;
 
@@ -61,7 +47,6 @@ class _HomePageState extends State<HomePage> {
       MPGAssetsPaths.of(context).partyEmoji,
       MPGAssetsPaths.of(context).partyingFace,
       MPGAssetsPaths.of(context).faceWithSunglasses,
-      // MPGAssetsPaths.of(context).ballonEmoji,
       MPGAssetsPaths.of(context).beerEmoji,
     ];
     return emojis[Random().nextInt(emojis.length)];
@@ -70,29 +55,38 @@ class _HomePageState extends State<HomePage> {
   @override
   void dispose() {
     super.dispose();
-    _pagingController.dispose();
     _scrollController.dispose();
   }
 
-  @override
-  void initState() {
-    if (widget.showFlushbar) {
-      SchedulerBinding.instance.addPostFrameCallback((_) {
-        showFlushbar(
-          context: context,
-          message: 'Login realizado com sucesso!',
-          fontColor: Colors.white,
-          backgroundColor: Colors.green,
-        );
-      });
+    @override
+
+    void initState() {
+
+      super.initState();
+
+      if (widget.showFlushbar) {
+
+        SchedulerBinding.instance.addPostFrameCallback((_) {
+
+          showFlushbar(
+
+            context: context,
+
+            message: 'Login realizado com sucesso!',
+
+            fontColor: Colors.white,
+
+            backgroundColor: Colors.green,
+
+          );
+
+        });
+
+      }
+
+      _emoji = getEmoji();
+
     }
-    super.initState();
-    _emoji = getEmoji();
-    // _pagingController.addPageRequestListener((_) {
-    //   context.read<HomeBloc>().add(UserInfo());
-    //   _requests--;
-    // });
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -101,7 +95,7 @@ class _HomePageState extends State<HomePage> {
         getUserInfoUC: context.read<GetUserInfoUC>(),
         getUserTicketsUC: context.read<GetUserTicketsUC>(),
         getUserPlatformsUC: context.read<GetUserPlatformsUC>(),
-      ),
+      )..add(UserInfo()),
       child: MPGScaffold(
         child: Padding(
           padding: EdgeInsets.symmetric(horizontal: 30.w),
@@ -122,9 +116,7 @@ class _HomePageState extends State<HomePage> {
                     width: 40.w,
                     child: Visibility(
                       visible: !_isLoading,
-                      child: SvgPicture.asset(
-                        _emoji ?? '',
-                      ),
+                      child: SvgPicture.asset(_emoji ?? ''),
                     ),
                   ),
                 ],
@@ -142,58 +134,49 @@ class _HomePageState extends State<HomePage> {
                 ),
               ),
               Expanded(
-                child: BlocConsumer<HomeBloc, HomeState>(
+                child: BlocConsumer<HomeBloc, PagingState<int, Ticket>>(
                   listener: (context, state) {
-                    final isPaymentRouteOpen = context.router.current.name ==
-                        PaymentRegistrationRoute.name;
+                    final isPaymentRouteOpen =
+                        GoRouterState.of(context).uri.toString() == '/pix-registration';
+
                     setState(() {
-                      _isLoading = state is HomeLoading;
+                      _isLoading = state.isLoading;
                     });
 
-                    if (state is HomeSuccess) {
-                      // _requests == 0
-                      //     ? _pagingController.appendLastPage(
-                      //         state.tickets,
-                      //       )
-                      //     : _pagingController.appendPage(
-                      //         state.tickets,
-                      //         _pagingController.nextPageKey,
-                      //       );
-                      if (UserMM().pixKey == null && !isPaymentRouteOpen) {
-                        showMPGBottomSheet(
-                          context: context,
-                          title:
-                              'Cadastre sua chave pix para poder receber o dinheiro das suas vendas',
-                          buttonText: 'Cadastrar chave',
-                          isDismissable: false,
-                          enableDrag: false,
-                          canPop: false,
-                          onPressed: () {
-                            context.router.push(
-                              PaymentRegistrationRoute(
-                                onSuccess: () {
-                                  SchedulerBinding.instance
-                                      .addPostFrameCallback((_) {
+                    final loadedSuccessfully = !state.isLoading &&
+                        state.error == null &&
+                        state.pages != null &&
+                        state.pages!.isNotEmpty;
+
+                    if (loadedSuccessfully && UserMM().pixKey == null && !isPaymentRouteOpen) {
+                      showMPGBottomSheet(
+                        context: context,
+                        title:
+                            'Cadastre sua chave pix para poder receber o dinheiro das suas vendas',
+                        buttonText: 'Cadastrar chave',
+                        isDismissable: false,
+                        enableDrag: false,
+                        canPop: false,
+                        onPressed: () {
+                          context.push(
+                            '/pix-registration',
+                            extra: {
+                              'onSuccess': () {
+                                SchedulerBinding.instance.addPostFrameCallback(
+                                  (_) {
                                     showFlushbar(
                                       context: context,
-                                      message:
-                                          'Chave pix cadastrada com sucesso!',
+                                      message: 'Chave pix cadastrada com sucesso!',
                                       fontColor: Colors.white,
                                       backgroundColor: Colors.green,
                                     );
-                                  });
-                                },
-                              ),
-                            );
-                          },
-                        ).then((value) {
-                          context.read<HomeBloc>().add(UserInfo());
-                        });
-                      }
-                    }
-
-                    if (state is HomeError) {
-                      // _pagingController.error = state.message;
+                                  },
+                                );
+                              },
+                            },
+                          );
+                        },
+                      );
                     }
                   },
                   builder: (context, state) {
@@ -201,9 +184,8 @@ class _HomePageState extends State<HomePage> {
                       color: Colors.white,
                       backgroundColor: const Color(0xFF7401FF),
                       onRefresh: () async {
-                        _pagingController.refresh();
                         context.read<HomeBloc>().add(UserInfo());
-                        // _requests = 3;
+                        // UserInfo is dispatched on Bloc creation.
                       },
                       child: Padding(
                         padding: EdgeInsets.only(top: 40.h),
@@ -213,86 +195,91 @@ class _HomePageState extends State<HomePage> {
                           child: Padding(
                             padding: EdgeInsets.symmetric(horizontal: 4.w),
                             child: PagedListView<int, Ticket>(
+                              state: state,
                               shrinkWrap: true,
                               scrollController: _scrollController,
-                              state: _pagingController.value,
-                              fetchNextPage: () {},
-                              builderDelegate:
-                                  PagedChildBuilderDelegate<Ticket>(
+                              fetchNextPage: () {
+                                context.read<HomeBloc>().add(UserInfo());
+                              },
+                              builderDelegate: PagedChildBuilderDelegate<Ticket>(
                                 itemBuilder: (context, ticket, index) {
-                                  return TicketItem(
-                                    ticket: ticket,
-                                  );
+                                  return TicketItem(ticket: ticket);
                                 },
                                 firstPageProgressIndicatorBuilder: (context) =>
                                     const ShimmerTicketList(),
                                 newPageProgressIndicatorBuilder: (context) =>
                                     Padding(
-                                  padding:
-                                      EdgeInsets.only(top: 10.h, bottom: 30.h),
-                                  child: Center(
-                                    child: SizedBox(
-                                      height: 22.w,
-                                      width: 22.w,
-                                      child: CircularProgressIndicator(
-                                        color: Colors.white.withOpacity(0.8),
-                                        strokeWidth: 2.w,
+                                      padding: EdgeInsets.only(
+                                        top: 10.h,
+                                        bottom: 30.h,
+                                      ),
+                                      child: Center(
+                                        child: SizedBox(
+                                          height: 22.w,
+                                          width: 22.w,
+                                          child: CircularProgressIndicator(
+                                            color: Colors.white.withOpacity(
+                                              0.8,
+                                            ),
+                                            strokeWidth: 2.w,
+                                          ),
+                                        ),
                                       ),
                                     ),
-                                  ),
-                                ),
                                 newPageErrorIndicatorBuilder: (context) =>
                                     const Center(
-                                  child: Text(
-                                    'Ocorreu um erro ao carregar os ingressos',
-                                    style: TextStyle(
-                                      color: Colors.white,
-                                      fontSize: 16,
-                                    ),
-                                  ),
-                                ),
-                                firstPageErrorIndicatorBuilder: (context) =>
-                                    Column(
-                                  children: [
-                                    const FetchDataEmptyState(),
-                                    SizedBox(height: 20.h),
-                                    MPGButton(
-                                      gradient: MPGColors.of(context)
-                                          .mpgButtonWhitedGradient,
-                                      onPressed: () async {
-                                        _pagingController.refresh();
-                                        context
-                                            .read<HomeBloc>()
-                                            .add(UserInfo());
-                                      },
                                       child: Text(
-                                        'Tentar novamente',
-                                        style: MPGTextStyles.of(context)
-                                            .mpgWhitedButton,
+                                        'Ocorreu um erro ao carregar os ingressos',
+                                        style: TextStyle(
+                                          color: Colors.white,
+                                          fontSize: 16,
+                                        ),
                                       ),
                                     ),
-                                  ],
-                                ),
-                                noItemsFoundIndicatorBuilder: (context) =>
-                                    Padding(
+                                firstPageErrorIndicatorBuilder: (context) =>
+                                    Column(
+                                      children: [
+                                        const FetchDataEmptyState(),
+                                        SizedBox(height: 20.h),
+                                        MPGButton(
+                                          gradient: MPGColors.of(
+                                            context,
+                                          ).mpgButtonWhitedGradient,
+                                          onPressed: () async {
+                                            context.read<HomeBloc>().add(
+                                              UserInfo(initialLoading: true),
+                                            );
+                                          },
+                                          child: Text(
+                                            'Tentar novamente',
+                                            style: MPGTextStyles.of(
+                                              context,
+                                            ).mpgWhitedButton,
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                noItemsFoundIndicatorBuilder: (context) => Padding(
                                   padding: EdgeInsets.only(top: 50.h),
                                   child: Column(
                                     children: [
                                       const NoTicketsEmptyState(),
                                       const SizedBox(height: 20),
                                       MPGButton(
-                                        gradient: MPGColors.of(context)
-                                            .mpgButtonWhitedGradient,
+                                        gradient: MPGColors.of(
+                                          context,
+                                        ).mpgButtonWhitedGradient,
                                         onPressed: () {
-                                          _pagingController.refresh();
-                                          context
-                                              .read<HomeBloc>()
-                                              .add(UserInfo());
+                                          // UserInfo is dispatched on Bloc creation.
+                                          context.read<HomeBloc>().add(
+                                            UserInfo(initialLoading: true),
+                                          );
                                         },
                                         child: Text(
                                           'Atualizar',
-                                          style: MPGTextStyles.of(context)
-                                              .mpgWhitedButton,
+                                          style: MPGTextStyles.of(
+                                            context,
+                                          ).mpgWhitedButton,
                                         ),
                                       ),
                                     ],

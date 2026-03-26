@@ -7,15 +7,15 @@ part of 'party_rm.dart';
 // **************************************************************************
 
 PartyRM _$PartyRMFromJson(Map<String, dynamic> json) => PartyRM(
-      name: json['name'] as String?,
-      date: json['date'] as String?,
-      description: json['description'] as String?,
-      picture: json['picture'] as String?,
-    );
+  name: json['name'] as String?,
+  date: json['date'] as String?,
+  description: json['description'] as String?,
+  picture: json['picture'] as String?,
+);
 
 Map<String, dynamic> _$PartyRMToJson(PartyRM instance) => <String, dynamic>{
-      'name': instance.name,
-      'date': instance.date,
-      'description': instance.description,
-      'picture': instance.picture,
-    };
+  'name': instance.name,
+  'date': instance.date,
+  'description': instance.description,
+  'picture': instance.picture,
+};

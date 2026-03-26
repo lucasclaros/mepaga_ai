@@ -1,0 +1,13 @@
+{
+  "id": "ticket_2",
+  "price": 80.00,
+  "sold": false,
+  "party": {
+    "name": "Peça de Teatro B",
+    "date": "2026-08-05T19:30:00Z",
+    "description": "Uma emocionante peça no Teatro Municipal. Lugares limitados — garanta o seu!",
+    "picture": "http://example.com/teatro_b_details.jpg"
+  },
+  "seller_id": 7,
+  "platform": "byma"
+}

@@ -1,13 +1,12 @@
 // ignore_for_file: lines_longer_than_80_chars, use_decorated_box
 
-import 'package:auto_route/auto_route.dart';
 import 'package:domain/use_cases/user_register_uc.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:mepaga_ai/common/app_router.dart';
 import 'package:mepaga_ai/data/models/user_mm.dart';
 import 'package:mepaga_ai/presentation/auth/register/bloc/register_bloc.dart';
 import 'package:mepaga_ai/presentation/common/mpg_button.dart';
@@ -18,7 +17,6 @@ import 'package:mepaga_ai/presentation/common/mpg_textfield.dart';
 import 'package:mepaga_ai/presentation/common/themes/colors/mpg_colors.dart';
 import 'package:mepaga_ai/presentation/common/themes/text_styles/mpg_text_styles.dart';
 
-@RoutePage()
 class RegisterPasswordView extends StatefulWidget {
   const RegisterPasswordView({
     super.key,
@@ -79,7 +77,7 @@ class RegisterPasswordViewState extends State<RegisterPasswordView> {
           }
 
           if (state is RegisterBlocSuccess) {
-            context.router.push(const OTPVerificationRoute());
+            context.push('/mpg-otp-verification');
           }
         },
         builder: (context, state) {

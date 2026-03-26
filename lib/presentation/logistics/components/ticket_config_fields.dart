@@ -6,7 +6,6 @@ import 'package:domain/use_cases/get_ticket_info.dart';
 import 'package:domain/use_cases/ticket_price_register_uc.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
@@ -71,9 +70,9 @@ class _TicketConfigFieldsState extends State<TicketConfigFields> {
         ticketPriceRegisterUC: context.read<TicketPriceRegisterUC>(),
       ),
       child: BlocConsumer<TicketConfigurationBloc, TicketConfigurationState>(
-        listener: (context, state) async {
+        listener: (context, state) {
           if (state is TicketAlreadySold) {
-            await showFlushbar(
+            showFlushbar(
               context: context,
               message: 'Ingresso já vendido',
               backgroundColor: Colors.red,

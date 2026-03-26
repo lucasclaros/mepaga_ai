@@ -25,21 +25,20 @@ class AddBuyerEmailBloc extends Bloc<AddBuyerEmailEvent, AddBuyerEmailState> {
       await validateBymaEmailUC(ValidateBymaEmailUCParams(email: event.email));
       emit(CheckBuyerEmailSuccess());
     } catch (e) {
-      if (e is MPGException) {
-        if (e is FoundAccountNoAssociation) {
-          emit(
-            CheckBuyerEmailSuccessNoAssociation(platform: event.platform),
-          );
-        }
-
-        if (e is NoAccountFound) {
-          emit(CheckBuyerEmailSuccessNoAccount());
-        }
-
-        if (e is EmailAlreadyExistsException) {
-          emit(CheckBuyerEmailSuccessEmailExists());
-        }
+      if (e is FoundAccountNoAssociation) {
+        return emit(
+          CheckBuyerEmailSuccessNoAssociation(platform: event.platform),
+        );
       }
+
+      if (e is NoAccountFound) {
+        return emit(CheckBuyerEmailSuccessNoAccount());
+      }
+
+      if (e is EmailAlreadyExistsException) {
+        return emit(CheckBuyerEmailSuccessEmailExists());
+      }
+
       emit(CheckBuyerEmailError(message: e.toString()));
     }
   }

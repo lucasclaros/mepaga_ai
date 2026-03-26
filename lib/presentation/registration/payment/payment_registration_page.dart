@@ -1,11 +1,11 @@
 // ignore_for_file: lines_longer_than_80_chars
 
-import 'package:auto_route/auto_route.dart';
 import 'package:domain/use_cases/pix_register_uc.dart';
 import 'package:dropdown_button2/dropdown_button2.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:mepaga_ai/presentation/common/mpg_button.dart';
 import 'package:mepaga_ai/presentation/common/mpg_header.dart';
@@ -17,7 +17,6 @@ import 'package:mepaga_ai/presentation/common/themes/text_styles/mpg_text_styles
 import 'package:mepaga_ai/presentation/registration/payment/bloc/payment_registration_bloc.dart';
 import 'package:mepaga_ai/presentation/registration/payment/utils.dart';
 
-@RoutePage()
 class PaymentRegistrationPage extends StatefulWidget {
   const PaymentRegistrationPage({
     super.key,
@@ -56,7 +55,7 @@ class _PaymentRegistrationPageState extends State<PaymentRegistrationPage> {
 
               if (state is RegisterPixSuccess) {
                 widget.onSuccess();
-                Navigator.pop(context);
+                context.pop();
               }
             },
             builder: (context, state) {

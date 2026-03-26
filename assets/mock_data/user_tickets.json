@@ -1,0 +1,57 @@
+[
+  {
+    "id": "ticket_1",
+    "price": 150.00,
+    "sold": false,
+    "party": {
+      "name": "Show da Banda A",
+      "date": "2026-07-12T20:00:00Z",
+      "description": "Um show inesquecível da Banda A no palco principal.",
+      "picture": "http://example.com/banda_a.jpg"
+    }
+  },
+  {
+    "id": "ticket_2",
+    "price": 80.00,
+    "sold": false,
+    "party": {
+      "name": "Peça de Teatro B",
+      "date": "2026-08-05T19:30:00Z",
+      "description": "Uma emocionante peça no Teatro Municipal.",
+      "picture": "http://example.com/teatro_b.jpg"
+    }
+  },
+  {
+    "id": "ticket_3",
+    "price": 300.00,
+    "sold": false,
+    "party": {
+      "name": "Festival C",
+      "date": "2026-09-20T14:00:00Z",
+      "description": "O maior festival da cidade.",
+      "picture": "http://example.com/festival_c.jpg"
+    }
+  },
+  {
+    "id": "ticket_4",
+    "price": 200.00,
+    "sold": true,
+    "party": {
+      "name": "Show do Artista D",
+      "date": "2026-10-03T21:00:00Z",
+      "description": "Noite especial com o Artista D.",
+      "picture": "http://example.com/artista_d.jpg"
+    }
+  },
+  {
+    "id": "ticket_5",
+    "price": 120.00,
+    "sold": false,
+    "party": {
+      "name": "Festival de Jazz",
+      "date": "2026-11-15T17:00:00Z",
+      "description": "Uma tarde de muito jazz ao ar livre.",
+      "picture": "http://example.com/jazz.jpg"
+    }
+  }
+]

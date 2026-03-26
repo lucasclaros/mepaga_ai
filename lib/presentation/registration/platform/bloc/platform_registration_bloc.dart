@@ -78,21 +78,20 @@ class PlatformRegistrationBloc
     try {
       await checkPlatformUC(CheckPlatformUCParams(platform: event.platform));
     } catch (e) {
-      if (e is MPGException) {
-        if (e is FoundAccountNoAssociation) {
-          emit(
-            CheckUserPlatformSuccessNoAssociation(platform: event.platform),
-          );
-        }
-
-        if (e is NoAccountFound) {
-          emit(CheckUserPlatformSuccessNoAccount());
-        }
-
-        if (e is EmailAlreadyExistsException) {
-          emit(CheckUserPlatformSuccessEmailExists());
-        }
+      if (e is FoundAccountNoAssociation) {
+        return emit(
+          CheckUserPlatformSuccessNoAssociation(platform: event.platform),
+        );
       }
+
+      if (e is NoAccountFound) {
+        return emit(CheckUserPlatformSuccessNoAccount());
+      }
+
+      if (e is EmailAlreadyExistsException) {
+        return emit(CheckUserPlatformSuccessEmailExists());
+      }
+
       emit(CheckUserPlatformError(message: e.toString()));
     }
   }

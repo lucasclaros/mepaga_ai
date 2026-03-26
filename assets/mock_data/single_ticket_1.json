@@ -1,0 +1,13 @@
+{
+  "id": "ticket_1",
+  "price": 150.00,
+  "sold": false,
+  "party": {
+    "name": "Show da Banda A - Detalhes",
+    "date": "2026-07-12T20:00:00Z",
+    "description": "Este é um ticket para o show da famosa Banda A. Garanta seu lugar no setor VIP para uma experiência inesquecível!",
+    "picture": "http://example.com/banda_a_details.jpg"
+  },
+  "seller_id": 42,
+  "platform": "byma"
+}

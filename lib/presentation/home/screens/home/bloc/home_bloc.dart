@@ -4,22 +4,21 @@ import 'package:domain/use_cases/get_user_info_uc.dart';
 import 'package:domain/use_cases/get_user_platforms_uc.dart';
 import 'package:domain/use_cases/get_user_tickets.dart';
 import 'package:domain/use_cases/use_case.dart';
+import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 import 'package:mepaga_ai/data/models/user_mm.dart';
 import 'package:meta/meta.dart';
 
 part 'home_event.dart';
 part 'home_state.dart';
 
-class HomeBloc extends Bloc<HomeEvent, HomeState> {
+class HomeBloc extends Bloc<HomeEvent, PagingState<int, Ticket>> {
   HomeBloc({
     required this.getUserInfoUC,
     required this.getUserTicketsUC,
     required this.getUserPlatformsUC,
-  }) : super(HomeLoading()) {
+  }) : super(PagingState()) {
     on<UserInfo>(_mapUserInfoToState);
     on<UserPlatforms>(_mapUserPlatformsInfoToState);
-
-    add(UserInfo(initialLoading: true));
   }
 
   final GetUserInfoUC getUserInfoUC;
@@ -28,10 +27,10 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
 
   Future<void> _mapUserInfoToState(
     UserInfo event,
-    Emitter<HomeState> emit,
+    Emitter<PagingState<int, Ticket>> emit,
   ) async {
-    if (event.initialLoading) {
-      emit(HomeLoading());
+    if (event.initialLoading || state.isLoading) {
+      emit(state.copyWith(isLoading: true, error: null));
     }
 
     try {
@@ -39,23 +38,31 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
       UserMM().email = user.email;
       UserMM().name = user.name;
       UserMM().pixKey = user.pixKey;
+      final newKey = (state.keys?.last ?? 0) + 1;
       final tickets = await getUserTicketsUC(NoParams());
-      emit(HomeSuccess(tickets: tickets));
+      emit(
+        state.copyWith(
+          pages: [...?state.pages, tickets],
+          keys: [...?state.keys, newKey],
+          hasNextPage: false,
+          isLoading: false,
+        ),
+      );
     } catch (e) {
       if (e is Exception) {
-        emit(HomeError(message: e.toString()));
+        emit(state.copyWith(error: e, isLoading: false));
       }
     }
   }
 
   Future<void> _mapUserPlatformsInfoToState(
     UserPlatforms event,
-    Emitter<HomeState> emit,
+    Emitter<PagingState<int, Ticket>> emit,
   ) async {
     try {
       final platforms = await getUserPlatformsUC(NoParams());
       if (platforms.length == 1 && !platforms[0].associated) {
-        emit(RegisterPlatform());
+        emit(PagingState());
       }
     } catch (_) {}
   }
