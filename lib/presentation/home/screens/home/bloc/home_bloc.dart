@@ -42,8 +42,8 @@ class HomeBloc extends Bloc<HomeEvent, PagingState<int, Ticket>> {
       final tickets = await getUserTicketsUC(NoParams());
       emit(
         state.copyWith(
-          pages: [...?state.pages, tickets],
-          keys: [...?state.keys, newKey],
+          pages: [tickets],
+          keys: [newKey],
           hasNextPage: false,
           isLoading: false,
         ),

@@ -6,6 +6,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:mepaga_ai/presentation/common/responsive_layout.dart';
 import 'package:mepaga_ai/presentation/common/themes/assets/mpg_assets_paths.dart';
+import 'package:mepaga_ai/presentation/common/themes/mpg_theme.dart';
 
 class MPGTextField extends StatefulWidget {
   const MPGTextField({
@@ -103,7 +104,7 @@ class _MPGTextFieldState extends State<MPGTextField> {
               widget.labelText ?? '',
               style: GoogleFonts.barlow(
                 fontWeight: FontWeight.w500,
-                color: Colors.white.withOpacity(0.8),
+                color: Colors.white.withValues(alpha: 0.8),
                 fontSize: 20.sp,
               ),
             ),
@@ -139,16 +140,16 @@ class _MPGTextFieldState extends State<MPGTextField> {
             inputFormatters: widget.inputFormatters,
             decoration: InputDecoration(
               filled: true,
-              fillColor: Colors.black.withOpacity(0.5),
+              fillColor: surfaceColor,
               prefixIcon: IconButton(
                 icon: SvgPicture.asset(
                   getPrefixIcon(),
                   color:
-                      widget.errorText == null ? null : const Color(0xffd30000),
+                      widget.errorText == null ? null : errorColor,
                 ),
                 onPressed: null,
                 color:
-                    widget.errorText == null ? null : const Color(0xffd30000),
+                    widget.errorText == null ? null : errorColor,
               ),
               suffixIcon: widget.suffixIcon != null
                   ? IconButton(
@@ -167,7 +168,7 @@ class _MPGTextFieldState extends State<MPGTextField> {
                                 : MPGAssetsPaths.of(context).passwordEyeVisible,
                             color: widget.errorText == null
                                 ? null
-                                : const Color(0xffd30000),
+                                : errorColor,
                           ),
                           onPressed: () {
                             setState(() {
@@ -178,15 +179,15 @@ class _MPGTextFieldState extends State<MPGTextField> {
                       : null,
               errorText: widget.errorText,
               errorStyle: GoogleFonts.barlow(
-                color: const Color(0xffd30000),
+                color: errorColor,
                 fontSize: 14.sp,
                 fontWeight: FontWeight.w400,
               ),
               errorBorder: OutlineInputBorder(
                 borderSide: const BorderSide(
-                  color: Color(0xffd30000),
+                  color: errorColor,
                 ),
-                borderRadius: BorderRadius.circular(10),
+                borderRadius: BorderRadius.circular(10.r),
               ),
               contentPadding: EdgeInsets.symmetric(
                 vertical: 17.h,
@@ -194,37 +195,29 @@ class _MPGTextFieldState extends State<MPGTextField> {
               ),
               hintText: widget.hintText,
               hintStyle: GoogleFonts.barlow(
-                color: Colors.grey,
+                color: textSecondary,
                 fontSize: 20.sp,
               ),
               enabledBorder: OutlineInputBorder(
                 borderSide: const BorderSide(
-                  color: Color(0xff9c9c9c),
+                  color: surfaceBorder,
                 ),
-                borderRadius: BorderRadius.circular(10),
+                borderRadius: BorderRadius.circular(10.r),
               ),
-              // disabledBorder: widget.disabledBorder
-              //     ? OutlineInputBorder(
-              //         borderSide: const BorderSide(
-              //           color: Color(0xff9c9c9c),
-              //         ),
-              //         borderRadius: BorderRadius.circular(10),
-              //       )
-              //     : null,
               focusedBorder: OutlineInputBorder(
                 borderSide: BorderSide(
                   color: ResponsiveLayout.isDesktop(context)
-                      ? Colors.black
-                      : const Color(0xFF7401FF),
-                  width: 3,
+                      ? surfaceBorder
+                      : brandPrimary,
+                  width: 2,
                 ),
-                borderRadius: BorderRadius.circular(10),
+                borderRadius: BorderRadius.circular(10.r),
               ),
               focusedErrorBorder: OutlineInputBorder(
                 borderSide: const BorderSide(
-                  color: Color(0xffd30000),
+                  color: errorColor,
                 ),
-                borderRadius: BorderRadius.circular(10),
+                borderRadius: BorderRadius.circular(10.r),
               ),
             ),
             style: GoogleFonts.barlow(

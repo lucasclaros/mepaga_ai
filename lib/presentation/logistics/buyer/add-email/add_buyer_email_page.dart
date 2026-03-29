@@ -70,7 +70,7 @@ class _AddBuyerEmailPageState extends State<AddBuyerEmailPage> {
                               style: GoogleFonts.barlow(
                                 fontSize: 24,
                                 fontWeight: FontWeight.w500,
-                                color: Colors.white.withOpacity(0.8),
+                                color: Colors.white.withValues(alpha: 0.8),
                               ),
                             ),
                             TextSpan(
@@ -86,7 +86,7 @@ class _AddBuyerEmailPageState extends State<AddBuyerEmailPage> {
                               style: GoogleFonts.barlow(
                                 fontSize: 24,
                                 fontWeight: FontWeight.w500,
-                                color: Colors.white.withOpacity(0.8),
+                                color: Colors.white.withValues(alpha: 0.8),
                               ),
                             ),
                           ],

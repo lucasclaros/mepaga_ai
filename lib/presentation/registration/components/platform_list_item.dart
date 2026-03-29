@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:mepaga_ai/presentation/common/themes/assets/mpg_assets_paths.dart';
+import 'package:mepaga_ai/presentation/common/themes/mpg_theme.dart';
 
 class PlatformListItem extends StatelessWidget {
   const PlatformListItem({
@@ -27,7 +27,7 @@ class PlatformListItem extends StatelessWidget {
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(10),
           border: Border.all(
-            color: isLinked ? const Color(0xFF7401FF) : const Color(0xFF98929F),
+            color: isLinked ? brandPrimary : textSecondary,
             width: 2,
           ),
         ),
@@ -36,24 +36,26 @@ class PlatformListItem extends StatelessWidget {
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            SvgPicture.asset(
-              MPGAssetsPaths.of(context).logoByma,
-              width: 90.w,
-              // ignore: deprecated_member_use
-              color: Colors.red,
+            Container(
+              width: 110.w,
+              height: 44.h,
+              decoration: BoxDecoration(
+                color: const Color(0xFF1E1E1E),
+                borderRadius: BorderRadius.circular(8.r),
+              ),
+              padding: EdgeInsets.symmetric(horizontal: 10.w, vertical: 8.h),
+              child: logo.endsWith('.svg')
+                  ? SvgPicture.asset(logo, fit: BoxFit.contain)
+                  : Image.asset(logo, fit: BoxFit.contain),
             ),
             Text(
               isLinked ? 'Vinculado' : 'Não vinculado',
               style: GoogleFonts.barlow(
                 fontSize: 16.sp,
                 fontWeight: FontWeight.w500,
-                color: isLinked
-                    ? const Color(0xFFE9E9E9)
-                    : const Color(0xFF98929F),
+                color: isLinked ? textPrimary : textSecondary,
                 decoration: TextDecoration.underline,
-                decorationColor: isLinked
-                    ? const Color(0xFFE9E9E9)
-                    : const Color(0xFF98929F),
+                decorationColor: isLinked ? textPrimary : textSecondary,
               ),
             ),
           ],

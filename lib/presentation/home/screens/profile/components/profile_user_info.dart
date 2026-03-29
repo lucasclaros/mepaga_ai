@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:mepaga_ai/data/models/user_mm.dart';
+import 'package:mepaga_ai/presentation/common/themes/mpg_theme.dart';
 import 'package:shimmer/shimmer.dart';
 
 class ProfileUserInfo extends StatelessWidget {
@@ -12,42 +13,65 @@ class ProfileUserInfo extends StatelessWidget {
 
   final bool isLoading;
 
+  String _initials(String name) {
+    final parts = name.trim().split(' ');
+    if (parts.isEmpty || parts.first.isEmpty) return '?';
+    if (parts.length == 1) return parts.first[0].toUpperCase();
+    return '${parts.first[0]}${parts.last[0]}'.toUpperCase();
+  }
+
   @override
   Widget build(BuildContext context) {
-    return isLoading
-        ? Shimmer.fromColors(
-            baseColor: Colors.white.withOpacity(0.8),
-            highlightColor: Colors.white.withOpacity(0.4),
-            child: Container(
-              height: 50.h,
-              width: 220.w,
-              decoration: BoxDecoration(
-                color: Colors.white.withOpacity(0.2),
-                borderRadius: BorderRadius.circular(10.r),
-              ),
+    if (isLoading) {
+      return Shimmer.fromColors(
+        baseColor: surfaceColor,
+        highlightColor: surfaceLight,
+        child: Container(
+          height: 80.h,
+          width: 220.w,
+          decoration: BoxDecoration(
+            color: surfaceColor,
+            borderRadius: BorderRadius.circular(10.r),
+          ),
+        ),
+      );
+    }
+
+    return Column(
+      children: [
+        CircleAvatar(
+          radius: 32.r,
+          backgroundColor: brandPrimary,
+          child: Text(
+            _initials(UserMM().name),
+            style: GoogleFonts.barlow(
+              fontSize: 20.sp,
+              fontWeight: FontWeight.w700,
+              color: textPrimary,
             ),
-          )
-        : Column(
-            children: [
-              Text(
-                UserMM().name,
-                style: GoogleFonts.barlow(
-                  fontSize: 24.sp,
-                  fontWeight: FontWeight.w500,
-                  color: Colors.white.withOpacity(0.8),
-                ),
-                overflow: TextOverflow.ellipsis,
-              ),
-              Text(
-                UserMM().email,
-                style: GoogleFonts.barlow(
-                  fontSize: 16.sp,
-                  fontWeight: FontWeight.w500,
-                  color: Colors.white.withOpacity(0.8),
-                ),
-                overflow: TextOverflow.ellipsis,
-              ),
-            ],
-          );
+          ),
+        ),
+        SizedBox(height: 12.h),
+        Text(
+          UserMM().name,
+          style: GoogleFonts.barlow(
+            fontSize: 20.sp,
+            fontWeight: FontWeight.w600,
+            color: textPrimary,
+          ),
+          overflow: TextOverflow.ellipsis,
+        ),
+        SizedBox(height: 4.h),
+        Text(
+          UserMM().email,
+          style: GoogleFonts.barlow(
+            fontSize: 14.sp,
+            fontWeight: FontWeight.w400,
+            color: textSecondary,
+          ),
+          overflow: TextOverflow.ellipsis,
+        ),
+      ],
+    );
   }
 }

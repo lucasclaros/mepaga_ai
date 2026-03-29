@@ -10,8 +10,13 @@ import 'package:mepaga_ai/presentation/common/mpg_header.dart';
 import 'package:mepaga_ai/presentation/common/mpg_scaffold.dart';
 import 'package:mepaga_ai/presentation/common/mpg_textfield.dart';
 import 'package:mepaga_ai/presentation/common/themes/colors/mpg_colors.dart';
+import 'package:mepaga_ai/presentation/common/themes/mpg_theme.dart';
 import 'package:mepaga_ai/presentation/common/themes/text_styles/mpg_text_styles.dart';
+import 'package:mepaga_ai/presentation/common/mpg_fade_in.dart';
 import 'package:mepaga_ai/presentation/common/utils.dart';
+
+const _demoEmail = 'demo@mepaga.com';
+const _demoPassword = 'demo1234';
 
 class LoginView extends StatefulWidget {
   const LoginView({super.key});
@@ -29,10 +34,24 @@ class LoginViewState extends State<LoginView> {
 
   final _emailFocusNode = FocusNode();
   final _passwordFocusNode = FocusNode();
+  bool _autoDemoTriggered = false;
 
-  @override
-  void initState() {
-    super.initState();
+  void _triggerLogin(BuildContext context) {
+    context.read<LoginBloc>().add(
+          UserLogin(
+            email: _emailController.text,
+            password: _passwordController.text,
+          ),
+        );
+  }
+
+  void _fillAndLoginDemo(BuildContext context) {
+    setState(() {
+      _emailController.text = _demoEmail;
+      _passwordController.text = _demoPassword;
+      errorMessage = null;
+    });
+    _triggerLogin(context);
   }
 
   @override
@@ -62,7 +81,7 @@ class LoginViewState extends State<LoginView> {
                 title: 'Ops... Ocorreu um erro!',
                 message: state.message,
                 fontColor: Colors.white,
-                backgroundColor: Colors.red,
+                backgroundColor: errorColor,
                 thenFunction: () {
                   setState(() {
                     isShowingFlushbar = false;
@@ -77,50 +96,52 @@ class LoginViewState extends State<LoginView> {
           }
         },
         builder: (context, state) {
+          if (!_autoDemoTriggered) {
+            _autoDemoTriggered = true;
+            final extra = GoRouterState.of(context).extra;
+            if (extra is Map && extra['autoDemo'] == true) {
+              WidgetsBinding.instance.addPostFrameCallback((_) {
+                if (mounted) _fillAndLoginDemo(context);
+              });
+            }
+          }
           return MPGScaffold(
-            child: SingleChildScrollView(
-              child: Column(
-                children: [
-                  const MPGHeader(
-                    title: 'Bem-vindo!',
-                  ),
-                  SizedBox(height: 75.h),
-                  MPGTextField(
-                    labelText: 'Digite seu email',
-                    hintText: 'Email',
-                    isPassword: false,
-                    controller: _emailController,
-                    focusNode: _emailFocusNode,
-                    errorText: errorMessage,
-                  ),
-                  SizedBox(height: 43.h),
-                  MPGTextField(
-                    labelText: 'Digite sua senha',
-                    hintText: 'Senha',
-                    isPassword: true,
-                    controller: _passwordController,
-                    focusNode: _passwordFocusNode,
-                    errorText: errorMessage,
-                  ),
-                  SizedBox(height: 195.h),
-                  MPGButton(
-                    gradient: MPGColors.of(context).mpgButtonColoredGradient,
-                    onPressed: () {
-                      context.read<LoginBloc>().add(
-                            UserLogin(
-                              email: _emailController.text,
-                              password: _passwordController.text,
-                            ),
-                          );
-                    },
-                    isLoading: isLoading,
-                    child: Text(
-                      'Login',
-                      style: MPGTextStyles.of(context).mpgColoredButton,
+            child: MPGFadeIn(
+              child: SingleChildScrollView(
+                child: Column(
+                  children: [
+                    const MPGHeader(title: 'Bem-vindo!'),
+                    SizedBox(height: 75.h),
+                    MPGTextField(
+                      labelText: 'Digite seu email',
+                      hintText: 'Email',
+                      isPassword: false,
+                      controller: _emailController,
+                      focusNode: _emailFocusNode,
+                      errorText: errorMessage,
                     ),
-                  ),
-                  SizedBox(height: 70.h),
-                ],
+                    SizedBox(height: 43.h),
+                    MPGTextField(
+                      labelText: 'Digite sua senha',
+                      hintText: 'Senha',
+                      isPassword: true,
+                      controller: _passwordController,
+                      focusNode: _passwordFocusNode,
+                      errorText: errorMessage,
+                    ),
+                    SizedBox(height: 60.h),
+                    MPGButton(
+                      gradient: MPGColors.of(context).mpgButtonColoredGradient,
+                      onPressed: () => _triggerLogin(context),
+                      isLoading: isLoading,
+                      child: Text(
+                        'Entrar',
+                        style: MPGTextStyles.of(context).mpgColoredButton,
+                      ),
+                    ),
+                    SizedBox(height: 70.h),
+                  ],
+                ),
               ),
             ),
           );

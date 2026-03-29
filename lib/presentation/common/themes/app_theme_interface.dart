@@ -97,7 +97,9 @@ abstract class IAppAssetsPaths {
 
   String get addTicketSelectedIcon;
 
-  String get logoByma;
+  String get logoSympla;
+  String get logoEventim;
+  String get logoTicket360;
 
   String get logoPix;
 

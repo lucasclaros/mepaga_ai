@@ -2,6 +2,8 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:mepaga_ai/presentation/common/themes/colors/mpg_colors.dart';
 import 'package:mepaga_ai/presentation/common/themes/text_styles/mpg_text_styles.dart';
 import 'package:mepaga_ai/presentation/common/utils.dart';
 import 'package:pinput/pinput.dart';
@@ -29,13 +31,13 @@ class _MPGOtpTextFieldState extends State<MPGOtpTextField> {
   Widget build(BuildContext context) {
     final _otpController = widget.textController;
     final _otpFocusNode = widget.focusNode;
-    const _defaulWidth = 56.0;
-    const _defaulHeight = 3.0;
-    const borderColor = Colors.grey;
+    final defaulWidth = 56.w;
+    final defaulHeight = 3.h;
+    final borderColor = MPGColors.of(context).textSecondary;
 
     final defaultPinTheme = PinTheme(
-      width: _defaulWidth,
-      height: _defaulWidth,
+      width: defaulWidth,
+      height: defaulWidth,
       textStyle: MPGTextStyles.of(context).pinputDefaultTheme,
     );
 
@@ -43,11 +45,11 @@ class _MPGOtpTextFieldState extends State<MPGOtpTextField> {
       mainAxisAlignment: MainAxisAlignment.end,
       children: [
         Container(
-          width: _defaulWidth,
-          height: _defaulHeight,
+          width: defaulWidth,
+          height: defaulHeight,
           decoration: BoxDecoration(
             color: borderColor,
-            borderRadius: BorderRadius.circular(8),
+            borderRadius: BorderRadius.circular(8.r),
           ),
         ),
       ],
@@ -57,11 +59,11 @@ class _MPGOtpTextFieldState extends State<MPGOtpTextField> {
       mainAxisAlignment: MainAxisAlignment.end,
       children: [
         Container(
-          width: _defaulWidth,
-          height: _defaulHeight,
+          width: defaulWidth,
+          height: defaulHeight,
           decoration: BoxDecoration(
-            color: Colors.white,
-            borderRadius: BorderRadius.circular(8),
+            color: MPGColors.of(context).textPrimary,
+            borderRadius: BorderRadius.circular(8.r),
           ),
         ),
       ],
@@ -105,7 +107,7 @@ class _MPGOtpTextFieldState extends State<MPGOtpTextField> {
         ),
         SizedBox(
           // 6 from pinput length and 40 from (5 gaps * 8 default padding)
-          width: 6 * _defaulWidth + 40,
+          width: 6 * defaulWidth + 40.w,
           child: Row(
             mainAxisAlignment: MainAxisAlignment.end,
             children: [

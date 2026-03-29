@@ -32,15 +32,24 @@ CustomTransitionPage<T> _slidePage<T>({
   return CustomTransitionPage<T>(
     key: state.pageKey,
     child: child,
-    transitionDuration: const Duration(milliseconds: 250),
-    reverseTransitionDuration: const Duration(milliseconds: 200),
+    transitionDuration: const Duration(milliseconds: 300),
+    reverseTransitionDuration: const Duration(milliseconds: 250),
     transitionsBuilder: (context, animation, secondaryAnimation, child) {
-      return SlideTransition(
-        position: Tween<Offset>(
-          begin: const Offset(1, 0),
-          end: Offset.zero,
-        ).animate(CurvedAnimation(parent: animation, curve: Curves.easeOut)),
-        child: child,
+      // Entering/exiting page: slides laterally. Reversed automatically on pop.
+      final slide = Tween<Offset>(
+        begin: const Offset(1, 0),
+        end: Offset.zero,
+      ).animate(CurvedAnimation(parent: animation, curve: Curves.easeOutCubic));
+
+      // The page being covered (push) or revealed (pop) fades accordingly.
+      // begin=1.0, end=0.82 → fades out when covered, fades back in when revealed.
+      final backgroundFade = Tween<double>(begin: 1.0, end: 0.82).animate(
+        CurvedAnimation(parent: secondaryAnimation, curve: Curves.easeInOut),
+      );
+
+      return FadeTransition(
+        opacity: backgroundFade,
+        child: SlideTransition(position: slide, child: child),
       );
     },
   );
@@ -204,20 +213,19 @@ final GoRouter routerConfig = GoRouter(
       ),
     ),
   ],
-  redirect: (BuildContext context, GoRouterState state) async {
+  redirect: (BuildContext context, GoRouterState state) {
     final location = state.uri.toString();
-
     final onlineCds = context.read<OnlineCDS>();
-    final String? loggedInToken = await onlineCds.getJWT();
-    final bool isLoggedIn = loggedInToken != null;
 
-    // Rota raiz (/ ou /index.html no web): logado → home sem redirect (preserva extra);
-    // não logado → welcome.
+    // Treat "not yet loaded" the same as "not logged in".
+    // Public routes are always reachable; protected routes fall back to /login.
+    final bool isLoggedIn = onlineCds.isJwtLoaded && onlineCds.cachedJwt != null;
+
+    // Rota raiz: logado → home; não logado → welcome.
     if (location == '/' || location.endsWith('/index.html')) {
       return isLoggedIn ? null : '/welcome';
     }
 
-    // Rotas públicas (acessíveis sem login)
     const publicRoutes = [
       '/welcome',
       '/onboarding',
@@ -227,19 +235,11 @@ final GoRouter routerConfig = GoRouter(
       '/mpg-otp-verification',
     ];
 
-    final bool isGoingToPublicRoute = publicRoutes.contains(location);
+    final bool isPublic = publicRoutes.contains(location);
 
-    // Logado tentando acessar rota pública → vai para home
-    if (isLoggedIn && isGoingToPublicRoute) {
-      return '/';
-    }
+    if (isLoggedIn && isPublic) return '/';
+    if (!isLoggedIn && !isPublic) return '/login';
 
-    // Não logado tentando acessar rota protegida → vai para login
-    if (!isLoggedIn && !isGoingToPublicRoute) {
-      return '/login';
-    }
-
-    // Sem redirecionamento necessário
     return null;
   },
 );

@@ -76,7 +76,22 @@ class MPGAssetsPaths implements IAppAssetsPaths {
   String get addTicketSelectedIcon => getAssetPath('add_tickets_selected.svg');
 
   @override
-  String get logoByma => getAssetPath('logo_byma.svg');
+  String get logoSympla => getAssetPath('logo_sympla.svg');
+
+  @override
+  String get logoEventim => getAssetPath('logo_eventim.png');
+
+  @override
+  String get logoTicket360 => getAssetPath('logo_ticket360.png');
+
+  String logoForPlatform(String platform) {
+    switch (platform.toLowerCase()) {
+      case 'sympla':   return logoSympla;
+      case 'eventim':  return logoEventim;
+      case 'ticket360': return logoTicket360;
+      default:         return logoSympla;
+    }
+  }
 
   @override
   String get logoPix => getAssetPath('logo_pix.svg');

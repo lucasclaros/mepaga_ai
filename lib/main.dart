@@ -8,6 +8,8 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:logger/logger.dart';
 import 'package:mepaga_ai/common/general_provider.dart';
 import 'package:mepaga_ai/common/go_router_config.dart';
+import 'package:mepaga_ai/data/cache/data_source/online_cds.dart';
+import 'package:provider/provider.dart';
 import 'package:mepaga_ai/url_strategy/nonweb_url_strategy.dart'
     if (dart.library.html) 'package:mepaga_ai/url_strategy/web_url_strategy.dart';
 
@@ -51,11 +53,6 @@ void main() async {
       ),
     );
 
-    // Adicionado: Remover o splash screen após a primeira renderização do frame
-    WidgetsBinding.instance.addPostFrameCallback((_) {
-      FlutterNativeSplash.remove();
-    });
-
   }, (error, stack) {
     errorLogger(
       'Zone Guarded Error',
@@ -65,8 +62,29 @@ void main() async {
   });
 }
 
-class MPGApp extends StatelessWidget {
+class MPGApp extends StatefulWidget {
   const MPGApp({super.key});
+
+  @override
+  State<MPGApp> createState() => _MPGAppState();
+}
+
+class _MPGAppState extends State<MPGApp> {
+  @override
+  void initState() {
+    super.initState();
+    // Pre-warm the JWT cache while the native splash is still visible.
+    // Once loaded, the router redirect becomes synchronous → animations work.
+    WidgetsBinding.instance.addPostFrameCallback((_) async {
+      final jwt = await context.read<OnlineCDS>().getJWT();
+      if (mounted) {
+        FlutterNativeSplash.remove();
+        if (jwt != null) {
+          routerConfig.go('/');
+        }
+      }
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -82,7 +100,7 @@ class MPGApp extends StatelessWidget {
             PointerDeviceKind.invertedStylus,
           },
         ),
-        routerConfig: routerConfig, // <--- MUDANÇA PRINCIPAL
+        routerConfig: routerConfig,
         debugShowCheckedModeBanner: false,
         title: 'Me Paga Ai',
         theme: ThemeData(

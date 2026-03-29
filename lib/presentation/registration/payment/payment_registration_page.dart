@@ -76,7 +76,7 @@ class _PaymentRegistrationPageState extends State<PaymentRegistrationPage> {
                             style: GoogleFonts.barlow(
                               fontSize: 21,
                               fontWeight: FontWeight.w500,
-                              color: Colors.white.withOpacity(0.8),
+                              color: Colors.white.withValues(alpha:0.8),
                             ),
                             textAlign: TextAlign.center,
                           ),
@@ -102,7 +102,7 @@ class _PaymentRegistrationPageState extends State<PaymentRegistrationPage> {
                                 _selectedType = value;
                               });
                             },
-                            barrierColor: Colors.transparent.withOpacity(0.5),
+                            barrierColor: Colors.transparent.withValues(alpha:0.5),
                             dropdownStyleData: const DropdownStyleData(
                               useRootNavigator: true,
                               decoration: BoxDecoration(
@@ -128,7 +128,7 @@ class _PaymentRegistrationPageState extends State<PaymentRegistrationPage> {
                             isExpanded: true,
                             decoration: InputDecoration(
                               filled: true,
-                              fillColor: Colors.black.withOpacity(0.5),
+                              fillColor: Colors.black.withValues(alpha:0.5),
                               contentPadding: EdgeInsets.symmetric(
                                 vertical: 17.h,
                                 horizontal: 10.w,
@@ -231,7 +231,7 @@ class _PaymentRegistrationPageState extends State<PaymentRegistrationPage> {
                               style: GoogleFonts.barlow(
                                 fontSize: 21,
                                 fontWeight: FontWeight.w500,
-                                color: Colors.white.withOpacity(0.8),
+                                color: Colors.white.withValues(alpha:0.8),
                               ),
                               children: [
                                 TextSpan(
@@ -247,7 +247,7 @@ class _PaymentRegistrationPageState extends State<PaymentRegistrationPage> {
                                   style: GoogleFonts.barlow(
                                     fontSize: 21,
                                     fontWeight: FontWeight.w500,
-                                    color: Colors.white.withOpacity(0.8),
+                                    color: Colors.white.withValues(alpha:0.8),
                                   ),
                                 ),
                               ],

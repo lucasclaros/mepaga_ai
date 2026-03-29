@@ -4,10 +4,10 @@
     "price": 150.00,
     "sold": false,
     "party": {
-      "name": "Show da Banda A",
+      "name": "Lollapalooza Brasil",
       "date": "2026-07-12T20:00:00Z",
-      "description": "Um show inesquecível da Banda A no palco principal.",
-      "picture": "http://example.com/banda_a.jpg"
+      "description": "O maior festival de música do Brasil de volta ao Autódromo de Interlagos.",
+      "picture": "assets/events/lollapalooza.jpg"
     }
   },
   {
@@ -15,10 +15,10 @@
     "price": 80.00,
     "sold": false,
     "party": {
-      "name": "Peça de Teatro B",
+      "name": "Teatro Municipal — Hamlet",
       "date": "2026-08-05T19:30:00Z",
-      "description": "Uma emocionante peça no Teatro Municipal.",
-      "picture": "http://example.com/teatro_b.jpg"
+      "description": "Uma emocionante montagem de Hamlet no Teatro Municipal. Lugares limitados.",
+      "picture": "assets/events/teatro_hamlet.jpg"
     }
   },
   {
@@ -26,10 +26,10 @@
     "price": 300.00,
     "sold": false,
     "party": {
-      "name": "Festival C",
+      "name": "Rock in Rio 2026",
       "date": "2026-09-20T14:00:00Z",
-      "description": "O maior festival da cidade.",
-      "picture": "http://example.com/festival_c.jpg"
+      "description": "A cidade da música no coração do Rio de Janeiro.",
+      "picture": "assets/events/rock_in_rio.webp"
     }
   },
   {
@@ -37,10 +37,10 @@
     "price": 200.00,
     "sold": true,
     "party": {
-      "name": "Show do Artista D",
+      "name": "Primavera Sound Brasil",
       "date": "2026-10-03T21:00:00Z",
-      "description": "Noite especial com o Artista D.",
-      "picture": "http://example.com/artista_d.jpg"
+      "description": "O festival mais aguardado do ano chega ao Brasil com lineup internacional.",
+      "picture": "assets/events/primavera_sound.webp"
     }
   },
   {
@@ -48,10 +48,10 @@
     "price": 120.00,
     "sold": false,
     "party": {
-      "name": "Festival de Jazz",
-      "date": "2026-11-15T17:00:00Z",
-      "description": "Uma tarde de muito jazz ao ar livre.",
-      "picture": "http://example.com/jazz.jpg"
+      "name": "Coldplay — Music of the Spheres",
+      "date": "2026-11-15T21:00:00Z",
+      "description": "Coldplay traz o espetáculo Music of the Spheres World Tour ao Brasil.",
+      "picture": "assets/events/coldplay.jpg"
     }
   }
 ]

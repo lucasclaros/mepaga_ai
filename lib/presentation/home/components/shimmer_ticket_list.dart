@@ -9,20 +9,19 @@ class ShimmerTicketList extends StatelessWidget {
   Widget build(BuildContext context) {
     return ListView.builder(
       shrinkWrap: true,
-      itemCount: 10,
+      physics: const NeverScrollableScrollPhysics(),
+      itemCount: 6,
       itemBuilder: (context, index) {
         return Padding(
           padding: EdgeInsets.symmetric(vertical: 11.h),
-          child: SizedBox(
-            height: 62.h,
-            child: Shimmer.fromColors(
-              baseColor: Colors.white,
-              highlightColor: Colors.white.withOpacity(0.5),
-              child: Container(
-                decoration: BoxDecoration(
-                  color: Colors.white.withOpacity(0.2),
-                  borderRadius: BorderRadius.circular(10.r),
-                ),
+          child: Shimmer.fromColors(
+            baseColor: const Color(0xFF2A2A2A),
+            highlightColor: const Color(0xFF3A3A3A),
+            child: Container(
+              height: 62.h,
+              decoration: BoxDecoration(
+                color: const Color(0xFF2A2A2A),
+                borderRadius: BorderRadius.circular(10.r),
               ),
             ),
           ),

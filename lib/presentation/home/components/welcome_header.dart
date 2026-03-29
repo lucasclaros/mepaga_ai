@@ -1,75 +1,49 @@
-import 'dart:math';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:mepaga_ai/data/models/user_mm.dart';
+import 'package:mepaga_ai/presentation/common/themes/mpg_theme.dart';
 import 'package:shimmer/shimmer.dart';
 
-class WelcomeHeader extends StatefulWidget {
+class WelcomeHeader extends StatelessWidget {
   const WelcomeHeader({super.key, required this.isLoading});
 
   final bool isLoading;
-
-  @override
-  State<WelcomeHeader> createState() => _WelcomeHeaderState();
-}
-
-class _WelcomeHeaderState extends State<WelcomeHeader> {
-  final startGreetings = ['Olá', 'Oi', 'Eai', 'Hey'];
-  final finalGreetings = {
-    'Olá': 'Tudo bem?',
-    'Oi': 'Tudo bem?',
-    'Eai': 'Beleza?',
-    'Hey': 'Rockers!',
-  };
-  String? selectedStartGreeting;
-
-  @override
-  void initState() {
-    super.initState();
-    selectedStartGreeting =
-        startGreetings[Random().nextInt(startGreetings.length)];
-  }
 
   @override
   Widget build(BuildContext context) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Visibility(
-          visible: !widget.isLoading,
-          child: Text(
-            '$selectedStartGreeting,',
-            style: GoogleFonts.barlow(
-              fontSize: 30.sp,
-              fontWeight: FontWeight.w500,
-              color: Colors.white.withOpacity(0.8),
-            ),
+        Text(
+          'Olá,',
+          style: GoogleFonts.barlow(
+            fontSize: 18.sp,
+            fontWeight: FontWeight.w500,
+            color: textSecondary,
           ),
         ),
-        if (widget.isLoading)
+        SizedBox(height: 2.h),
+        if (isLoading)
           Shimmer.fromColors(
-            baseColor: Colors.white.withOpacity(0.8),
-            highlightColor: Colors.white.withOpacity(0.4),
+            baseColor: surfaceColor,
+            highlightColor: surfaceLight,
             child: Container(
-              height: 40.h,
-              width: 220.w,
+              height: 28.h,
+              width: 160.w,
               decoration: BoxDecoration(
-                color: Colors.white.withOpacity(0.2),
-                borderRadius: BorderRadius.circular(10.r),
+                color: surfaceColor,
+                borderRadius: BorderRadius.circular(6.r),
               ),
             ),
           )
         else
           Text(
-            UserMM().name.isNotEmpty
-                ? UserMM().name
-                : finalGreetings[selectedStartGreeting]!,
+            UserMM().name.isNotEmpty ? UserMM().name : 'bem-vindo',
             style: GoogleFonts.barlow(
-              fontSize: 36.sp,
-              fontWeight: FontWeight.w500,
-              color: Colors.white,
+              fontSize: 24.sp,
+              fontWeight: FontWeight.w600,
+              color: textPrimary,
             ),
             overflow: TextOverflow.ellipsis,
           ),

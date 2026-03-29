@@ -14,6 +14,7 @@ import 'package:mepaga_ai/presentation/common/mpg_button.dart';
 import 'package:mepaga_ai/presentation/common/mpg_header.dart';
 import 'package:mepaga_ai/presentation/common/mpg_otp_textfield.dart';
 import 'package:mepaga_ai/presentation/common/mpg_scaffold.dart';
+import 'package:mepaga_ai/presentation/common/themes/mpg_theme.dart';
 import 'package:mepaga_ai/presentation/common/themes/text_styles/mpg_text_styles.dart';
 import 'package:mepaga_ai/presentation/common/utils.dart';
 
@@ -69,7 +70,7 @@ class _OTPVerificationViewState extends State<OTPVerificationView> {
                 title: 'Ops... Ocorreu um erro!',
                 message: state.message,
                 fontColor: Colors.white,
-                backgroundColor: Colors.red,
+                backgroundColor: errorColor,
                 thenFunction: () {
                   setState(() {
                     _isShowingFlushbar = false;

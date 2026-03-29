@@ -15,6 +15,7 @@ import 'package:mepaga_ai/presentation/common/mpg_scaffold.dart';
 import 'package:mepaga_ai/presentation/common/mpg_textfield.dart';
 import 'package:mepaga_ai/presentation/common/themes/assets/mpg_assets_paths.dart';
 import 'package:mepaga_ai/presentation/common/utils.dart';
+import 'package:mepaga_ai/presentation/common/themes/mpg_theme.dart';
 import 'package:mepaga_ai/presentation/logistics/buyer/payment/components/step_widget.dart';
 
 class PaymentPage extends StatefulWidget {
@@ -55,7 +56,7 @@ class _PaymentPageState extends State<PaymentPage> {
                           ? Container(
                               padding: EdgeInsets.all(20.w),
                               decoration: BoxDecoration(
-                                color: const Color(0xFF160132),
+                                color: surfaceColor,
                                 borderRadius: BorderRadius.circular(10),
                               ),
                               child: InkWell(
@@ -164,7 +165,7 @@ class _PaymentPageState extends State<PaymentPage> {
                           style: GoogleFonts.barlow(
                             fontSize: 16,
                             fontWeight: FontWeight.w500,
-                            color: Colors.white.withOpacity(0.8),
+                            color: Colors.white.withValues(alpha: 0.8),
                           ),
                         ),
                         TextSpan(
@@ -190,7 +191,7 @@ class _PaymentPageState extends State<PaymentPage> {
                     textStyle: GoogleFonts.barlow(
                       fontSize: 16,
                       fontWeight: FontWeight.w500,
-                      color: Colors.white.withOpacity(0.8),
+                      color: Colors.white.withValues(alpha: 0.8),
                     ),
                     endTime: DateTime.now()
                         .add(const Duration(minutes: 30))
@@ -205,7 +206,7 @@ class _PaymentPageState extends State<PaymentPage> {
                         style: GoogleFonts.barlow(
                           fontSize: 16,
                           fontWeight: FontWeight.w500,
-                          color: Colors.white.withOpacity(0.8),
+                          color: Colors.white.withValues(alpha: 0.8),
                         ),
                         maxLines: 1,
                       );
@@ -217,7 +218,7 @@ class _PaymentPageState extends State<PaymentPage> {
                     style: GoogleFonts.barlow(
                       fontSize: 21,
                       fontWeight: FontWeight.w500,
-                      color: Colors.white.withOpacity(0.8),
+                      color: Colors.white.withValues(alpha: 0.8),
                     ),
                     textAlign: TextAlign.center,
                     maxLines: 3,

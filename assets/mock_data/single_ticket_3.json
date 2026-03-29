@@ -1,0 +1,13 @@
+{
+  "id": "ticket_3",
+  "price": 300.00,
+  "sold": false,
+  "party": {
+    "name": "Rock in Rio 2026",
+    "date": "2026-09-20T14:00:00Z",
+    "description": "A cidade da música no coração do Rio de Janeiro.",
+    "picture": "assets/events/rock_in_rio.webp"
+  },
+  "seller_id": 15,
+  "platform": "sympla"
+}

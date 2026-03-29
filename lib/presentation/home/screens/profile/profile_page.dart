@@ -4,7 +4,9 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:mepaga_ai/presentation/common/mpg_fade_in.dart';
 import 'package:mepaga_ai/presentation/common/mpg_scaffold.dart';
+import 'package:mepaga_ai/presentation/common/themes/mpg_theme.dart';
 import 'package:mepaga_ai/presentation/home/screens/profile/bloc/profile_settings_bloc.dart';
 import 'package:mepaga_ai/presentation/home/screens/profile/components/profile_setting_item.dart';
 import 'package:mepaga_ai/presentation/home/screens/profile/components/profile_user_info.dart';
@@ -21,10 +23,22 @@ class _ProfilePageState extends State<ProfilePage> {
   late List<ProfileSettingItem> settingsOptions;
 
   List<ProfileSettingItem> _buildSettings() => [
-        const ProfileSettingItem(text: 'Associar conta a nova plataforma'),
-        const ProfileSettingItem(text: 'Alterar dados cadastrais'),
-        const ProfileSettingItem(text: 'Histórico de ingressos vendidos'),
-        const ProfileSettingItem(text: 'FAQ'),
+        const ProfileSettingItem(
+          text: 'Associar conta a nova plataforma',
+          icon: Icons.link,
+        ),
+        const ProfileSettingItem(
+          text: 'Alterar dados cadastrais',
+          icon: Icons.person_outline,
+        ),
+        const ProfileSettingItem(
+          text: 'Histórico de ingressos vendidos',
+          icon: Icons.history,
+        ),
+        const ProfileSettingItem(
+          text: 'FAQ',
+          icon: Icons.help_outline,
+        ),
         const ProfileSettingItem(
           text: 'Sair',
           isLogout: true,
@@ -58,41 +72,44 @@ class _ProfilePageState extends State<ProfilePage> {
         },
         builder: (context, state) {
           return MPGScaffold(
-            child: Padding(
-              padding: EdgeInsets.symmetric(horizontal: 30.w),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  SizedBox(height: 40.h),
-                  Center(
-                    child: ProfileUserInfo(
-                      isLoading: _isLoading,
+            child: MPGFadeIn(
+              child: Padding(
+                padding: EdgeInsets.symmetric(horizontal: 30.w),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    SizedBox(height: 40.h),
+                    Center(
+                      child: ProfileUserInfo(
+                        isLoading: _isLoading,
+                      ),
                     ),
-                  ),
-                  SizedBox(height: 48.h),
-                  Text(
-                    'Configurações de usuário',
-                    style: GoogleFonts.barlow(
-                      fontSize: 24.sp,
-                      fontWeight: FontWeight.w500,
-                      color: Colors.white.withOpacity(0.8),
+                    SizedBox(height: 48.h),
+                    Text(
+                      'Configurações de usuário',
+                      style: GoogleFonts.barlow(
+                        fontSize: 14.sp,
+                        fontWeight: FontWeight.w600,
+                        letterSpacing: 0.5,
+                        color: textSecondary,
+                      ),
                     ),
-                  ),
-                  SizedBox(height: 40.h),
-                  Expanded(
-                    child: ListView.builder(
-                      shrinkWrap: true,
-                      itemCount: settingsOptions.length,
-                      itemBuilder: (context, index) {
-                        return Padding(
-                          padding: EdgeInsets.only(bottom: 20.h),
-                          child: settingsOptions[index],
-                        );
-                      },
+                    SizedBox(height: 40.h),
+                    Expanded(
+                      child: ListView.builder(
+                        shrinkWrap: true,
+                        itemCount: settingsOptions.length,
+                        itemBuilder: (context, index) {
+                          return Padding(
+                            padding: EdgeInsets.only(bottom: 20.h),
+                            child: settingsOptions[index],
+                          );
+                        },
+                      ),
                     ),
-                  ),
-                  SizedBox(height: 40.h),
-                ],
+                    SizedBox(height: 40.h),
+                  ],
+                ),
               ),
             ),
           );
