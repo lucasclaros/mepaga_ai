@@ -39,7 +39,7 @@ class BottomNavbarWrapper extends StatelessWidget {
       },
       child: Scaffold(
         body: navigationShell,
-        bottomNavigationBar: Container(
+        bottomNavigationBar: DecoratedBox(
           decoration: const BoxDecoration(
             color: surfaceColor,
             border: Border(

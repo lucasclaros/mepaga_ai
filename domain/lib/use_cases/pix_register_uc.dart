@@ -17,11 +17,11 @@ class PixRegisterUC extends UseCase<PixRegisterUCParams, void> {
 }
 
 class PixRegisterUCParams {
-  final String pixKey;
-  final String keyType;
 
   PixRegisterUCParams({
     required this.pixKey,
     required this.keyType,
   });
+  final String pixKey;
+  final String keyType;
 }

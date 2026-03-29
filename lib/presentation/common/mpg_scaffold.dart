@@ -22,7 +22,7 @@ class MPGScaffold extends StatelessWidget {
     final width = MediaQuery.of(context).size.width;
     final height = MediaQuery.of(context).size.height;
 
-    final Widget background = backgroundImage != null
+    final background = backgroundImage != null
         ? Image.asset(
             backgroundImage!,
             fit: BoxFit.cover,

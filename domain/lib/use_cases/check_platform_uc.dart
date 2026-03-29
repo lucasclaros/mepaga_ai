@@ -17,9 +17,9 @@ class CheckPlatformUC extends UseCase<CheckPlatformUCParams, void> {
 }
 
 class CheckPlatformUCParams {
-  final String platform;
 
   CheckPlatformUCParams({
     required this.platform,
   });
+  final String platform;
 }

@@ -1,27 +1,26 @@
-import 'package:flutter/foundation.dart';
+import 'package:domain/models/payment_charge.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-import 'package:provider/provider.dart';
 import 'package:mepaga_ai/data/cache/data_source/online_cds.dart';
-import 'package:domain/models/payment_charge.dart';
+import 'package:mepaga_ai/presentation/auth/login/view/login_view.dart';
+import 'package:mepaga_ai/presentation/auth/otp_verification/view/otp_verification_view.dart';
+import 'package:mepaga_ai/presentation/auth/register/email/view/register_email_view.dart';
+import 'package:mepaga_ai/presentation/auth/register/password/view/register_password_view.dart';
 import 'package:mepaga_ai/presentation/home/bottom_navbar_wrapper.dart';
 import 'package:mepaga_ai/presentation/home/screens/home/home_page.dart';
 import 'package:mepaga_ai/presentation/home/screens/profile/profile_page.dart';
-import 'package:mepaga_ai/presentation/registration/platform/platform_registration_view.dart';
-import 'package:mepaga_ai/presentation/onboarding/view/onboarding_view.dart';
-import 'package:mepaga_ai/presentation/welcome/welcome_page.dart';
-import 'package:mepaga_ai/presentation/auth/login/view/login_view.dart';
-import 'package:mepaga_ai/presentation/auth/register/email/view/register_email_view.dart';
-import 'package:mepaga_ai/presentation/auth/register/password/view/register_password_view.dart';
-import 'package:mepaga_ai/presentation/auth/otp_verification/view/otp_verification_view.dart';
 import 'package:mepaga_ai/presentation/logistics/buyer/add-email/add_buyer_email_page.dart';
 import 'package:mepaga_ai/presentation/logistics/buyer/buyer_page.dart';
 import 'package:mepaga_ai/presentation/logistics/buyer/payment/payment_page.dart';
 import 'package:mepaga_ai/presentation/logistics/seller/ticket_seller_page.dart';
+import 'package:mepaga_ai/presentation/onboarding/view/onboarding_view.dart';
 import 'package:mepaga_ai/presentation/registration/payment/payment_registration_page.dart';
 import 'package:mepaga_ai/presentation/registration/platform/add_email_platform/add_email_platform_view.dart';
 import 'package:mepaga_ai/presentation/registration/platform/otp_platform_verification/view/otp_platform_verification_view.dart';
+import 'package:mepaga_ai/presentation/registration/platform/platform_registration_view.dart';
 import 'package:mepaga_ai/presentation/registration/tickets/transfer_orientation_page.dart';
+import 'package:mepaga_ai/presentation/welcome/welcome_page.dart';
+import 'package:provider/provider.dart';
 
 final GlobalKey<NavigatorState> _rootNavigatorKey = GlobalKey<NavigatorState>();
 
@@ -32,7 +31,6 @@ CustomTransitionPage<T> _slidePage<T>({
   return CustomTransitionPage<T>(
     key: state.pageKey,
     child: child,
-    transitionDuration: const Duration(milliseconds: 300),
     reverseTransitionDuration: const Duration(milliseconds: 250),
     transitionsBuilder: (context, animation, secondaryAnimation, child) {
       // Entering/exiting page: slides laterally. Reversed automatically on pop.
@@ -43,7 +41,7 @@ CustomTransitionPage<T> _slidePage<T>({
 
       // The page being covered (push) or revealed (pop) fades accordingly.
       // begin=1.0, end=0.82 → fades out when covered, fades back in when revealed.
-      final backgroundFade = Tween<double>(begin: 1.0, end: 0.82).animate(
+      final backgroundFade = Tween<double>(begin: 1, end: 0.82).animate(
         CurvedAnimation(parent: secondaryAnimation, curve: Curves.easeInOut),
       );
 
@@ -125,7 +123,7 @@ final GoRouter routerConfig = GoRouter(
     GoRoute(
       path: '/add-email-platform',
       pageBuilder: (context, state) {
-        final Map<String, dynamic> args = state.extra as Map<String, dynamic>;
+        final args = state.extra! as Map<String, dynamic>;
         return _slidePage(
           state: state,
           child: AddEmailPlatformView(
@@ -138,7 +136,7 @@ final GoRouter routerConfig = GoRouter(
     GoRoute(
       path: '/platform-otp-verification',
       pageBuilder: (context, state) {
-        final Map<String, dynamic> args = state.extra as Map<String, dynamic>;
+        final args = state.extra! as Map<String, dynamic>;
         return _slidePage(
           state: state,
           child: OTPPlatformVerificationView(
@@ -152,7 +150,7 @@ final GoRouter routerConfig = GoRouter(
     GoRoute(
       path: '/pix-registration',
       pageBuilder: (context, state) {
-        final Map<String, dynamic> args = state.extra as Map<String, dynamic>;
+        final args = state.extra! as Map<String, dynamic>;
         return _slidePage(
           state: state,
           child: PaymentRegistrationPage(
@@ -181,7 +179,7 @@ final GoRouter routerConfig = GoRouter(
     GoRoute(
       path: '/buyer-email',
       pageBuilder: (context, state) {
-        final Map<String, dynamic> args = state.extra as Map<String, dynamic>;
+        final args = state.extra! as Map<String, dynamic>;
         return _slidePage(
           state: state,
           child: AddBuyerEmailPage(
@@ -195,7 +193,7 @@ final GoRouter routerConfig = GoRouter(
     GoRoute(
       path: '/payment',
       pageBuilder: (context, state) {
-        final Map<String, dynamic> args = state.extra as Map<String, dynamic>;
+        final args = state.extra! as Map<String, dynamic>;
         return _slidePage(
           state: state,
           child: PaymentPage(
@@ -209,7 +207,7 @@ final GoRouter routerConfig = GoRouter(
       path: '/platform/orientation',
       pageBuilder: (context, state) => _slidePage(
         state: state,
-        child: TransferOrientationPage(platform: state.extra as String),
+        child: TransferOrientationPage(platform: state.extra! as String),
       ),
     ),
   ],
@@ -219,7 +217,7 @@ final GoRouter routerConfig = GoRouter(
 
     // Treat "not yet loaded" the same as "not logged in".
     // Public routes are always reachable; protected routes fall back to /login.
-    final bool isLoggedIn = onlineCds.isJwtLoaded && onlineCds.cachedJwt != null;
+    final isLoggedIn = onlineCds.isJwtLoaded && onlineCds.cachedJwt != null;
 
     // Rota raiz: logado → home; não logado → welcome.
     if (location == '/' || location.endsWith('/index.html')) {
@@ -235,7 +233,7 @@ final GoRouter routerConfig = GoRouter(
       '/mpg-otp-verification',
     ];
 
-    final bool isPublic = publicRoutes.contains(location);
+    final isPublic = publicRoutes.contains(location);
 
     if (isLoggedIn && isPublic) return '/';
     if (!isLoggedIn && !isPublic) return '/login';

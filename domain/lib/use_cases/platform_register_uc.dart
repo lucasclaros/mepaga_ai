@@ -18,11 +18,11 @@ class PlatformRegisterUC extends UseCase<PlatformRegisterUCParams, void> {
 }
 
 class PlatformRegisterUCParams {
-  final String platform;
-  final String? email;
 
   PlatformRegisterUCParams({
     required this.platform,
     this.email,
   });
+  final String platform;
+  final String? email;
 }

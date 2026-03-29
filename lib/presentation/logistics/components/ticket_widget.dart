@@ -56,7 +56,7 @@ class TicketWidget extends StatelessWidget {
         baseColor: surfaceColor,
         highlightColor: surfaceLight,
         child: Container(
-          decoration: ShapeDecoration(
+          decoration: const ShapeDecoration(
             color: surfaceLight,
             shape: shape,
           ),
@@ -67,8 +67,8 @@ class TicketWidget extends StatelessWidget {
   }
 
   Widget _errorPlaceholder() {
-    return Container(
-      decoration: const ShapeDecoration(
+    return const DecoratedBox(
+      decoration: ShapeDecoration(
         gradient: LinearGradient(
           begin: Alignment.topLeft,
           end: Alignment.bottomRight,
@@ -80,7 +80,7 @@ class TicketWidget extends StatelessWidget {
           topRight: false,
         ),
       ),
-      child: const Center(
+      child: Center(
         child: Icon(
           Icons.confirmation_number_outlined,
           color: Color(0xFF444444),
@@ -183,7 +183,7 @@ class TicketWidget extends StatelessWidget {
           ),
         ),
         // Dashed border overlay — traces the full ticket outline including side notches
-        Positioned.fill(
+        const Positioned.fill(
           child: CustomPaint(
             painter: _TicketBorderPainter(
               color: surfaceBorder,
@@ -211,8 +211,8 @@ class _TicketBorderPainter extends CustomPainter {
   final double notchRadius;
   final double seamFraction;
 
-  static const double _dashWidth = 5.0;
-  static const double _dashSpace = 4.0;
+  static const double _dashWidth = 5;
+  static const double _dashSpace = 4;
   static const double _strokeWidth = 1.5;
 
   Path _buildOutlinePath(Size size) {

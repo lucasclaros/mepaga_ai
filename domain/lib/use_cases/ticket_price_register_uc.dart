@@ -18,11 +18,11 @@ class TicketPriceRegisterUC extends UseCase<TicketPriceRegisterUCParams, void> {
 }
 
 class TicketPriceRegisterUCParams {
-  final String ticketId;
-  final double ticketPrice;
 
   TicketPriceRegisterUCParams({
     required this.ticketId,
     required this.ticketPrice,
   });
+  final String ticketId;
+  final double ticketPrice;
 }

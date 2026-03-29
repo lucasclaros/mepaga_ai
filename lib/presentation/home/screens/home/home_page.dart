@@ -11,10 +11,12 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
+import 'package:mepaga_ai/config/app_config.dart';
 import 'package:mepaga_ai/data/models/user_mm.dart';
 import 'package:mepaga_ai/presentation/common/empty_states/fetch_data_empty_state.dart';
 import 'package:mepaga_ai/presentation/common/empty_states/no_tickets_empty_state.dart';
 import 'package:mepaga_ai/presentation/common/mpg_button.dart';
+import 'package:mepaga_ai/presentation/common/mpg_fade_in.dart';
 import 'package:mepaga_ai/presentation/common/mpg_scaffold.dart';
 import 'package:mepaga_ai/presentation/common/themes/colors/mpg_colors.dart';
 import 'package:mepaga_ai/presentation/common/themes/mpg_theme.dart';
@@ -22,9 +24,7 @@ import 'package:mepaga_ai/presentation/common/themes/text_styles/mpg_text_styles
 import 'package:mepaga_ai/presentation/common/utils.dart';
 import 'package:mepaga_ai/presentation/home/components/shimmer_ticket_list.dart';
 import 'package:mepaga_ai/presentation/home/components/ticket_item.dart';
-import 'package:mepaga_ai/presentation/common/mpg_fade_in.dart';
 import 'package:mepaga_ai/presentation/home/components/welcome_header.dart';
-import 'package:mepaga_ai/config/app_config.dart';
 import 'package:mepaga_ai/presentation/home/screens/home/bloc/home_bloc.dart';
 
 class HomePage extends StatefulWidget {
