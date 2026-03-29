@@ -26,6 +26,8 @@ class _WelcomePageState extends State<WelcomePage>
   late final Animation<double> _fadeAnim;
   late final Animation<double> _scaleAnim;
 
+  ModalRoute<dynamic>? _route;
+
   @override
   void initState() {
     super.initState();
@@ -45,7 +47,26 @@ class _WelcomePageState extends State<WelcomePage>
   }
 
   @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    _route?.secondaryAnimation?.removeStatusListener(_onSecondaryAnimStatus);
+    _route = ModalRoute.of(context);
+    _route?.secondaryAnimation?.addStatusListener(_onSecondaryAnimStatus);
+  }
+
+  void _onSecondaryAnimStatus(AnimationStatus status) {
+    // secondaryAnimation reaches dismissed when the child route is fully popped
+    if (status == AnimationStatus.dismissed && _buttonState == null) {
+      setState(() => _buttonState = true);
+      Future.delayed(const Duration(milliseconds: 50), () {
+        if (mounted) setState(() => _buttonState = false);
+      });
+    }
+  }
+
+  @override
   void dispose() {
+    _route?.secondaryAnimation?.removeStatusListener(_onSecondaryAnimStatus);
     _controller.dispose();
     super.dispose();
   }
