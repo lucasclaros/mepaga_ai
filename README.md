@@ -2,7 +2,19 @@
 
 > Marketplace P2P para revenda segura de ingressos
 
-App Flutter para compra e venda de ingressos entre usuários finais, com integração a APIs de bilheterias, verificação por OTP, pagamento via Pix e fluxo completo de transferência segura.
+App Flutter para compra e venda de ingressos entre usuários, com integração a plataformas de bilheteria, verificação por OTP, pagamento via Pix e fluxo completo de transferência segura.
+
+---
+
+## Screenshots
+
+| Welcome | Home | Venda |
+|---------|------|-------|
+| ![Welcome](screenshots/welcome.png) | ![Home](screenshots/home_screen.png) | ![Venda](screenshots/ticket_screen.png) |
+
+| Plataformas | Perfil |
+|-------------|--------|
+| ![Plataformas](screenshots/platforms.png) | ![Perfil](screenshots/profile_screen.png) |
 
 ---
 
@@ -12,7 +24,7 @@ App Flutter para compra e venda de ingressos entre usuários finais, com integra
 - **Listagem de ingressos** com paginação infinita (scroll)
 - **Fluxo de venda** — vendedor cadastra ingresso, define preço e gera link único de compra
 - **Fluxo de compra** — comprador acessa link, valida e-mail, realiza pagamento via Pix
-- **Integração com plataformas de bilheteria** (ex: BYMA) — vinculação e validação de conta
+- **Integração com plataformas de bilheteria** (Sympla, Eventim, Ticket360) — vinculação e validação de conta via OTP
 - **Registro de chave Pix** para recebimento
 - **Countdown de expiração** de oferta de ingresso
 - **Onboarding** para novos usuários
@@ -22,16 +34,15 @@ App Flutter para compra e venda de ingressos entre usuários finais, com integra
 ## Stack
 
 | Camada | Tecnologia |
-|---|---|
-| Framework | Flutter 3.8+ / Dart |
+|--------|------------|
+| Framework | Flutter 3.x / Dart |
 | State Management | flutter_bloc (BLoC pattern) |
 | Injeção de Dependências | Provider |
 | Navegação | go_router |
 | HTTP Client | Dio + interceptors customizados |
 | Storage Seguro | flutter_secure_storage (JWT) |
 | Serialização | json_serializable + json_annotation |
-| Firebase | firebase_core |
-| UI | flutter_screenutil, shimmer, lottie, cached_network_image |
+| UI | flutter_screenutil, shimmer, cached_network_image |
 
 ---
 
@@ -42,14 +53,14 @@ Clean Architecture com o domínio isolado em um pacote Dart separado (`domain/`)
 ```
 ┌─────────────────────────────────────┐
 │          Presentation               │
-│   BLoC · Views · Widgets · Router  │
+│   BLoC · Views · Widgets · Router   │
 ├─────────────────────────────────────┤
 │             Data                    │
-│  Repositories · DataSources · Dio  │
+│  Repositories · DataSources · Dio   │
 │  RemoteModels · Mappers · Cache     │
 ├─────────────────────────────────────┤
 │       Domain  (pacote separado)     │
-│   UseCases · Models · Interfaces   │
+│   UseCases · Models · Interfaces    │
 └─────────────────────────────────────┘
 ```
 
@@ -115,14 +126,6 @@ flutter run
 
 ---
 
-## Screenshots
-
-| Home | Venda de ingresso | Perfil |
-|------|-------------------|--------|
-| ![Home](screenshots/home_screen.png) | ![Venda](screenshots/ticket_screen.png) | ![Perfil](screenshots/profile_screen.png) |
-
----
-
 ## Contexto
 
-MVP de marketplace P2P de ingressos iniciado com amigos de faculdade. O mobile foi desenvolvido por mim do zero — arquitetura, todas as features, integração com APIs externas e configuração Firebase. O backend REST foi desenvolvido em paralelo por outro membro da equipe.
+MVP de marketplace P2P de ingressos desenvolvido com amigos de faculdade. O mobile foi desenvolvido por mim do zero — arquitetura, todas as features, integração com as APIs externas e configuração Firebase. O backend REST foi desenvolvido em paralelo por outro membro da equipe em Kotlin/Spring Boot.

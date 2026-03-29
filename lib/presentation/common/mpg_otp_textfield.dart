@@ -3,7 +3,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:mepaga_ai/presentation/common/themes/colors/mpg_colors.dart';
+import 'package:mepaga_ai/presentation/common/themes/mpg_theme.dart';
 import 'package:mepaga_ai/presentation/common/themes/text_styles/mpg_text_styles.dart';
 import 'package:mepaga_ai/presentation/common/utils.dart';
 import 'package:pinput/pinput.dart';
@@ -33,7 +33,7 @@ class _MPGOtpTextFieldState extends State<MPGOtpTextField> {
     final _otpFocusNode = widget.focusNode;
     final defaulWidth = 56.w;
     final defaulHeight = 3.h;
-    final borderColor = MPGColors.of(context).textSecondary;
+    final borderColor = textSecondary;
 
     final defaultPinTheme = PinTheme(
       width: defaulWidth,
@@ -62,7 +62,7 @@ class _MPGOtpTextFieldState extends State<MPGOtpTextField> {
           width: defaulWidth,
           height: defaulHeight,
           decoration: BoxDecoration(
-            color: MPGColors.of(context).textPrimary,
+            color: textPrimary,
             borderRadius: BorderRadius.circular(8.r),
           ),
         ),
