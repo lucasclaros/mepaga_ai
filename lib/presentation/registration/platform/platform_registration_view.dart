@@ -11,11 +11,11 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:mepaga_ai/presentation/common/empty_states/generic_error_empty_state.dart';
 import 'package:mepaga_ai/presentation/common/mpg_scaffold.dart';
 import 'package:mepaga_ai/presentation/common/themes/assets/mpg_assets_paths.dart';
-import 'package:shimmer/shimmer.dart';
 import 'package:mepaga_ai/presentation/registration/components/platform_list_item.dart';
 import 'package:mepaga_ai/presentation/registration/platform/bloc/platform_registration_bloc.dart';
 import 'package:mepaga_ai/presentation/registration/platform/components/transfer_ticket_view.dart';
 import 'package:mepaga_ai/presentation/registration/platform/components/utils.dart';
+import 'package:shimmer/shimmer.dart';
 
 class PlatformRegistrationView extends StatefulWidget {
   const PlatformRegistrationView({super.key});

@@ -9,9 +9,9 @@ import 'package:logger/logger.dart';
 import 'package:mepaga_ai/common/general_provider.dart';
 import 'package:mepaga_ai/common/go_router_config.dart';
 import 'package:mepaga_ai/data/cache/data_source/online_cds.dart';
-import 'package:provider/provider.dart';
 import 'package:mepaga_ai/url_strategy/nonweb_url_strategy.dart'
     if (dart.library.html) 'package:mepaga_ai/url_strategy/web_url_strategy.dart';
+import 'package:provider/provider.dart';
 
 class Log {
   final Logger logger = Logger(

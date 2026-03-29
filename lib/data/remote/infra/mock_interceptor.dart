@@ -92,7 +92,6 @@ class MockInterceptor extends InterceptorsWrapper {
         DioException(
           requestOptions: options,
           error: 'MockInterceptor: failed to load ${route.assetPath} — $e',
-          type: DioExceptionType.unknown,
         ),
       );
     }
