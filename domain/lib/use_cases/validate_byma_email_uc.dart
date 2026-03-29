@@ -17,9 +17,9 @@ class ValidateBymaEmailUC extends UseCase<ValidateBymaEmailUCParams, void> {
 }
 
 class ValidateBymaEmailUCParams {
-  final String email;
 
   ValidateBymaEmailUCParams({
     required this.email,
   });
+  final String email;
 }

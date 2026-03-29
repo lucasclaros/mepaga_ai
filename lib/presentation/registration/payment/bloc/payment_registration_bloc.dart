@@ -1,7 +1,7 @@
 import 'package:bloc/bloc.dart';
 import 'package:domain/exceptions.dart';
-import 'package:meta/meta.dart';
 import 'package:domain/use_cases/pix_register_uc.dart';
+import 'package:meta/meta.dart';
 
 part 'payment_registration_event.dart';
 part 'payment_registration_state.dart';

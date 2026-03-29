@@ -14,8 +14,8 @@ import 'package:mepaga_ai/presentation/common/mpg_header.dart';
 import 'package:mepaga_ai/presentation/common/mpg_scaffold.dart';
 import 'package:mepaga_ai/presentation/common/mpg_textfield.dart';
 import 'package:mepaga_ai/presentation/common/themes/assets/mpg_assets_paths.dart';
-import 'package:mepaga_ai/presentation/common/utils.dart';
 import 'package:mepaga_ai/presentation/common/themes/mpg_theme.dart';
+import 'package:mepaga_ai/presentation/common/utils.dart';
 import 'package:mepaga_ai/presentation/logistics/buyer/payment/components/step_widget.dart';
 
 class PaymentPage extends StatefulWidget {

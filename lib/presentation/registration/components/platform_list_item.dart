@@ -45,7 +45,7 @@ class PlatformListItem extends StatelessWidget {
               ),
               padding: EdgeInsets.symmetric(horizontal: 10.w, vertical: 8.h),
               child: logo.endsWith('.svg')
-                  ? SvgPicture.asset(logo, fit: BoxFit.contain)
+                  ? SvgPicture.asset(logo)
                   : Image.asset(logo, fit: BoxFit.contain),
             ),
             Text(
