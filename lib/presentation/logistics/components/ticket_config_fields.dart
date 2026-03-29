@@ -140,7 +140,7 @@ class _TicketConfigFieldsState extends State<TicketConfigFields> {
                           style: GoogleFonts.barlow(
                             fontSize: 16.sp,
                             fontWeight: FontWeight.w500,
-                            color: Colors.white.withOpacity(0.8),
+                            color: Colors.white.withValues(alpha: 0.8),
                           ),
                         ),
                         TextSpan(
@@ -212,7 +212,7 @@ class _TicketConfigFieldsState extends State<TicketConfigFields> {
                     style: GoogleFonts.barlow(
                       fontSize: 16.sp,
                       fontWeight: FontWeight.w500,
-                      color: Colors.white.withOpacity(0.8),
+                      color: Colors.white.withValues(alpha: 0.8),
                     ),
                     textAlign: TextAlign.center,
                   ),

@@ -61,7 +61,7 @@ class _AddEmailPlatformViewState extends State<AddEmailPlatformView> {
               context.push(
                 '/platform-otp-verification',
                 extra: {
-                  'platform': 'byma',
+                  'platform': widget.platform,
                   'email': _emailController.text,
                   'onSuccess': widget.onSuccess,
                 },
@@ -83,7 +83,7 @@ class _AddEmailPlatformViewState extends State<AddEmailPlatformView> {
                           style: GoogleFonts.barlow(
                             fontSize: 24.sp,
                             fontWeight: FontWeight.w500,
-                            color: Colors.white.withOpacity(0.8),
+                            color: Colors.white.withValues(alpha: 0.8),
                           ),
                           textAlign: TextAlign.center,
                         ),

@@ -9,48 +9,40 @@ class ShimmerTicket extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Shimmer.fromColors(
-      baseColor: Colors.white,
-      highlightColor: Colors.white.withOpacity(0.5),
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-        children: [
-          SizedBox(
-            height: 392.h,
-            width: 230.w,
-            child: Column(
-              children: [
-                Expanded(
-                  child: Container(
-                    decoration: ShapeDecoration(
-                      color: Colors.white.withOpacity(0.2),
-                      shape: const SwTicketBorder(
-                        radius: 20,
-                        topLeft: false,
-                        topRight: false,
-                      ),
-                    ),
+      baseColor: const Color(0xFF2A2A2A),
+      highlightColor: const Color(0xFF3A3A3A),
+      child: SizedBox(
+        height: 392.h,
+        width: 230.w,
+        child: Column(
+          children: [
+            Expanded(
+              flex: 2,
+              child: Container(
+                decoration: const ShapeDecoration(
+                  color: Color(0xFF2A2A2A),
+                  shape: SwTicketBorder(
+                    radius: 14,
+                    topLeft: false,
+                    topRight: false,
                   ),
                 ),
-                Expanded(
-                  child: Container(
-                    decoration: ShapeDecoration(
-                      color: Colors.white.withOpacity(0.2),
-                      shape: const SwTicketBorder(
-                        radius: 20,
-                        bottomLeft: false,
-                        bottomRight: false,
-                      ),
-                    ),
-                  ),
-                ),
-              ],
+              ),
             ),
-          ),
-          const CircularProgressIndicator(
-            color: Colors.white,
-            strokeWidth: 2,
-          ),
-        ],
+            Expanded(
+              child: Container(
+                decoration: const ShapeDecoration(
+                  color: Color(0xFF2A2A2A),
+                  shape: SwTicketBorder(
+                    radius: 14,
+                    bottomLeft: false,
+                    bottomRight: false,
+                  ),
+                ),
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }

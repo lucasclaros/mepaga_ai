@@ -1,7 +1,7 @@
 // ignore_for_file: use_colored_box, use_decorated_box
 
 import 'package:flutter/material.dart';
-import 'package:mepaga_ai/presentation/common/themes/assets/mpg_assets_paths.dart';
+import 'package:mepaga_ai/presentation/common/themes/colors/mpg_colors.dart';
 
 class MPGScaffold extends StatelessWidget {
   const MPGScaffold({
@@ -22,16 +22,26 @@ class MPGScaffold extends StatelessWidget {
     final width = MediaQuery.of(context).size.width;
     final height = MediaQuery.of(context).size.height;
 
+    final Widget background = backgroundImage != null
+        ? Image.asset(
+            backgroundImage!,
+            fit: BoxFit.cover,
+            height: height,
+            width: width,
+          )
+        : Container(
+            height: height,
+            width: width,
+            decoration: BoxDecoration(
+              gradient: MPGColors.of(context).scaffoldGradient,
+            ),
+          );
+
     return SafeArea(
       child: Stack(
         alignment: Alignment.center,
         children: [
-          Image.asset(
-            backgroundImage ?? MPGAssetsPaths.of(context).mpgScaffold,
-            fit: BoxFit.cover,
-            height: height,
-            width: width,
-          ),
+          background,
           Scaffold(
             backgroundColor: backgroundColor ?? Colors.transparent,
             body: NotificationListener<OverscrollIndicatorNotification>(

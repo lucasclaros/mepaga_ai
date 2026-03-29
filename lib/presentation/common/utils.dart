@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:mepaga_ai/presentation/common/mpg_button.dart';
+import 'package:mepaga_ai/presentation/common/themes/mpg_theme.dart';
 import 'package:mepaga_ai/presentation/common/themes/text_styles/mpg_text_styles.dart';
 
 bool isNumeric(String string) {
@@ -45,12 +46,12 @@ Future<void> showFlushbar({
     titleColor: fontColor,
     messageColor: fontColor,
     backgroundColor: backgroundColor,
-    margin: margin ?? const EdgeInsets.symmetric(horizontal: 20, vertical: 25),
-    borderRadius: borderRadius ?? BorderRadius.circular(10),
+    margin: margin ?? EdgeInsets.symmetric(horizontal: 20.w, vertical: 25.h),
+    borderRadius: borderRadius ?? BorderRadius.circular(10.r),
     boxShadows: boxShadows ??
         [
           BoxShadow(
-            color: backgroundColor.withOpacity(0.6),
+            color: backgroundColor.withValues(alpha: 0.6),
             offset: const Offset(0, 2),
             blurRadius: 3,
           ),
@@ -58,7 +59,7 @@ Future<void> showFlushbar({
     flushbarPosition: flushbarPosition ?? FlushbarPosition.TOP,
     mainButton: mainButton ??
         Padding(
-          padding: const EdgeInsets.all(8),
+          padding: EdgeInsets.all(8.w),
           child: IconButton(
             icon: const Icon(
               Icons.close,
@@ -102,11 +103,11 @@ Future<void> showMPGBottomSheet({
     builder: (context) => PopScope(
       canPop: canPop,
       child: Container(
-        decoration: const BoxDecoration(
-          color: Color(0xff7401FF),
+        decoration: BoxDecoration(
+          color: backgroundColor ?? surfaceColor,
           borderRadius: BorderRadius.only(
-            topLeft: Radius.circular(30),
-            topRight: Radius.circular(30),
+            topLeft: Radius.circular(20.r),
+            topRight: Radius.circular(20.r),
           ),
         ),
         child: NotificationListener<OverscrollIndicatorNotification>(
@@ -120,20 +121,32 @@ Future<void> showMPGBottomSheet({
             width: 380.w,
             height: height,
             child: Padding(
-              padding: const EdgeInsets.all(25),
+              padding: EdgeInsets.fromLTRB(25.w, 12.h, 25.w, 25.h),
               child: Wrap(
                 alignment: WrapAlignment.center,
                 runAlignment: WrapAlignment.center,
                 crossAxisAlignment: WrapCrossAlignment.center,
                 children: [
+                  // Drag handle
+                  Center(
+                    child: Container(
+                      width: 40.w,
+                      height: 4.h,
+                      margin: EdgeInsets.only(bottom: 20.h),
+                      decoration: BoxDecoration(
+                        color: surfaceBorder,
+                        borderRadius: BorderRadius.circular(2),
+                      ),
+                    ),
+                  ),
                   Column(
                     children: [
                       Text(
                         title,
                         style: GoogleFonts.barlow(
-                          fontSize: 24,
+                          fontSize: 24.sp,
                           fontWeight: FontWeight.w700,
-                          color: Colors.white,
+                          color: textPrimary,
                         ),
                         textAlign: TextAlign.center,
                       ),
@@ -142,9 +155,9 @@ Future<void> showMPGBottomSheet({
                         Text(
                           description,
                           style: GoogleFonts.barlow(
-                            fontSize: 16,
+                            fontSize: 16.sp,
                             fontWeight: FontWeight.w500,
-                            color: Colors.white,
+                            color: textSecondary,
                           ),
                           textAlign: descriptionAlign,
                         ),
@@ -152,9 +165,7 @@ Future<void> showMPGBottomSheet({
                     ],
                   ),
                   Padding(
-                    padding: const EdgeInsets.symmetric(
-                      vertical: 20,
-                    ),
+                    padding: EdgeInsets.symmetric(vertical: 20.h),
                     child: MPGButton(
                       child: Text(
                         buttonText,
@@ -191,23 +202,23 @@ Future<void> showMPGConfirmationModal({
     builder: (context) {
       return AlertDialog(
         shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(20.r),
+          borderRadius: BorderRadius.circular(16.r),
         ),
-        backgroundColor: const Color(0xFF3B0082),
+        backgroundColor: surfaceColor,
         title: Text(
           title,
           style: GoogleFonts.barlow(
-            color: Colors.white,
+            color: textPrimary,
             fontWeight: FontWeight.w700,
           ),
         ),
         content: Padding(
-          padding: const EdgeInsets.symmetric(vertical: 20),
+          padding: EdgeInsets.symmetric(vertical: 20.h),
           child: Text(
             message,
             style: GoogleFonts.barlow(
-              color: Colors.white,
-              fontSize: 16,
+              color: textSecondary,
+              fontSize: 16.sp,
             ),
           ),
         ),
@@ -217,9 +228,9 @@ Future<void> showMPGConfirmationModal({
             child: Text(
               cancelButtonText,
               style: GoogleFonts.barlow(
-                color: Colors.white,
+                color: textSecondary,
                 fontWeight: FontWeight.w600,
-                fontSize: 18,
+                fontSize: 16.sp,
               ),
             ),
           ),
@@ -235,7 +246,7 @@ Future<void> showMPGConfirmationModal({
               style: GoogleFonts.barlow(
                 color: Colors.white,
                 fontWeight: FontWeight.w700,
-                fontSize: 16,
+                fontSize: 16.sp,
               ),
             ),
           ),

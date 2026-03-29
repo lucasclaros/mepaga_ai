@@ -93,7 +93,8 @@ class _GeneralProviderState extends State<GeneralProvider> {
 
   List<SingleChildWidget> _buildCDSProvider() => [
         ProxyProvider<FlutterSecureStorage, OnlineCDS>(
-          update: (_, secure, __) => OnlineCDS(secureStorage: secure),
+          update: (_, secure, previous) =>
+              previous ?? OnlineCDS(secureStorage: secure),
         ),
       ];
 

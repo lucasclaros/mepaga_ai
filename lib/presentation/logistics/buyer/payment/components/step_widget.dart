@@ -32,7 +32,7 @@ class StepWidget extends StatelessWidget {
                 style: GoogleFonts.barlow(
                   fontSize: 14,
                   fontWeight: FontWeight.w500,
-                  color: Colors.white.withOpacity(0.8),
+                  color: Colors.white.withValues(alpha: 0.8),
                 ),
                 maxLines: 1,
               ),
@@ -44,7 +44,7 @@ class StepWidget extends StatelessWidget {
             style: GoogleFonts.barlow(
               fontSize: 21,
               fontWeight: FontWeight.w500,
-              color: Colors.white.withOpacity(0.8),
+              color: Colors.white.withValues(alpha: 0.8),
             ),
             maxLines: 1,
           ),

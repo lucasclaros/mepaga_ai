@@ -14,13 +14,8 @@ class MPGColors implements IAppColors {
 
   @override
   Gradient get scaffoldGradient => const LinearGradient(
-        stops: [0.1, 0.6, 0.7, 1],
-        colors: [
-          richBlack,
-          russianViolet,
-          russianViolet,
-          russianViolet,
-        ],
+        stops: [0, 1],
+        colors: [richBlack, richBlack],
         begin: Alignment.bottomCenter,
         end: Alignment.topCenter,
       );
@@ -36,8 +31,8 @@ class MPGColors implements IAppColors {
   @override
   Gradient get mpgButtonColoredGradientDisabled => LinearGradient(
         colors: [
-          razzmatazz.withOpacity(0.4),
-          amber.withOpacity(0.4),
+          razzmatazz.withValues(alpha: 0.4),
+          amber.withValues(alpha: 0.4),
         ],
       );
 
@@ -46,17 +41,17 @@ class MPGColors implements IAppColors {
         stops: [0.5, 0.8, 1],
         colors: [
           white,
-          Color(0xFFD3A2FF),
-          Color(0xFFD3A2FF),
+          Color(0xFFFFCC80),
+          Color(0xFFFFCC80),
         ],
       );
 
   @override
-  Color get activePageViewIndicator => white;
+  Color get activePageViewIndicator => brandPrimary;
 
   @override
-  Color get dividerColor => white;
+  Color get dividerColor => surfaceBorder;
 
   @override
-  Color get inactivePageViewIndicator => grey05;
+  Color get inactivePageViewIndicator => surfaceBorder;
 }

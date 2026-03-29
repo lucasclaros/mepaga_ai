@@ -44,15 +44,16 @@ class MPGTextStyles implements IAppTextStyles {
 
   @override
   TextStyle get onboardingHintDescription => GoogleFonts.barlow(
-        color: white,
-        fontSize: 18,
+        color: textSecondary,
+        fontSize: 14.sp,
         fontWeight: FontWeight.w400,
+        height: 1.5,
       );
 
   @override
   TextStyle get onboardingHintTitle => GoogleFonts.barlow(
-        color: white,
-        fontSize: 25,
+        color: textPrimary,
+        fontSize: 20.sp,
         fontWeight: FontWeight.w700,
       );
 
@@ -127,9 +128,10 @@ class MPGTextStyles implements IAppTextStyles {
 
   @override
   TextStyle get alreadyHasAccountMessage => GoogleFonts.barlow(
-        color: white,
-        fontSize: 21.sp,
-        fontWeight: FontWeight.w700,
+        color: textSecondary,
+        fontSize: 16.sp,
+        fontWeight: FontWeight.w500,
         decoration: TextDecoration.underline,
+        decorationColor: textSecondary,
       );
 }

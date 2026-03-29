@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:mepaga_ai/presentation/common/themes/assets/mpg_assets_paths.dart';
+import 'package:mepaga_ai/presentation/common/themes/mpg_theme.dart';
 
 class NoTicketsEmptyState extends StatelessWidget {
   const NoTicketsEmptyState({super.key});
@@ -12,18 +11,38 @@ class NoTicketsEmptyState extends StatelessWidget {
     return Center(
       child: Column(
         children: [
-          SvgPicture.asset(
-            MPGAssetsPaths.of(context).emptyTickets,
-            height: 136.h,
-            width: 136.w,
+          Container(
+            width: 80.w,
+            height: 80.w,
+            decoration: BoxDecoration(
+              color: surfaceColor,
+              shape: BoxShape.circle,
+              border: Border.all(color: surfaceBorder),
+            ),
+            child: Icon(
+              Icons.confirmation_number_outlined,
+              color: textSecondary,
+              size: 36.w,
+            ),
           ),
-          SizedBox(height: 80.h),
+          SizedBox(height: 24.h),
           Text(
-            'Você ainda não possui ingressos',
+            'Nenhum ingresso encontrado',
             style: GoogleFonts.barlow(
-              fontSize: 18.sp,
-              fontWeight: FontWeight.w500,
-              color: Colors.white.withOpacity(0.8),
+              fontSize: 16.sp,
+              fontWeight: FontWeight.w600,
+              color: textPrimary,
+            ),
+            textAlign: TextAlign.center,
+          ),
+          SizedBox(height: 8.h),
+          Text(
+            'Seus ingressos aparecerão aqui\nassim que forem cadastrados.',
+            style: GoogleFonts.barlow(
+              fontSize: 13.sp,
+              fontWeight: FontWeight.w400,
+              color: textSecondary,
+              height: 1.5,
             ),
             textAlign: TextAlign.center,
           ),

@@ -15,6 +15,7 @@ import 'package:mepaga_ai/presentation/common/mpg_scaffold.dart';
 import 'package:mepaga_ai/presentation/common/mpg_textfield.dart';
 import 'package:mepaga_ai/presentation/common/themes/assets/mpg_assets_paths.dart';
 import 'package:mepaga_ai/presentation/common/themes/colors/mpg_colors.dart';
+import 'package:mepaga_ai/presentation/common/themes/mpg_theme.dart';
 import 'package:mepaga_ai/presentation/common/themes/text_styles/mpg_text_styles.dart';
 import 'package:styled_text/styled_text.dart';
 
@@ -67,13 +68,13 @@ class RegisterEmailViewState extends State<RegisterEmailView> {
                     tags: {
                       'doubt': StyledTextWidgetTag(
                         const ModalInfo(),
-                        size: Size.square(min(25.w, 25)),
+                        size: Size.square(min(20.w, 20)),
                       ),
                     },
                     style: GoogleFonts.barlow(
-                      fontSize: 24.sp,
-                      fontWeight: FontWeight.w500,
-                      color: Colors.white,
+                      fontSize: 16.sp,
+                      fontWeight: FontWeight.w400,
+                      color: textSecondary,
                     ),
                     textAlign: TextAlign.center,
                   ),
