@@ -4,11 +4,123 @@ import 'package:mepaga_ai/presentation/common/themes/colors/mpg_colors.dart';
 import 'package:mepaga_ai/presentation/common/themes/text_styles/mpg_text_styles.dart';
 import 'package:provider/provider.dart';
 
-abstract class IAppColors {}
+abstract class IAppColors {
+  Gradient get scaffoldGradient;
 
-abstract class IAppTextStyles {}
+  Gradient get mpgButtonColoredGradient;
 
-abstract class IAppAssetsPaths {}
+  Gradient get mpgButtonColoredGradientDisabled;
+
+  Gradient get mpgButtonWhitedGradient;
+
+  Color get dividerColor;
+
+  Color get activePageViewIndicator;
+
+  Color get inactivePageViewIndicator;
+}
+
+abstract class IAppTextStyles {
+  TextStyle get mpgColoredButton;
+
+  TextStyle get mpgColoredButtonDisabled;
+
+  TextStyle get welcomeTitle;
+
+  TextStyle get welcomeSubtitle;
+
+  TextStyle get mpgWhitedButton;
+
+  TextStyle get onboardingHintTitle;
+
+  TextStyle get onboardingHintDescription;
+
+  TextStyle get emailVerificationTitle;
+
+  TextStyle get emailVerificationDescription;
+
+  TextStyle get policyNormalDescriptionMobile;
+
+  TextStyle get policyColoredDescription;
+
+  TextStyle get verificationHeaderTitleMobile;
+
+  TextStyle get emailVerificationDescriptionMobile;
+
+  TextStyle get otpVerifcationUserEmail;
+
+  TextStyle get pinputDefaultTheme;
+
+  TextStyle get otpPasteIndicator;
+
+  TextStyle get alreadyHasAccountMessage;
+}
+
+abstract class IAppAssetsPaths {
+  String get welcomeBackground;
+
+  String get mpgScaffold;
+
+  String get securityLogo;
+
+  String get simplicityLogo;
+
+  String get flexibilityLogo;
+
+  String get backButton;
+
+  String get checkButton;
+
+  String get emailIcon;
+
+  String get passwordIconLocked;
+
+  String get passwordIconUnlocked;
+
+  String get passwordEyeVisible;
+
+  String get passwordEyeNotVisible;
+
+  String get doubtButton;
+
+  String get userIcon;
+
+  String get emptyTickets;
+
+  String get forwardIcon;
+
+  String get addTicketIcon;
+
+  String get homeNavIcon;
+
+  String get profileNavIcon;
+
+  String get addTicketSelectedIcon;
+
+  String get logoSympla;
+  String get logoEventim;
+  String get logoTicket360;
+
+  String get logoPix;
+
+  String get partyEmoji;
+
+  String get partyingFace;
+
+  String get faceWithSunglasses;
+
+  String get ballonEmoji;
+
+  String get beerEmoji;
+
+  String get ticketPlaceholder;
+
+  String get walletIcon;
+
+  String get copyClipboardIcon;
+
+  String get qrTest;
+}
 
 abstract class AppThemeInterface {
   static AppThemeInterface of(

@@ -1,0 +1,13 @@
+{
+  "id": "ticket_2",
+  "price": 80.00,
+  "sold": false,
+  "party": {
+    "name": "Teatro Municipal — Hamlet",
+    "date": "2026-08-05T19:30:00Z",
+    "description": "Uma emocionante montagem de Hamlet no Teatro Municipal. Lugares limitados — garanta o seu!",
+    "picture": "assets/events/teatro_hamlet.jpg"
+  },
+  "seller_id": 7,
+  "platform": "sympla"
+}

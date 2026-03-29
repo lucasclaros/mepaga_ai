@@ -1,0 +1,13 @@
+{
+  "id": "ticket_5",
+  "price": 120.00,
+  "sold": false,
+  "party": {
+    "name": "Coldplay — Music of the Spheres",
+    "date": "2026-11-15T21:00:00Z",
+    "description": "Coldplay traz o espetáculo Music of the Spheres World Tour ao Brasil.",
+    "picture": "assets/events/coldplay.jpg"
+  },
+  "seller_id": 31,
+  "platform": "sympla"
+}

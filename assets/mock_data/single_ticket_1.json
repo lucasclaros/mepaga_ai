@@ -1,0 +1,13 @@
+{
+  "id": "ticket_1",
+  "price": 150.00,
+  "sold": false,
+  "party": {
+    "name": "Lollapalooza Brasil",
+    "date": "2026-07-12T20:00:00Z",
+    "description": "O maior festival de música do Brasil de volta ao Autódromo de Interlagos. Setor VIP com open bar e área exclusiva.",
+    "picture": "assets/events/lollapalooza.jpg"
+  },
+  "seller_id": 42,
+  "platform": "sympla"
+}

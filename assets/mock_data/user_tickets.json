@@ -1,0 +1,57 @@
+[
+  {
+    "id": "ticket_1",
+    "price": 150.00,
+    "sold": false,
+    "party": {
+      "name": "Lollapalooza Brasil",
+      "date": "2026-07-12T20:00:00Z",
+      "description": "O maior festival de música do Brasil de volta ao Autódromo de Interlagos.",
+      "picture": "assets/events/lollapalooza.jpg"
+    }
+  },
+  {
+    "id": "ticket_2",
+    "price": 80.00,
+    "sold": false,
+    "party": {
+      "name": "Teatro Municipal — Hamlet",
+      "date": "2026-08-05T19:30:00Z",
+      "description": "Uma emocionante montagem de Hamlet no Teatro Municipal. Lugares limitados.",
+      "picture": "assets/events/teatro_hamlet.jpg"
+    }
+  },
+  {
+    "id": "ticket_3",
+    "price": 300.00,
+    "sold": false,
+    "party": {
+      "name": "Rock in Rio 2026",
+      "date": "2026-09-20T14:00:00Z",
+      "description": "A cidade da música no coração do Rio de Janeiro.",
+      "picture": "assets/events/rock_in_rio.webp"
+    }
+  },
+  {
+    "id": "ticket_4",
+    "price": 200.00,
+    "sold": true,
+    "party": {
+      "name": "Primavera Sound Brasil",
+      "date": "2026-10-03T21:00:00Z",
+      "description": "O festival mais aguardado do ano chega ao Brasil com lineup internacional.",
+      "picture": "assets/events/primavera_sound.webp"
+    }
+  },
+  {
+    "id": "ticket_5",
+    "price": 120.00,
+    "sold": false,
+    "party": {
+      "name": "Coldplay — Music of the Spheres",
+      "date": "2026-11-15T21:00:00Z",
+      "description": "Coldplay traz o espetáculo Music of the Spheres World Tour ao Brasil.",
+      "picture": "assets/events/coldplay.jpg"
+    }
+  }
+]

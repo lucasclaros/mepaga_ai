@@ -1,11 +1,11 @@
 {
-    "name": "mepaga_ai",
-    "short_name": "mepaga_ai",
+    "name": "Me Paga Aí",
+    "short_name": "Me Paga Aí",
     "start_url": ".",
     "display": "standalone",
     "background_color": "#0175C2",
     "theme_color": "#0175C2",
-    "description": "A new Flutter project.",
+    "description": "Trasnfira seus ingressos com segurança!",
     "orientation": "portrait-primary",
     "prefer_related_applications": false,
     "icons": [

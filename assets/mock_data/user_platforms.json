@@ -1,0 +1,14 @@
+[
+  {
+    "platform": "sympla",
+    "associated": true
+  },
+  {
+    "platform": "eventim",
+    "associated": true
+  },
+  {
+    "platform": "ticket360",
+    "associated": true
+  }
+]

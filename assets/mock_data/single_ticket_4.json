@@ -1,0 +1,13 @@
+{
+  "id": "ticket_4",
+  "price": 200.00,
+  "sold": true,
+  "party": {
+    "name": "Primavera Sound Brasil",
+    "date": "2026-10-03T21:00:00Z",
+    "description": "O festival mais aguardado do ano chega ao Brasil com lineup internacional.",
+    "picture": "assets/events/primavera_sound.webp"
+  },
+  "seller_id": 23,
+  "platform": "sympla"
+}
